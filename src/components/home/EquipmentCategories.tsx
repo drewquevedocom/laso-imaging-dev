@@ -14,24 +14,24 @@ import mobileXray from "@/assets/categories/mobile-xray.png";
 
 const EquipmentCategories = () => {
   const categories = [
-    { name: "CT Scanners", count: 27, image: ctScanner, link: "/equipment/ct-scanners" },
-    { name: "MRI Systems", count: 45, image: mriSystems, link: "/equipment/mri-systems" },
-    { name: "PET/CT Scanners", count: 11, image: petctScanners, link: "/equipment/petct-scanners" },
-    { name: "X-RAY Units", count: 4, image: xrayUnits, link: "/equipment/xray-units" },
+    { name: "CT Scanners", count: 27, image: ctScanner, link: "/products?category=ct-scanners" },
+    { name: "MRI Systems", count: 45, image: mriSystems, link: "/products?category=mri-systems" },
+    { name: "PET/CT Scanners", count: 11, image: petctScanners, link: "/products?category=petct-scanners" },
+    { name: "X-RAY Units", count: 4, image: xrayUnits, link: "/products?category=xray-units" },
   ];
 
   const mobileCategories = [
-    { name: "CT Scanners", count: 1, image: mobileCt, link: "/equipment/mobile/ct" },
-    { name: "MRI Unit", count: 13, image: mobileMri, link: "/equipment/mobile/mri" },
-    { name: "PET/CT Scanners", count: null, image: mobilePetct, link: "/equipment/mobile/petct" },
-    { name: "X-RAY Unit", count: 4, image: mobileXray, link: "/equipment/mobile/xray" },
+    { name: "CT Scanners", count: 1, image: mobileCt, link: "/products?category=mobile-ct" },
+    { name: "MRI Unit", count: 13, image: mobileMri, link: "/products?category=mobile-mri" },
+    { name: "PET/CT Scanners", count: null, image: mobilePetct, link: "/products?category=mobile-petct" },
+    { name: "X-RAY Unit", count: 4, image: mobileXray, link: "/products?category=mobile-xray" },
   ];
 
   const partsCategories = [
-    { name: "RF Coils", count: 24, image: mriSystems, link: "/parts/rf-coils" },
-    { name: "Power Supplies", count: 18, image: ctScanner, link: "/parts/power-supplies" },
-    { name: "MRI Parts", count: 56, image: petctScanners, link: "/parts/mri-parts" },
-    { name: "Accessories", count: 32, image: xrayUnits, link: "/parts/accessories" },
+    { name: "RF Coils", count: 24, image: mriSystems, link: "/products?category=rf-coils" },
+    { name: "Power Supplies", count: 18, image: ctScanner, link: "/products?category=power-supplies" },
+    { name: "MRI Parts", count: 56, image: petctScanners, link: "/products?category=mri-parts" },
+    { name: "Accessories", count: 32, image: xrayUnits, link: "/products?category=accessories" },
   ];
 
   return (

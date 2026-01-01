@@ -129,8 +129,8 @@ const HeroSection = () => {
               </div>
             ))}
             
-            {/* Gradient Overlay - Lighter for better image visibility */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/70 via-primary/40 to-transparent z-10" />
+            {/* Gradient Overlay - Minimal for clearer images */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent z-10" />
             
             {/* Content with Fade Animation */}
             <div 
