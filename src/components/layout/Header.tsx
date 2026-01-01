@@ -3,6 +3,9 @@ import { ChevronDown, Check, Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SearchBar } from './SearchBar';
 import { MegaMenu } from './MegaMenu';
+import { PartsMegaMenu } from './PartsMegaMenu';
+import { ServicesMegaMenu } from './ServicesMegaMenu';
+import { MobileNav } from './MobileNav';
 
 import logoLaso from '@/assets/logo-laso.png';
 import userIcon from '@/assets/icons/user.png';
@@ -43,7 +46,7 @@ export const Header = () => {
       {/* Row 1: Trust Bar */}
       <div className="bg-secondary border-b border-border">
         <div className="container mx-auto px-4 py-2">
-          <div className="flex items-center justify-center gap-6 md:gap-10">
+          <div className="flex items-center justify-center gap-4 md:gap-10 flex-wrap">
             {trustBadges.map((badge) => (
               <div key={badge} className="flex items-center gap-2 text-xs md:text-sm">
                 <div className="w-4 h-4 rounded-full bg-success flex items-center justify-center">
@@ -61,7 +64,7 @@ export const Header = () => {
         <div className="container mx-auto px-4 py-2">
           <div className="flex items-center justify-between text-xs md:text-sm">
             {/* Left Links */}
-            <nav className="hidden md:flex items-center gap-4">
+            <nav className="hidden lg:flex items-center gap-4">
               {['About Us', 'Track Order', 'Contact Us', 'FAQs'].map((link) => (
                 <a 
                   key={link} 
@@ -84,7 +87,7 @@ export const Header = () => {
             </div>
 
             {/* Right - Contact Info */}
-            <div className="hidden md:flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-4">
               <a href="tel:8445115276" className="flex items-center gap-1.5 hover:text-accent transition-colors">
                 <Phone className="w-3.5 h-3.5" />
                 <span>Toll Free: (844) 511-5276</span>
@@ -102,41 +105,41 @@ export const Header = () => {
       {/* Row 3: Main Header */}
       <div className="bg-background border-b border-border">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-6">
+          <div className="flex items-center justify-between gap-4">
             {/* Logo */}
             <a href="/" className="flex-shrink-0">
               <img 
                 src={logoLaso} 
                 alt="LASO Imaging Solutions" 
-                className="h-12 md:h-14 w-auto"
+                className="h-10 md:h-14 w-auto"
               />
             </a>
 
             {/* Search Bar */}
-            <div className="flex-1 max-w-2xl hidden md:block">
+            <div className="flex-1 max-w-2xl hidden lg:block">
               <SearchBar />
             </div>
 
             {/* Account Actions */}
-            <div className="flex items-center gap-4 md:gap-6">
-              <a href="#" className="flex flex-col items-center gap-1 group">
+            <div className="flex items-center gap-3 md:gap-6">
+              <a href="#" className="hidden md:flex flex-col items-center gap-1 group">
                 <img 
                   src={userIcon} 
                   alt="Account" 
                   className="w-6 h-6 opacity-70 group-hover:opacity-100 transition-opacity"
                 />
-                <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors hidden md:block">
+                <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
                   Your Account
                 </span>
               </a>
               
-              <a href="#" className="flex flex-col items-center gap-1 group">
+              <a href="#" className="hidden md:flex flex-col items-center gap-1 group">
                 <img 
                   src={messageIcon} 
                   alt="Messages" 
                   className="w-6 h-6 opacity-70 group-hover:opacity-100 transition-opacity"
                 />
-                <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors hidden md:block">
+                <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
                   Your Messages
                 </span>
               </a>
@@ -155,14 +158,17 @@ export const Header = () => {
                   0
                 </span>
               </a>
+
+              {/* Mobile Nav Toggle */}
+              <MobileNav />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Row 4: Main Navigation */}
+      {/* Row 4: Main Navigation - Desktop Only */}
       <div 
-        className="bg-primary relative"
+        className="bg-primary relative hidden lg:block"
         onMouseLeave={handleNavLeave}
       >
         <div className="container mx-auto px-4">
@@ -210,8 +216,10 @@ export const Header = () => {
           </div>
         </div>
 
-        {/* Mega Menu */}
+        {/* Mega Menus */}
         <MegaMenu isOpen={activeDropdown === 'equipment'} />
+        <PartsMegaMenu isOpen={activeDropdown === 'parts'} />
+        <ServicesMegaMenu isOpen={activeDropdown === 'services'} />
       </div>
     </header>
   );
