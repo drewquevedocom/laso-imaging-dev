@@ -6,11 +6,11 @@ import { MegaMenu } from './MegaMenu';
 import { PartsMegaMenu } from './PartsMegaMenu';
 import { ServicesMegaMenu } from './ServicesMegaMenu';
 import { MobileNav } from './MobileNav';
+import { CartDrawer } from '@/components/cart/CartDrawer';
 
 import logoLaso from '@/assets/logo-laso.png';
 import userIcon from '@/assets/icons/user.png';
 import messageIcon from '@/assets/icons/message.png';
-import cartIcon from '@/assets/icons/cart.png';
 
 const trustBadges = [
   'FDA Registered',
@@ -81,7 +81,7 @@ export const Header = () => {
               <span className="text-primary-foreground/80">
                 Sign up for 10% off your first order: {' '}
               </span>
-              <a href="#" className="text-warning font-bold hover:underline">
+              <a href="#" className="text-white font-bold hover:underline">
                 Sign Up
               </a>
             </div>
@@ -144,20 +144,7 @@ export const Header = () => {
                 </span>
               </a>
               
-              <a href="#" className="flex flex-col items-center gap-1 group relative">
-                <img 
-                  src={cartIcon} 
-                  alt="Cart" 
-                  className="w-6 h-6 opacity-70 group-hover:opacity-100 transition-opacity"
-                />
-                <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors hidden md:block">
-                  Your Cart
-                </span>
-                {/* Cart Badge */}
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent text-accent-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
-                  0
-                </span>
-              </a>
+              <CartDrawer />
 
               {/* Mobile Nav Toggle */}
               <MobileNav />
@@ -168,7 +155,7 @@ export const Header = () => {
 
       {/* Row 4: Main Navigation - Desktop Only */}
       <div 
-        className="bg-primary relative hidden lg:block"
+        className="bg-black relative hidden lg:block"
         onMouseLeave={handleNavLeave}
       >
         <div className="container mx-auto px-4">
@@ -182,11 +169,11 @@ export const Header = () => {
                   className={`
                     relative flex items-center gap-1.5 px-5 py-4 text-sm font-semibold
                     transition-all duration-200
-                    ${item.isAccent 
-                      ? 'text-warning hover:text-warning/80' 
-                      : 'text-primary-foreground hover:bg-primary-foreground/10'
+                    ${item.key === 'admin' 
+                      ? 'text-red-500 font-bold hover:text-red-400' 
+                      : 'text-white hover:bg-white/10'
                     }
-                    ${activeNav === item.key && !item.isAccent ? 'bg-primary-foreground/10' : ''}
+                    ${activeNav === item.key && item.key !== 'admin' ? 'bg-white/10' : ''}
                   `}
                   onMouseEnter={() => handleNavHover(item.key, item.hasDropdown)}
                   onClick={() => setActiveNav(item.key)}
