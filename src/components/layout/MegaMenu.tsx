@@ -1,4 +1,5 @@
 import { ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface MegaMenuProps {
   isOpen: boolean;
@@ -8,42 +9,42 @@ const menuColumns = [
   {
     title: 'BY FIELD STRENGTH',
     items: [
-      '1.5T MRI Systems',
-      '3.0T MRI Systems',
-      'Open MRI Systems',
-      'Extremity MRI',
+      { label: '1.5T MRI Systems', href: '/equipment/1-5t-mri-systems' },
+      { label: '3.0T MRI Systems', href: '/equipment/3t-mri-systems' },
+      { label: 'Open MRI Systems', href: '/equipment/open-mri-systems' },
+      { label: 'Extremity MRI', href: '/equipment/extremity-mri' },
     ],
-    viewAll: 'View All Systems'
+    viewAll: { label: 'View All Systems', href: '/products' }
   },
   {
     title: 'BY CONDITION',
     items: [
-      'Refurbished MRI',
-      'Used MRI Systems',
-      'Certified Pre-Owned',
-      'New Equipment',
+      { label: 'Refurbished MRI', href: '/equipment/refurbished' },
+      { label: 'Used MRI Systems', href: '/equipment/used' },
+      { label: 'Certified Pre-Owned', href: '/equipment/certified-pre-owned' },
+      { label: 'New Equipment', href: '/equipment/new' },
     ],
-    viewAll: 'View All Conditions'
+    viewAll: { label: 'View All Conditions', href: '/products' }
   },
   {
     title: 'MOBILE SOLUTIONS',
     items: [
-      'Mobile MRI Rental',
-      'Mobile MRI Systems',
-      'Interim Projects',
-      'Nationwide Coverage',
+      { label: 'Mobile MRI Rental', href: '/services/mobile-mri-rental' },
+      { label: 'Mobile MRI Systems', href: '/equipment/mobile-mri-systems' },
+      { label: 'Interim Projects', href: '/services/interim-projects' },
+      { label: 'Nationwide Coverage', href: '/services/nationwide-coverage' },
     ],
-    viewAll: 'View All Mobile'
+    viewAll: { label: 'View All Mobile', href: '/equipment/mobile-mri-systems' }
   },
   {
     title: 'BY BRAND',
     items: [
-      'GE Healthcare',
-      'Siemens Healthineers',
-      'Philips Healthcare',
-      'Toshiba / Canon Medical',
+      { label: 'GE Healthcare', href: '/equipment/brand/ge' },
+      { label: 'Siemens Healthineers', href: '/equipment/brand/siemens' },
+      { label: 'Philips Healthcare', href: '/equipment/brand/philips' },
+      { label: 'Toshiba / Canon Medical', href: '/equipment/brand/toshiba' },
     ],
-    viewAll: 'View All Brands'
+    viewAll: { label: 'View All Brands', href: '/products' }
   }
 ];
 
@@ -75,9 +76,9 @@ export const MegaMenu = ({ isOpen }: MegaMenuProps) => {
               {/* Menu Items */}
               <ul className="space-y-2">
                 {column.items.map((item) => (
-                  <li key={item}>
-                    <a 
-                      href="#" 
+                  <li key={item.label}>
+                    <Link 
+                      to={item.href}
                       className="
                         group flex items-center text-sm text-foreground/80 
                         hover:text-accent transition-colors duration-200
@@ -85,37 +86,37 @@ export const MegaMenu = ({ isOpen }: MegaMenuProps) => {
                       "
                     >
                       <span className="relative">
-                        {item}
+                        {item.label}
                         <span className="
                           absolute bottom-0 left-0 w-0 h-0.5 bg-accent
                           group-hover:w-full transition-all duration-300
                         " />
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
 
               {/* View All Link */}
-              <a 
-                href="#" 
+              <Link 
+                to={column.viewAll.href}
                 className="
                   inline-flex items-center gap-1 mt-4 text-xs font-semibold 
                   text-primary hover:text-accent transition-colors duration-200
                   group
                 "
               >
-                {column.viewAll}
+                {column.viewAll.label}
                 <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </Link>
             </div>
           ))}
         </div>
 
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
-          <a 
-            href="#" 
+          <Link 
+            to="/products"
             className="
               inline-flex items-center gap-2 text-sm font-semibold 
               text-accent hover:text-accent/80 transition-colors
@@ -124,12 +125,12 @@ export const MegaMenu = ({ isOpen }: MegaMenuProps) => {
           >
             Browse All Equipment
             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
+          </Link>
           
           <div className="flex items-center gap-6 text-xs text-muted-foreground">
             <span>Need Help? Call <strong className="text-foreground">(844) 511-5276</strong></span>
             <span>•</span>
-            <a href="#" className="hover:text-accent transition-colors">Request a Quote</a>
+            <Link to="/quote" className="hover:text-accent transition-colors">Request a Quote</Link>
           </div>
         </div>
       </div>

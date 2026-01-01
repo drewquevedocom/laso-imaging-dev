@@ -10,12 +10,23 @@ import Contact from "./pages/Contact";
 import Systems15T from "./pages/equipment/Systems15T";
 import Systems3T from "./pages/equipment/Systems3T";
 import BrandPage from "./pages/equipment/brand/BrandPage";
+import EquipmentCategory from "./pages/equipment/EquipmentCategory";
 import AdminNotifications from "./pages/admin/Notifications";
 import AdminLogin from "./pages/auth/AdminLogin";
 import AdminRoute from "./components/auth/AdminRoute";
 import ProductListing from "./pages/products/ProductListing";
 import ProductDetail from "./pages/products/ProductDetail";
 import Quote from "./pages/Quote";
+import About from "./pages/About";
+import TrackOrder from "./pages/TrackOrder";
+import FAQs from "./pages/FAQs";
+import SignUp from "./pages/SignUp";
+import Services from "./pages/services/Services";
+import ServicePage from "./pages/services/ServicePage";
+import SupportPage from "./pages/support/SupportPage";
+import Parts from "./pages/parts/Parts";
+import PartsCategory from "./pages/parts/PartsCategory";
+import PartsBrand from "./pages/parts/PartsBrand";
 
 const queryClient = new QueryClient();
 
@@ -32,9 +43,32 @@ const App = () => (
             <Route path="/products" element={<ProductListing />} />
             <Route path="/product/:handle" element={<ProductDetail />} />
             <Route path="/quote" element={<Quote />} />
+            
+            {/* Top Navigation Pages */}
+            <Route path="/about" element={<About />} />
+            <Route path="/track-order" element={<TrackOrder />} />
+            <Route path="/faqs" element={<FAQs />} />
+            <Route path="/signup" element={<SignUp />} />
+            
+            {/* Equipment Routes */}
             <Route path="/equipment/1-5t-systems" element={<Systems15T />} />
             <Route path="/equipment/3t-systems" element={<Systems3T />} />
             <Route path="/equipment/brand/:brand" element={<BrandPage />} />
+            <Route path="/equipment/:category" element={<EquipmentCategory />} />
+            
+            {/* Parts Routes */}
+            <Route path="/parts" element={<Parts />} />
+            <Route path="/parts/brand/:brand" element={<PartsBrand />} />
+            <Route path="/parts/:category" element={<PartsCategory />} />
+            
+            {/* Services Routes */}
+            <Route path="/services" element={<Services />} />
+            <Route path="/services/:slug" element={<ServicePage />} />
+            
+            {/* Support Routes */}
+            <Route path="/support/:slug" element={<SupportPage />} />
+            
+            {/* Admin Routes */}
             <Route 
               path="/admin/notifications" 
               element={
