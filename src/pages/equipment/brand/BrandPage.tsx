@@ -1,10 +1,12 @@
 import { useParams } from "react-router-dom";
+import { useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import QuoteForm from "@/components/shared/QuoteForm";
 import { CheckCircle2, Shield, Award, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import EquipmentFilters, { FilterState } from "@/components/equipment/EquipmentFilters";
 import mriSystem1 from "@/assets/mri-system-1.jpg";
 import heroMri from "@/assets/hero-mri.jpg";
 import ctScanner from "@/assets/ct-scanner.jpg";
@@ -91,6 +93,29 @@ const BrandPage = () => {
   const { brand } = useParams<{ brand: string }>();
   const brandInfo = brand ? brandData[brand.toLowerCase()] : null;
 
+  const [filters, setFilters] = useState<FilterState>({
+    search: "",
+    brand: "All",
+    fieldStrength: "All",
+    availability: "All",
+  });
+
+  const filteredSystems = useMemo(() => {
+    if (!brandInfo) return [];
+    return brandInfo.systems.filter((system) => {
+      const matchesSearch = system.name
+        .toLowerCase()
+        .includes(filters.search.toLowerCase());
+      const matchesFieldStrength =
+        filters.fieldStrength === "All" || system.type === filters.fieldStrength;
+      const matchesAvailability =
+        filters.availability === "All" ||
+        system.status === filters.availability;
+
+      return matchesSearch && matchesFieldStrength && matchesAvailability;
+    });
+  }, [filters, brandInfo]);
+
   if (!brandInfo) {
     return (
       <>
@@ -159,8 +184,19 @@ const BrandPage = () => {
                 <h2 className="text-2xl font-bold text-foreground mb-6">
                   Available {brandInfo.name} Systems
                 </h2>
+
+                {/* Filters */}
+                <EquipmentFilters
+                  filters={filters}
+                  onFiltersChange={setFilters}
+                  showBrand={false}
+                  showFieldStrength={true}
+                  totalCount={brandInfo.systems.length}
+                  filteredCount={filteredSystems.length}
+                />
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {brandInfo.systems.map((system, index) => (
+                  {filteredSystems.map((system, index) => (
                     <div
                       key={index}
                       className="bg-card border border-border rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow"
@@ -205,6 +241,14 @@ const BrandPage = () => {
                       </div>
                     </div>
                   ))}
+
+                  {filteredSystems.length === 0 && (
+                    <div className="col-span-full text-center py-12 bg-muted rounded-xl">
+                      <p className="text-muted-foreground">
+                        No systems match your filters. Try adjusting your criteria.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
