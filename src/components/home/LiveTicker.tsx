@@ -6,28 +6,34 @@ const LiveTicker = () => {
     { label: "Most Popular:", value: "Philips Ingenia", extra: "(12 views today)" },
   ];
 
+  const TickerContent = () => (
+    <div className="flex items-center gap-8 px-4">
+      {items.map((item, index) => (
+        <div key={index} className="flex items-center gap-2 text-sm whitespace-nowrap">
+          {item.highlight && (
+            <span className="w-2 h-2 bg-success rounded-full animate-pulse-dot" />
+          )}
+          <span className="text-muted-foreground">{item.label}</span>
+          <span className={`font-semibold ${item.isPrice ? 'text-success' : 'text-foreground'}`}>
+            {item.value}
+          </span>
+          {item.extra && (
+            <span className="text-muted-foreground">{item.extra}</span>
+          )}
+          <span className="text-border ml-6">|</span>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <div className="bg-primary/5 border-y border-border py-3 overflow-hidden">
-      <div className="container mx-auto">
-        <div className="flex items-center justify-center gap-8 flex-wrap">
-          {items.map((item, index) => (
-            <div key={index} className="flex items-center gap-2 text-sm">
-              {item.highlight && (
-                <span className="w-2 h-2 bg-success rounded-full animate-pulse-dot" />
-              )}
-              <span className="text-muted-foreground">{item.label}</span>
-              <span className={`font-semibold ${item.isPrice ? 'text-success' : 'text-foreground'}`}>
-                {item.value}
-              </span>
-              {item.extra && (
-                <span className="text-muted-foreground">{item.extra}</span>
-              )}
-              {index < items.length - 1 && (
-                <span className="text-border ml-6">|</span>
-              )}
-            </div>
-          ))}
-        </div>
+      <div 
+        className="flex animate-ticker hover:[animation-play-state:paused]"
+        style={{ width: 'max-content' }}
+      >
+        <TickerContent />
+        <TickerContent />
       </div>
     </div>
   );

@@ -1,9 +1,14 @@
+import geLogo from "@/assets/brands/ge.jpg";
+import philipsLogo from "@/assets/brands/philips.jpg";
+import toshibaLogo from "@/assets/brands/toshiba.jpg";
+import siemensLogo from "@/assets/brands/siemens.jpg";
+
 const BrandLogos = () => {
   const brands = [
-    { name: "GE Healthcare", initials: "GE" },
-    { name: "Philips", initials: "PHILIPS" },
-    { name: "Toshiba", initials: "TOSHIBA" },
-    { name: "Siemens", initials: "SIEMENS" },
+    { name: "GE Healthcare", logo: geLogo },
+    { name: "Philips", logo: philipsLogo },
+    { name: "Toshiba", logo: toshibaLogo },
+    { name: "Siemens", logo: siemensLogo },
   ];
 
   return (
@@ -13,9 +18,13 @@ const BrandLogos = () => {
           {brands.map((brand) => (
             <div 
               key={brand.name}
-              className="text-2xl md:text-3xl font-bold text-muted-foreground/50 hover:text-primary transition-colors cursor-pointer"
+              className="h-12 md:h-16 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all duration-300 cursor-pointer"
             >
-              {brand.initials}
+              <img 
+                src={brand.logo} 
+                alt={brand.name}
+                className="h-full w-auto object-contain"
+              />
             </div>
           ))}
         </div>
