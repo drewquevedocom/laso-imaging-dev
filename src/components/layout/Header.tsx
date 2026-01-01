@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, Check, Phone, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { SearchBar } from './SearchBar';
 import { MegaMenu } from './MegaMenu';
@@ -20,11 +21,18 @@ const trustBadges = [
 ];
 
 const navItems = [
-  { label: 'EQUIPMENT', hasDropdown: true, key: 'equipment', href: '#' },
-  { label: 'PARTS', hasDropdown: true, key: 'parts', href: '#' },
-  { label: 'SERVICES', hasDropdown: true, key: 'services', href: '#' },
+  { label: 'EQUIPMENT', hasDropdown: true, key: 'equipment', href: '/products' },
+  { label: 'PARTS', hasDropdown: true, key: 'parts', href: '/parts' },
+  { label: 'SERVICES', hasDropdown: true, key: 'services', href: '/services' },
   { label: 'CONTACT', hasDropdown: false, key: 'contact', href: '/contact' },
   { label: 'ADMIN', hasDropdown: false, key: 'admin', isAccent: true, href: '/admin/notifications' },
+];
+
+const topNavLinks = [
+  { label: 'About Us', href: '/about' },
+  { label: 'Track Order', href: '/track-order' },
+  { label: 'Contact Us', href: '/contact' },
+  { label: 'FAQs', href: '/faqs' },
 ];
 
 export const Header = () => {
@@ -65,14 +73,14 @@ export const Header = () => {
           <div className="flex items-center justify-between text-xs md:text-sm">
             {/* Left Links */}
             <nav className="hidden lg:flex items-center gap-4">
-              {['About Us', 'Track Order', 'Contact Us', 'FAQs'].map((link) => (
-                <a 
-                  key={link} 
-                  href="#" 
+              {topNavLinks.map((link) => (
+                <Link 
+                  key={link.label} 
+                  to={link.href}
                   className="hover:text-accent transition-colors duration-200"
                 >
-                  {link}
-                </a>
+                  {link.label}
+                </Link>
               ))}
             </nav>
 
@@ -81,9 +89,9 @@ export const Header = () => {
               <span className="text-primary-foreground/80">
                 Sign up for 10% off your first order: {' '}
               </span>
-              <a href="#" className="text-white font-bold hover:underline">
+              <Link to="/signup" className="text-white font-bold hover:underline">
                 Sign Up
-              </a>
+              </Link>
             </div>
 
             {/* Right - Contact Info */}
@@ -107,13 +115,13 @@ export const Header = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
             {/* Logo */}
-            <a href="/" className="flex-shrink-0">
+            <Link to="/" className="flex-shrink-0">
               <img 
                 src={logoLaso} 
                 alt="LASO Imaging Solutions" 
                 className="h-14 md:h-20 w-auto"
               />
-            </a>
+            </Link>
 
             {/* Search Bar */}
             <div className="flex-1 max-w-2xl hidden lg:block">
@@ -122,7 +130,7 @@ export const Header = () => {
 
             {/* Account Actions */}
             <div className="flex items-center gap-3 md:gap-6">
-              <a href="#" className="hidden md:flex flex-col items-center gap-1 group">
+              <Link to="/signup" className="hidden md:flex flex-col items-center gap-1 group">
                 <img 
                   src={userIcon} 
                   alt="Account" 
@@ -131,9 +139,9 @@ export const Header = () => {
                 <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
                   Your Account
                 </span>
-              </a>
+              </Link>
               
-              <a href="#" className="hidden md:flex flex-col items-center gap-1 group">
+              <Link to="/contact" className="hidden md:flex flex-col items-center gap-1 group">
                 <img 
                   src={messageIcon} 
                   alt="Messages" 
@@ -142,7 +150,7 @@ export const Header = () => {
                 <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
                   Your Messages
                 </span>
-              </a>
+              </Link>
               
               <CartDrawer />
 
@@ -163,9 +171,9 @@ export const Header = () => {
             {/* Navigation Items */}
             <nav className="flex items-center">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.key}
-                  href={item.href}
+                  to={item.href}
                   className={`
                     relative flex items-center gap-1.5 px-5 py-4 text-sm font-semibold
                     transition-all duration-200
@@ -188,14 +196,16 @@ export const Header = () => {
                       `}
                     />
                   )}
-                </a>
+                </Link>
               ))}
             </nav>
 
             {/* CTA Button */}
-            <Button variant="cta" size="lg" className="my-2">
-              Get Quote Now
-            </Button>
+            <Link to="/quote">
+              <Button variant="cta" size="lg" className="my-2">
+                Get Quote Now
+              </Button>
+            </Link>
           </div>
         </div>
 

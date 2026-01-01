@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface ServicesMegaMenuProps {
   isOpen: boolean;
@@ -7,23 +8,43 @@ interface ServicesMegaMenuProps {
 const menuColumns = [
   {
     title: 'INSTALLATION',
-    items: ['New System Install', 'Relocation Services', 'Site Planning', 'De-installation'],
-    viewAll: 'View All Install'
+    items: [
+      { label: 'New System Install', href: '/services/mri-installation' },
+      { label: 'Relocation Services', href: '/services/relocation' },
+      { label: 'Site Planning', href: '/services/site-planning' },
+      { label: 'De-installation', href: '/services/deinstallation' },
+    ],
+    viewAll: { label: 'View All Install', href: '/services' }
   },
   {
     title: 'MAINTENANCE',
-    items: ['Preventive Maintenance', 'Emergency Repairs', 'Software Updates', 'Remote Diagnostics'],
-    viewAll: 'View All Maintenance'
+    items: [
+      { label: 'Preventive Maintenance', href: '/services/preventive-maintenance' },
+      { label: 'Emergency Repairs', href: '/services/emergency-repairs' },
+      { label: 'Software Updates', href: '/services/software-updates' },
+      { label: 'Remote Diagnostics', href: '/services/remote-diagnostics' },
+    ],
+    viewAll: { label: 'View All Maintenance', href: '/services' }
   },
   {
     title: 'CRYOGENIC SERVICES',
-    items: ['Helium Refills', 'Cold Head Service', 'Compressor Service', 'System Recovery'],
-    viewAll: 'View All Cryo'
+    items: [
+      { label: 'Helium Refills', href: '/services/helium-refills' },
+      { label: 'Cold Head Service', href: '/services/cold-head-service' },
+      { label: 'Compressor Service', href: '/services/compressor-service' },
+      { label: 'System Recovery', href: '/services/system-recovery' },
+    ],
+    viewAll: { label: 'View All Cryo', href: '/services' }
   },
   {
     title: 'TRAINING',
-    items: ['Operator Training', 'Safety Certification', 'Technical Courses', 'On-site Training'],
-    viewAll: 'View All Training'
+    items: [
+      { label: 'Operator Training', href: '/services/operator-training' },
+      { label: 'Safety Certification', href: '/services/safety-certification' },
+      { label: 'Technical Courses', href: '/services/technical-courses' },
+      { label: 'On-site Training', href: '/services/onsite-training' },
+    ],
+    viewAll: { label: 'View All Training', href: '/services' }
   }
 ];
 
@@ -44,42 +65,42 @@ export const ServicesMegaMenu = ({ isOpen }: ServicesMegaMenuProps) => {
               </h3>
               <ul className="space-y-3">
                 {column.items.map((item) => (
-                  <li key={item}>
-                    <a 
-                      href="#" 
+                  <li key={item.label}>
+                    <Link 
+                      to={item.href}
                       className="text-foreground hover:text-accent transition-colors duration-200 text-sm font-medium relative group"
                     >
-                      {item}
+                      {item.label}
                       <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
-              <a 
-                href="#" 
+              <Link 
+                to={column.viewAll.href}
                 className="inline-flex items-center gap-1 mt-4 text-accent hover:text-primary text-sm font-semibold group"
               >
-                {column.viewAll}
+                {column.viewAll.label}
                 <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-              </a>
+              </Link>
             </div>
           ))}
         </div>
 
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
-          <a 
-            href="#" 
+          <Link 
+            to="/services"
             className="inline-flex items-center gap-2 text-primary hover:text-accent font-bold transition-colors group"
           >
             Explore All Services
             <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
-          </a>
+          </Link>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <span>Need a custom service plan?</span>
-            <a href="#" className="text-accent hover:text-primary font-semibold">
+            <Link to="/quote?interest=Service" className="text-accent hover:text-primary font-semibold">
               Request Service Quote
-            </a>
+            </Link>
           </div>
         </div>
       </div>
