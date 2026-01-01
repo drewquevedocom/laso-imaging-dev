@@ -1,145 +1,220 @@
-import { Search, User, MessageSquare, ShoppingCart, ChevronDown, Phone, Mail } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { ChevronDown, Check, Phone, Mail } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { SearchBar } from './SearchBar';
+import { MegaMenu } from './MegaMenu';
 
-const Header = () => {
+import logoLaso from '@/assets/logo-laso.png';
+import userIcon from '@/assets/icons/user.png';
+import messageIcon from '@/assets/icons/message.png';
+import cartIcon from '@/assets/icons/cart.png';
+
+const trustBadges = [
+  'FDA Registered',
+  '18+ Years',
+  'BBB A+',
+  '150+ Facilities Served'
+];
+
+const navItems = [
+  { label: 'EQUIPMENT', hasDropdown: true, key: 'equipment' },
+  { label: 'PARTS', hasDropdown: true, key: 'parts' },
+  { label: 'SERVICES', hasDropdown: true, key: 'services' },
+  { label: 'CONTACT', hasDropdown: false, key: 'contact' },
+  { label: 'ADMIN', hasDropdown: false, key: 'admin', isAccent: true },
+];
+
+export const Header = () => {
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeNav, setActiveNav] = useState('equipment');
+
+  const handleNavHover = (key: string, hasDropdown: boolean) => {
+    if (hasDropdown) {
+      setActiveDropdown(key);
+    }
+  };
+
+  const handleNavLeave = () => {
+    setActiveDropdown(null);
+  };
+
   return (
-    <header className="w-full">
-      {/* Top Trust Bar */}
-      <div className="bg-trust-bar text-primary-foreground py-2 px-4">
-        <div className="container mx-auto flex items-center justify-center gap-6 text-sm">
-          <div className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-success" />
-            <span>FDA Registered</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-success" />
-            <span>18+ Years</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-success" />
-            <span>BBB A+</span>
-          </div>
-          <div className="hidden md:flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-success" />
-            <span>150+ Facilities Served</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Secondary Nav */}
-      <div className="border-b border-border bg-secondary/50 py-2 px-4">
-        <div className="container mx-auto flex items-center justify-between text-sm">
-          <nav className="hidden md:flex items-center gap-6 text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">About Us</a>
-            <span className="text-border">|</span>
-            <a href="#" className="hover:text-foreground transition-colors">Track Order</a>
-            <span className="text-border">|</span>
-            <a href="#" className="hover:text-foreground transition-colors">Contact Us</a>
-            <span className="text-border">|</span>
-            <a href="#" className="hover:text-foreground transition-colors">FAQs</a>
-          </nav>
-          <div className="flex items-center gap-4 text-muted-foreground">
-            <span className="text-accent font-medium">Sign up for 10% off your first order: <a href="#" className="underline hover:text-foreground">Sign Up</a></span>
-          </div>
-          <div className="hidden lg:flex items-center gap-4 text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Phone className="h-4 w-4" />
-              <span>Toll Free: (844) 511-5276</span>
-            </div>
-            <a href="mailto:info@lasoimaging.com" className="flex items-center gap-2 hover:text-foreground">
-              <Mail className="h-4 w-4" />
-              <span>info@lasoimaging.com</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Header */}
-      <div className="bg-background py-4 px-4 border-b border-border">
-        <div className="container mx-auto flex items-center justify-between gap-8">
-          {/* Logo */}
-          <a href="/" className="flex items-center gap-2">
-            <div className="flex items-center">
-              <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
-                <span className="text-accent-foreground font-bold text-lg">L</span>
-              </div>
-              <div className="ml-2">
-                <span className="text-2xl font-bold text-primary">LASO</span>
-                <p className="text-xs text-muted-foreground -mt-1">IMAGING SOLUTIONS</p>
-              </div>
-            </div>
-          </a>
-
-          {/* Search Bar */}
-          <div className="flex-1 max-w-2xl hidden md:block">
-            <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-2 text-muted-foreground">
-                <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
-                  <span className="text-accent-foreground text-xs">🌐</span>
+    <header className="w-full relative z-50">
+      {/* Row 1: Trust Bar */}
+      <div className="bg-secondary border-b border-border">
+        <div className="container mx-auto px-4 py-2">
+          <div className="flex items-center justify-center gap-6 md:gap-10">
+            {trustBadges.map((badge) => (
+              <div key={badge} className="flex items-center gap-2 text-xs md:text-sm">
+                <div className="w-4 h-4 rounded-full bg-success flex items-center justify-center">
+                  <Check className="w-2.5 h-2.5 text-success-foreground" />
                 </div>
+                <span className="text-foreground font-medium">{badge}</span>
               </div>
-              <input
-                type="text"
-                placeholder="Search for MRI systems, parts & products..."
-                className="w-full pl-14 pr-12 py-3 rounded-full border border-border bg-background focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all"
-              />
-              <button className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-full flex items-center justify-center hover:bg-primary/90 transition-colors">
-                <Search className="h-4 w-4 text-primary-foreground" />
-              </button>
-            </div>
-          </div>
-
-          {/* Account Actions */}
-          <div className="flex items-center gap-4">
-            <a href="#" className="flex flex-col items-center text-muted-foreground hover:text-foreground transition-colors">
-              <User className="h-5 w-5" />
-              <span className="text-xs mt-1">Login<br/>Account</span>
-            </a>
-            <a href="#" className="flex flex-col items-center text-muted-foreground hover:text-foreground transition-colors">
-              <MessageSquare className="h-5 w-5" />
-              <span className="text-xs mt-1">Your<br/>Messages</span>
-            </a>
-            <a href="#" className="flex flex-col items-center text-muted-foreground hover:text-foreground transition-colors">
-              <ShoppingCart className="h-5 w-5" />
-              <span className="text-xs mt-1">Your<br/>Cart</span>
-            </a>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Navigation */}
-      <nav className="bg-primary text-primary-foreground py-0">
-        <div className="container mx-auto flex items-center justify-between">
-          <div className="flex items-center">
-            <NavItem label="EQUIPMENT" hasDropdown />
-            <NavItem label="PARTS" hasDropdown />
-            <NavItem label="SERVICES" hasDropdown />
-            <NavItem label="CONTACT" />
+      {/* Row 2: Secondary Navigation */}
+      <div className="bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 py-2">
+          <div className="flex items-center justify-between text-xs md:text-sm">
+            {/* Left Links */}
+            <nav className="hidden md:flex items-center gap-4">
+              {['About Us', 'Track Order', 'Contact Us', 'FAQs'].map((link) => (
+                <a 
+                  key={link} 
+                  href="#" 
+                  className="hover:text-accent transition-colors duration-200"
+                >
+                  {link}
+                </a>
+              ))}
+            </nav>
+
+            {/* Center - Sign Up */}
+            <div className="flex-1 text-center">
+              <span className="text-primary-foreground/80">
+                Sign up for 10% off your first order: {' '}
+              </span>
+              <a href="#" className="text-warning font-bold hover:underline">
+                Sign Up
+              </a>
+            </div>
+
+            {/* Right - Contact Info */}
+            <div className="hidden md:flex items-center gap-4">
+              <a href="tel:8445115276" className="flex items-center gap-1.5 hover:text-accent transition-colors">
+                <Phone className="w-3.5 h-3.5" />
+                <span>Toll Free: (844) 511-5276</span>
+              </a>
+              <span className="text-primary-foreground/40">|</span>
+              <a href="mailto:info@lasoimaging.com" className="flex items-center gap-1.5 hover:text-accent transition-colors">
+                <Mail className="w-3.5 h-3.5" />
+                <span>info@lasoimaging.com</span>
+              </a>
+            </div>
           </div>
-          <Button variant="cta" size="lg" className="rounded-none h-full py-4">
-            Get Quote Now
-          </Button>
         </div>
-      </nav>
+      </div>
+
+      {/* Row 3: Main Header */}
+      <div className="bg-background border-b border-border">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between gap-6">
+            {/* Logo */}
+            <a href="/" className="flex-shrink-0">
+              <img 
+                src={logoLaso} 
+                alt="LASO Imaging Solutions" 
+                className="h-12 md:h-14 w-auto"
+              />
+            </a>
+
+            {/* Search Bar */}
+            <div className="flex-1 max-w-2xl hidden md:block">
+              <SearchBar />
+            </div>
+
+            {/* Account Actions */}
+            <div className="flex items-center gap-4 md:gap-6">
+              <a href="#" className="flex flex-col items-center gap-1 group">
+                <img 
+                  src={userIcon} 
+                  alt="Account" 
+                  className="w-6 h-6 opacity-70 group-hover:opacity-100 transition-opacity"
+                />
+                <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors hidden md:block">
+                  Your Account
+                </span>
+              </a>
+              
+              <a href="#" className="flex flex-col items-center gap-1 group">
+                <img 
+                  src={messageIcon} 
+                  alt="Messages" 
+                  className="w-6 h-6 opacity-70 group-hover:opacity-100 transition-opacity"
+                />
+                <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors hidden md:block">
+                  Your Messages
+                </span>
+              </a>
+              
+              <a href="#" className="flex flex-col items-center gap-1 group relative">
+                <img 
+                  src={cartIcon} 
+                  alt="Cart" 
+                  className="w-6 h-6 opacity-70 group-hover:opacity-100 transition-opacity"
+                />
+                <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors hidden md:block">
+                  Your Cart
+                </span>
+                {/* Cart Badge */}
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent text-accent-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
+                  0
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Row 4: Main Navigation */}
+      <div 
+        className="bg-primary relative"
+        onMouseLeave={handleNavLeave}
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between">
+            {/* Navigation Items */}
+            <nav className="flex items-center">
+              {navItems.map((item) => (
+                <a
+                  key={item.key}
+                  href="#"
+                  className={`
+                    relative flex items-center gap-1.5 px-5 py-4 text-sm font-semibold
+                    transition-all duration-200
+                    ${item.isAccent 
+                      ? 'text-warning hover:text-warning/80' 
+                      : 'text-primary-foreground hover:bg-primary-foreground/10'
+                    }
+                    ${activeNav === item.key && !item.isAccent ? 'bg-primary-foreground/10' : ''}
+                  `}
+                  onMouseEnter={() => handleNavHover(item.key, item.hasDropdown)}
+                  onClick={() => setActiveNav(item.key)}
+                >
+                  {item.label}
+                  {item.hasDropdown && (
+                    <ChevronDown 
+                      className={`
+                        w-4 h-4 transition-transform duration-200
+                        ${activeDropdown === item.key ? 'rotate-180' : ''}
+                      `}
+                    />
+                  )}
+                  
+                  {/* Active Indicator */}
+                  {activeNav === item.key && !item.isAccent && (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent" />
+                  )}
+                </a>
+              ))}
+            </nav>
+
+            {/* CTA Button */}
+            <Button variant="cta" size="lg" className="my-2">
+              Get Quote Now
+            </Button>
+          </div>
+        </div>
+
+        {/* Mega Menu */}
+        <MegaMenu isOpen={activeDropdown === 'equipment'} />
+      </div>
     </header>
   );
 };
-
-const NavItem = ({ label, hasDropdown }: { label: string; hasDropdown?: boolean }) => (
-  <a 
-    href="#" 
-    className="flex items-center gap-1 px-6 py-4 hover:bg-primary-foreground/10 transition-colors font-medium"
-  >
-    {label}
-    {hasDropdown && <ChevronDown className="h-4 w-4" />}
-  </a>
-);
-
-const CheckCircle = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-    <polyline points="22,4 12,14.01 9,11.01" />
-  </svg>
-);
 
 export default Header;

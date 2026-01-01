@@ -177,6 +177,28 @@
   50% { opacity: 0.5; }
 }
 
+@keyframes mega-menu-open {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scaleY(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes column-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .animate-ticker {
   animation: ticker-scroll 30s linear infinite;
 }
@@ -187,6 +209,16 @@
 
 .animate-pulse-dot {
   animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.animate-mega-menu-open {
+  animation: mega-menu-open 0.25s ease-out forwards;
+  transform-origin: top;
+}
+
+.mega-menu-column {
+  opacity: 0;
+  animation: column-fade-in 0.3s ease-out forwards;
 }
 
 /* Stagger animations */
