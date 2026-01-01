@@ -111,7 +111,7 @@ export const Header = () => {
               <img 
                 src={logoLaso} 
                 alt="LASO Imaging Solutions" 
-                className="h-10 md:h-14 w-auto"
+                className="h-14 md:h-20 w-auto"
               />
             </a>
 
@@ -171,9 +171,10 @@ export const Header = () => {
                     transition-all duration-200
                     ${item.key === 'admin' 
                       ? 'text-red-500 font-bold hover:text-red-400' 
-                      : 'text-white hover:bg-white/10'
+                      : activeNav === item.key 
+                        ? 'bg-accent text-accent-foreground' 
+                        : 'text-white hover:bg-accent/80 hover:text-accent-foreground'
                     }
-                    ${activeNav === item.key && item.key !== 'admin' ? 'bg-white/10' : ''}
                   `}
                   onMouseEnter={() => handleNavHover(item.key, item.hasDropdown)}
                   onClick={() => setActiveNav(item.key)}
@@ -186,11 +187,6 @@ export const Header = () => {
                         ${activeDropdown === item.key ? 'rotate-180' : ''}
                       `}
                     />
-                  )}
-                  
-                  {/* Active Indicator */}
-                  {activeNav === item.key && !item.isAccent && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent" />
                   )}
                 </a>
               ))}
