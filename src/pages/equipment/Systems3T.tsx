@@ -1,9 +1,11 @@
 import { Helmet } from "react-helmet-async";
+import { useState, useMemo } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import QuoteForm from "@/components/shared/QuoteForm";
 import { CheckCircle2, Shield, Award, Truck, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import EquipmentFilters, { FilterState } from "@/components/equipment/EquipmentFilters";
 import mriSystem1 from "@/assets/mri-system-1.jpg";
 import heroMri from "@/assets/hero-mri.jpg";
 import ctScanner from "@/assets/ct-scanner.jpg";
@@ -12,36 +14,48 @@ import mobileMri from "@/assets/mobile-mri.jpg";
 const systems = [
   {
     name: "GE SIGNA Premier 3.0T",
+    brand: "GE",
+    fieldStrength: "3.0T",
     image: mriSystem1,
     features: ["AIR Technology", "128 Channel", "SIGNA Works"],
     status: "In Stock",
   },
   {
     name: "Siemens MAGNETOM Vida 3T",
+    brand: "Siemens",
+    fieldStrength: "3.0T",
     image: heroMri,
     features: ["BioMatrix Technology", "128 Channel", "syngo MR XA"],
     status: "In Stock",
   },
   {
     name: "Philips Ingenia Elition 3.0T",
+    brand: "Philips",
+    fieldStrength: "3.0T",
     image: ctScanner,
     features: ["Compressed SENSE", "32 Channel", "SmartSpeed"],
     status: "Available Soon",
   },
   {
     name: "GE Discovery MR750 3.0T",
+    brand: "GE",
+    fieldStrength: "3.0T",
     image: mobileMri,
     features: ["32 Channel", "PROPELLER 3.0", "DV26 Software"],
     status: "In Stock",
   },
   {
     name: "Siemens MAGNETOM Skyra 3T",
+    brand: "Siemens",
+    fieldStrength: "3.0T",
     image: mriSystem1,
     features: ["Tim 4G", "70cm Bore", "Dot Engine"],
     status: "In Stock",
   },
   {
     name: "Philips Achieva 3.0T TX",
+    brand: "Philips",
+    fieldStrength: "3.0T",
     image: heroMri,
     features: ["MultiTransmit", "32 Channel", "dStream"],
     status: "Available Soon",
@@ -49,6 +63,28 @@ const systems = [
 ];
 
 const Systems3T = () => {
+  const [filters, setFilters] = useState<FilterState>({
+    search: "",
+    brand: "All",
+    fieldStrength: "All",
+    availability: "All",
+  });
+
+  const filteredSystems = useMemo(() => {
+    return systems.filter((system) => {
+      const matchesSearch = system.name
+        .toLowerCase()
+        .includes(filters.search.toLowerCase());
+      const matchesBrand =
+        filters.brand === "All" || system.brand === filters.brand;
+      const matchesAvailability =
+        filters.availability === "All" ||
+        system.status === filters.availability;
+
+      return matchesSearch && matchesBrand && matchesAvailability;
+    });
+  }, [filters]);
+
   return (
     <>
       <Helmet>
@@ -101,8 +137,17 @@ const Systems3T = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Systems Grid */}
               <div className="lg:col-span-2">
+                {/* Filters */}
+                <EquipmentFilters
+                  filters={filters}
+                  onFiltersChange={setFilters}
+                  showFieldStrength={false}
+                  totalCount={systems.length}
+                  filteredCount={filteredSystems.length}
+                />
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {systems.map((system, index) => (
+                  {filteredSystems.map((system, index) => (
                     <div
                       key={index}
                       className="bg-card border border-border rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow"
@@ -144,6 +189,14 @@ const Systems3T = () => {
                       </div>
                     </div>
                   ))}
+
+                  {filteredSystems.length === 0 && (
+                    <div className="col-span-full text-center py-12 bg-muted rounded-xl">
+                      <p className="text-muted-foreground">
+                        No systems match your filters. Try adjusting your criteria.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 

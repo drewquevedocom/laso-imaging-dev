@@ -20,11 +20,11 @@ const trustBadges = [
 ];
 
 const navItems = [
-  { label: 'EQUIPMENT', hasDropdown: true, key: 'equipment' },
-  { label: 'PARTS', hasDropdown: true, key: 'parts' },
-  { label: 'SERVICES', hasDropdown: true, key: 'services' },
-  { label: 'CONTACT', hasDropdown: false, key: 'contact' },
-  { label: 'ADMIN', hasDropdown: false, key: 'admin', isAccent: true },
+  { label: 'EQUIPMENT', hasDropdown: true, key: 'equipment', href: '#' },
+  { label: 'PARTS', hasDropdown: true, key: 'parts', href: '#' },
+  { label: 'SERVICES', hasDropdown: true, key: 'services', href: '#' },
+  { label: 'CONTACT', hasDropdown: false, key: 'contact', href: '/contact' },
+  { label: 'ADMIN', hasDropdown: false, key: 'admin', isAccent: true, href: '/admin/notifications' },
 ];
 
 export const Header = () => {
@@ -178,7 +178,7 @@ export const Header = () => {
               {navItems.map((item) => (
                 <a
                   key={item.key}
-                  href="#"
+                  href={item.href}
                   className={`
                     relative flex items-center gap-1.5 px-5 py-4 text-sm font-semibold
                     transition-all duration-200
