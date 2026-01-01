@@ -14,6 +14,8 @@ import AdminNotifications from "./pages/admin/Notifications";
 import AdminLogin from "./pages/auth/AdminLogin";
 import AdminRoute from "./components/auth/AdminRoute";
 import ProductListing from "./pages/products/ProductListing";
+import ProductDetail from "./pages/products/ProductDetail";
+import Quote from "./pages/Quote";
 
 const queryClient = new QueryClient();
 
@@ -28,10 +30,11 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/products" element={<ProductListing />} />
+            <Route path="/product/:handle" element={<ProductDetail />} />
+            <Route path="/quote" element={<Quote />} />
             <Route path="/equipment/1-5t-systems" element={<Systems15T />} />
             <Route path="/equipment/3t-systems" element={<Systems3T />} />
             <Route path="/equipment/brand/:brand" element={<BrandPage />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
             <Route 
               path="/admin/notifications" 
               element={
