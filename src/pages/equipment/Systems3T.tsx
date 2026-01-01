@@ -4,41 +4,45 @@ import Footer from "@/components/layout/Footer";
 import QuoteForm from "@/components/shared/QuoteForm";
 import { CheckCircle2, Shield, Award, Truck, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import mriSystem1 from "@/assets/mri-system-1.jpg";
+import heroMri from "@/assets/hero-mri.jpg";
+import ctScanner from "@/assets/ct-scanner.jpg";
+import mobileMri from "@/assets/mobile-mri.jpg";
 
 const systems = [
   {
     name: "GE SIGNA Premier 3.0T",
-    image: "/placeholder.svg",
+    image: mriSystem1,
     features: ["AIR Technology", "128 Channel", "SIGNA Works"],
     status: "In Stock",
   },
   {
     name: "Siemens MAGNETOM Vida 3T",
-    image: "/placeholder.svg",
+    image: heroMri,
     features: ["BioMatrix Technology", "128 Channel", "syngo MR XA"],
     status: "In Stock",
   },
   {
     name: "Philips Ingenia Elition 3.0T",
-    image: "/placeholder.svg",
+    image: ctScanner,
     features: ["Compressed SENSE", "32 Channel", "SmartSpeed"],
     status: "Available Soon",
   },
   {
     name: "GE Discovery MR750 3.0T",
-    image: "/placeholder.svg",
+    image: mobileMri,
     features: ["32 Channel", "PROPELLER 3.0", "DV26 Software"],
     status: "In Stock",
   },
   {
     name: "Siemens MAGNETOM Skyra 3T",
-    image: "/placeholder.svg",
+    image: mriSystem1,
     features: ["Tim 4G", "70cm Bore", "Dot Engine"],
     status: "In Stock",
   },
   {
     name: "Philips Achieva 3.0T TX",
-    image: "/placeholder.svg",
+    image: heroMri,
     features: ["MultiTransmit", "32 Channel", "dStream"],
     status: "Available Soon",
   },

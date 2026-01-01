@@ -101,10 +101,10 @@ const HeroSection = () => {
   return (
     <section className="relative">
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:h-[540px]">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:h-[600px]">
           {/* Main Hero Slider */}
           <div 
-            className="lg:col-span-3 relative rounded-xl overflow-hidden min-h-[500px] lg:min-h-0 lg:h-full"
+            className="lg:col-span-3 relative rounded-xl overflow-hidden min-h-[550px] lg:min-h-0 lg:h-full"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
@@ -129,8 +129,8 @@ const HeroSection = () => {
               </div>
             ))}
             
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-transparent z-10" />
+            {/* Gradient Overlay - Lighter for better image visibility */}
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/70 via-primary/40 to-transparent z-10" />
             
             {/* Content with Fade Animation */}
             <div 

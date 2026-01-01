@@ -10,6 +10,8 @@ import Systems15T from "./pages/equipment/Systems15T";
 import Systems3T from "./pages/equipment/Systems3T";
 import BrandPage from "./pages/equipment/brand/BrandPage";
 import AdminNotifications from "./pages/admin/Notifications";
+import AdminLogin from "./pages/auth/AdminLogin";
+import AdminRoute from "./components/auth/AdminRoute";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +27,15 @@ const App = () => (
             <Route path="/equipment/1-5t-systems" element={<Systems15T />} />
             <Route path="/equipment/3t-systems" element={<Systems3T />} />
             <Route path="/equipment/brand/:brand" element={<BrandPage />} />
-            <Route path="/admin/notifications" element={<AdminNotifications />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route 
+              path="/admin/notifications" 
+              element={
+                <AdminRoute>
+                  <AdminNotifications />
+                </AdminRoute>
+              } 
+            />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

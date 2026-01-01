@@ -5,6 +5,13 @@ import Footer from "@/components/layout/Footer";
 import QuoteForm from "@/components/shared/QuoteForm";
 import { CheckCircle2, Shield, Award, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import mriSystem1 from "@/assets/mri-system-1.jpg";
+import heroMri from "@/assets/hero-mri.jpg";
+import ctScanner from "@/assets/ct-scanner.jpg";
+import mobileMri from "@/assets/mobile-mri.jpg";
+
+// Image mapping for brand systems
+const systemImages = [mriSystem1, heroMri, ctScanner, mobileMri];
 
 interface BrandInfo {
   name: string;
@@ -160,7 +167,7 @@ const BrandPage = () => {
                     >
                       <div className="aspect-video bg-muted relative">
                         <img
-                          src="/placeholder.svg"
+                          src={systemImages[index % systemImages.length]}
                           alt={system.name}
                           className="w-full h-full object-cover"
                         />

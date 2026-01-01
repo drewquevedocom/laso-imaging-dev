@@ -4,29 +4,33 @@ import Footer from "@/components/layout/Footer";
 import QuoteForm from "@/components/shared/QuoteForm";
 import { CheckCircle2, Shield, Award, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import mriSystem1 from "@/assets/mri-system-1.jpg";
+import heroMri from "@/assets/hero-mri.jpg";
+import ctScanner from "@/assets/ct-scanner.jpg";
+import mobileMri from "@/assets/mobile-mri.jpg";
 
 const systems = [
   {
     name: "GE Signa HDxt 1.5T",
-    image: "/placeholder.svg",
+    image: mriSystem1,
     features: ["16 Channel", "Optix RF Coil", "Full Software Suite"],
     status: "In Stock",
   },
   {
     name: "Siemens MAGNETOM Aera 1.5T",
-    image: "/placeholder.svg",
+    image: heroMri,
     features: ["48 Channel", "Tim 4G Technology", "Dot Engine"],
     status: "In Stock",
   },
   {
     name: "Philips Ingenia 1.5T",
-    image: "/placeholder.svg",
+    image: ctScanner,
     features: ["32 Channel", "dStream Architecture", "Ambient Experience"],
     status: "Available Soon",
   },
   {
     name: "GE Optima MR450w 1.5T",
-    image: "/placeholder.svg",
+    image: mobileMri,
     features: ["Wide Bore 70cm", "OpTix RF Coil", "SIGNA Works"],
     status: "In Stock",
   },
