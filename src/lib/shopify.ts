@@ -169,6 +169,65 @@ export async function fetchShopifyProducts(first: number = 50, query?: string): 
   }
 }
 
+const PRODUCT_BY_HANDLE_QUERY = `
+  query GetProductByHandle($handle: String!) {
+    productByHandle(handle: $handle) {
+      id
+      title
+      description
+      descriptionHtml
+      handle
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      images(first: 10) {
+        edges {
+          node {
+            url
+            altText
+          }
+        }
+      }
+      variants(first: 20) {
+        edges {
+          node {
+            id
+            title
+            price {
+              amount
+              currencyCode
+            }
+            availableForSale
+            selectedOptions {
+              name
+              value
+            }
+          }
+        }
+      }
+      options {
+        name
+        values
+      }
+    }
+  }
+`;
+
+// Fetch single product by handle
+export async function fetchShopifyProductByHandle(handle: string): Promise<ShopifyProduct | null> {
+  try {
+    const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle });
+    if (!data || !data.data?.productByHandle) return null;
+    return { node: data.data.productByHandle };
+  } catch (error) {
+    console.error('Error fetching Shopify product by handle:', error);
+    return null;
+  }
+}
+
 // Create checkout from cart items
 export async function createStorefrontCheckout(items: Array<{ variantId: string; quantity: number }>): Promise<string> {
   const lines = items.map(item => ({
