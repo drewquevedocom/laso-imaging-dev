@@ -14,7 +14,105 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_users: {
+        Row: {
+          created_at: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      lead_scoring_rules: {
+        Row: {
+          condition_field: string
+          condition_value: string
+          created_at: string
+          id: string
+          is_active: boolean
+          points: number
+          rule_name: string
+        }
+        Insert: {
+          condition_field: string
+          condition_value: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          points?: number
+          rule_name: string
+        }
+        Update: {
+          condition_field?: string
+          condition_value?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          points?: number
+          rule_name?: string
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          interest: string
+          is_hot: boolean
+          lead_score: number
+          message: string | null
+          name: string
+          phone: string | null
+          source_page: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          interest: string
+          is_hot?: boolean
+          lead_score?: number
+          message?: string | null
+          name: string
+          phone?: string | null
+          source_page: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          interest?: string
+          is_hot?: boolean
+          lead_score?: number
+          message?: string | null
+          name?: string
+          phone?: string | null
+          source_page?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
