@@ -257,3 +257,25 @@ export async function createStorefrontCheckout(items: Array<{ variantId: string;
   url.searchParams.set('channel', 'online_store');
   return url.toString();
 }
+
+// Search products by product type (e.g., "1.5T MRI Systems", "3.0T MRI Systems")
+export async function searchProductsByType(productType: string, first: number = 50): Promise<ShopifyProduct[]> {
+  try {
+    const query = `product_type:"${productType}"`;
+    return await fetchShopifyProducts(first, query);
+  } catch (error) {
+    console.error('Error searching products by type:', error);
+    return [];
+  }
+}
+
+// Search products by vendor (e.g., "GE Healthcare", "Siemens Healthineers")
+export async function searchProductsByVendor(vendor: string, first: number = 50): Promise<ShopifyProduct[]> {
+  try {
+    const query = `vendor:"${vendor}"`;
+    return await fetchShopifyProducts(first, query);
+  } catch (error) {
+    console.error('Error searching products by vendor:', error);
+    return [];
+  }
+}
