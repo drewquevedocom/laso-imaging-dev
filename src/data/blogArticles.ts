@@ -76,7 +76,7 @@ Investing in refurbished MRI equipment is a smart financial decision when you wo
     author: 'LASO Technical Team',
     publishDate: '2025-01-02',
     readTime: '8 min read',
-    image: '/src/assets/hero-mri.jpg',
+    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80',
     keywords: ['refurbished MRI', 'buy MRI equipment', 'MRI buying guide', 'used MRI systems']
   },
   {
@@ -149,7 +149,7 @@ Our certified engineers provide comprehensive PM programs tailored to your facil
     author: 'LASO Service Team',
     publishDate: '2024-12-15',
     readTime: '10 min read',
-    image: '/src/assets/mri-system-1.jpg',
+    image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&q=80',
     keywords: ['MRI maintenance', 'preventive maintenance', 'MRI service', 'medical equipment maintenance']
   },
   {
@@ -230,7 +230,7 @@ Our team can evaluate your specific needs and recommend the optimal configuratio
     author: 'LASO Clinical Team',
     publishDate: '2024-12-01',
     readTime: '7 min read',
-    image: '/src/assets/ct-scanner.jpg',
+    image: 'https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800&q=80',
     keywords: ['1.5T MRI', '3T MRI', 'MRI comparison', 'MRI field strength', 'Tesla MRI']
   },
   {
@@ -319,7 +319,7 @@ We offer a complete selection of refurbished and new RF coils for GE, Siemens, a
     author: 'LASO Applications Team',
     publishDate: '2024-11-15',
     readTime: '9 min read',
-    image: '/src/assets/mobile-mri.jpg',
+    image: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800&q=80',
     keywords: ['MRI coils', 'RF coils', 'head coil', 'body coil', 'MRI accessories']
   },
   {
@@ -410,7 +410,7 @@ We help facilities navigate these trends with expert guidance on equipment selec
     author: 'LASO Market Research',
     publishDate: '2025-01-01',
     readTime: '6 min read',
-    image: '/src/assets/hero-slide-1.jpg',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&q=80',
     keywords: ['medical imaging trends', '2025 healthcare', 'MRI industry', 'AI medical imaging']
   }
 ];
