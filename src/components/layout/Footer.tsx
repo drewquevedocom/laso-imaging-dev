@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Truck, Shield, Headphones, Award } from "lucide-react";
 
 const Footer = () => {
@@ -49,17 +50,22 @@ const Footer = () => {
               <p className="text-primary-foreground/70 text-sm mb-4 max-w-xs">
                 Your trusted partner for MRI, CT, and medical imaging solutions. Serving healthcare facilities worldwide since 2006.
               </p>
+              <div className="text-sm text-primary-foreground/70">
+                <a href="tel:+18445115276" className="hover:text-primary-foreground transition-colors">
+                  1-844-511-5276
+                </a>
+              </div>
             </div>
 
             {/* Equipment */}
             <div>
               <h4 className="font-semibold mb-4">Equipment</h4>
               <ul className="space-y-2 text-sm text-primary-foreground/70">
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">MRI Systems</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">CT Scanners</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">X-Ray Units</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Mobile Units</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Parts Catalog</a></li>
+                <li><Link to="/equipment/1-5t-mri-systems" className="hover:text-primary-foreground transition-colors">MRI Systems</Link></li>
+                <li><Link to="/products?category=ct" className="hover:text-primary-foreground transition-colors">CT Scanners</Link></li>
+                <li><Link to="/products?category=xray" className="hover:text-primary-foreground transition-colors">X-Ray Units</Link></li>
+                <li><Link to="/equipment/mobile-mri-systems" className="hover:text-primary-foreground transition-colors">Mobile Units</Link></li>
+                <li><Link to="/parts" className="hover:text-primary-foreground transition-colors">Parts Catalog</Link></li>
               </ul>
             </div>
 
@@ -67,11 +73,11 @@ const Footer = () => {
             <div>
               <h4 className="font-semibold mb-4">Services</h4>
               <ul className="space-y-2 text-sm text-primary-foreground/70">
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Installation</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Maintenance</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Training</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Consulting</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Financing</a></li>
+                <li><Link to="/services/installation" className="hover:text-primary-foreground transition-colors">Installation</Link></li>
+                <li><Link to="/services/maintenance" className="hover:text-primary-foreground transition-colors">Maintenance</Link></li>
+                <li><Link to="/services/training" className="hover:text-primary-foreground transition-colors">Training</Link></li>
+                <li><Link to="/services/consulting" className="hover:text-primary-foreground transition-colors">Consulting</Link></li>
+                <li><Link to="/services/financing" className="hover:text-primary-foreground transition-colors">Financing</Link></li>
               </ul>
             </div>
 
@@ -79,11 +85,11 @@ const Footer = () => {
             <div>
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-sm text-primary-foreground/70">
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">About Us</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Case Studies</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">Contact</a></li>
-                <li><a href="#" className="hover:text-primary-foreground transition-colors">FAQs</a></li>
+                <li><Link to="/about" className="hover:text-primary-foreground transition-colors">About Us</Link></li>
+                <li><Link to="/products" className="hover:text-primary-foreground transition-colors">Our Products</Link></li>
+                <li><Link to="/services" className="hover:text-primary-foreground transition-colors">Services</Link></li>
+                <li><Link to="/contact" className="hover:text-primary-foreground transition-colors">Contact</Link></li>
+                <li><Link to="/faqs" className="hover:text-primary-foreground transition-colors">FAQs</Link></li>
               </ul>
             </div>
           </div>
@@ -94,11 +100,11 @@ const Footer = () => {
       <div className="border-t border-primary-foreground/10 py-4">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/60">
-            <p>© 2024 LASO Imaging Solutions. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} LASO Imaging Solutions. All rights reserved.</p>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-primary-foreground transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-primary-foreground transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-primary-foreground transition-colors">Cookie Policy</a>
+              <Link to="/privacy-policy" className="hover:text-primary-foreground transition-colors">Privacy Policy</Link>
+              <Link to="/terms-of-service" className="hover:text-primary-foreground transition-colors">Terms of Service</Link>
+              <Link to="/cookie-policy" className="hover:text-primary-foreground transition-colors">Cookie Policy</Link>
             </div>
           </div>
         </div>

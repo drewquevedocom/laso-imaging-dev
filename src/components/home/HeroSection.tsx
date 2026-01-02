@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { CheckCircle2, Award, Truck, ChevronLeft, ChevronRight, Zap, Package, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroSlide1 from "@/assets/hero-slide-1.jpg";
@@ -16,8 +17,8 @@ interface SlideContent {
   subtitle: string;
   description: string;
   features: string[];
-  primaryCta: string;
-  secondaryCta: string;
+  primaryCta: { text: string; link: string };
+  secondaryCta: { text: string; link: string };
   image: string;
 }
 
@@ -33,8 +34,8 @@ const slides: SlideContent[] = [
       "12-Month Parts & Labor Warranty",
       "Installation & Training Included"
     ],
-    primaryCta: "Request a Quote",
-    secondaryCta: "Browse MRI Machines",
+    primaryCta: { text: "Request a Quote", link: "/quote" },
+    secondaryCta: { text: "Browse MRI Machines", link: "/products" },
     image: heroSlide1
   },
   {
@@ -48,8 +49,8 @@ const slides: SlideContent[] = [
       "Same-Day Shipping Available",
       "90-Day Warranty on All Parts"
     ],
-    primaryCta: "Request Quote",
-    secondaryCta: "Shop Parts",
+    primaryCta: { text: "Request Quote", link: "/quote?interest=Parts" },
+    secondaryCta: { text: "Shop Parts", link: "/parts" },
     image: heroSlide2
   },
   {
@@ -63,9 +64,36 @@ const slides: SlideContent[] = [
       "Fully Inspected & Certified",
       "Flexible Financing Available"
     ],
-    primaryCta: "Get a Quote",
-    secondaryCta: "Explore Systems",
+    primaryCta: { text: "Get a Quote", link: "/quote" },
+    secondaryCta: { text: "Explore Systems", link: "/equipment/refurbished" },
     image: heroSlide3
+  }
+];
+
+const promoCards = [
+  {
+    image: promoInstall,
+    label: "EQUIPMENT INSTALL & DE-INSTALL",
+    title: "Expert Relocation Services",
+    link: "/services/relocation"
+  },
+  {
+    image: promoService,
+    label: "SERVICE AGREEMENTS",
+    title: "Preventative Maintenance",
+    link: "/services/maintenance"
+  },
+  {
+    image: promoCryo,
+    label: "CRYO & COLDHEAD",
+    title: "Helium Service & Repair",
+    link: "/services/helium"
+  },
+  {
+    image: promoTraining,
+    label: "TRAINING & SUPPORT",
+    title: "Applications Training & Remote Scanning",
+    link: "/services/training"
   }
 ];
 
@@ -165,12 +193,16 @@ const HeroSection = () => {
 
               {/* CTA Buttons */}
               <div className="flex flex-wrap gap-4 animate-fade-in-up stagger-4">
-                <Button variant="heroOutline" size="lg">
-                  {slide.primaryCta}
-                </Button>
-                <Button variant="hero" size="lg" className="bg-accent hover:bg-accent/90">
-                  {slide.secondaryCta}
-                </Button>
+                <Link to={slide.primaryCta.link}>
+                  <Button variant="heroOutline" size="lg">
+                    {slide.primaryCta.text}
+                  </Button>
+                </Link>
+                <Link to={slide.secondaryCta.link}>
+                  <Button variant="hero" size="lg" className="bg-accent hover:bg-accent/90">
+                    {slide.secondaryCta.text}
+                  </Button>
+                </Link>
               </div>
 
               {/* Bottom Stats */}
@@ -226,26 +258,15 @@ const HeroSection = () => {
 
           {/* Side Promo Cards - Flex to fill and align with slider */}
           <div className="flex flex-col gap-2 lg:h-full">
-            <PromoCard 
-              image={promoInstall}
-              label="EQUIPMENT INSTALL & DE-INSTALL"
-              title="Expert Relocation Services"
-            />
-            <PromoCard 
-              image={promoService}
-              label="SERVICE AGREEMENTS"
-              title="Preventative Maintenance"
-            />
-            <PromoCard 
-              image={promoCryo}
-              label="CRYO & COLDHEAD"
-              title="Helium Service & Repair"
-            />
-            <PromoCard 
-              image={promoTraining}
-              label="TRAINING & SUPPORT"
-              title="Applications Training & Remote Scanning"
-            />
+            {promoCards.map((card, index) => (
+              <PromoCard 
+                key={index}
+                image={card.image}
+                label={card.label}
+                title={card.title}
+                link={card.link}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -253,9 +274,9 @@ const HeroSection = () => {
   );
 };
 
-const PromoCard = ({ image, label, title }: { image: string; label: string; title: string }) => (
-  <a 
-    href="#" 
+const PromoCard = ({ image, label, title, link }: { image: string; label: string; title: string; link: string }) => (
+  <Link 
+    to={link} 
     className="relative rounded-lg overflow-hidden group flex-1 min-h-[100px]"
   >
     <img 
@@ -272,7 +293,7 @@ const PromoCard = ({ image, label, title }: { image: string; label: string; titl
         Learn More <ChevronRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
       </span>
     </div>
-  </a>
+  </Link>
 );
 
 export default HeroSection;

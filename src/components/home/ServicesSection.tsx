@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Monitor, Truck, Package, GraduationCap, Wrench, Users, ArrowRight } from "lucide-react";
 
 const ServicesSection = () => {
@@ -6,31 +7,37 @@ const ServicesSection = () => {
       icon: Monitor,
       title: "MRI Systems",
       description: "New and certified pre-owned MRI systems from leading manufacturers. Complete installation and commissioning.",
+      link: "/equipment/1-5t-mri-systems",
     },
     {
       icon: Truck,
       title: "System Rentals",
       description: "Flexible rental programs for temporary needs, system replacements, or expanding capacity during peak demand.",
+      link: "/services/mobile-rental",
     },
     {
       icon: Package,
       title: "Parts Catalog",
       description: "Over 400,000 MRI parts in stock. Coils, gradients, cryogenics, electronics - all tested and certified.",
+      link: "/parts",
     },
     {
       icon: GraduationCap,
       title: "Training Programs",
       description: "Comprehensive operator and service engineer training. On-site and virtual options available.",
+      link: "/services/training",
     },
     {
       icon: Wrench,
       title: "Service & Support",
       description: "Preventive maintenance, repairs, and system upgrades by factory-trained engineers.",
+      link: "/services/maintenance",
     },
     {
       icon: Users,
       title: "Consulting",
       description: "Expert guidance on system selection, site planning, and regulatory compliance.",
+      link: "/services/consulting",
     },
   ];
 
@@ -47,9 +54,9 @@ const ServicesSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <a
+            <Link
               key={index}
-              href="#"
+              to={service.link}
               className="group p-6 bg-card rounded-xl border border-border hover:border-accent/50 hover:shadow-card transition-all"
             >
               <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
@@ -62,7 +69,7 @@ const ServicesSection = () => {
               <span className="text-accent text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                 Learn More <ArrowRight className="h-4 w-4" />
               </span>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
