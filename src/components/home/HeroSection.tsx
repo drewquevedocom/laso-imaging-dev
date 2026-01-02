@@ -35,7 +35,7 @@ const slides: SlideContent[] = [
       "Installation & Training Included"
     ],
     primaryCta: { text: "Request a Quote", link: "/quote" },
-    secondaryCta: { text: "Browse MRI Machines", link: "/products" },
+    secondaryCta: { text: "Browse MRI Machines", link: "/products?category=mri-systems" },
     image: heroSlide1
   },
   {
@@ -50,7 +50,7 @@ const slides: SlideContent[] = [
       "90-Day Warranty on All Parts"
     ],
     primaryCta: { text: "Request Quote", link: "/quote?interest=Parts" },
-    secondaryCta: { text: "Shop Parts", link: "/parts" },
+    secondaryCta: { text: "Shop Parts", link: "/search/parts" },
     image: heroSlide2
   },
   {
@@ -65,7 +65,7 @@ const slides: SlideContent[] = [
       "Flexible Financing Available"
     ],
     primaryCta: { text: "Get a Quote", link: "/quote" },
-    secondaryCta: { text: "Explore Systems", link: "/equipment/refurbished" },
+    secondaryCta: { text: "Explore Systems", link: "/products?category=mri-systems" },
     image: heroSlide3
   }
 ];

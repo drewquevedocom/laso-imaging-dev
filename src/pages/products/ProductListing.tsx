@@ -59,12 +59,35 @@ const ProductListing = () => {
     ? category.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
     : "All Products";
 
+  // Get additional filter params
+  const vendorParam = searchParams.get("vendor") || "";
+  const filterParam = searchParams.get("filter") || "";
+  const queryParam = searchParams.get("query") || "";
+
   useEffect(() => {
     const loadProducts = async () => {
       setLoading(true);
       try {
-        const query = categoryMap[category] ? `product_type:${categoryMap[category]}` : undefined;
-        const data = await fetchShopifyProducts(50, query);
+        // Build query from URL params
+        let shopifyQuery = "";
+        
+        // If explicit query param, use it directly
+        if (queryParam) {
+          shopifyQuery = queryParam.replace(/\+/g, " ");
+        } else {
+          // Build from category + vendor + filter
+          if (category && categoryMap[category]) {
+            shopifyQuery = `product_type:${categoryMap[category]}`;
+          }
+          if (vendorParam) {
+            shopifyQuery += ` vendor:${vendorParam.replace(/\+/g, " ")}`;
+          }
+          if (filterParam) {
+            shopifyQuery += ` ${filterParam.replace(/\+/g, " ")}`;
+          }
+        }
+        
+        const data = await fetchShopifyProducts(50, shopifyQuery.trim() || undefined);
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch products:", error);
@@ -74,7 +97,7 @@ const ProductListing = () => {
     };
 
     loadProducts();
-  }, [category]);
+  }, [category, vendorParam, filterParam, queryParam]);
 
   const filteredAndSortedProducts = useMemo(() => {
     let result = [...products];

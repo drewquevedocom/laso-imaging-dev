@@ -9,42 +9,42 @@ const menuColumns = [
   {
     title: 'BY FIELD STRENGTH',
     items: [
-      { label: '1.5T MRI Systems', href: '/equipment/1-5t-mri-systems' },
-      { label: '3.0T MRI Systems', href: '/equipment/3t-mri-systems' },
-      { label: 'Open MRI Systems', href: '/equipment/open-mri-systems' },
-      { label: 'Extremity MRI', href: '/equipment/extremity-mri' },
+      { label: '1.5T MRI Systems', href: '/products?category=mri-systems&filter=1.5T' },
+      { label: '3.0T MRI Systems', href: '/products?category=mri-systems&filter=3.0T' },
+      { label: 'Open MRI Systems', href: '/products?category=mri-systems&filter=Open' },
+      { label: 'Extremity MRI', href: '/products?category=mri-systems&filter=Extremity' },
     ],
-    viewAll: { label: 'View All Systems', href: '/products' }
+    viewAll: { label: 'View All Systems', href: '/products?category=mri-systems' }
   },
   {
     title: 'BY CONDITION',
     items: [
-      { label: 'Refurbished MRI', href: '/equipment/refurbished' },
-      { label: 'Used MRI Systems', href: '/equipment/used' },
-      { label: 'Certified Pre-Owned', href: '/equipment/certified-pre-owned' },
-      { label: 'New Equipment', href: '/equipment/new' },
+      { label: 'Refurbished MRI', href: '/products?category=mri-systems&filter=Refurbished' },
+      { label: 'Used MRI Systems', href: '/products?category=mri-systems&filter=Used' },
+      { label: 'Certified Pre-Owned', href: '/products?category=mri-systems&filter=Certified' },
+      { label: 'New Equipment', href: '/products?category=mri-systems&filter=New' },
     ],
-    viewAll: { label: 'View All Conditions', href: '/products' }
+    viewAll: { label: 'View All Conditions', href: '/products?category=mri-systems' }
   },
   {
     title: 'MOBILE SOLUTIONS',
     items: [
       { label: 'Mobile MRI Rental', href: '/services/mobile-mri-rental' },
-      { label: 'Mobile MRI Systems', href: '/equipment/mobile-mri-systems' },
+      { label: 'Mobile MRI Systems', href: '/products?category=mobile-mri' },
       { label: 'Interim Projects', href: '/services/interim-projects' },
       { label: 'Nationwide Coverage', href: '/services/nationwide-coverage' },
     ],
-    viewAll: { label: 'View All Mobile', href: '/equipment/mobile-mri-systems' }
+    viewAll: { label: 'View All Mobile', href: '/products?category=mobile-mri' }
   },
   {
     title: 'BY BRAND',
     items: [
-      { label: 'GE Healthcare', href: '/equipment/brand/ge' },
-      { label: 'Siemens Healthineers', href: '/equipment/brand/siemens' },
-      { label: 'Philips Healthcare', href: '/equipment/brand/philips' },
-      { label: 'Toshiba / Canon Medical', href: '/equipment/brand/toshiba' },
+      { label: 'GE Healthcare', href: '/products?category=mri-systems&vendor=GE' },
+      { label: 'Siemens Healthineers', href: '/products?category=mri-systems&vendor=Siemens' },
+      { label: 'Philips Healthcare', href: '/products?category=mri-systems&vendor=Philips' },
+      { label: 'Toshiba / Canon Medical', href: '/products?category=mri-systems&vendor=Toshiba' },
     ],
-    viewAll: { label: 'View All Brands', href: '/products' }
+    viewAll: { label: 'View All Brands', href: '/products?category=mri-systems' }
   }
 ];
 
@@ -116,14 +116,14 @@ export const MegaMenu = ({ isOpen }: MegaMenuProps) => {
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
           <Link 
-            to="/products"
+            to="/products?category=mri-systems"
             className="
               inline-flex items-center gap-2 text-sm font-semibold 
               text-accent hover:text-accent/80 transition-colors
               group
             "
           >
-            Browse All Equipment
+            Browse All MRI Systems
             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
           
