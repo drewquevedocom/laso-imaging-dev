@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, CheckCircle2 } from "lucide-react";
+import { trackQuoteRequest } from "@/components/analytics/GoogleAnalytics";
 
 const quoteFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
@@ -95,6 +96,9 @@ const QuoteForm = ({
           body: { leadId: lead.id },
         });
       }
+
+      // Track quote request in Google Analytics
+      trackQuoteRequest(data.interest, sourcePage);
 
       setIsSubmitted(true);
       toast({
