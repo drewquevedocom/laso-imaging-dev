@@ -1,50 +1,14 @@
 import { Helmet } from "react-helmet-async";
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import QuoteForm from "@/components/shared/QuoteForm";
-import { CheckCircle2, Shield, Award, Truck } from "lucide-react";
+import { CheckCircle2, Shield, Award, Truck, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import EquipmentFilters, { FilterState } from "@/components/equipment/EquipmentFilters";
+import { searchProductsByType, ShopifyProduct } from "@/lib/shopify";
 import mriSystem1 from "@/assets/mri-system-1.jpg";
-import heroMri from "@/assets/hero-mri.jpg";
-import ctScanner from "@/assets/ct-scanner.jpg";
-import mobileMri from "@/assets/mobile-mri.jpg";
-
-const systems = [
-  {
-    name: "GE Signa HDxt 1.5T",
-    brand: "GE",
-    fieldStrength: "1.5T",
-    image: mriSystem1,
-    features: ["16 Channel", "Optix RF Coil", "Full Software Suite"],
-    status: "In Stock",
-  },
-  {
-    name: "Siemens MAGNETOM Aera 1.5T",
-    brand: "Siemens",
-    fieldStrength: "1.5T",
-    image: heroMri,
-    features: ["48 Channel", "Tim 4G Technology", "Dot Engine"],
-    status: "In Stock",
-  },
-  {
-    name: "Philips Ingenia 1.5T",
-    brand: "Philips",
-    fieldStrength: "1.5T",
-    image: ctScanner,
-    features: ["32 Channel", "dStream Architecture", "Ambient Experience"],
-    status: "Available Soon",
-  },
-  {
-    name: "GE Optima MR450w 1.5T",
-    brand: "GE",
-    fieldStrength: "1.5T",
-    image: mobileMri,
-    features: ["Wide Bore 70cm", "OpTix RF Coil", "SIGNA Works"],
-    status: "In Stock",
-  },
-];
 
 const Systems15T = () => {
   const [filters, setFilters] = useState<FilterState>({
@@ -53,21 +17,41 @@ const Systems15T = () => {
     fieldStrength: "All",
     availability: "All",
   });
+  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredSystems = useMemo(() => {
-    return systems.filter((system) => {
-      const matchesSearch = system.name
-        .toLowerCase()
-        .includes(filters.search.toLowerCase());
-      const matchesBrand =
-        filters.brand === "All" || system.brand === filters.brand;
-      const matchesAvailability =
-        filters.availability === "All" ||
-        system.status === filters.availability;
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        // Search for 1.5T MRI products
+        const results = await searchProductsByType("1.5T", 50);
+        setProducts(results);
+      } catch (error) {
+        console.error("Error fetching 1.5T products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      return matchesSearch && matchesBrand && matchesAvailability;
-    });
-  }, [filters]);
+    fetchProducts();
+  }, []);
+
+  const filteredProducts = products.filter((product) => {
+    const title = product.node.title.toLowerCase();
+    const matchesSearch = title.includes(filters.search.toLowerCase());
+    const matchesBrand = filters.brand === "All" || title.includes(filters.brand.toLowerCase());
+    return matchesSearch && matchesBrand;
+  });
+
+  const formatPrice = (amount: string) => {
+    const num = parseFloat(amount);
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+    }).format(num);
+  };
 
   return (
     <>
@@ -125,62 +109,72 @@ const Systems15T = () => {
                   filters={filters}
                   onFiltersChange={setFilters}
                   showFieldStrength={false}
-                  totalCount={systems.length}
-                  filteredCount={filteredSystems.length}
+                  totalCount={products.length}
+                  filteredCount={filteredProducts.length}
                 />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {filteredSystems.map((system, index) => (
-                    <div
-                      key={index}
-                      className="bg-card border border-border rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow"
-                    >
-                      <div className="aspect-video bg-muted relative">
-                        <img
-                          src={system.image}
-                          alt={system.name}
-                          className="w-full h-full object-cover"
-                        />
-                        <span
-                          className={`absolute top-3 right-3 text-xs font-semibold px-2 py-1 rounded ${
-                            system.status === "In Stock"
-                              ? "bg-success text-success-foreground"
-                              : "bg-warning text-warning-foreground"
-                          }`}
-                        >
-                          {system.status}
-                        </span>
+                {loading ? (
+                  <div className="flex items-center justify-center py-24">
+                    <Loader2 className="h-8 w-8 animate-spin text-accent" />
+                    <span className="ml-2 text-muted-foreground">Loading systems...</span>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {filteredProducts.map((product) => (
+                      <div
+                        key={product.node.id}
+                        className="bg-card border border-border rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow"
+                      >
+                        <div className="aspect-video bg-muted relative">
+                          <img
+                            src={product.node.images.edges[0]?.node.url || mriSystem1}
+                            alt={product.node.title}
+                            className="w-full h-full object-cover"
+                          />
+                          <span className="absolute top-3 right-3 text-xs font-semibold px-2 py-1 rounded bg-success text-success-foreground">
+                            Available
+                          </span>
+                        </div>
+                        <div className="p-4">
+                          <h3 className="font-semibold text-foreground mb-2 line-clamp-2">
+                            {product.node.title}
+                          </h3>
+                          <p className="text-lg font-bold text-accent mb-3">
+                            {formatPrice(product.node.priceRange.minVariantPrice.amount)}
+                          </p>
+                          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                            {product.node.description || "Contact us for specifications and details."}
+                          </p>
+                          <div className="flex gap-2">
+                            <Link to={`/product/${product.node.handle}`} className="flex-1">
+                              <Button variant="outline" className="w-full">
+                                View Details
+                              </Button>
+                            </Link>
+                            <Link to={`/quote?product=${encodeURIComponent(product.node.title)}`} className="flex-1">
+                              <Button className="w-full">
+                                Get Quote
+                              </Button>
+                            </Link>
+                          </div>
+                        </div>
                       </div>
-                      <div className="p-4">
-                        <h3 className="font-semibold text-foreground mb-2">
-                          {system.name}
-                        </h3>
-                        <ul className="space-y-1 mb-4">
-                          {system.features.map((feature, i) => (
-                            <li
-                              key={i}
-                              className="flex items-center gap-2 text-sm text-muted-foreground"
-                            >
-                              <CheckCircle2 className="h-4 w-4 text-success" />
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
-                        <Button variant="outline" className="w-full">
-                          Request Quote
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
 
-                  {filteredSystems.length === 0 && (
-                    <div className="col-span-full text-center py-12 bg-muted rounded-xl">
-                      <p className="text-muted-foreground">
-                        No systems match your filters. Try adjusting your criteria.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                    {!loading && filteredProducts.length === 0 && (
+                      <div className="col-span-full text-center py-12 bg-muted rounded-xl">
+                        <p className="text-muted-foreground mb-4">
+                          {products.length === 0 
+                            ? "No 1.5T systems currently available. Contact us for upcoming inventory."
+                            : "No systems match your filters. Try adjusting your criteria."}
+                        </p>
+                        <Link to="/quote?interest=1.5T Systems">
+                          <Button>Request Quote</Button>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Sidebar Quote Form */}

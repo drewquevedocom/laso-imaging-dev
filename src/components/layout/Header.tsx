@@ -8,6 +8,7 @@ import { PartsMegaMenu } from './PartsMegaMenu';
 import { ServicesMegaMenu } from './ServicesMegaMenu';
 import { MobileNav } from './MobileNav';
 import { CartDrawer } from '@/components/cart/CartDrawer';
+import { trackPhoneCall } from '@/components/analytics/GoogleAnalytics';
 
 import logoLaso from '@/assets/logo-laso.png';
 import userIcon from '@/assets/icons/user.png';
@@ -96,7 +97,11 @@ export const Header = () => {
 
             {/* Right - Contact Info */}
             <div className="hidden lg:flex items-center gap-4">
-              <a href="tel:8445115276" className="flex items-center gap-1.5 hover:text-accent transition-colors">
+              <a 
+                href="tel:8445115276" 
+                className="flex items-center gap-1.5 hover:text-accent transition-colors"
+                onClick={trackPhoneCall}
+              >
                 <Phone className="w-3.5 h-3.5" />
                 <span>Toll Free: (844) 511-5276</span>
               </a>

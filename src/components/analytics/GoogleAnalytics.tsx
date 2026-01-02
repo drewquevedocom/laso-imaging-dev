@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-// Google Analytics Measurement ID - Replace with your actual ID
-const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+// Google Analytics Measurement ID
+const GA_MEASUREMENT_ID = 'G-EL3T622HQP';
 
 // Declare gtag on window
 declare global {

@@ -27,6 +27,10 @@ import SupportPage from "./pages/support/SupportPage";
 import Parts from "./pages/parts/Parts";
 import PartsCategory from "./pages/parts/PartsCategory";
 import PartsBrand from "./pages/parts/PartsBrand";
+import Blog from "./pages/blog/Blog";
+import BlogArticle from "./pages/blog/BlogArticle";
+import ScrollToTop from "./components/layout/ScrollToTop";
+import GoogleAnalytics from "./components/analytics/GoogleAnalytics";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +41,8 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
+          <GoogleAnalytics />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/contact" element={<Contact />} />
@@ -67,6 +73,10 @@ const App = () => (
             
             {/* Support Routes */}
             <Route path="/support/:slug" element={<SupportPage />} />
+            
+            {/* Blog Routes */}
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogArticle />} />
             
             {/* Admin Routes */}
             <Route 
