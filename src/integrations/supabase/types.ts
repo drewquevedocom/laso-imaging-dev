@@ -35,6 +35,89 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_documents: {
+        Row: {
+          created_at: string
+          customer_id: string
+          document_type: string | null
+          file_url: string
+          id: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          document_type?: string | null
+          file_url: string
+          id?: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          document_type?: string | null
+          file_url?: string
+          id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_documents_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_profiles: {
+        Row: {
+          address_line_1: string | null
+          address_line_2: string | null
+          city: string | null
+          company_name: string | null
+          contact_name: string | null
+          created_at: string
+          customer_type: string | null
+          id: string
+          phone: string | null
+          state: string | null
+          updated_at: string
+          user_id: string
+          zip: string | null
+        }
+        Insert: {
+          address_line_1?: string | null
+          address_line_2?: string | null
+          city?: string | null
+          company_name?: string | null
+          contact_name?: string | null
+          created_at?: string
+          customer_type?: string | null
+          id?: string
+          phone?: string | null
+          state?: string | null
+          updated_at?: string
+          user_id: string
+          zip?: string | null
+        }
+        Update: {
+          address_line_1?: string | null
+          address_line_2?: string | null
+          city?: string | null
+          company_name?: string | null
+          contact_name?: string | null
+          created_at?: string
+          customer_type?: string | null
+          id?: string
+          phone?: string | null
+          state?: string | null
+          updated_at?: string
+          user_id?: string
+          zip?: string | null
+        }
+        Relationships: []
+      }
       lead_scoring_rules: {
         Row: {
           condition_field: string
@@ -113,15 +196,151 @@ export type Database = {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          created_at: string
+          customer_id: string
+          equipment_description: string | null
+          estimated_delivery: string | null
+          id: string
+          installation_date: string | null
+          notes: string | null
+          order_number: string
+          status: string
+          total_amount: number | null
+          tracking_number: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          equipment_description?: string | null
+          estimated_delivery?: string | null
+          id?: string
+          installation_date?: string | null
+          notes?: string | null
+          order_number: string
+          status?: string
+          total_amount?: number | null
+          tracking_number?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          equipment_description?: string | null
+          estimated_delivery?: string | null
+          id?: string
+          installation_date?: string | null
+          notes?: string | null
+          order_number?: string
+          status?: string
+          total_amount?: number | null
+          tracking_number?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      service_tickets: {
+        Row: {
+          assigned_technician: string | null
+          created_at: string
+          customer_id: string
+          equipment_serial: string | null
+          equipment_type: string | null
+          id: string
+          issue_description: string | null
+          priority: string
+          resolution_notes: string | null
+          scheduled_date: string | null
+          status: string
+          ticket_number: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_technician?: string | null
+          created_at?: string
+          customer_id: string
+          equipment_serial?: string | null
+          equipment_type?: string | null
+          id?: string
+          issue_description?: string | null
+          priority?: string
+          resolution_notes?: string | null
+          scheduled_date?: string | null
+          status?: string
+          ticket_number: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_technician?: string | null
+          created_at?: string
+          customer_id?: string
+          equipment_serial?: string | null
+          equipment_type?: string | null
+          id?: string
+          issue_description?: string | null
+          priority?: string
+          resolution_notes?: string | null
+          scheduled_date?: string | null
+          status?: string
+          ticket_number?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_tickets_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "customer" | "reseller" | "engineer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -248,6 +467,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "customer", "reseller", "engineer"],
+    },
   },
 } as const
