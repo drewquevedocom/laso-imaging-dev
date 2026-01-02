@@ -31,8 +31,10 @@ import Blog from "./pages/blog/Blog";
 import BlogArticle from "./pages/blog/BlogArticle";
 import CaseStudies from "./pages/case-studies/CaseStudies";
 import CaseStudyDetail from "./pages/case-studies/CaseStudyDetail";
+import PartsSearch from "./pages/search/PartsSearch";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import GoogleAnalytics from "./components/analytics/GoogleAnalytics";
+import ChatbotWidget from "./components/chat/ChatbotWidget";
 
 const queryClient = new QueryClient();
 
@@ -69,6 +71,9 @@ const App = () => (
             <Route path="/parts/brand/:brand" element={<PartsBrand />} />
             <Route path="/parts/:category" element={<PartsCategory />} />
             
+            {/* Parts Search */}
+            <Route path="/search/parts" element={<PartsSearch />} />
+            
             {/* Services Routes */}
             <Route path="/services" element={<Services />} />
             <Route path="/services/:slug" element={<ServicePage />} />
@@ -96,6 +101,7 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <ChatbotWidget />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

@@ -82,6 +82,13 @@ const Blog = () => {
                   className="bg-card border border-border rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-all group"
                 >
                   <div className="aspect-video bg-muted relative overflow-hidden">
+                    {article.image && (
+                      <img 
+                        src={article.image} 
+                        alt={article.title}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
                     <span className="absolute top-3 left-3 z-20 bg-accent text-accent-foreground text-xs font-semibold px-2 py-1 rounded capitalize">
                       {article.category.replace('-', ' ')}
