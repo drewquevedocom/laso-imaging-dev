@@ -196,6 +196,13 @@ export const MobileNav = () => {
                 RESOURCES
               </Link>
               <Link 
+                to="/case-studies" 
+                className="flex items-center py-3 px-4 text-foreground font-semibold hover:bg-secondary transition-colors"
+                onClick={handleClose}
+              >
+                CASE STUDIES
+              </Link>
+              <Link 
                 to="/contact" 
                 className="flex items-center py-3 px-4 text-foreground font-semibold hover:bg-secondary transition-colors"
                 onClick={handleClose}

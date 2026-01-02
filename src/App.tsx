@@ -29,6 +29,8 @@ import PartsCategory from "./pages/parts/PartsCategory";
 import PartsBrand from "./pages/parts/PartsBrand";
 import Blog from "./pages/blog/Blog";
 import BlogArticle from "./pages/blog/BlogArticle";
+import CaseStudies from "./pages/case-studies/CaseStudies";
+import CaseStudyDetail from "./pages/case-studies/CaseStudyDetail";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import GoogleAnalytics from "./components/analytics/GoogleAnalytics";
 
@@ -77,6 +79,10 @@ const App = () => (
             {/* Blog Routes */}
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogArticle />} />
+            
+            {/* Case Studies Routes */}
+            <Route path="/case-studies" element={<CaseStudies />} />
+            <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
             
             {/* Admin Routes */}
             <Route 
