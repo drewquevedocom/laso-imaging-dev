@@ -35,6 +35,13 @@ import PartsSearch from "./pages/search/PartsSearch";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import GoogleAnalytics from "./components/analytics/GoogleAnalytics";
 import ChatbotWidget from "./components/chat/ChatbotWidget";
+import CustomerAuth from "./pages/auth/CustomerAuth";
+import CustomerPortal from "./pages/portal/CustomerPortal";
+import PortalDashboard from "./pages/portal/PortalDashboard";
+import PortalOrders from "./pages/portal/PortalOrders";
+import PortalServices from "./pages/portal/PortalServices";
+import PortalDocuments from "./pages/portal/PortalDocuments";
+import PortalSettings from "./pages/portal/PortalSettings";
 
 const queryClient = new QueryClient();
 
@@ -88,6 +95,16 @@ const App = () => (
             {/* Case Studies Routes */}
             <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
+            
+            {/* Customer Portal Routes */}
+            <Route path="/auth/customer" element={<CustomerAuth />} />
+            <Route path="/portal" element={<CustomerPortal />}>
+              <Route index element={<PortalDashboard />} />
+              <Route path="orders" element={<PortalOrders />} />
+              <Route path="services" element={<PortalServices />} />
+              <Route path="documents" element={<PortalDocuments />} />
+              <Route path="settings" element={<PortalSettings />} />
+            </Route>
             
             {/* Admin Routes */}
             <Route 
