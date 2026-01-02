@@ -9,35 +9,35 @@ const menuColumns = [
   {
     title: 'BY CATEGORY',
     items: [
-      { label: 'MRI Coils', href: '/parts/mri-coils' },
-      { label: 'Gradient Amplifiers', href: '/parts/gradient-amplifiers' },
-      { label: 'RF Amplifiers', href: '/parts/rf-amplifiers' },
-      { label: 'Cold Heads', href: '/parts/cold-heads' },
-      { label: 'Compressors', href: '/parts/compressors' },
+      { label: 'MRI Coils', href: '/products?category=rf-coils' },
+      { label: 'Gradient Amplifiers', href: '/products?query=gradient+amplifier' },
+      { label: 'RF Amplifiers', href: '/products?query=RF+amplifier' },
+      { label: 'Cold Heads', href: '/products?query=cold+head' },
+      { label: 'Compressors', href: '/products?query=compressor' },
     ],
-    viewAll: { label: 'View All Parts', href: '/parts' }
+    viewAll: { label: 'View All Parts', href: '/search/parts' }
   },
   {
     title: 'BY MANUFACTURER',
     items: [
-      { label: 'GE Healthcare', href: '/parts/brand/ge' },
-      { label: 'Siemens', href: '/parts/brand/siemens' },
-      { label: 'Philips', href: '/parts/brand/philips' },
-      { label: 'Toshiba/Canon', href: '/parts/brand/toshiba' },
-      { label: 'Hitachi', href: '/parts/brand/hitachi' },
+      { label: 'GE Healthcare', href: '/products?category=mri-parts&vendor=GE' },
+      { label: 'Siemens', href: '/products?category=mri-parts&vendor=Siemens' },
+      { label: 'Philips', href: '/products?category=mri-parts&vendor=Philips' },
+      { label: 'Toshiba/Canon', href: '/products?category=mri-parts&vendor=Toshiba' },
+      { label: 'Hitachi', href: '/products?category=mri-parts&vendor=Hitachi' },
     ],
-    viewAll: { label: 'View All Brands', href: '/parts' }
+    viewAll: { label: 'View All Brands', href: '/search/parts' }
   },
   {
     title: 'COILS & ACCESSORIES',
     items: [
-      { label: 'Head Coils', href: '/parts/head-coils' },
-      { label: 'Body Coils', href: '/parts/body-coils' },
-      { label: 'Knee Coils', href: '/parts/knee-coils' },
-      { label: 'Spine Coils', href: '/parts/spine-coils' },
-      { label: 'Extremity Coils', href: '/parts/extremity-coils' },
+      { label: 'Head Coils', href: '/products?query=head+coil' },
+      { label: 'Body Coils', href: '/products?query=body+coil' },
+      { label: 'Knee Coils', href: '/products?query=knee+coil' },
+      { label: 'Spine Coils', href: '/products?query=spine+coil' },
+      { label: 'Extremity Coils', href: '/products?query=extremity+coil' },
     ],
-    viewAll: { label: 'View All Coils', href: '/parts/coils' }
+    viewAll: { label: 'View All Coils', href: '/products?category=rf-coils' }
   },
   {
     title: 'SUPPORT',
@@ -94,7 +94,7 @@ export const PartsMegaMenu = ({ isOpen }: PartsMegaMenuProps) => {
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
           <Link 
-            to="/parts"
+            to="/search/parts"
             className="inline-flex items-center gap-2 text-primary hover:text-accent font-bold transition-colors group"
           >
             Browse All Parts
