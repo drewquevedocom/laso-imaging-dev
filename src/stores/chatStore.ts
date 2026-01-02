@@ -20,6 +20,7 @@ interface ChatState {
   pendingQuery: string | null;
   userInfo: UserInfo;
   isLoading: boolean;
+  conversationId: string | null;
   openChat: () => void;
   closeChat: () => void;
   toggleMinimize: () => void;
@@ -28,6 +29,8 @@ interface ChatState {
   setUserInfo: (info: Partial<UserInfo>) => void;
   setLoading: (loading: boolean) => void;
   clearMessages: () => void;
+  setConversationId: (id: string | null) => void;
+  setMessages: (messages: ChatMessage[]) => void;
 }
 
 export const useChatStore = create<ChatState>((set) => ({
@@ -37,6 +40,7 @@ export const useChatStore = create<ChatState>((set) => ({
   pendingQuery: null,
   userInfo: {},
   isLoading: false,
+  conversationId: null,
   openChat: () => set({ isOpen: true, isMinimized: false }),
   closeChat: () => set({ isOpen: false }),
   toggleMinimize: () => set((state) => ({ isMinimized: !state.isMinimized })),
@@ -49,4 +53,6 @@ export const useChatStore = create<ChatState>((set) => ({
     set((state) => ({ userInfo: { ...state.userInfo, ...info } })),
   setLoading: (loading) => set({ isLoading: loading }),
   clearMessages: () => set({ messages: [] }),
+  setConversationId: (id) => set({ conversationId: id }),
+  setMessages: (messages) => set({ messages }),
 }));

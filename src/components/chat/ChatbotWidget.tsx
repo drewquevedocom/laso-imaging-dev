@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, X, Minimize2, Maximize2, Send, User, Bot, Loader2 } from "lucide-react";
+import { MessageCircle, X, Minimize2, Maximize2, Send, User, Bot, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useChatStore } from "@/stores/chatStore";
+import { useChatPersistence } from "@/hooks/useChatPersistence";
 import { supabase } from "@/integrations/supabase/client";
+import TypingIndicator from "./TypingIndicator";
 
 const ChatbotWidget = () => {
   const {
@@ -20,6 +22,7 @@ const ChatbotWidget = () => {
     setLoading,
   } = useChatStore();
 
+  const { requestHumanHandoff } = useChatPersistence();
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -78,6 +81,10 @@ const ChatbotWidget = () => {
       e.preventDefault();
       handleSend();
     }
+  };
+
+  const handleRequestHuman = () => {
+    requestHumanHandoff();
   };
 
   // Floating button when closed
@@ -188,13 +195,26 @@ const ChatbotWidget = () => {
                   <Bot className="w-3.5 h-3.5 text-primary-foreground" />
                 </div>
                 <div className="bg-secondary rounded-xl px-3 py-2">
-                  <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+                  <TypingIndicator />
                 </div>
               </div>
             )}
 
             <div ref={messagesEndRef} />
           </div>
+
+          {/* Human Handoff Button - show after some messages */}
+          {messages.length >= 2 && (
+            <div className="px-3 pb-2">
+              <button
+                onClick={handleRequestHuman}
+                className="w-full flex items-center justify-center gap-2 text-xs text-muted-foreground hover:text-foreground py-2 border border-border rounded-lg hover:bg-secondary/50 transition-colors"
+              >
+                <Phone className="w-3 h-3" />
+                Speak to a human agent
+              </button>
+            </div>
+          )}
 
           {/* Input */}
           <div className="p-3 border-t border-border">
