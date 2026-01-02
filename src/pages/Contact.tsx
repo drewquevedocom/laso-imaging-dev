@@ -246,11 +246,12 @@ const Contact = () => {
                           Office Address
                         </h3>
                         <p className="text-muted-foreground">
-                          123 Medical Center Drive
+                          8129 Clybourn Ave
                           <br />
-                          Suite 400
-                          <br />
-                          Houston, TX 77001
+                          Sun Valley, CA 91352
+                        </p>
+                        <p className="text-sm text-accent font-medium mt-1">
+                          Nationwide Service
                         </p>
                       </div>
                     </div>
@@ -261,10 +262,11 @@ const Contact = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-foreground">Phone</h3>
-                        <p className="text-muted-foreground">
-                          Toll Free: (844) 511-5276
-                          <br />
-                          Direct: (713) 555-0123
+                        <a href="tel:18006745276" className="text-muted-foreground hover:text-accent transition-colors block">
+                          1-800-MRI-LASO (1-800-674-5276)
+                        </a>
+                        <p className="text-sm text-accent font-medium mt-1">
+                          24/7 Emergency Support
                         </p>
                       </div>
                     </div>
@@ -275,10 +277,11 @@ const Contact = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-foreground">Email</h3>
-                        <p className="text-muted-foreground">
-                          General: info@lasoimaging.com
-                          <br />
-                          Sales: sales@lasoimaging.com
+                        <a href="mailto:info@lasoimaging.com" className="text-muted-foreground hover:text-accent transition-colors block">
+                          info@lasoimaging.com
+                        </a>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          We respond within 24 hours
                         </p>
                       </div>
                     </div>
@@ -292,11 +295,10 @@ const Contact = () => {
                           Business Hours
                         </h3>
                         <p className="text-muted-foreground">
-                          Monday - Friday: 8:00 AM - 6:00 PM CST
-                          <br />
-                          Saturday: 9:00 AM - 2:00 PM CST
-                          <br />
-                          Sunday: Closed
+                          Monday - Friday: 8:00 AM - 6:00 PM PST
+                        </p>
+                        <p className="text-sm text-accent font-medium mt-1">
+                          24/7 Emergency Support Available
                         </p>
                       </div>
                     </div>

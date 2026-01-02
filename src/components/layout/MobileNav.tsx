@@ -257,12 +257,12 @@ export const MobileNav = () => {
           <div className="p-4 border-t border-border bg-secondary/50">
             <div className="space-y-2 text-sm">
               <a 
-                href="tel:8445115276" 
+                href="tel:18006745276" 
                 className="flex items-center gap-2 text-foreground hover:text-accent transition-colors"
                 onClick={trackPhoneCall}
               >
                 <Phone className="w-4 h-4" />
-                <span>(844) 511-5276</span>
+                <span>1-800-MRI-LASO (674-5276)</span>
               </a>
               <a 
                 href="mailto:info@lasoimaging.com" 
