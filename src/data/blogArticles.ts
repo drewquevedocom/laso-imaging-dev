@@ -412,6 +412,1363 @@ We help facilities navigate these trends with expert guidance on equipment selec
     readTime: '6 min read',
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&q=80',
     keywords: ['medical imaging trends', '2025 healthcare', 'MRI industry', 'AI medical imaging']
+  },
+  // NEW ARTICLES START HERE
+  {
+    slug: 'mobile-mri-rental-guide',
+    title: 'Complete Guide to Mobile MRI Rentals for Healthcare Facilities',
+    excerpt: 'Everything you need to know about mobile MRI rentals including costs, logistics, and choosing the right provider for interim imaging needs.',
+    content: `
+## Why Consider Mobile MRI Rental?
+
+Mobile MRI units provide flexible imaging solutions for healthcare facilities facing:
+- Equipment upgrades or replacements
+- Unexpected system downtime
+- Seasonal demand increases
+- Construction or renovation projects
+- Disaster recovery situations
+
+## Types of Mobile MRI Units
+
+### Self-Contained Trailers
+**Features:**
+- Complete imaging suite on wheels
+- Typically 1.5T systems (GE, Siemens, Philips)
+- Climate-controlled environment
+- ADA-compliant patient access
+
+**Best For:**
+- Extended rental periods (3+ months)
+- Facilities without existing infrastructure
+- Remote or rural locations
+
+### Modular Systems
+**Features:**
+- Can be installed inside existing buildings
+- More permanent feel for patients
+- Lower ongoing transport costs
+
+**Best For:**
+- Long-term interim solutions (6+ months)
+- Facilities with available interior space
+
+## Cost Considerations
+
+### Rental Rates
+- Daily rates: $1,500 - $3,000
+- Weekly rates: $8,000 - $15,000
+- Monthly rates: $25,000 - $50,000
+
+### Additional Costs to Budget
+- Site preparation and pad installation
+- Utility connections (power, water)
+- RF shielding verification
+- Staffing and training
+- Helium and cryogenic services
+
+## Logistics and Site Requirements
+
+### Space Requirements
+- Minimum 60' x 12' level parking area
+- 200-400 amp electrical service
+- Adequate vehicle access for delivery
+
+### Timeline Expectations
+- Site assessment: 1-2 weeks
+- Permitting: 2-4 weeks (varies by location)
+- Delivery and setup: 1-2 days
+- Testing and calibration: 1-2 days
+
+## Choosing a Mobile MRI Provider
+
+### Key Questions to Ask
+1. What systems are available (manufacturer, field strength)?
+2. Is the equipment FDA-registered?
+3. What's included in the rental rate?
+4. What support services are provided?
+5. What's the response time for technical issues?
+
+### Red Flags to Avoid
+- Unclear pricing structures
+- No on-site training provided
+- Limited technical support availability
+- Outdated equipment or software
+
+## LASO Mobile Solutions
+
+We offer flexible mobile MRI rental programs with:
+- Latest 1.5T and 3.0T systems
+- 24/7 technical support
+- Comprehensive training
+- Competitive pricing
+
+Contact us for a customized mobile MRI quote tailored to your facility's needs.
+    `,
+    category: 'buying-guide',
+    author: 'LASO Mobile Solutions Team',
+    publishDate: '2025-01-02',
+    readTime: '8 min read',
+    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80',
+    keywords: ['mobile MRI rental', 'temporary MRI', 'mobile imaging', 'interim MRI solution']
+  },
+  {
+    slug: 'mri-site-planning-requirements',
+    title: 'MRI Site Planning: RF Shielding, Power & Space Requirements',
+    excerpt: 'Essential guide to MRI installation requirements including RF shielding, electrical specifications, and facility planning considerations.',
+    content: `
+## Introduction to MRI Site Planning
+
+Proper site planning is critical for successful MRI installation. This guide covers the essential requirements that impact project timeline, budget, and operational success.
+
+## RF Shielding Requirements
+
+### Why RF Shielding Matters
+- Prevents external interference from degrading images
+- Contains RF energy within the scan room
+- Required for FDA compliance and image quality
+
+### Shielding Options
+
+**Copper Shielding (Traditional)**
+- 0.032" to 0.064" thick copper sheets
+- Excellent attenuation (100+ dB)
+- Higher material cost but proven performance
+
+**Aluminum Shielding**
+- Cost-effective alternative
+- Adequate for most 1.5T installations
+- May require additional layers for 3.0T
+
+**Modular RF Rooms**
+- Pre-fabricated shielded enclosures
+- Faster installation timeline
+- Ideal for renovations
+
+### Penetration Management
+All utilities entering the RF room require:
+- Waveguide panels for HVAC
+- Filtered electrical connections
+- RF-tight door systems with interlocks
+
+## Electrical Requirements
+
+### Power Specifications by System
+
+**1.5T Systems:**
+- Main power: 80-150 kVA
+- Gradient amplifier: 30-50 kVA
+- Chiller/cooling: 15-30 kVA
+
+**3.0T Systems:**
+- Main power: 150-250 kVA
+- Gradient amplifier: 50-100 kVA
+- Chiller/cooling: 30-50 kVA
+
+### Power Quality Considerations
+- Voltage regulation within ±5%
+- Dedicated transformer recommended
+- UPS for computer systems
+- Emergency power for cryogenic systems
+
+## Space Requirements
+
+### Scan Room Dimensions
+
+**Minimum Room Sizes:**
+- 1.5T: 25' x 16' x 10' (L x W x H)
+- 3.0T: 30' x 20' x 11' (L x W x H)
+
+**5-Gauss Line Clearance:**
+- Determines minimum distance to public areas
+- Affects adjacent room usage
+- Active shielding reduces footprint
+
+### Equipment Room Requirements
+- Adjacent to scan room preferred
+- 150-300 sq ft typical
+- Climate controlled (65-75°F)
+- Adequate ventilation for heat load
+
+## Structural Considerations
+
+### Floor Loading
+- MRI systems weigh 10,000-30,000 lbs
+- Concentrated load at magnet location
+- May require structural reinforcement
+
+### Vibration Control
+- Isolation from building vibration
+- Consider proximity to mechanical systems
+- Special foundations for research systems
+
+## Project Timeline
+
+### Typical Installation Timeline
+1. Site assessment: 2-4 weeks
+2. Design and engineering: 4-8 weeks
+3. Permitting: 4-12 weeks (varies greatly)
+4. Construction: 8-16 weeks
+5. Equipment installation: 2-4 weeks
+6. Testing and calibration: 1-2 weeks
+
+## LASO Site Planning Services
+
+Our team provides comprehensive site planning support including:
+- Initial feasibility assessments
+- Detailed technical specifications
+- Vendor coordination
+- Project management
+
+Contact us early in your planning process for expert guidance.
+    `,
+    category: 'maintenance',
+    author: 'LASO Engineering Team',
+    publishDate: '2025-01-01',
+    readTime: '10 min read',
+    image: 'https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=800&q=80',
+    keywords: ['MRI site planning', 'RF shielding', 'MRI installation', 'MRI room requirements']
+  },
+  {
+    slug: 'ge-vs-siemens-vs-philips-mri-comparison',
+    title: 'GE vs Siemens vs Philips: MRI Manufacturer Comparison 2025',
+    excerpt: 'An objective comparison of the three major MRI manufacturers to help you choose the right system for your facility.',
+    content: `
+## The Big Three MRI Manufacturers
+
+GE Healthcare, Siemens Healthineers, and Philips Healthcare dominate the MRI market, each with distinct strengths and product philosophies.
+
+## GE Healthcare MRI Systems
+
+### Popular Models
+- **SIGNA Premier (3.0T)**: Flagship with AIR Technology
+- **SIGNA Architect (3.0T)**: Research-grade imaging
+- **SIGNA Artist (1.5T)**: Balanced performance
+- **SIGNA Explorer (1.5T)**: Value-focused
+
+### Strengths
+- Industry-leading gradient performance
+- AIR Recon DL (deep learning reconstruction)
+- Strong cardiac imaging capabilities
+- Extensive installed base for parts/service
+
+### Considerations
+- Premium pricing on new systems
+- Some proprietary coil connections
+- Software licensing models
+
+### Best For
+- Academic medical centers
+- Cardiac imaging focus
+- Facilities wanting AI-enhanced imaging
+
+## Siemens Healthineers MRI Systems
+
+### Popular Models
+- **MAGNETOM Vida (3.0T)**: Ultra-high performance
+- **MAGNETOM Prisma (3.0T)**: Research workhorse
+- **MAGNETOM Altea (1.5T)**: Flagship 1.5T
+- **MAGNETOM Sola (1.5T)**: High-volume clinical
+
+### Strengths
+- BioMatrix technology for personalized imaging
+- Excellent neuro and MSK applications
+- Tim (Total imaging matrix) coil flexibility
+- Strong in research applications
+
+### Considerations
+- Complex service requirements
+- Higher helium consumption on some models
+- Premium pricing
+
+### Best For
+- Neurology centers
+- Research institutions
+- High-volume imaging centers
+
+## Philips Healthcare MRI Systems
+
+### Popular Models
+- **Ingenia Ambition (1.5T)**: Helium-free operation
+- **Ingenia Elition (3.0T)**: Premium performance
+- **Ingenia Prodiva (1.5T)**: Clinical workhorse
+- **Achieva (1.5T/3.0T)**: Proven platform
+
+### Strengths
+- BlueSeal helium-free magnet technology
+- Compressed SENSE acceleration
+- Intuitive user interface
+- Strong in body imaging
+
+### Considerations
+- Smaller market share means fewer service options
+- Some legacy system limitations
+- Coil compatibility across generations
+
+### Best For
+- Facilities prioritizing sustainability
+- Body and abdominal imaging focus
+- Sites with helium supply concerns
+
+## Head-to-Head Comparison
+
+| Factor | GE | Siemens | Philips |
+|--------|----|---------| --------|
+| Market Share | 30% | 35% | 20% |
+| Gradient Strength | Excellent | Excellent | Very Good |
+| AI Integration | Strong | Strong | Good |
+| Service Availability | Excellent | Excellent | Good |
+| Refurbished Availability | High | High | Moderate |
+| Total Cost of Ownership | High | High | Moderate |
+
+## Making Your Decision
+
+### Consider These Factors
+1. **Clinical focus**: Match manufacturer strengths to your imaging needs
+2. **Existing fleet**: Consistency simplifies training and service
+3. **Service options**: Consider third-party availability
+4. **Future roadmap**: Evaluate upgrade and trade-in programs
+
+## LASO Offers All Three Brands
+
+We provide refurbished systems from GE, Siemens, and Philips with:
+- Manufacturer-trained service engineers
+- OEM-equivalent parts quality
+- Unbiased recommendations based on your needs
+
+Contact us for a personalized consultation on the right system for your facility.
+    `,
+    category: 'buying-guide',
+    author: 'LASO Clinical Advisory',
+    publishDate: '2024-12-28',
+    readTime: '9 min read',
+    image: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80',
+    keywords: ['GE MRI', 'Siemens MRI', 'Philips MRI', 'MRI manufacturer comparison']
+  },
+  {
+    slug: 'mri-helium-management-zero-boil-off',
+    title: 'MRI Helium Management & Zero-Boil-Off Technology Explained',
+    excerpt: 'Understanding helium consumption, management strategies, and emerging zero-boil-off technology for MRI systems.',
+    content: `
+## The Critical Role of Helium in MRI
+
+Liquid helium is essential for superconducting MRI magnets, maintaining temperatures near absolute zero (-452°F / -269°C) to achieve superconductivity.
+
+## Current Helium Challenges
+
+### Supply Concerns
+- Helium is a non-renewable resource
+- Global supply disruptions affect availability
+- Prices have increased 300%+ over the past decade
+
+### Environmental Impact
+- Helium that boils off is lost to the atmosphere
+- Traditional systems consume 10-20 liters annually
+- Larger facilities may use 50+ liters per year
+
+## Understanding Helium Consumption
+
+### Factors Affecting Consumption
+- Cold head efficiency and age
+- Compressor performance
+- Ambient temperature
+- Magnet design and insulation
+- System age and maintenance history
+
+### Normal Consumption Rates
+- Newer systems: 0.01-0.03 liters/hour
+- Older systems: 0.03-0.1 liters/hour
+- Problem systems: >0.1 liters/hour
+
+### Warning Signs of Excessive Consumption
+- Helium level drops faster than expected
+- Increased cold head run time
+- Rising magnet temperature
+- Compressor running continuously
+
+## Zero-Boil-Off (ZBO) Technology
+
+### How ZBO Works
+- Advanced cold heads recondense boiled helium
+- Sealed magnet design minimizes losses
+- Some systems truly operate with no helium loss
+
+### Current ZBO Systems
+- **Philips BlueSeal**: Only 7 liters of helium, fully sealed
+- **GE SIGNA with FreeStar**: Minimal helium technology
+- **Siemens with Eco-Power**: Reduced consumption design
+
+### Benefits of ZBO
+- Eliminates helium refill costs
+- Reduces downtime for refills
+- Environmentally sustainable
+- Lower total cost of ownership
+
+### ZBO Considerations
+- Higher initial equipment cost
+- Cold head failure is more critical
+- Limited field upgrade options
+- Newer technology with less track record
+
+## Helium Management Best Practices
+
+### Monitoring
+- Check levels weekly at minimum
+- Track consumption trends over time
+- Set alerts for rapid level drops
+- Document all readings
+
+### Preventive Maintenance
+- Cold head service every 20,000-25,000 hours
+- Compressor maintenance per manufacturer specs
+- Regular system inspections
+- Keep detailed service records
+
+### Emergency Preparedness
+- Maintain helium supplier relationship
+- Know emergency refill procedures
+- Have contingency plan for cold head failure
+- Consider backup power for cryogenics
+
+## Cost Analysis: Traditional vs. ZBO
+
+### Traditional System (10-year projection)
+- Helium refills: $50,000 - $100,000
+- Cold head replacements: $40,000 - $60,000
+- Compressor service: $20,000 - $30,000
+- Total: $110,000 - $190,000
+
+### ZBO System (10-year projection)
+- No helium refills: $0
+- Cold head replacements: $40,000 - $60,000
+- Compressor service: $20,000 - $30,000
+- Total: $60,000 - $90,000
+
+## LASO Helium Services
+
+We offer comprehensive helium management including:
+- Emergency helium delivery
+- Cold head replacement and repair
+- Consumption optimization
+- Helium monitoring systems
+
+Contact us for helium service quotes and consultation.
+    `,
+    category: 'maintenance',
+    author: 'LASO Cryogenic Services',
+    publishDate: '2024-12-20',
+    readTime: '8 min read',
+    image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80',
+    keywords: ['MRI helium', 'zero boil off', 'helium management', 'cryogenic service']
+  },
+  {
+    slug: 'ct-scanner-buying-guide-2025',
+    title: 'CT Scanner Buying Guide: New vs Refurbished in 2025',
+    excerpt: 'A comprehensive guide to purchasing CT scanners, comparing new and refurbished options with cost analysis and feature considerations.',
+    content: `
+## CT Scanner Market Overview
+
+The CT scanner market continues to evolve with advances in detector technology, dose reduction, and AI-powered imaging. Understanding your options is key to making the right investment.
+
+## New CT Scanner Considerations
+
+### Latest Technology Features
+- **Photon-counting detectors**: Revolutionary image quality
+- **Wide-area detectors**: Up to 16cm coverage
+- **AI reconstruction**: Reduced noise, lower dose
+- **Spectral imaging**: Material differentiation
+
+### Top New CT Systems (2025)
+- GE Revolution Apex
+- Siemens SOMATOM X.ceed
+- Philips Spectral CT 7500
+- Canon Aquilion ONE GENESIS
+
+### New System Pricing
+- Entry-level (16-64 slice): $300,000 - $500,000
+- Mid-range (128 slice): $500,000 - $800,000
+- Premium (256+ slice): $800,000 - $2,000,000+
+
+## Refurbished CT Scanner Benefits
+
+### Cost Savings
+- 40-60% less than new equivalent
+- Lower depreciation
+- Budget-friendly technology access
+
+### Quality Assurance
+- Complete system restoration
+- Software updates included
+- Full testing and calibration
+- Warranty coverage
+
+### Popular Refurbished Models
+- GE Revolution EVO
+- Siemens SOMATOM Definition Edge
+- Philips Brilliance iCT
+- Toshiba Aquilion ONE
+
+### Refurbished Pricing
+- 16-slice systems: $50,000 - $100,000
+- 64-slice systems: $100,000 - $200,000
+- 128-slice systems: $200,000 - $400,000
+- Premium systems: $400,000 - $600,000
+
+## Key Selection Criteria
+
+### Slice Count
+- **16-slice**: Basic imaging, cost-effective
+- **64-slice**: Cardiac capable, versatile
+- **128-slice**: Advanced cardiac, fast scans
+- **256+ slice**: Research, complex cases
+
+### Detector Coverage
+- Wider coverage = fewer rotations
+- Impacts cardiac and trauma imaging
+- Consider patient throughput needs
+
+### Dose Management
+- Iterative reconstruction capabilities
+- Automatic exposure control
+- Dose monitoring and reporting
+- Consider regulatory requirements
+
+### Gantry Speed
+- 0.35 second = premium cardiac
+- 0.5 second = standard cardiac capable
+- 1.0 second = routine imaging
+
+## Installation Considerations
+
+### Room Requirements
+- Minimum 400 sq ft scan room
+- 200+ sq ft equipment room
+- 15-20 ton floor loading capacity
+- Dedicated electrical service
+
+### Radiation Shielding
+- Lead-lined walls required
+- Typically 1/16" to 1/8" lead
+- Door and window shielding
+- Regulatory compliance essential
+
+## Making Your Decision
+
+### Choose New If:
+- Latest technology is essential
+- Research or specialized applications
+- Budget accommodates premium investment
+- Manufacturer support is priority
+
+### Choose Refurbished If:
+- Cost efficiency is important
+- Clinical needs are well-defined
+- Previous-generation features suffice
+- Third-party service acceptable
+
+## LASO CT Solutions
+
+We offer both new and refurbished CT scanners with:
+- Competitive financing options
+- Comprehensive warranty programs
+- Installation and training support
+- Ongoing service contracts
+
+Contact us for a CT scanner consultation tailored to your needs.
+    `,
+    category: 'buying-guide',
+    author: 'LASO CT Specialist Team',
+    publishDate: '2024-12-15',
+    readTime: '9 min read',
+    image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&q=80',
+    keywords: ['CT scanner', 'buy CT scanner', 'refurbished CT', 'CT buying guide']
+  },
+  {
+    slug: 'mri-cold-head-replacement-guide',
+    title: 'When to Replace Your MRI Cold Head: Signs, Costs & Timeline',
+    excerpt: 'Everything facility managers need to know about MRI cold head maintenance, failure signs, and replacement planning.',
+    content: `
+## Understanding the Cold Head
+
+The cold head (also called cryocooler or refrigerator) is a critical component that maintains the superconducting magnet at operational temperature by recondensing boiled helium.
+
+## How Cold Heads Work
+
+### Basic Operation
+- Compressor sends high-pressure helium gas
+- Cold head expands gas, creating cooling
+- Maintains magnet at ~4 Kelvin (-452°F)
+- Runs continuously, 24/7/365
+
+### Common Cold Head Types
+- **Sumitomo**: Most common aftermarket
+- **Leybold**: Popular in older systems
+- **Cryomech**: High-performance option
+- **OEM-specific**: Manufacturer proprietary
+
+## Signs of Cold Head Failure
+
+### Early Warning Signs
+- Increasing helium consumption
+- Higher cold head motor current
+- Rising magnet temperature
+- Unusual operating sounds
+- Extended run cycles
+
+### Imminent Failure Indicators
+- Rapid helium loss (>0.1 L/hour)
+- Magnet temperature >5K
+- Cold head cycling off/on
+- Compressor pressure abnormalities
+- System error messages
+
+### Emergency Situations
+- Complete cold head failure risks magnet quench
+- Quench can cost $50,000+ in helium alone
+- Potential magnet damage if prolonged
+
+## Replacement Timeline
+
+### Planned Replacement
+- **Typical lifespan**: 20,000-30,000 hours
+- **Proactive replacement**: 25,000 hours recommended
+- **Service interval**: Every 10,000-12,000 hours
+
+### Emergency Replacement
+- Immediate response critical
+- Portable cold heads available as backup
+- Typical installation: 4-8 hours
+- System verification: 24-48 hours
+
+## Cost Considerations
+
+### Component Costs
+- New OEM cold head: $25,000 - $40,000
+- Refurbished cold head: $15,000 - $25,000
+- Exchange program: $12,000 - $20,000
+
+### Service Costs
+- Emergency service call: $2,000 - $5,000
+- Planned replacement labor: $1,500 - $3,000
+- System verification: Included or $500 - $1,000
+
+### Total Replacement Cost
+- Emergency: $30,000 - $50,000
+- Planned: $18,000 - $35,000
+
+## Prevention and Maintenance
+
+### Regular Maintenance
+- Monitor cold head hours
+- Check helium levels weekly
+- Track consumption trends
+- Annual compressor service
+
+### Predictive Maintenance
+- Vibration analysis
+- Current monitoring
+- Temperature trending
+- Pressure analysis
+
+### Extending Cold Head Life
+- Maintain proper room temperature
+- Ensure adequate ventilation
+- Keep compressor well-maintained
+- Avoid power fluctuations
+
+## Planning for Replacement
+
+### Budget Planning
+- Include in annual capital budget
+- Consider cold head exchange programs
+- Evaluate service contract coverage
+
+### Scheduling Considerations
+- Schedule during low-volume periods
+- Allow 2-3 days for complete process
+- Have backup imaging plan ready
+
+### Vendor Selection
+- OEM vs. third-party options
+- Response time guarantees
+- Warranty coverage
+- Exchange programs available
+
+## LASO Cold Head Services
+
+We provide comprehensive cold head solutions:
+- 24/7 emergency response
+- New and refurbished cold heads
+- Exchange programs
+- Preventive maintenance
+
+Contact us for cold head service quotes and consultation.
+    `,
+    category: 'maintenance',
+    author: 'LASO Cryogenic Team',
+    publishDate: '2024-12-10',
+    readTime: '8 min read',
+    image: 'https://images.unsplash.com/photo-1581093458791-9f3c3250a8b0?w=800&q=80',
+    keywords: ['MRI cold head', 'cryocooler', 'cold head replacement', 'MRI maintenance']
+  },
+  {
+    slug: 'healthcare-equipment-financing-options',
+    title: 'Medical Equipment Financing: Lease, Loan & Payment Options',
+    excerpt: 'Understanding financing options for medical imaging equipment including leases, loans, and creative payment structures.',
+    content: `
+## The Importance of Financing Strategy
+
+Medical imaging equipment represents a significant capital investment. The right financing approach can preserve cash flow, provide tax advantages, and align payments with revenue generation.
+
+## Financing Options Overview
+
+### Equipment Loans
+
+**How It Works:**
+- Borrow funds to purchase equipment outright
+- Fixed monthly payments over term
+- You own the equipment from day one
+
+**Advantages:**
+- Build equity immediately
+- No restrictions on equipment use
+- Potential tax deductions for depreciation
+- Freedom to sell or upgrade
+
+**Considerations:**
+- Higher monthly payments typically
+- Responsible for all maintenance
+- Equipment may become obsolete
+
+**Typical Terms:**
+- Interest rates: 5-12% depending on credit
+- Terms: 36-84 months
+- Down payment: 10-20% common
+
+### Operating Leases
+
+**How It Works:**
+- Rent equipment for specified term
+- Return equipment at lease end
+- May include service/maintenance
+
+**Advantages:**
+- Lower monthly payments
+- Off-balance-sheet financing
+- Built-in technology refresh
+- Predictable total cost
+
+**Considerations:**
+- No ownership at end
+- Potential use restrictions
+- Early termination penalties
+
+**Typical Terms:**
+- Monthly payment: Based on equipment value
+- Terms: 36-60 months
+- End options: Return, renew, or purchase
+
+### Capital Leases (Finance Leases)
+
+**How It Works:**
+- Structured as lease but functions like loan
+- Ownership transfers at end
+- Appears on balance sheet
+
+**Advantages:**
+- $1 buyout at term end
+- Depreciation and interest deductions
+- Fixed monthly payments
+- Ownership benefits
+
+**Considerations:**
+- Higher payments than operating lease
+- On-balance-sheet treatment
+- Maintenance responsibility
+
+### Fair Market Value (FMV) Leases
+
+**How It Works:**
+- Pay for equipment use over term
+- Purchase option at fair market value at end
+
+**Advantages:**
+- Lowest monthly payments
+- Technology upgrade flexibility
+- Can purchase if still valuable
+
+**Considerations:**
+- Unknown end-of-term cost
+- May pay more overall if purchased
+- Lessor owns equipment
+
+## Special Healthcare Financing Programs
+
+### Vendor Financing
+- Manufacturer-sponsored programs
+- May include service bundles
+- Promotional rates common
+- Bundled with installation
+
+### Healthcare-Specific Lenders
+- Understand medical equipment
+- Flexible payment structures
+- Revenue-based terms
+- Experience with facilities
+
+### Government Programs
+- SBA loans for qualifying facilities
+- USDA rural healthcare programs
+- State-specific incentives
+
+## Structuring Your Finance
+
+### Payment Timing
+- **Seasonal payments**: Higher in busy months
+- **Step-up payments**: Lower initially, increasing over time
+- **Deferred payments**: Start 90-180 days out
+
+### Bundling Options
+- Equipment + installation
+- Equipment + service contract
+- Multi-system packages
+- Trade-in allowances
+
+## Tax Considerations
+
+### Section 179 Deduction
+- Immediate expensing of equipment cost
+- Up to $1,160,000 in 2024
+- Must be placed in service during tax year
+
+### Bonus Depreciation
+- Additional first-year depreciation
+- Consult tax advisor for current rates
+- Applies to new and used equipment
+
+### Lease Payment Deductions
+- Operating lease payments fully deductible
+- Capital lease: Interest + depreciation
+
+## LASO Financing Solutions
+
+We partner with healthcare financing specialists to offer:
+- Competitive rates
+- Flexible terms
+- Quick approval process
+- Custom payment structures
+
+Contact us to discuss financing options for your equipment needs.
+    `,
+    category: 'industry-news',
+    author: 'LASO Finance Team',
+    publishDate: '2024-12-05',
+    readTime: '10 min read',
+    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80',
+    keywords: ['medical equipment financing', 'MRI lease', 'healthcare loans', 'equipment financing']
+  },
+  {
+    slug: 'mri-gradient-amplifier-troubleshooting',
+    title: 'MRI Gradient Amplifier Troubleshooting & Maintenance Guide',
+    excerpt: 'Technical guide to understanding, maintaining, and troubleshooting MRI gradient amplifier systems.',
+    content: `
+## Understanding Gradient Amplifiers
+
+Gradient amplifiers are high-power electronics that drive the gradient coils, creating the spatial encoding necessary for MRI image formation. They're among the most stressed components in an MRI system.
+
+## Gradient Amplifier Basics
+
+### Function
+- Convert control signals to high-power output
+- Drive X, Y, and Z gradient coils
+- Enable rapid gradient switching
+- Support advanced pulse sequences
+
+### Key Specifications
+- **Peak current**: 500-900+ Amps
+- **Slew rate**: 150-200+ T/m/s
+- **Gradient strength**: 30-80+ mT/m
+- **Duty cycle**: Continuous operation required
+
+### Major Components
+- Power supplies
+- Switching transistors (IGBTs)
+- Current sensors
+- Cooling systems
+- Control electronics
+
+## Common Gradient Amplifier Issues
+
+### Power Supply Failures
+**Symptoms:**
+- Reduced gradient performance
+- Intermittent faults
+- Unable to run certain sequences
+- System error codes
+
+**Causes:**
+- Capacitor degradation
+- Rectifier failures
+- Voltage regulation issues
+- Power line problems
+
+### IGBT Failures
+**Symptoms:**
+- Gradient axis inoperative
+- Overcurrent faults
+- Audible clicking or arcing
+- Thermal shutdowns
+
+**Causes:**
+- Thermal stress
+- Age-related degradation
+- Power surge damage
+- Manufacturing defects
+
+### Cooling System Issues
+**Symptoms:**
+- Thermal faults during scanning
+- Reduced duty cycle capability
+- Gradient derating warnings
+- Unusual fan noise
+
+**Causes:**
+- Coolant leaks
+- Pump failures
+- Clogged filters
+- Fan failures
+
+## Troubleshooting Approach
+
+### Initial Assessment
+1. Review error logs and codes
+2. Check all three gradient axes
+3. Monitor temperatures
+4. Inspect cooling system
+5. Check power supply status
+
+### Diagnostic Steps
+1. **Run gradient test sequences**
+   - Verify each axis independently
+   - Check maximum amplitude capability
+   - Test slew rate performance
+
+2. **Check cooling system**
+   - Verify coolant levels and flow
+   - Inspect for leaks
+   - Check pump operation
+   - Verify fan operation
+
+3. **Inspect power components**
+   - Check DC bus voltages
+   - Verify capacitor health
+   - Inspect IGBT modules
+
+### Common Error Codes
+
+| Code Type | Typical Meaning |
+|-----------|-----------------|
+| Overcurrent | IGBT or load issue |
+| Overvoltage | Power supply or bus problem |
+| Overtemperature | Cooling system issue |
+| Communication | Control electronics |
+
+## Preventive Maintenance
+
+### Monthly Tasks
+- Check coolant levels
+- Inspect for visible leaks
+- Clean air filters
+- Review error logs
+
+### Quarterly Tasks
+- Coolant quality testing
+- Thermal imaging of cabinets
+- Connection inspection
+- Performance verification
+
+### Annual Maintenance
+- Complete coolant change
+- Comprehensive testing
+- Component inspection
+- Calibration verification
+
+## When to Call for Service
+
+### Immediate Service Needed
+- Complete axis failure
+- Repeated thermal faults
+- Visible damage or leaks
+- Burning smell or smoke
+
+### Schedule Service Soon
+- Intermittent faults
+- Gradual performance decline
+- Unusual sounds
+- Error code patterns
+
+## Cost Considerations
+
+### Repair Costs
+- Power supply repair: $5,000 - $15,000
+- IGBT replacement: $8,000 - $20,000
+- Cooling system repair: $2,000 - $8,000
+- Control board repair: $5,000 - $12,000
+
+### Replacement Costs
+- Complete gradient amplifier: $50,000 - $150,000+
+- Varies significantly by system model
+
+## LASO Gradient Services
+
+We offer comprehensive gradient amplifier support:
+- Expert troubleshooting
+- Component-level repairs
+- Replacement amplifiers
+- Preventive maintenance
+
+Contact us for gradient amplifier service quotes.
+    `,
+    category: 'maintenance',
+    author: 'LASO Technical Services',
+    publishDate: '2024-11-25',
+    readTime: '11 min read',
+    image: 'https://images.unsplash.com/photo-1581093577421-f561a654a353?w=800&q=80',
+    keywords: ['gradient amplifier', 'MRI troubleshooting', 'MRI repair', 'gradient coil']
+  },
+  {
+    slug: 'refurbished-vs-new-mri-roi-analysis',
+    title: 'Refurbished vs New MRI: ROI Analysis for Healthcare CFOs',
+    excerpt: 'A financial analysis comparing refurbished and new MRI investments with ROI calculations and total cost of ownership breakdowns.',
+    content: `
+## Executive Summary
+
+For healthcare CFOs evaluating MRI investments, this analysis compares refurbished vs. new systems across acquisition cost, operating expenses, revenue potential, and total cost of ownership over a 10-year horizon.
+
+## Acquisition Cost Comparison
+
+### New MRI System (1.5T Premium)
+- Equipment: $1,500,000 - $2,000,000
+- Installation: $200,000 - $350,000
+- Training: $25,000 - $50,000
+- **Total Acquisition**: $1,725,000 - $2,400,000
+
+### Refurbished MRI System (1.5T Premium)
+- Equipment: $600,000 - $900,000
+- Installation: $150,000 - $250,000
+- Training: $15,000 - $30,000
+- **Total Acquisition**: $765,000 - $1,180,000
+
+### Immediate Savings
+- **Dollar savings**: $960,000 - $1,220,000
+- **Percentage savings**: 50-55%
+
+## Annual Operating Costs
+
+### Service and Maintenance
+
+**New System (Year 1-5):**
+- OEM warranty: Included Year 1
+- Service contract: $80,000 - $120,000/year
+- Parts/consumables: $15,000 - $25,000/year
+
+**Refurbished System (Year 1-5):**
+- Warranty: 12 months included
+- Service contract: $70,000 - $100,000/year
+- Parts/consumables: $20,000 - $35,000/year
+
+### Cryogenic Costs
+- Helium: $3,000 - $8,000/year (both)
+- Cold head service: $10,000 - $15,000/year (both)
+
+### Utilities
+- Power: $15,000 - $25,000/year (both)
+- HVAC: $5,000 - $10,000/year (both)
+
+## Revenue Analysis
+
+### Scan Volume Assumptions
+- Average scans per day: 12-15
+- Operating days per year: 250
+- Annual scans: 3,000 - 3,750
+
+### Revenue Per Scan
+- Technical component: $400 - $600
+- Professional component: $150 - $250
+- Average total: $550 - $850
+
+### Annual Revenue Potential
+- Conservative: $1,650,000
+- Moderate: $2,250,000
+- Aggressive: $3,187,500
+
+## 10-Year Total Cost of Ownership
+
+### New System TCO
+
+| Cost Category | 10-Year Total |
+|---------------|---------------|
+| Acquisition | $2,000,000 |
+| Service (10 years) | $950,000 |
+| Cryogenics | $150,000 |
+| Utilities | $250,000 |
+| Upgrades | $150,000 |
+| **Total TCO** | **$3,500,000** |
+
+### Refurbished System TCO
+
+| Cost Category | 10-Year Total |
+|---------------|---------------|
+| Acquisition | $950,000 |
+| Service (10 years) | $900,000 |
+| Cryogenics | $175,000 |
+| Utilities | $250,000 |
+| Upgrades | $100,000 |
+| **Total TCO** | **$2,375,000** |
+
+### TCO Savings: $1,125,000 (32%)
+
+## ROI Calculations
+
+### New System ROI (10-year)
+- Revenue: $22,500,000
+- TCO: $3,500,000
+- Net Return: $19,000,000
+- ROI: 543%
+
+### Refurbished System ROI (10-year)
+- Revenue: $22,500,000
+- TCO: $2,375,000
+- Net Return: $20,125,000
+- ROI: 847%
+
+### Incremental ROI Advantage: 304%
+
+## Payback Period Analysis
+
+### New System
+- Monthly revenue: $187,500
+- Monthly operating cost: $12,500
+- Net monthly: $175,000
+- **Payback: 11.4 months**
+
+### Refurbished System
+- Monthly revenue: $187,500
+- Monthly operating cost: $11,500
+- Net monthly: $176,000
+- **Payback: 5.4 months**
+
+## Risk Considerations
+
+### New System Risks
+- Higher initial capital requirement
+- Longer payback period
+- Technology may still depreciate
+
+### Refurbished System Risks
+- Older technology platform
+- Potentially shorter remaining life
+- May need earlier replacement
+
+### Risk Mitigation
+- Choose FDA-registered dealer
+- Require comprehensive warranty
+- Verify service history
+- Plan for technology refresh
+
+## Recommendations
+
+### Choose New When:
+- Latest technology is clinically essential
+- Capital is readily available
+- Long-term ownership planned
+- OEM relationship important
+
+### Choose Refurbished When:
+- Budget constraints exist
+- Proven technology is acceptable
+- Faster ROI is priority
+- Replacement planned in 7-10 years
+
+## LASO Financial Services
+
+We help healthcare CFOs make informed decisions with:
+- Detailed financial modeling
+- Customized TCO analysis
+- Financing options comparison
+- Equipment valuation services
+
+Contact us for a personalized ROI analysis.
+    `,
+    category: 'buying-guide',
+    author: 'LASO Finance Advisory',
+    publishDate: '2024-11-20',
+    readTime: '12 min read',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
+    keywords: ['MRI ROI', 'refurbished MRI cost', 'medical equipment TCO', 'healthcare CFO']
+  },
+  {
+    slug: 'fda-regulations-refurbished-medical-equipment',
+    title: 'FDA Regulations for Refurbished Medical Equipment Dealers',
+    excerpt: 'Understanding FDA requirements for refurbished medical imaging equipment including registration, quality standards, and compliance.',
+    content: `
+## FDA Oversight of Medical Equipment
+
+The U.S. Food and Drug Administration (FDA) regulates medical devices, including imaging equipment, to ensure safety and effectiveness. Understanding these regulations helps facilities choose compliant vendors.
+
+## FDA Registration Requirements
+
+### Establishment Registration
+All facilities that manufacture, reprocess, or distribute medical devices must:
+- Register with FDA annually
+- List all devices handled
+- Maintain updated registration
+- Pay applicable user fees
+
+### Registration Categories
+- **Manufacturer**: Produces or assembles devices
+- **Reprocessor/Refurbisher**: Restores used devices
+- **Distributor**: Sells or distributes devices
+- **Importer**: Brings devices into the US
+
+### Verification
+- Search FDA database for registration
+- Request current registration certificate
+- Verify device listings
+- Confirm registration category
+
+## Quality System Requirements
+
+### Quality System Regulation (QSR)
+FDA requires quality systems covering:
+- Design controls
+- Production processes
+- Inspection procedures
+- Documentation practices
+- Corrective actions
+
+### Key QSR Elements for Refurbishers
+- **Incoming inspection**: Evaluate acquired equipment
+- **Refurbishment procedures**: Documented processes
+- **Testing protocols**: Verify performance
+- **Traceability**: Track all activities
+- **Records**: Maintain documentation
+
+## Refurbished vs. Used Equipment
+
+### FDA Definitions
+
+**Refurbished Equipment:**
+- Restored to original specifications
+- Components replaced as needed
+- Performance verified
+- Subject to quality requirements
+
+**Used/As-Is Equipment:**
+- Sold in existing condition
+- Minimal or no restoration
+- Buyer assumes condition risk
+- Still subject to some regulations
+
+### Labeling Requirements
+- Clear identification of refurbished status
+- Manufacturer information
+- Device identification
+- Any limitations or modifications
+
+## Compliance Verification
+
+### What to Ask Vendors
+1. Are you FDA registered? (Request proof)
+2. What quality system do you follow?
+3. Can you provide refurbishment documentation?
+4. What testing is performed?
+5. How are components sourced?
+
+### Red Flags
+- No FDA registration
+- Unwilling to provide documentation
+- No quality system
+- Vague about processes
+- No testing documentation
+
+## Service and Parts Considerations
+
+### OEM vs. Third-Party Parts
+- Both can be quality options
+- Verify parts sourcing
+- Consider warranty implications
+- Check compatibility
+
+### Service Provider Qualifications
+- Training documentation
+- Experience with specific systems
+- Parts sourcing practices
+- Quality procedures
+
+## State Regulations
+
+### State-Level Requirements
+Some states have additional requirements:
+- State registration/licensing
+- Radiation safety compliance
+- Facility inspections
+- Specific certifications
+
+### Common State Requirements
+- California: Additional device registration
+- New York: Certificate of Need for certain equipment
+- Texas: Radiation control requirements
+- Florida: Specific dealer licensing
+
+## International Standards
+
+### ISO 13485
+- Quality management for medical devices
+- Internationally recognized
+- Often required for export
+- Demonstrates quality commitment
+
+### CE Marking (Europe)
+- Required for European market
+- Similar safety requirements
+- Third-party certification needed
+- Ongoing compliance required
+
+## Best Practices for Buyers
+
+### Due Diligence Checklist
+- [ ] Verify FDA registration
+- [ ] Request quality certifications
+- [ ] Review refurbishment documentation
+- [ ] Check references from similar facilities
+- [ ] Understand warranty coverage
+- [ ] Verify parts sourcing
+- [ ] Review service capabilities
+
+### Contract Considerations
+- Compliance representations
+- Documentation requirements
+- Warranty terms
+- Service commitments
+- Regulatory indemnification
+
+## LASO Compliance
+
+We maintain full FDA compliance with:
+- Current FDA establishment registration
+- ISO 13485 quality system
+- Comprehensive documentation
+- OEM-trained engineers
+- Transparent processes
+
+Contact us to verify our credentials and discuss your compliance needs.
+    `,
+    category: 'industry-news',
+    author: 'LASO Compliance Team',
+    publishDate: '2024-11-15',
+    readTime: '10 min read',
+    image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80',
+    keywords: ['FDA regulations', 'refurbished medical equipment', 'medical device compliance', 'FDA registration']
   }
 ];
 
