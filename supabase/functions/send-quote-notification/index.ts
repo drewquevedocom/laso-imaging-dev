@@ -140,9 +140,101 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error(emailResult.message || "Failed to send email");
     }
 
-    console.log("Email sent successfully:", emailResult);
+    console.log("Admin email sent successfully:", emailResult);
 
-    return new Response(JSON.stringify({ success: true, emailId: emailResult.id }), {
+    // Send customer confirmation email
+    const customerEmailHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background: linear-gradient(135deg, #0077b6 0%, #00a8e8 100%); color: white; padding: 30px 20px; border-radius: 8px 8px 0 0; text-align: center; }
+          .content { background: #f8f9fa; padding: 25px; border: 1px solid #e9ecef; }
+          .section { margin-bottom: 20px; padding: 15px; background: white; border-radius: 8px; }
+          .highlight { background: #e8f4f8; padding: 15px; border-radius: 8px; margin: 20px 0; }
+          .footer { padding: 20px; text-align: center; font-size: 12px; color: #666; background: #f1f1f1; border-radius: 0 0 8px 8px; }
+          .step { display: flex; align-items: flex-start; margin: 10px 0; }
+          .step-icon { width: 24px; height: 24px; background: #0077b6; color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 10px; font-size: 12px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1 style="margin: 0; font-size: 28px;">Thank You!</h1>
+            <p style="margin: 10px 0 0 0; opacity: 0.9; font-size: 16px;">We've received your quote request</p>
+          </div>
+          
+          <div class="content">
+            <p style="font-size: 16px;">Dear ${data.name},</p>
+            
+            <p>Thank you for your interest in LASO Imaging. Our team has received your quote request and is already reviewing your requirements.</p>
+            
+            <div class="highlight">
+              <h3 style="margin: 0 0 15px 0; color: #0077b6;">Your Request Summary</h3>
+              <p style="margin: 5px 0;"><strong>Equipment:</strong> ${data.equipmentType}</p>
+              ${data.specificModel ? `<p style="margin: 5px 0;"><strong>Model:</strong> ${data.specificModel}</p>` : ''}
+              ${data.facilityType ? `<p style="margin: 5px 0;"><strong>Facility:</strong> ${data.facilityType}</p>` : ''}
+              ${data.timeline ? `<p style="margin: 5px 0;"><strong>Timeline:</strong> ${data.timeline}</p>` : ''}
+              ${data.budget ? `<p style="margin: 5px 0;"><strong>Budget:</strong> ${data.budget}</p>` : ''}
+            </div>
+
+            <div class="section">
+              <h3 style="margin: 0 0 15px 0;">What Happens Next?</h3>
+              <div class="step">
+                <span class="step-icon">1</span>
+                <span>Our specialists will review your requirements</span>
+              </div>
+              <div class="step">
+                <span class="step-icon">2</span>
+                <span>You'll receive a detailed quote within 24 hours</span>
+              </div>
+              <div class="step">
+                <span class="step-icon">3</span>
+                <span>We'll include financing options if applicable</span>
+              </div>
+            </div>
+
+            <p><strong>Need immediate assistance?</strong></p>
+            <p>
+              📞 Call: <a href="tel:18006745276" style="color: #0077b6;">1-800-MRI-LASO (674-5276)</a><br>
+              📧 Email: <a href="mailto:info@lasoimaging.com" style="color: #0077b6;">info@lasoimaging.com</a>
+            </p>
+          </div>
+          
+          <div class="footer">
+            <p style="margin: 0;">Best regards,<br><strong>The LASO Imaging Team</strong></p>
+            <p style="margin: 10px 0 0 0; font-size: 11px;">© ${new Date().getFullYear()} LASO Medical Imaging. All rights reserved.</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    const customerEmailResponse = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "LASO Medical <noreply@lasoimaging.com>",
+        to: [data.email],
+        subject: `Thank You for Your Quote Request - LASO Imaging`,
+        html: customerEmailHtml,
+      }),
+    });
+
+    const customerResult = await customerEmailResponse.json();
+    
+    if (!customerEmailResponse.ok) {
+      console.error("Customer confirmation email error:", customerResult);
+    } else {
+      console.log("Customer confirmation email sent:", customerResult);
+    }
+
+    return new Response(JSON.stringify({ success: true, adminEmailId: emailResult.id, customerEmailId: customerResult.id }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
