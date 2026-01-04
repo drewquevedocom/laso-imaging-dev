@@ -45,7 +45,7 @@ export const caseStudies: CaseStudy[] = [
       title: 'Chief of Radiology'
     },
     equipment: ['GE Signa HDxt 1.5T MRI', '16-Channel Coil Package', 'Cardiac & Neuro Software'],
-    image: '/placeholder.svg',
+    image: '/src/assets/hero-mri.jpg',
     featured: true
   },
   {
@@ -68,7 +68,7 @@ export const caseStudies: CaseStudy[] = [
       title: 'Practice Owner'
     },
     equipment: ['Siemens Espree 1.5T Mobile MRI', 'DOT-Certified Trailer', 'Full Extremity Coil Set'],
-    image: '/placeholder.svg',
+    image: '/src/assets/mobile-mri.jpg',
     featured: true
   },
   {
@@ -91,7 +91,7 @@ export const caseStudies: CaseStudy[] = [
       title: 'Operations Director'
     },
     equipment: ['Siemens MAGNETOM Verio 3.0T', 'Tim Technology Suite', '32-Channel Head Coil'],
-    image: '/placeholder.svg',
+    image: '/src/assets/mri-system-1.jpg',
     featured: false
   },
   {
@@ -114,7 +114,7 @@ export const caseStudies: CaseStudy[] = [
       title: 'Hospital Administrator'
     },
     equipment: ['Philips Achieva 1.5T Compact', 'Custom RF Shielding', 'Spine & Body Coil Package'],
-    image: '/placeholder.svg',
+    image: '/src/assets/promo-install.jpg',
     featured: false
   },
   {
@@ -137,7 +137,7 @@ export const caseStudies: CaseStudy[] = [
       title: 'Chief of Veterinary Neurology'
     },
     equipment: ['GE Signa HDe 1.5T', 'Veterinary Table Adapter', 'Multi-size Coil Package'],
-    image: '/placeholder.svg',
+    image: '/src/assets/ct-scanner.jpg',
     featured: false
   }
 ];

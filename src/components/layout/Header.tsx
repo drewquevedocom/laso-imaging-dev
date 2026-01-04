@@ -27,7 +27,6 @@ const navItems = [
   { label: 'SERVICES', hasDropdown: true, key: 'services', href: '/services' },
   { label: 'RESOURCES', hasDropdown: false, key: 'resources', href: '/blog' },
   { label: 'CONTACT', hasDropdown: false, key: 'contact', href: '/contact' },
-  { label: 'ADMIN', hasDropdown: false, key: 'admin', isAccent: true, href: '/admin/notifications' },
 ];
 
 const topNavLinks = [
@@ -99,19 +98,11 @@ export const Header = () => {
             {/* Right - Contact Info */}
             <div className="hidden lg:flex items-center gap-4">
               <a 
-                href="tel:8189169503" 
-                className="flex items-center gap-1.5 hover:text-accent transition-colors"
-                onClick={trackPhoneCall}
-              >
-                <Phone className="w-3.5 h-3.5" />
-                <span>(818) 916-9503</span>
-              </a>
-              <span className="text-primary-foreground/40">|</span>
-              <a 
                 href="tel:18006745276" 
                 className="flex items-center gap-1.5 hover:text-accent transition-colors"
                 onClick={trackPhoneCall}
               >
+                <Phone className="w-3.5 h-3.5" />
                 <span>1-800-MRI-LASO</span>
               </a>
               <span className="text-primary-foreground/40">|</span>
@@ -191,11 +182,9 @@ export const Header = () => {
                   className={`
                     relative flex items-center gap-1.5 px-5 py-4 text-sm font-semibold
                     transition-all duration-200
-                    ${item.key === 'admin' 
-                      ? 'text-red-500 font-bold hover:text-red-400' 
-                      : activeNav === item.key 
-                        ? 'bg-accent text-accent-foreground' 
-                        : 'text-white hover:bg-accent/80 hover:text-accent-foreground'
+                    ${activeNav === item.key 
+                      ? 'bg-accent text-accent-foreground' 
+                      : 'text-white hover:bg-accent/80 hover:text-accent-foreground'
                     }
                   `}
                   onMouseEnter={() => handleNavHover(item.key, item.hasDropdown)}
