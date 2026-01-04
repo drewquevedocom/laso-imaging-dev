@@ -243,12 +243,12 @@ const Contact = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-foreground">
-                          Office Address
+                          Mailing Address
                         </h3>
                         <p className="text-muted-foreground">
-                          8129 Clybourn Ave
+                          14900 Magnolia Blvd #5442
                           <br />
-                          Sun Valley, CA 91352
+                          Sherman Oaks, CA 91413
                         </p>
                         <p className="text-sm text-accent font-medium mt-1">
                           Nationwide Service
@@ -262,8 +262,11 @@ const Contact = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-foreground">Phone</h3>
+                        <a href="tel:8189169503" className="text-muted-foreground hover:text-accent transition-colors block">
+                          (818) 916-9503
+                        </a>
                         <a href="tel:18006745276" className="text-muted-foreground hover:text-accent transition-colors block">
-                          1-800-MRI-LASO (1-800-674-5276)
+                          1-800-MRI-LASO (674-5276)
                         </a>
                         <p className="text-sm text-accent font-medium mt-1">
                           24/7 Emergency Support

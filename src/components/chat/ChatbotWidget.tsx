@@ -69,7 +69,7 @@ const ChatbotWidget = () => {
       console.error("Chatbot error:", error);
       addMessage({
         role: "assistant",
-        content: "I'm having trouble connecting right now. Please try again or call us at (844) 511-5276.",
+        content: "I'm having trouble connecting right now. Please try again or call us at (818) 916-9503 or 1-800-MRI-LASO.",
       });
     } finally {
       setLoading(false);
