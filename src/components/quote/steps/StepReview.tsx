@@ -110,7 +110,7 @@ const StepReview = ({ data, onEdit }: StepReviewProps) => {
           </div>
           <div>
             <p className="text-sm font-medium text-foreground">Expert Support</p>
-            <p className="text-xs text-muted-foreground">1-855-254-5363</p>
+            <p className="text-xs text-muted-foreground">1-800-MRI-LASO</p>
           </div>
         </div>
       </div>

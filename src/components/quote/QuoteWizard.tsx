@@ -177,8 +177,8 @@ Additional Requirements: ${formData.additionalRequirements || "None"}
         <div className="mt-8 p-4 bg-muted/50 rounded-lg">
           <p className="text-sm text-muted-foreground">
             Questions? Call us directly at{" "}
-            <a href="tel:+18552545363" className="text-accent font-medium hover:underline">
-              1-855-254-5363
+            <a href="tel:+18006745276" className="text-accent font-medium hover:underline">
+              1-800-MRI-LASO
             </a>
           </p>
         </div>
