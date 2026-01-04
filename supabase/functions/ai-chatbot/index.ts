@@ -50,7 +50,7 @@ const systemPrompt = `You are LASO AI, the most experienced MRI sales consultant
 ## IMPORTANT GUIDELINES:
 1. Keep responses concise but warm - don't overwhelm with information
 2. When discussing pricing, mention that quotes are customized: "Pricing depends on your specific needs, but I can get you a quote within 24 hours."
-3. Always provide contact options: (844) 511-5276 or info@lasoimaging.com
+3. Always provide contact options: (818) 916-9503, 1-800-MRI-LASO, or info@lasoimaging.com
 4. If asked something you don't know, be honest and offer to connect them with a specialist
 5. Remember you're talking to busy healthcare professionals - respect their time
 6. End messages with a clear next step or question to keep the conversation going
@@ -106,7 +106,7 @@ serve(async (req) => {
       }
       if (response.status === 402) {
         return new Response(
-          JSON.stringify({ error: 'Our chat service is temporarily unavailable. Please call us at (844) 511-5276.' }),
+          JSON.stringify({ error: 'Our chat service is temporarily unavailable. Please call us at (818) 916-9503 or 1-800-MRI-LASO.' }),
           { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
@@ -115,7 +115,7 @@ serve(async (req) => {
     }
 
     const data = await response.json();
-    const content = data.choices?.[0]?.message?.content || 'I apologize, but I could not generate a response. Please try again or call us at (844) 511-5276.';
+    const content = data.choices?.[0]?.message?.content || 'I apologize, but I could not generate a response. Please try again or call us at (818) 916-9503 or 1-800-MRI-LASO.';
 
     console.log('AI chatbot response generated successfully');
 
@@ -127,7 +127,7 @@ serve(async (req) => {
     console.error('AI chatbot error:', error);
     return new Response(
       JSON.stringify({ 
-        error: 'I\'m having a technical moment. Please try again or reach out to us directly at (844) 511-5276 - we\'d love to help!' 
+        error: 'I\'m having a technical moment. Please try again or reach out to us directly at (818) 916-9503 or 1-800-MRI-LASO - we\'d love to help!' 
       }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

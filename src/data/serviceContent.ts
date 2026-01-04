@@ -20,7 +20,7 @@ export const serviceContent: Record<string, ServiceContent> = {
     slug: 'mri-installation',
     title: 'MRI Installation Services',
     metaTitle: 'MRI Installation Services | Expert System Setup | LASO Imaging',
-    metaDescription: 'Professional MRI installation services in Sun Valley, CA. Our certified engineers ensure seamless system setup, RF shielding, and compliance. Nationwide service available.',
+    metaDescription: 'Professional MRI installation services in Sherman Oaks, CA. Our certified engineers ensure seamless system setup, RF shielding, and compliance. Nationwide service available.',
     heroDescription: 'Complete MRI system installation from site preparation to first scan. Our certified engineers have installed 500+ systems nationwide.',
     overview: `LASO's MRI installation team brings decades of combined experience to every project. We handle everything from initial site assessment to final calibration, ensuring your system is operational on schedule and within budget. Our engineers are OEM-trained on GE, Siemens, Philips, and Canon/Toshiba systems, providing the expertise needed for seamless installations.
 
@@ -55,14 +55,14 @@ Whether you're adding imaging capacity, upgrading existing equipment, or buildin
       { slug: 'operator-training', title: 'Operator Training' }
     ],
     keywords: ['MRI installation', 'MRI system setup', 'medical imaging installation', 'MRI site preparation'],
-    geoKeywords: ['MRI installation California', 'MRI installation Los Angeles', 'MRI installation Sun Valley CA']
+    geoKeywords: ['MRI installation California', 'MRI installation Los Angeles', 'MRI installation Sherman Oaks CA']
   },
 
   'relocation': {
     slug: 'relocation',
     title: 'MRI Relocation Services',
     metaTitle: 'MRI Relocation Services | Safe Equipment Moving | LASO Imaging',
-    metaDescription: 'Expert MRI relocation services from Sun Valley, CA. We safely de-install, transport, and reinstall your imaging equipment. Nationwide coverage with certified engineers.',
+    metaDescription: 'Expert MRI relocation services from Sherman Oaks, CA. We safely de-install, transport, and reinstall your imaging equipment. Nationwide coverage with certified engineers.',
     heroDescription: 'Safe and efficient MRI relocation with minimal downtime. We handle every aspect from de-installation to recommissioning at your new site.',
     overview: `Relocating an MRI system requires specialized expertise to protect your multi-million dollar investment. LASO's relocation team has successfully moved hundreds of systems across the country, from single-room relocations to complete facility moves.
 
@@ -104,7 +104,7 @@ Our comprehensive relocation service includes careful de-installation, specializ
     slug: 'site-planning',
     title: 'Site Planning & RF Shielding',
     metaTitle: 'MRI Site Planning & RF Shielding | Expert Consultation | LASO Imaging',
-    metaDescription: 'Comprehensive MRI site planning and RF shielding services from Sun Valley, CA. Ensure optimal installation with expert guidance on space, power, and shielding requirements.',
+    metaDescription: 'Comprehensive MRI site planning and RF shielding services from Sherman Oaks, CA. Ensure optimal installation with expert guidance on space, power, and shielding requirements.',
     heroDescription: 'Expert site planning ensures your MRI installation is successful from day one. We evaluate every requirement before equipment arrives.',
     overview: `Proper site planning is critical for MRI installation success. LASO's site planning services evaluate all technical requirements including structural support, RF shielding, electrical infrastructure, HVAC capacity, and regulatory compliance.
 
@@ -139,14 +139,14 @@ Our engineers work with your architects and contractors to ensure the space meet
       { slug: 'preventive-maintenance', title: 'Preventive Maintenance' }
     ],
     keywords: ['MRI site planning', 'RF shielding', 'MRI room design', 'medical imaging construction'],
-    geoKeywords: ['MRI site planning California', 'RF shielding Los Angeles', 'MRI construction Sun Valley']
+    geoKeywords: ['MRI site planning California', 'RF shielding Los Angeles', 'MRI construction Sherman Oaks']
   },
 
   'deinstallation': {
     slug: 'deinstallation',
     title: 'MRI De-installation & Removal',
     metaTitle: 'MRI De-installation & Removal Services | LASO Imaging',
-    metaDescription: 'Professional MRI de-installation and removal services from Sun Valley, CA. Safe equipment removal, disposal, and site restoration. Nationwide service.',
+    metaDescription: 'Professional MRI de-installation and removal services from Sherman Oaks, CA. Safe equipment removal, disposal, and site restoration. Nationwide service.',
     heroDescription: 'Safe and compliant MRI de-installation with proper disposal or preparation for resale. We handle the entire removal process.',
     overview: `When it's time to replace or remove your MRI system, LASO provides comprehensive de-installation services. Our team safely removes all components while protecting your facility and ensuring environmental compliance.
 
@@ -188,7 +188,7 @@ Whether you're selling the equipment, disposing of it, or preparing for a new in
     slug: 'preventive-maintenance',
     title: 'MRI Preventive Maintenance Programs',
     metaTitle: 'MRI Preventive Maintenance Programs | Expert Service | LASO Imaging',
-    metaDescription: 'Comprehensive MRI preventive maintenance programs from Sun Valley, CA. Maximize uptime, extend equipment life, and reduce costs. 24/7 support available.',
+    metaDescription: 'Comprehensive MRI preventive maintenance programs from Sherman Oaks, CA. Maximize uptime, extend equipment life, and reduce costs. 24/7 support available.',
     heroDescription: 'Proactive maintenance keeps your MRI running at peak performance. Our PM programs prevent failures before they happen.',
     overview: `LASO's preventive maintenance programs are designed to maximize your MRI system uptime and extend equipment lifespan. Our OEM-trained engineers perform comprehensive inspections and proactive component replacement based on manufacturer guidelines and real-world experience.
 
@@ -223,7 +223,7 @@ We offer flexible PM programs tailored to your budget and operational needs, fro
       { slug: 'remote-diagnostics', title: 'Remote Diagnostics' }
     ],
     keywords: ['MRI preventive maintenance', 'MRI PM program', 'medical equipment maintenance', 'MRI service contract'],
-    geoKeywords: ['MRI maintenance California', 'MRI service Los Angeles', 'MRI maintenance Sun Valley']
+    geoKeywords: ['MRI maintenance California', 'MRI service Los Angeles', 'MRI maintenance Sherman Oaks']
   },
 
   'emergency-repairs': {
@@ -357,7 +357,7 @@ When issues arise, our engineers can often diagnose and sometimes resolve proble
     slug: 'helium-refills',
     title: 'Helium Refill & Management Services',
     metaTitle: 'Helium Refill & Management Services | Expert Cryogenics | LASO Imaging',
-    metaDescription: 'Professional helium refill and management services for MRI systems. Competitive pricing, scheduled refills, and emergency delivery available from Sun Valley, CA.',
+    metaDescription: 'Professional helium refill and management services for MRI systems. Competitive pricing, scheduled refills, and emergency delivery available from Sherman Oaks, CA.',
     heroDescription: 'Keep your magnet cold with reliable helium supply. We offer scheduled refills, emergency delivery, and helium conservation consulting.',
     overview: `Helium is essential for superconducting MRI magnets, and proper helium management is critical for reliable operation. LASO provides comprehensive helium services including scheduled refills, emergency delivery, and consulting on helium conservation strategies.
 
@@ -399,7 +399,7 @@ With global helium supply challenges, having a reliable helium partner is more i
     slug: 'cold-head-service',
     title: 'Cold Head Service & Replacement',
     metaTitle: 'Cold Head Service & Replacement | MRI Cryogenics | LASO Imaging',
-    metaDescription: 'Expert cold head service and replacement for MRI systems. Prevent helium loss and system downtime with proactive cold head maintenance from Sun Valley, CA.',
+    metaDescription: 'Expert cold head service and replacement for MRI systems. Prevent helium loss and system downtime with proactive cold head maintenance from Sherman Oaks, CA.',
     heroDescription: 'The cold head keeps your magnet cold. Our service programs prevent failures and extend cold head life by 50% or more.',
     overview: `The cold head is a critical component that recondenses helium vapor back to liquid, maintaining your magnet at operating temperature. Cold head failures are a leading cause of helium loss and system downtime.
 

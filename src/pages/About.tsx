@@ -164,7 +164,7 @@ const About = () => {
                 </h2>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
-                    Founded in 2006 in Houston, Texas, LASO Imaging Solutions has grown from a small equipment 
+                    Founded in 2006 in Los Angeles, California, LASO Imaging Solutions has grown from a small equipment 
                     dealer to a nationally recognized leader in refurbished medical imaging equipment.
                   </p>
                   <p>

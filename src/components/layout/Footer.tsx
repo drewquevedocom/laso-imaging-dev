@@ -51,13 +51,16 @@ const Footer = () => {
                 Your trusted partner for MRI, CT, and medical imaging solutions. Serving healthcare facilities worldwide since 2006.
               </p>
               <div className="text-sm text-primary-foreground/70 space-y-1">
+                <a href="tel:8189169503" className="block hover:text-primary-foreground transition-colors">
+                  (818) 916-9503
+                </a>
                 <a href="tel:18006745276" className="block hover:text-primary-foreground transition-colors">
                   1-800-MRI-LASO (674-5276)
                 </a>
                 <a href="mailto:info@lasoimaging.com" className="block hover:text-primary-foreground transition-colors">
                   info@lasoimaging.com
                 </a>
-                <p className="pt-2">8129 Clybourn Ave<br />Sun Valley, CA 91352</p>
+                <p className="pt-2">14900 Magnolia Blvd #5442<br />Sherman Oaks, CA 91413</p>
                 <p className="text-xs pt-1">Mon-Fri: 8AM-6PM PST | 24/7 Emergency</p>
               </div>
             </div>
