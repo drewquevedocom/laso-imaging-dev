@@ -209,13 +209,6 @@ export const MobileNav = () => {
               >
                 CONTACT
               </Link>
-              <Link 
-                to="/admin/notifications" 
-                className="flex items-center py-3 px-4 text-warning font-semibold hover:bg-secondary transition-colors"
-                onClick={handleClose}
-              >
-                ADMIN
-              </Link>
             </div>
 
             {/* CTA */}

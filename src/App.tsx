@@ -32,6 +32,7 @@ import BlogArticle from "./pages/blog/BlogArticle";
 import CaseStudies from "./pages/case-studies/CaseStudies";
 import CaseStudyDetail from "./pages/case-studies/CaseStudyDetail";
 import PartsSearch from "./pages/search/PartsSearch";
+import Sitemap from "./pages/Sitemap";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import GoogleAnalytics from "./components/analytics/GoogleAnalytics";
 import ChatbotWidget from "./components/chat/ChatbotWidget";
@@ -95,6 +96,9 @@ const App = () => (
             {/* Case Studies Routes */}
             <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
+            
+            {/* Sitemap */}
+            <Route path="/sitemap" element={<Sitemap />} />
             
             {/* Customer Portal Routes */}
             <Route path="/auth/customer" element={<CustomerAuth />} />
