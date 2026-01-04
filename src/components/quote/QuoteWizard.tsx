@@ -133,10 +133,38 @@ Additional Requirements: ${formData.additionalRequirements || "None"}
       if (insertError) throw insertError;
 
       // Trigger lead scoring
+      let leadScore = 0;
       if (lead) {
-        await supabase.functions.invoke("calculate-lead-score", {
+        const { data: scoreData } = await supabase.functions.invoke("calculate-lead-score", {
           body: { leadId: lead.id },
         });
+        leadScore = scoreData?.score || 0;
+      }
+
+      // Send email notification to sales team
+      try {
+        await supabase.functions.invoke("send-quote-notification", {
+          body: {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            company: formData.company,
+            role: formData.role,
+            equipmentType: formData.equipmentType,
+            specificModel: formData.specificModel,
+            facilityType: formData.facilityType,
+            patientVolume: formData.patientVolume,
+            timeline: formData.timeline,
+            budget: formData.budgetRange,
+            additionalRequirements: formData.additionalRequirements,
+            sourcePage: sourcePage,
+            leadScore: leadScore,
+          },
+        });
+        console.log("Quote notification email sent successfully");
+      } catch (emailError) {
+        // Don't fail the submission if email fails
+        console.error("Failed to send email notification:", emailError);
       }
 
       // Track quote request in Google Analytics
