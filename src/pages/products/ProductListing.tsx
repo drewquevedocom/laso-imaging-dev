@@ -24,19 +24,20 @@ import { fetchShopifyProducts, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 
+// Multi-type queries for categories that span multiple Shopify product types
 const categoryMap: Record<string, string> = {
-  "ct-scanners": "CT",
-  "mri-systems": "MRI",
-  "petct-scanners": "PET",
-  "xray-units": "X-Ray",
-  "mobile-ct": "Mobile CT",
-  "mobile-mri": "Mobile MRI",
-  "mobile-petct": "Mobile PET",
-  "mobile-xray": "Mobile X-Ray",
-  "rf-coils": "RF Coils",
-  "power-supplies": "Power Supply",
-  "mri-parts": "MRI Parts",
-  "accessories": "Accessories",
+  "ct-scanners": 'product_type:"64-Slice CT" OR product_type:"128-Slice CT" OR product_type:CT',
+  "mri-systems": 'product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"',
+  "petct-scanners": "product_type:PET",
+  "xray-units": "product_type:X-Ray",
+  "mobile-ct": "product_type:Mobile CT",
+  "mobile-mri": 'product_type:"Mobile MRI Systems"',
+  "mobile-petct": "product_type:Mobile PET",
+  "mobile-xray": "product_type:Mobile X-Ray",
+  "rf-coils": 'product_type:"RF Coils"',
+  "power-supplies": 'product_type:"Power Supplies"',
+  "mri-parts": 'product_type:"MRI Parts"',
+  "accessories": "product_type:Accessories",
 };
 
 const categories = [
@@ -88,7 +89,8 @@ const ProductListing = () => {
         } else {
           // Build from category + vendor + filter
           if (category && categoryMap[category]) {
-            shopifyQuery = `product_type:${categoryMap[category]}`;
+            // categoryMap values already include 'product_type:' prefix and OR logic
+            shopifyQuery = categoryMap[category];
           }
           if (vendorParam) {
             shopifyQuery += ` vendor:${vendorParam.replace(/\+/g, " ")}`;
