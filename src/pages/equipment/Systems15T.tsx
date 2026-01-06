@@ -71,7 +71,7 @@ const Systems15T = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-3xl">
               <span className="inline-block bg-accent text-accent-foreground text-xs font-semibold px-3 py-1 rounded mb-4">
-                MRI SYSTEMS
+                IMAGING SYSTEMS
               </span>
               <h1 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-4">
                 1.5T MRI Systems

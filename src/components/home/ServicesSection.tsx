@@ -5,8 +5,8 @@ const ServicesSection = () => {
   const services = [
     {
       icon: Monitor,
-      title: "MRI Systems",
-      description: "New and certified pre-owned MRI systems from leading manufacturers. Complete installation and commissioning.",
+      title: "Imaging Systems",
+      description: "New and certified pre-owned imaging systems from leading manufacturers. Complete installation and commissioning.",
       link: "/equipment/1-5t-mri-systems",
     },
     {

@@ -30,7 +30,7 @@ const slides: SlideContent[] = [
     subtitle: "for Healthcare Providers",
     description: "From sales and rentals to full-service maintenance, LASO delivers reliable MRI systems nationwide.",
     features: [
-      "FDA Registered & ISO Certified",
+      "FDA Registered",
       "12-Month Parts & Labor Warranty",
       "Installation & Training Included"
     ],

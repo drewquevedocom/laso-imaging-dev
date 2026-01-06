@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Truck, Shield, Headphones, Award } from "lucide-react";
-import QuoteForm from "@/components/shared/QuoteForm";
+import logoLaso from "@/assets/logo-laso.png";
 
 const Footer = () => {
   return (
@@ -36,17 +36,15 @@ const Footer = () => {
       {/* Main Footer */}
       <div className="py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-8">
             {/* Company Info */}
-            <div className="col-span-2 md:col-span-1 lg:col-span-2">
-              <div className="flex items-center mb-4">
-                <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
-                  <span className="text-accent-foreground font-bold text-lg">L</span>
-                </div>
-                <div className="ml-2">
-                  <span className="text-2xl font-bold">LASO</span>
-                  <p className="text-xs text-primary-foreground/60 -mt-1">IMAGING SOLUTIONS</p>
-                </div>
+            <div className="col-span-2 md:col-span-1 lg:col-span-1">
+              <div className="mb-4">
+                <img 
+                  src={logoLaso} 
+                  alt="LASO Imaging" 
+                  className="h-10 w-auto brightness-0 invert"
+                />
               </div>
               <p className="text-primary-foreground/70 text-sm mb-4 max-w-xs">
                 Your trusted partner for MRI, CT, and medical imaging solutions. Serving healthcare facilities worldwide since 2006.
@@ -66,23 +64,11 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Quick Quote Form */}
-            <div className="col-span-2 md:col-span-2 lg:col-span-2">
-              <div className="bg-primary-foreground/5 rounded-xl p-4 border border-primary-foreground/10">
-                <QuoteForm 
-                  sourcePage="footer" 
-                  variant="sidebar"
-                  title="Quick Quote"
-                  subtitle="Get a quote in 24 hours"
-                />
-              </div>
-            </div>
-
             {/* Equipment */}
             <div>
               <h4 className="font-semibold mb-4">Equipment</h4>
               <ul className="space-y-2 text-sm text-primary-foreground/70">
-                <li><Link to="/equipment/1-5t-mri-systems" className="hover:text-primary-foreground transition-colors">MRI Systems</Link></li>
+                <li><Link to="/equipment/1-5t-mri-systems" className="hover:text-primary-foreground transition-colors">Imaging Systems</Link></li>
                 <li><Link to="/products?category=ct" className="hover:text-primary-foreground transition-colors">CT Scanners</Link></li>
                 <li><Link to="/products?category=xray" className="hover:text-primary-foreground transition-colors">X-Ray Units</Link></li>
                 <li><Link to="/equipment/mobile-mri-systems" className="hover:text-primary-foreground transition-colors">Mobile Units</Link></li>
