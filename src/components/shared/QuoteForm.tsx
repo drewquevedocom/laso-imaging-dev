@@ -100,6 +100,19 @@ const QuoteForm = ({
       // Track quote request in Google Analytics
       trackQuoteRequest(data.interest, sourcePage);
 
+      // Send email notification (non-blocking)
+      supabase.functions.invoke('send-quote-notification', {
+        body: {
+          name: data.name,
+          email: data.email,
+          phone: data.phone || '',
+          company: data.company || '',
+          interest: data.interest,
+          message: data.message || '',
+          source_page: sourcePage,
+        }
+      }).catch(err => console.error('Email notification failed:', err));
+
       setIsSubmitted(true);
       toast({
         title: "Quote Request Submitted!",
