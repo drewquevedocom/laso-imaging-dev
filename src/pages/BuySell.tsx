@@ -134,7 +134,7 @@ const BuySell = () => {
                     ))}
                   </ul>
                   <Button asChild size="lg" className="w-full">
-                    <Link to="/products">
+                    <Link to="/products?category=mri-systems">
                       View Available Systems <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                   </Button>
@@ -257,7 +257,7 @@ const BuySell = () => {
 
             <div className="text-center mt-10">
               <Button asChild size="lg" variant="outline">
-                <Link to="/products">
+                <Link to="/products?category=mri-systems">
                   View All Systems <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
