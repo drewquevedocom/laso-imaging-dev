@@ -142,13 +142,13 @@ const ChatbotWidget = () => {
             {messages.length === 0 && (
               <div className="text-center py-8">
                 <Bot className="w-12 h-12 text-accent mx-auto mb-3" />
-                <h4 className="font-semibold text-foreground mb-2">Hi! I'm your MRI specialist</h4>
+                <h4 className="font-semibold text-foreground mb-2">Hi! I'm your imaging specialist</h4>
                 <p className="text-sm text-muted-foreground mb-4">
                   With 75+ years of combined experience, I'm here to help you find the perfect 
-                  MRI system or parts. What can I help you with today?
+                  imaging system or parts. What can I help you with today?
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  {["Looking for a 1.5T MRI", "Need replacement parts", "Mobile MRI rental"].map((suggestion) => (
+                  {["Looking for a 1.5T system", "Need replacement parts", "Mobile MRI rental"].map((suggestion) => (
                     <button
                       key={suggestion}
                       onClick={() => handleSend(suggestion)}

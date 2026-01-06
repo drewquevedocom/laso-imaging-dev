@@ -3,7 +3,7 @@ import { Globe, Search } from 'lucide-react';
 import { useChatStore } from '@/stores/chatStore';
 
 const placeholderTexts = [
-  'MRI Products',
+  'Imaging Systems',
   'Services & Maintenance',
   'Parts & Components',
   'Mobile Solutions'
