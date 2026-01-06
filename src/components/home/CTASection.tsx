@@ -13,7 +13,7 @@ const CTASection = () => {
               Ready to Upgrade Your Imaging Capabilities?
             </h2>
             <p className="text-primary-foreground/80 text-lg mb-8">
-              Let our team of MRI specialists help you find the perfect solution for your facility's needs and budget.
+              Let our team of imaging specialists help you find the perfect solution for your facility's needs and budget.
             </p>
 
             <ul className="space-y-3 mb-8">

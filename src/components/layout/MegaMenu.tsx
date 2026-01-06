@@ -44,7 +44,7 @@ const menuColumns = [
       { label: 'Philips Healthcare', href: '/products?category=mri-systems&vendor=Philips' },
       { label: 'Toshiba / Canon Medical', href: '/products?category=mri-systems&vendor=Toshiba' },
     ],
-    viewAll: { label: 'View All Brands', href: '/products?category=mri-systems' }
+    viewAll: { label: 'View All Brands', href: '/products' }
   }
 ];
 
@@ -116,14 +116,14 @@ export const MegaMenu = ({ isOpen }: MegaMenuProps) => {
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
           <Link 
-            to="/products?category=mri-systems"
+            to="/products"
             className="
               inline-flex items-center gap-2 text-sm font-semibold 
               text-accent hover:text-accent/80 transition-colors
               group
             "
           >
-            Browse All MRI Systems
+            Browse All Imaging Systems
             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
           

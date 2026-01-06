@@ -12,6 +12,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { fetchShopifyProducts, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
@@ -45,6 +53,8 @@ const categories = [
 
 type SortOption = "name-asc" | "name-desc" | "price-asc" | "price-desc";
 
+const PRODUCTS_PER_PAGE = 12;
+
 const ProductListing = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get("category") || "";
@@ -53,6 +63,7 @@ const ProductListing = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortOption>("name-asc");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [currentPage, setCurrentPage] = useState(1);
   const addItem = useCartStore((state) => state.addItem);
 
   const categoryTitle = category
@@ -137,6 +148,18 @@ const ProductListing = () => {
     return result;
   }, [products, searchQuery, sortBy]);
 
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredAndSortedProducts.length / PRODUCTS_PER_PAGE);
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
+    return filteredAndSortedProducts.slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
+  }, [filteredAndSortedProducts, currentPage]);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, category, sortBy]);
+
   const handleCategoryChange = (newCategory: string) => {
     if (newCategory) {
       setSearchParams({ category: newCategory });
@@ -167,6 +190,7 @@ const ProductListing = () => {
     setSearchQuery("");
     setSearchParams({});
     setSortBy("name-asc");
+    setCurrentPage(1);
   };
 
   return (
@@ -260,7 +284,10 @@ const ProductListing = () => {
 
           {/* Results Count */}
           <p className="text-sm text-muted-foreground mb-4">
-            {loading ? "Loading..." : `${filteredAndSortedProducts.length} products found`}
+            {loading 
+              ? "Loading..." 
+              : `Showing ${((currentPage - 1) * PRODUCTS_PER_PAGE) + 1}-${Math.min(currentPage * PRODUCTS_PER_PAGE, filteredAndSortedProducts.length)} of ${filteredAndSortedProducts.length} products`
+            }
           </p>
 
           {/* Products */}
@@ -283,7 +310,7 @@ const ProductListing = () => {
             </div>
           ) : viewMode === "grid" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredAndSortedProducts.map((product) => {
+              {paginatedProducts.map((product) => {
                 const variant = product.node.variants.edges[0]?.node;
                 const image = product.node.images.edges[0]?.node;
                 const price = variant?.price;
@@ -351,7 +378,7 @@ const ProductListing = () => {
             </div>
           ) : (
             <div className="space-y-4">
-              {filteredAndSortedProducts.map((product) => {
+              {paginatedProducts.map((product) => {
                 const variant = product.node.variants.edges[0]?.node;
                 const image = product.node.images.edges[0]?.node;
                 const price = variant?.price;
@@ -418,6 +445,59 @@ const ProductListing = () => {
                   </div>
                 );
               })}
+            </div>
+          )}
+
+          {/* Pagination */}
+          {!loading && totalPages > 1 && (
+            <div className="mt-8">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious 
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+                  
+                  {Array.from({ length: totalPages }, (_, i) => i + 1)
+                    .filter(page => {
+                      // Show first, last, current, and adjacent pages
+                      if (page === 1 || page === totalPages) return true;
+                      if (Math.abs(page - currentPage) <= 1) return true;
+                      return false;
+                    })
+                    .map((page, idx, arr) => {
+                      // Add ellipsis if there's a gap
+                      const showEllipsisBefore = idx > 0 && page - arr[idx - 1] > 1;
+                      return (
+                        <span key={page} className="flex items-center">
+                          {showEllipsisBefore && (
+                            <PaginationItem>
+                              <span className="px-2 text-muted-foreground">...</span>
+                            </PaginationItem>
+                          )}
+                          <PaginationItem>
+                            <PaginationLink
+                              onClick={() => setCurrentPage(page)}
+                              isActive={currentPage === page}
+                              className="cursor-pointer"
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        </span>
+                      );
+                    })}
+                  
+                  <PaginationItem>
+                    <PaginationNext 
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
             </div>
           )}
         </div>
