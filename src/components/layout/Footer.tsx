@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Truck, Shield, Headphones, Award } from "lucide-react";
+import QuoteForm from "@/components/shared/QuoteForm";
 
 const Footer = () => {
   return (
@@ -35,7 +36,7 @@ const Footer = () => {
       {/* Main Footer */}
       <div className="py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
             {/* Company Info */}
             <div className="col-span-2 md:col-span-1 lg:col-span-2">
               <div className="flex items-center mb-4">
@@ -62,6 +63,18 @@ const Footer = () => {
                 </a>
                 <p className="pt-2">14900 Magnolia Blvd #5442<br />Sherman Oaks, CA 91413</p>
                 <p className="text-xs pt-1">Mon-Fri: 8AM-6PM PST | 24/7 Emergency</p>
+              </div>
+            </div>
+
+            {/* Quick Quote Form */}
+            <div className="col-span-2 md:col-span-2 lg:col-span-2">
+              <div className="bg-primary-foreground/5 rounded-xl p-4 border border-primary-foreground/10">
+                <QuoteForm 
+                  sourcePage="footer" 
+                  variant="sidebar"
+                  title="Quick Quote"
+                  subtitle="Get a quote in 24 hours"
+                />
               </div>
             </div>
 
