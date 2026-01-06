@@ -288,7 +288,7 @@ const PromoCard = ({ image, label, title, link }: { image: string; label: string
     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/20 group-hover:from-primary/90 group-hover:via-primary/60 group-hover:to-primary/30 transition-all duration-300" />
     <div className="relative z-10 p-4 flex flex-col justify-end h-full">
       <span className="text-xs text-accent font-bold uppercase tracking-wide drop-shadow-md">{label}</span>
-      <h3 className="text-base font-bold text-primary-foreground bg-primary/90 px-2 py-1 rounded inline-block w-fit">{title}</h3>
+      <h3 className="text-base font-bold text-white drop-shadow-lg">{title}</h3>
       <span className="text-xs text-white/90 flex items-center gap-1 mt-1 group-hover:text-accent transition-colors drop-shadow-md">
         Learn More <ChevronRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
       </span>
