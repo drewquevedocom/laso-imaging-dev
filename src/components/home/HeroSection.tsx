@@ -287,13 +287,11 @@ const PromoCard = ({ image, label, title, link }: { image: string; label: string
     {/* Stronger gradient overlay for better text readability */}
     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/20 group-hover:from-primary/90 group-hover:via-primary/60 group-hover:to-primary/30 transition-all duration-300" />
     <div className="relative z-10 p-4 flex flex-col justify-end h-full">
-      <div className="bg-black/60 backdrop-blur-sm rounded-md px-3 py-2">
-        <span className="text-xs text-accent font-bold uppercase tracking-wide">{label}</span>
-        <h3 className="text-base font-bold text-white">{title}</h3>
-        <span className="text-xs text-white/90 flex items-center gap-1 mt-1 group-hover:text-accent transition-colors">
-          Learn More <ChevronRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-        </span>
-      </div>
+      <span className="text-xs text-accent font-bold uppercase tracking-wide [text-shadow:_0_1px_3px_rgb(0_0_0_/_80%),_0_2px_6px_rgb(0_0_0_/_60%)]">{label}</span>
+      <h3 className="text-base font-bold text-white drop-shadow-lg">{title}</h3>
+      <span className="text-xs text-white/90 flex items-center gap-1 mt-1 group-hover:text-accent transition-colors drop-shadow-md">
+        Learn More <ChevronRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+      </span>
     </div>
   </Link>
 );
