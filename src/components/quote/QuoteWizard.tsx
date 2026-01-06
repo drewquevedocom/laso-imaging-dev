@@ -132,13 +132,21 @@ Additional Requirements: ${formData.additionalRequirements || "None"}
 
       if (insertError) throw insertError;
 
-      // Trigger lead scoring
+      // Trigger lead scoring (non-blocking)
       let leadScore = 0;
-      if (lead) {
-        const { data: scoreData } = await supabase.functions.invoke("calculate-lead-score", {
-          body: { leadId: lead.id },
-        });
-        leadScore = scoreData?.score || 0;
+      try {
+        if (lead) {
+          const { data: scoreData, error: scoreError } = await supabase.functions.invoke("calculate-lead-score", {
+            body: { leadId: lead.id },
+          });
+          if (scoreError) {
+            console.error("Lead scoring error:", scoreError);
+          } else {
+            leadScore = scoreData?.score || 0;
+          }
+        }
+      } catch (scoreErr) {
+        console.error("Lead scoring failed:", scoreErr);
       }
 
       // Send email notification to sales team
