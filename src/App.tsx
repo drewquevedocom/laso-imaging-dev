@@ -21,6 +21,7 @@ import About from "./pages/About";
 import TrackOrder from "./pages/TrackOrder";
 import FAQs from "./pages/FAQs";
 import SignUp from "./pages/SignUp";
+import BuySell from "./pages/BuySell";
 import Services from "./pages/services/Services";
 import ServicePage from "./pages/services/ServicePage";
 import SupportPage from "./pages/support/SupportPage";
@@ -67,6 +68,7 @@ const App = () => (
             <Route path="/track-order" element={<TrackOrder />} />
             <Route path="/faqs" element={<FAQs />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/buy-sell" element={<BuySell />} />
             
             {/* Equipment Routes */}
             <Route path="/equipment/1-5t-systems" element={<Systems15T />} />

@@ -73,9 +73,9 @@ const slides: SlideContent[] = [
 const promoCards = [
   {
     image: promoInstall,
-    label: "EQUIPMENT INSTALL & DE-INSTALL",
-    title: "Expert Relocation Services",
-    link: "/services/relocation"
+    label: "INSTALL & DE-INSTALL & RELOCATION",
+    title: "Buy and Sell Imaging Systems",
+    link: "/buy-sell"
   },
   {
     image: promoService,
