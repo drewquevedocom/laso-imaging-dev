@@ -9,20 +9,20 @@ const menuColumns = [
   {
     title: 'BY FIELD STRENGTH',
     items: [
-      { label: '1.5T MRI Systems', href: '/products?category=mri-systems&filter=1.5T' },
-      { label: '3.0T MRI Systems', href: '/products?category=mri-systems&filter=3.0T' },
-      { label: 'Open MRI Systems', href: '/products?category=mri-systems&filter=Open' },
-      { label: 'Extremity MRI', href: '/products?category=mri-systems&filter=Extremity' },
+      { label: '1.5T MRI Systems', href: '/products?query=product_type:"1.5T MRI Systems"' },
+      { label: '3.0T MRI Systems', href: '/products?query=product_type:"3.0T MRI Systems"' },
+      { label: 'Open MRI Systems', href: '/products?query=Open MRI' },
+      { label: 'Extremity MRI', href: '/products?query=Extremity MRI' },
     ],
     viewAll: { label: 'View All Systems', href: '/products?category=mri-systems' }
   },
   {
     title: 'BY CONDITION',
     items: [
-      { label: 'Refurbished MRI', href: '/products?category=mri-systems&filter=Refurbished' },
-      { label: 'Used MRI Systems', href: '/products?category=mri-systems&filter=Used' },
-      { label: 'Certified Pre-Owned', href: '/products?category=mri-systems&filter=Certified' },
-      { label: 'New Equipment', href: '/products?category=mri-systems&filter=New' },
+      { label: 'Refurbished MRI', href: '/products?category=mri-systems' },
+      { label: 'Used MRI Systems', href: '/products?category=mri-systems' },
+      { label: 'Certified Pre-Owned', href: '/products?category=mri-systems' },
+      { label: 'New Equipment', href: '/products?category=mri-systems' },
     ],
     viewAll: { label: 'View All Conditions', href: '/products?category=mri-systems' }
   },
@@ -30,11 +30,11 @@ const menuColumns = [
     title: 'MOBILE SOLUTIONS',
     items: [
       { label: 'Mobile MRI Rental', href: '/services/mobile-mri-rental' },
-      { label: 'Mobile MRI Systems', href: '/products?category=mobile-mri' },
+      { label: 'Mobile MRI Systems', href: '/products?query=product_type:"Mobile MRI Systems"' },
       { label: 'Interim Projects', href: '/services/interim-projects' },
       { label: 'Nationwide Coverage', href: '/services/nationwide-coverage' },
     ],
-    viewAll: { label: 'View All Mobile', href: '/products?category=mobile-mri' }
+    viewAll: { label: 'View All Mobile', href: '/products?query=product_type:"Mobile MRI Systems"' }
   },
   {
     title: 'BY BRAND',
@@ -44,7 +44,7 @@ const menuColumns = [
       { label: 'Philips Healthcare', href: '/products?category=mri-systems&vendor=Philips' },
       { label: 'Toshiba / Canon Medical', href: '/products?category=mri-systems&vendor=Toshiba' },
     ],
-    viewAll: { label: 'View All Brands', href: '/products' }
+    viewAll: { label: 'View All Brands', href: '/products?category=mri-systems' }
   }
 ];
 
