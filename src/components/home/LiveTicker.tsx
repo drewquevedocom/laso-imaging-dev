@@ -1,6 +1,6 @@
 const LiveTicker = () => {
   const items = [
-    { label: "LIVE:", value: "127 MRI Systems Available Now", highlight: true },
+    { label: "LIVE:", value: "127 Imaging Systems Available Now", highlight: true },
     { label: "Newest:", value: "Siemens Skyra 3T", extra: "(Added 2 hrs ago)" },
     { label: "Lowest Price:", value: "$125K", extra: "(GE Signa 1.5T)", isPrice: true },
     { label: "Most Popular:", value: "Philips Ingenia", extra: "(12 views today)" },

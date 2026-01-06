@@ -125,10 +125,10 @@ const BrandPage = () => {
   return (
     <>
       <Helmet>
-        <title>{brandInfo.fullName} MRI Systems | LASO Imaging</title>
+        <title>{brandInfo.fullName} Imaging Systems | LASO Imaging</title>
         <meta
           name="description"
-          content={`Browse our selection of ${brandInfo.fullName} MRI systems. Refurbished and certified with 12-month warranty. FDA registered.`}
+          content={`Browse our selection of ${brandInfo.fullName} imaging systems. Refurbished and certified with 12-month warranty. FDA registered.`}
         />
       </Helmet>
 
@@ -140,7 +140,7 @@ const BrandPage = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-3xl">
               <span className="inline-block bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded mb-4">
-                {brandInfo.name.toUpperCase()} MRI SYSTEMS
+                {brandInfo.name.toUpperCase()} IMAGING SYSTEMS
               </span>
               <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
                 {brandInfo.fullName}
