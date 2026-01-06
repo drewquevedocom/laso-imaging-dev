@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.send-contact-notification]
 verify_jwt = false
+
+[functions.send-offer-notification]
+verify_jwt = false

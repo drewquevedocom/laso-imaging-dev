@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { CheckCircle2, FileText, ShoppingCart, ArrowLeft, Search, Grid, List, X, SlidersHorizontal } from "lucide-react";
+import { CheckCircle2, FileText, ShoppingCart, ArrowLeft, Search, Grid, List, X, SlidersHorizontal, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Header } from "@/components/layout/Header";
@@ -23,6 +23,7 @@ import {
 import { fetchShopifyProducts, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
+import MakeOfferModal from "@/components/offer/MakeOfferModal";
 
 // Multi-type queries for categories that span multiple Shopify product types
 const categoryMap: Record<string, string> = {
@@ -65,6 +66,7 @@ const ProductListing = () => {
   const [sortBy, setSortBy] = useState<SortOption>("name-asc");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
+  const [offerProduct, setOfferProduct] = useState<{ name: string; price?: string } | null>(null);
   const addItem = useCartStore((state) => state.addItem);
 
   const categoryTitle = category
@@ -364,13 +366,25 @@ const ProductListing = () => {
                           </Button>
                         </Link>
                         <Button
+                          variant="secondary"
+                          size="sm"
+                          className="flex-1"
+                          onClick={() => setOfferProduct({
+                            name: product.node.title,
+                            price: price ? `${price.currencyCode} ${parseFloat(price.amount).toLocaleString()}` : undefined
+                          })}
+                        >
+                          <DollarSign className="w-4 h-4 mr-1" />
+                          Offer
+                        </Button>
+                        <Button
                           variant="default"
                           size="sm"
                           className="flex-1"
                           onClick={() => handleAddToCart(product)}
                         >
                           <ShoppingCart className="w-4 h-4 mr-1" />
-                          Add
+                          Buy
                         </Button>
                       </div>
                     </div>
@@ -434,12 +448,23 @@ const ProductListing = () => {
                             </Button>
                           </Link>
                           <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => setOfferProduct({
+                              name: product.node.title,
+                              price: price ? `${price.currencyCode} ${parseFloat(price.amount).toLocaleString()}` : undefined
+                            })}
+                          >
+                            <DollarSign className="w-4 h-4 mr-1" />
+                            Offer
+                          </Button>
+                          <Button
                             variant="default"
                             size="sm"
                             onClick={() => handleAddToCart(product)}
                           >
                             <ShoppingCart className="w-4 h-4 mr-1" />
-                            Add
+                            Buy
                           </Button>
                         </div>
                       </div>
@@ -504,6 +529,13 @@ const ProductListing = () => {
           )}
         </div>
       </main>
+
+      <MakeOfferModal
+        isOpen={!!offerProduct}
+        onClose={() => setOfferProduct(null)}
+        productName={offerProduct?.name || ""}
+        productPrice={offerProduct?.price}
+      />
 
       <Footer />
     </div>

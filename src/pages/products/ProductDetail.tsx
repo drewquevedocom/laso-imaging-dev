@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, ShoppingCart, FileText, Minus, Plus } from "lucide-react";
+import { ArrowLeft, CheckCircle2, ShoppingCart, FileText, Minus, Plus, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -15,6 +15,7 @@ import {
 import { fetchShopifyProductByHandle, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
+import MakeOfferModal from "@/components/offer/MakeOfferModal";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -23,6 +24,7 @@ const ProductDetail = () => {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [showOfferModal, setShowOfferModal] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
 
   useEffect(() => {
@@ -238,6 +240,15 @@ const ProductDetail = () => {
                   <ShoppingCart className="w-5 h-5 mr-2" />
                   Add to Cart
                 </Button>
+                <Button 
+                  variant="secondary" 
+                  size="lg" 
+                  className="flex-1"
+                  onClick={() => setShowOfferModal(true)}
+                >
+                  <DollarSign className="w-5 h-5 mr-2" />
+                  Make an Offer
+                </Button>
                 <Link to={`/quote?product=${encodeURIComponent(product.node.title)}`} className="flex-1">
                   <Button variant="outline" size="lg" className="w-full">
                     <FileText className="w-5 h-5 mr-2" />
@@ -258,6 +269,13 @@ const ProductDetail = () => {
           </div>
         </div>
       </main>
+
+      <MakeOfferModal
+        isOpen={showOfferModal}
+        onClose={() => setShowOfferModal(false)}
+        productName={product.node.title}
+        productPrice={selectedVariant ? `${selectedVariant.price.currencyCode} ${parseFloat(selectedVariant.price.amount).toLocaleString()}` : undefined}
+      />
 
       <Footer />
     </div>
