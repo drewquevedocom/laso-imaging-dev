@@ -19,7 +19,7 @@ const BuySell = () => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const products = await fetchShopifyProducts(6, "product_type:MRI");
+        const products = await fetchShopifyProducts(6, 'product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"');
         setFeaturedSystems(products);
       } catch (error) {
         console.error("Error loading products:", error);
