@@ -97,18 +97,6 @@ export const MegaMenu = ({ isOpen }: MegaMenuProps) => {
                 ))}
               </ul>
 
-              {/* View All Link */}
-              <Link 
-                to={column.viewAll.href}
-                className="
-                  inline-flex items-center gap-1 mt-4 text-xs font-semibold 
-                  text-primary hover:text-accent transition-colors duration-200
-                  group
-                "
-              >
-                {column.viewAll.label}
-                <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-              </Link>
             </div>
           ))}
         </div>
