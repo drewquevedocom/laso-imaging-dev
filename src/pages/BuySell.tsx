@@ -10,10 +10,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { fetchShopifyProducts, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
+import MakeOfferModal from "@/components/offer/MakeOfferModal";
 
 const BuySell = () => {
   const [featuredSystems, setFeaturedSystems] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const [offerProduct, setOfferProduct] = useState<{ name: string; price?: string } | null>(null);
   const addItem = useCartStore((state) => state.addItem);
 
   useEffect(() => {
@@ -231,17 +233,29 @@ const BuySell = () => {
                           ${parseFloat(product.node.priceRange.minVariantPrice.amount).toLocaleString()}
                         </p>
                         <div className="flex gap-2 mt-auto pt-4">
+                          <Button asChild size="sm" variant="outline" className="flex-1">
+                            <Link to={`/quote?product=${encodeURIComponent(product.node.title)}`}>
+                              Quote
+                            </Link>
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            className="flex-1"
+                            onClick={() => setOfferProduct({
+                              name: product.node.title,
+                              price: `$${parseFloat(product.node.priceRange.minVariantPrice.amount).toLocaleString()}`
+                            })}
+                          >
+                            <DollarSign className="w-3 h-3 mr-1" />
+                            Offer
+                          </Button>
                           <Button
                             size="sm"
                             className="flex-1"
                             onClick={() => handleAddToCart(product)}
                           >
-                            Add to Cart
-                          </Button>
-                          <Button asChild size="sm" variant="outline" className="flex-1">
-                            <Link to={`/quote?product=${encodeURIComponent(product.node.title)}`}>
-                              Get Quote
-                            </Link>
+                            Buy
                           </Button>
                         </div>
                       </CardContent>
@@ -323,6 +337,13 @@ const BuySell = () => {
           </div>
         </section>
       </main>
+
+      <MakeOfferModal
+        isOpen={!!offerProduct}
+        onClose={() => setOfferProduct(null)}
+        productName={offerProduct?.name || ""}
+        productPrice={offerProduct?.price}
+      />
 
       <Footer />
     </>
