@@ -9,32 +9,32 @@ const menuColumns = [
   {
     title: 'BY CATEGORY',
     items: [
-      { label: 'MRI Coils', href: '/products?query=product_type:"RF Coils"' },
-      { label: 'Gradient Amplifiers', href: '/products?query=product_type:"MRI Parts" gradient amplifier' },
-      { label: 'RF Amplifiers', href: '/products?query=product_type:"MRI Parts" RF amplifier' },
-      { label: 'Cold Heads', href: '/products?query=product_type:"Power Supplies" coldhead' },
-      { label: 'Compressors', href: '/products?query=product_type:"Power Supplies" compressor' },
+      { label: 'MRI Parts', href: '/products?query=product_type:"MRI Parts"' },
+      { label: 'RF Coils', href: '/products?query=product_type:"RF Coils"' },
+      { label: 'Power Supplies', href: '/products?query=product_type:"Power Supplies"' },
+      { label: 'Cold Heads', href: '/products?query=product_type:"Power Supplies" Coldhead' },
+      { label: 'Compressors', href: '/products?query=product_type:"Power Supplies" Compressor' },
     ],
     viewAll: { label: 'View All Parts', href: '/products?query=product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies"' }
   },
   {
     title: 'BY MANUFACTURER',
     items: [
-      { label: 'GE Healthcare', href: '/products?query=vendor:"GE Healthcare" (product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies")' },
-      { label: 'Siemens Healthineers', href: '/products?query=vendor:"Siemens Healthineers" (product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies")' },
-      { label: 'Philips Healthcare', href: '/products?query=vendor:"Philips Healthcare" (product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies")' },
-      { label: 'Canon Medical (Toshiba)', href: '/products?query=vendor:"Canon Medical Systems" (product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies")' },
+      { label: 'GE Parts', href: '/products?query=vendor:"GE Healthcare" (product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies")' },
+      { label: 'Siemens Parts', href: '/products?query=vendor:"Siemens Healthineers" (product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies")' },
+      { label: 'Philips Parts', href: '/products?query=vendor:"Philips Healthcare" (product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies")' },
+      { label: 'Canon/Toshiba Parts', href: '/products?query=vendor:"Canon Medical Systems" (product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies")' },
     ],
     viewAll: { label: 'View All Brands', href: '/products?query=product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies"' }
   },
   {
     title: 'COILS & ACCESSORIES',
     items: [
-      { label: 'Head Coils', href: '/products?query=product_type:"RF Coils" head' },
-      { label: 'Body Coils', href: '/products?query=product_type:"RF Coils" body' },
-      { label: 'Knee Coils', href: '/products?query=product_type:"RF Coils" knee' },
-      { label: 'Spine Coils', href: '/products?query=product_type:"RF Coils" spine' },
-      { label: 'Extremity Coils', href: '/products?query=product_type:"RF Coils" extremity' },
+      { label: 'Head Coils', href: '/products?query=product_type:"RF Coils" Head' },
+      { label: 'Body Coils', href: '/products?query=product_type:"RF Coils" Body' },
+      { label: 'Shoulder Coils', href: '/products?query=product_type:"RF Coils" Shoulder' },
+      { label: 'Spine Coils', href: '/products?query=product_type:"RF Coils" Spine' },
+      { label: 'CTL Coils', href: '/products?query=product_type:"RF Coils" CTL' },
     ],
     viewAll: { label: 'View All Coils', href: '/products?query=product_type:"RF Coils"' }
   },
