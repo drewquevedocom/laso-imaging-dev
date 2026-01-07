@@ -29,13 +29,13 @@ const featuredSystems = [
     isFeatured: true
   },
   {
-    id: "mobile-mri-ge-signa",
-    handle: "mobile-mri-ge-signa",
+    id: "ge-15t-hdxt-16x16-channel-mri-2008-oshkosh-mobile",
+    handle: "2008-osh-trailer-ge-1-5t-16x16-channel-mobile-mri",
     image: mobileMri,
-    title: "Mobile MRI Trailer - GE Signa",
+    title: "2008 GE 1.5T 16X16 Channel Mobile MRI",
     price: "Contact for Pricing",
-    description: "Complete turnkey mobile MRI solution with climate control, patient areas, and flexible deployment options for interim or permanent needs.",
-    features: ["Turnkey Ready", "Climate Controlled", "Flexible Terms"],
+    description: "Complete turnkey mobile MRI solution with GE 1.5T system, climate control, and patient areas in an Oshkosh trailer.",
+    features: ["GE 1.5T", "16x16 Channel", "Oshkosh Trailer"],
     isMobile: true,
     isFeatured: false
   }
