@@ -125,8 +125,8 @@ const handler = async (req: Request): Promise<Response> => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "LASO Medical <noreply@lasoimaging.com>",
-        to: ["info@lasoimaging.com"],
+        from: "LASO Medical <onboarding@resend.dev>",
+        to: ["marketing@lasoimaging.com"],
         reply_to: data.email,
         subject: `New Quote Request: ${data.equipmentType} from ${data.name}`,
         html: emailHtml,
@@ -212,6 +212,9 @@ const handler = async (req: Request): Promise<Response> => {
       </html>
     `;
 
+    // Note: Customer confirmation emails disabled until domain is verified in Resend
+    // When verified, uncomment this block and change from address to noreply@lasoimaging.com
+    /*
     const customerEmailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -233,8 +236,9 @@ const handler = async (req: Request): Promise<Response> => {
     } else {
       console.log("Customer confirmation email sent:", customerResult);
     }
+    */
 
-    return new Response(JSON.stringify({ success: true, adminEmailId: emailResult.id, customerEmailId: customerResult.id }), {
+    return new Response(JSON.stringify({ success: true, adminEmailId: emailResult.id }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
