@@ -11,20 +11,20 @@ const menuColumns = [
     items: [
       { label: '1.5T MRI Systems', href: '/products?query=product_type:"1.5T MRI Systems"' },
       { label: '3.0T MRI Systems', href: '/products?query=product_type:"3.0T MRI Systems"' },
-      { label: 'Open MRI Systems', href: '/products?query=product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"' },
-      { label: 'Extremity MRI', href: '/products?query=Extremity MRI' },
+      { label: 'Mobile MRI Systems', href: '/products?query=product_type:"Mobile MRI Systems"' },
+      { label: 'All MRI Systems', href: '/products?query=product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"' },
     ],
-    viewAll: { label: 'View All Systems', href: '/products?category=mri-systems' }
+    viewAll: { label: 'View All MRI', href: '/products?query=product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"' }
   },
   {
-    title: 'BY CONDITION',
+    title: 'CT SCANNERS',
     items: [
-      { label: 'Refurbished MRI', href: '/products?category=mri-systems' },
-      { label: 'Used MRI Systems', href: '/products?category=mri-systems' },
-      { label: 'Certified Pre-Owned', href: '/products?category=mri-systems' },
-      { label: 'New Equipment', href: '/products?category=mri-systems' },
+      { label: '8-Slice CT Scanners', href: '/products?query=product_type:"8-Slice CT"' },
+      { label: '16-Slice CT Scanners', href: '/products?query=product_type:"16-Slice CT"' },
+      { label: '64-Slice CT Scanners', href: '/products?query=product_type:"64-Slice CT"' },
+      { label: 'Portable C-Arms', href: '/products?query=product_type:"Portable C-Arm"' },
     ],
-    viewAll: { label: 'View All Conditions', href: '/products?category=mri-systems' }
+    viewAll: { label: 'View All CT', href: '/products?query=product_type:"8-Slice CT" OR product_type:"16-Slice CT" OR product_type:"64-Slice CT"' }
   },
   {
     title: 'MOBILE SOLUTIONS',
@@ -39,12 +39,12 @@ const menuColumns = [
   {
     title: 'BY BRAND',
     items: [
-      { label: 'GE Healthcare', href: '/products?category=mri-systems&vendor=GE' },
-      { label: 'Siemens Healthineers', href: '/products?category=mri-systems&vendor=Siemens' },
-      { label: 'Philips Healthcare', href: '/products?category=mri-systems&vendor=Philips' },
-      { label: 'Toshiba / Canon Medical', href: '/products?category=mri-systems&vendor=Toshiba' },
+      { label: 'GE Healthcare', href: '/products?query=vendor:"GE Healthcare" (product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems")' },
+      { label: 'Siemens Healthineers', href: '/products?query=vendor:"Siemens Healthineers" (product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems" OR product_type:"8-Slice CT" OR product_type:"16-Slice CT")' },
+      { label: 'Philips Healthcare', href: '/products?query=vendor:"Philips Healthcare" (product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"8-Slice CT" OR product_type:"16-Slice CT")' },
+      { label: 'Canon Medical (Toshiba)', href: '/products?query=vendor:"Canon Medical Systems" (product_type:"1.5T MRI Systems" OR product_type:"8-Slice CT" OR product_type:"16-Slice CT")' },
     ],
-    viewAll: { label: 'View All Brands', href: '/products?category=mri-systems' }
+    viewAll: { label: 'View All Brands', href: '/products?query=product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"' }
   }
 ];
 

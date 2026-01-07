@@ -126,7 +126,7 @@ const FeaturedSystems = () => {
                 <img 
                   src={system.image} 
                   alt={system.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-contain bg-muted/30 group-hover:scale-105 transition-transform duration-500"
                 />
                 {/* Badges */}
                 <div className="absolute top-3 left-3 flex gap-2">
