@@ -102,7 +102,7 @@ const ProductListing = () => {
           }
         }
         
-        const data = await fetchShopifyProducts(50, shopifyQuery.trim() || undefined);
+        const data = await fetchShopifyProducts(250, shopifyQuery.trim() || undefined);
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch products:", error);

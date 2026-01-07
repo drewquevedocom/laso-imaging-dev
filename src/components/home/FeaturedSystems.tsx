@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FileText, Eye, Star, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { fetchShopifyProductByHandle } from "@/lib/shopify";
-import mriSystem1 from "@/assets/mri-system-1.jpg";
+import geSignaHdxt from "@/assets/ge-signa-hdxt-15t.webp";
 import ctScanner from "@/assets/ct-scanner.jpg";
 import mobileMri from "@/assets/mobile-mri.jpg";
 
@@ -17,19 +17,21 @@ interface FeaturedSystem {
   features: string[];
   isMobile: boolean;
   isFeatured: boolean;
+  useStaticImage?: boolean;
 }
 
 const staticSystems: FeaturedSystem[] = [
   {
     id: "ge-signa-hde-15t-mri-system",
     handle: "ge-signa-hde-15t-mri-system",
-    image: mriSystem1,
+    image: geSignaHdxt,
     title: "GE Signa HDe 1.5T MRI System",
     price: "Contact for Pricing",
     description: "High-definition 1.5T MRI system with advanced imaging capabilities, proven reliability, and comprehensive coil packages available.",
     features: ["HD Imaging", "GE Signa Series", "90-Day Warranty"],
     isMobile: false,
-    isFeatured: true
+    isFeatured: true,
+    useStaticImage: true
   },
   {
     id: "siemens-magnetom-verio-30t",
@@ -60,8 +62,8 @@ const FeaturedSystems = () => {
 
   useEffect(() => {
     const fetchProductImages = async () => {
+      // Only fetch for items that don't use static images
       const handles = [
-        "ge-signa-hde-15t-mri-system",
         "siemens-magnetom-verio-30t",
         "ge-15t-hdxt-16x16-channel-mri-2008-oshkosh-mobile"
       ];
@@ -76,6 +78,9 @@ const FeaturedSystems = () => {
       const products = await Promise.all(fetchPromises);
       
       setFeaturedSystems(prev => prev.map(system => {
+        // Skip items that use static images
+        if (system.useStaticImage) return system;
+        
         const product = products.find(p => 
           p?.node?.handle === system.handle
         );
