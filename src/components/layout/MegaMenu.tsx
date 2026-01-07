@@ -11,7 +11,7 @@ const menuColumns = [
     items: [
       { label: '1.5T MRI Systems', href: '/products?query=product_type:"1.5T MRI Systems"' },
       { label: '3.0T MRI Systems', href: '/products?query=product_type:"3.0T MRI Systems"' },
-      { label: 'Open MRI Systems', href: '/products?query=Open MRI' },
+      { label: 'Open MRI Systems', href: '/products?query=product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"' },
       { label: 'Extremity MRI', href: '/products?query=Extremity MRI' },
     ],
     viewAll: { label: 'View All Systems', href: '/products?category=mri-systems' }
