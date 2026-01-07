@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FileText, Eye, Star, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { fetchShopifyProductByHandle } from "@/lib/shopify";
-import geSignaHdxt from "@/assets/ge-signa-hdxt-15t.webp";
+import geSignaHighspeed from "@/assets/ge-signa-highspeed-lx.webp";
 import ctScanner from "@/assets/ct-scanner.jpg";
 import mobileMri from "@/assets/mobile-mri.jpg";
 
@@ -22,13 +22,13 @@ interface FeaturedSystem {
 
 const staticSystems: FeaturedSystem[] = [
   {
-    id: "ge-signa-hde-15t-mri-system",
-    handle: "ge-signa-hde-15t-mri-system",
-    image: geSignaHdxt,
-    title: "GE Signa HDe 1.5T MRI System",
+    id: "ge-signa-15t-highspeed-lx",
+    handle: "ge-signa-15t-highspeed-lx",
+    image: geSignaHighspeed,
+    title: "GE Signa 1.5T Highspeed LX",
     price: "Contact for Pricing",
-    description: "High-definition 1.5T MRI system with advanced imaging capabilities, proven reliability, and comprehensive coil packages available.",
-    features: ["HD Imaging", "GE Signa Series", "90-Day Warranty"],
+    description: "Reliable 1.5T MRI system with high-speed imaging capabilities, excellent patient throughput, and proven clinical performance.",
+    features: ["1.5T Field Strength", "Highspeed Gradients", "90-Day Warranty"],
     isMobile: false,
     isFeatured: true,
     useStaticImage: true
