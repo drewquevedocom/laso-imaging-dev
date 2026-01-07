@@ -30,7 +30,7 @@ const featuredSystems = [
   },
   {
     id: "ge-15t-hdxt-16x16-channel-mri-2008-oshkosh-mobile",
-    handle: "2008-osh-trailer-ge-1-5t-16x16-channel-mobile-mri",
+    handle: "ge-15t-hdxt-16x16-channel-mri-2008-oshkosh-mobile",
     image: mobileMri,
     title: "2008 GE 1.5T 16X16 Channel Mobile MRI",
     price: "Contact for Pricing",
