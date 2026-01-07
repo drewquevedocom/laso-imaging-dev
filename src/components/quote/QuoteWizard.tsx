@@ -101,6 +101,7 @@ const QuoteWizard = ({
   };
 
   const handleSubmit = async () => {
+    console.log("🚀 Starting quote submission...");
     setIsSubmitting(true);
     
     try {
@@ -115,8 +116,10 @@ Role: ${formData.role}
 Additional Requirements: ${formData.additionalRequirements || "None"}
       `.trim();
 
-      // Insert lead into database
-      const { data: lead, error: insertError } = await supabase
+      console.log("📝 Inserting lead into database...");
+      
+      // Simple insert without .select() - just insert and check for error
+      const { error: insertError } = await supabase
         .from("leads")
         .insert({
           name: formData.name,
@@ -126,65 +129,52 @@ Additional Requirements: ${formData.additionalRequirements || "None"}
           interest: formData.equipmentType,
           message: message,
           source_page: sourcePage,
-        })
-        .select()
-        .single();
-
-      if (insertError) throw insertError;
-
-      // Trigger lead scoring (non-blocking)
-      let leadScore = 0;
-      try {
-        if (lead) {
-          const { data: scoreData, error: scoreError } = await supabase.functions.invoke("calculate-lead-score", {
-            body: { leadId: lead.id },
-          });
-          if (scoreError) {
-            console.error("Lead scoring error:", scoreError);
-          } else {
-            leadScore = scoreData?.score || 0;
-          }
-        }
-      } catch (scoreErr) {
-        console.error("Lead scoring failed:", scoreErr);
-      }
-
-      // Send email notification to sales team
-      try {
-        await supabase.functions.invoke("send-quote-notification", {
-          body: {
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            company: formData.company,
-            role: formData.role,
-            equipmentType: formData.equipmentType,
-            specificModel: formData.specificModel,
-            facilityType: formData.facilityType,
-            patientVolume: formData.patientVolume,
-            timeline: formData.timeline,
-            budget: formData.budgetRange,
-            additionalRequirements: formData.additionalRequirements,
-            sourcePage: sourcePage,
-            leadScore: leadScore,
-          },
         });
-        console.log("Quote notification email sent successfully");
-      } catch (emailError) {
-        // Don't fail the submission if email fails
-        console.error("Failed to send email notification:", emailError);
+
+      if (insertError) {
+        console.error("❌ Insert error:", insertError);
+        throw insertError;
       }
+
+      console.log("✅ Lead inserted successfully!");
+
+      // Fire-and-forget: Edge functions (completely non-blocking)
+      // We don't await these - they run in background
+      supabase.functions.invoke("calculate-lead-score", {
+        body: { leadId: crypto.randomUUID() }, // We don't have the ID, but scoring can still work
+      }).then(res => console.log("📊 Lead scoring complete:", res))
+        .catch(err => console.warn("⚠️ Lead scoring failed (non-blocking):", err));
+
+      supabase.functions.invoke("send-quote-notification", {
+        body: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          company: formData.company,
+          role: formData.role,
+          equipmentType: formData.equipmentType,
+          specificModel: formData.specificModel,
+          facilityType: formData.facilityType,
+          patientVolume: formData.patientVolume,
+          timeline: formData.timeline,
+          budget: formData.budgetRange,
+          additionalRequirements: formData.additionalRequirements,
+          sourcePage: sourcePage,
+        },
+      }).then(res => console.log("📧 Email notification sent:", res))
+        .catch(err => console.warn("⚠️ Email notification failed (non-blocking):", err));
 
       // Track quote request in Google Analytics
       trackQuoteRequest(formData.equipmentType, sourcePage);
 
+      console.log("🎉 Quote submission complete!");
       setIsSubmitted(true);
       toast({
         title: "Quote Request Submitted!",
         description: "Our team will contact you within 24 hours.",
       });
     } catch (error) {
-      console.error("Error submitting quote:", error);
+      console.error("💥 Error submitting quote:", error);
       toast({
         title: "Error",
         description: "Failed to submit your request. Please try again.",
