@@ -1,11 +1,25 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FileText, Eye, Star, Truck } from "lucide-react";
+import { useEffect, useState } from "react";
+import { fetchShopifyProductByHandle } from "@/lib/shopify";
 import mriSystem1 from "@/assets/mri-system-1.jpg";
 import ctScanner from "@/assets/ct-scanner.jpg";
 import mobileMri from "@/assets/mobile-mri.jpg";
 
-const featuredSystems = [
+interface FeaturedSystem {
+  id: string;
+  handle: string;
+  image: string;
+  title: string;
+  price: string;
+  description: string;
+  features: string[];
+  isMobile: boolean;
+  isFeatured: boolean;
+}
+
+const staticSystems: FeaturedSystem[] = [
   {
     id: "ge-signa-hdxt-15t",
     handle: "ge-signa-hdxt-1-5t",
@@ -42,6 +56,27 @@ const featuredSystems = [
 ];
 
 const FeaturedSystems = () => {
+  const [featuredSystems, setFeaturedSystems] = useState<FeaturedSystem[]>(staticSystems);
+
+  useEffect(() => {
+    const fetchMobileProductImage = async () => {
+      try {
+        const product = await fetchShopifyProductByHandle("ge-15t-hdxt-16x16-channel-mri-2008-oshkosh-mobile");
+        if (product?.node?.images?.edges?.[0]?.node?.url) {
+          setFeaturedSystems(prev => prev.map(system => 
+            system.id === "ge-15t-hdxt-16x16-channel-mri-2008-oshkosh-mobile"
+              ? { ...system, image: product.node.images.edges[0].node.url }
+              : system
+          ));
+        }
+      } catch (error) {
+        console.error('Error fetching mobile MRI product image:', error);
+      }
+    };
+
+    fetchMobileProductImage();
+  }, []);
+
   return (
     <section className="py-16 bg-secondary/30">
       <div className="container mx-auto px-4">
