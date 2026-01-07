@@ -21,24 +21,24 @@ interface FeaturedSystem {
 
 const staticSystems: FeaturedSystem[] = [
   {
-    id: "ge-signa-hdxt-15t",
-    handle: "ge-signa-hdxt-1-5t",
+    id: "ge-signa-hde-15t-mri-system",
+    handle: "ge-signa-hde-15t-mri-system",
     image: mriSystem1,
-    title: "GE Signa HDxt 1.5T MRI",
-    price: "From $89,000",
+    title: "GE Signa HDe 1.5T MRI System",
+    price: "Contact for Pricing",
     description: "High-definition 1.5T MRI system with advanced imaging capabilities, proven reliability, and comprehensive coil packages available.",
-    features: ["23x Software", "HD Gradients", "8-Channel RF"],
+    features: ["HD Imaging", "GE Signa Series", "90-Day Warranty"],
     isMobile: false,
     isFeatured: true
   },
   {
-    id: "siemens-magnetom-verio-3t",
-    handle: "siemens-magnetom-verio-3t",
+    id: "siemens-magnetom-verio-30t",
+    handle: "siemens-magnetom-verio-30t",
     image: ctScanner,
     title: "Siemens MAGNETOM Verio 3.0T",
-    price: "From $195,000",
-    description: "Premium 3.0T MRI with Tim technology, exceptional image quality, and advanced research capabilities for demanding clinical applications.",
-    features: ["Tim 4G Technology", "70cm Open Bore", "Advanced Neuro"],
+    price: "Contact for Pricing",
+    description: "Premium 3.0T MRI with exceptional image quality and advanced research capabilities for demanding clinical applications.",
+    features: ["3.0T Field Strength", "70cm Open Bore", "Advanced Neuro"],
     isMobile: false,
     isFeatured: true
   },
@@ -59,22 +59,34 @@ const FeaturedSystems = () => {
   const [featuredSystems, setFeaturedSystems] = useState<FeaturedSystem[]>(staticSystems);
 
   useEffect(() => {
-    const fetchMobileProductImage = async () => {
-      try {
-        const product = await fetchShopifyProductByHandle("ge-15t-hdxt-16x16-channel-mri-2008-oshkosh-mobile");
+    const fetchProductImages = async () => {
+      const handles = [
+        "ge-signa-hde-15t-mri-system",
+        "siemens-magnetom-verio-30t",
+        "ge-15t-hdxt-16x16-channel-mri-2008-oshkosh-mobile"
+      ];
+
+      const fetchPromises = handles.map(handle => 
+        fetchShopifyProductByHandle(handle).catch(error => {
+          console.error(`Error fetching product ${handle}:`, error);
+          return null;
+        })
+      );
+
+      const products = await Promise.all(fetchPromises);
+      
+      setFeaturedSystems(prev => prev.map(system => {
+        const product = products.find(p => 
+          p?.node?.handle === system.handle
+        );
         if (product?.node?.images?.edges?.[0]?.node?.url) {
-          setFeaturedSystems(prev => prev.map(system => 
-            system.id === "ge-15t-hdxt-16x16-channel-mri-2008-oshkosh-mobile"
-              ? { ...system, image: product.node.images.edges[0].node.url }
-              : system
-          ));
+          return { ...system, image: product.node.images.edges[0].node.url };
         }
-      } catch (error) {
-        console.error('Error fetching mobile MRI product image:', error);
-      }
+        return system;
+      }));
     };
 
-    fetchMobileProductImage();
+    fetchProductImages();
   }, []);
 
   return (
