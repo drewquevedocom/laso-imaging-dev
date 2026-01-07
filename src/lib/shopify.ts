@@ -158,7 +158,7 @@ const CART_CREATE_MUTATION = `
 `;
 
 // Fetch products from Shopify
-export async function fetchShopifyProducts(first: number = 50, query?: string): Promise<ShopifyProduct[]> {
+export async function fetchShopifyProducts(first: number = 250, query?: string): Promise<ShopifyProduct[]> {
   try {
     const data = await storefrontApiRequest(PRODUCTS_QUERY, { first, query });
     if (!data) return [];
