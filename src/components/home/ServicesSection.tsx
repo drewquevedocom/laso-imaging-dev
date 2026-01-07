@@ -46,7 +46,7 @@ const ServicesSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <span className="text-muted-foreground text-sm uppercase tracking-wider">Our Services</span>
-          <h2 className="text-3xl font-bold text-foreground mt-2">Complete MRI Solutions</h2>
+          <h2 className="text-3xl font-bold text-foreground mt-2">Complete Imaging Solutions</h2>
           <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
             From acquisition to training and ongoing support, we provide everything your facility needs for diagnostic excellence.
           </p>
