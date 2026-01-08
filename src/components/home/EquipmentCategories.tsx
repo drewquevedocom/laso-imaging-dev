@@ -1,47 +1,44 @@
 import { Link } from "react-router-dom";
 
-// MRI Machines section images
+// Imaging Systems section images
 import ctScanner from "@/assets/categories/ct-scanner.png";
 import mriSystems from "@/assets/categories/mri-systems.png";
-import petctScanners from "@/assets/categories/petct-scanners.png";
-import xrayUnits from "@/assets/categories/xray-units.png";
 
 // Mobile & Portable section images
 import mobileCt from "@/assets/categories/mobile-ct.png";
 import mobileMri from "@/assets/categories/mobile-mri.png";
-import mobilePetct from "@/assets/categories/mobile-petct.png";
-import mobileXray from "@/assets/categories/mobile-xray.png";
 
 const EquipmentCategories = () => {
+  // Imaging Systems - updated with accurate counts and proper query links
   const categories = [
-    { name: "CT Scanners", count: 27, image: ctScanner, link: "/products?category=ct-scanners" },
-    { name: "MRI Systems", count: 45, image: mriSystems, link: "/products?category=mri-systems" },
-    { name: "PET/CT Scanners", count: 11, image: petctScanners, link: "/products?category=petct-scanners" },
-    { name: "X-RAY Units", count: 4, image: xrayUnits, link: "/products?category=xray-units" },
+    { name: "MRI Systems", count: 82, image: mriSystems, link: "/products?category=mri-systems" },
+    { name: "CT Scanners", count: 51, image: ctScanner, link: "/products?category=ct-scanners" },
+    { name: "1.5T MRI", count: 49, image: mriSystems, link: "/products?category=1-5t-mri" },
+    { name: "3.0T MRI", count: 13, image: mriSystems, link: "/products?category=3t-mri" },
   ];
 
+  // Mobile & Portable - only categories with actual products
   const mobileCategories = [
-    { name: "CT Scanners", count: 1, image: mobileCt, link: "/products?category=mobile-ct" },
-    { name: "MRI Unit", count: 13, image: mobileMri, link: "/products?category=mobile-mri" },
-    { name: "PET/CT Scanners", count: null, image: mobilePetct, link: "/products?category=mobile-petct" },
-    { name: "X-RAY Unit", count: 4, image: mobileXray, link: "/products?category=mobile-xray" },
+    { name: "Mobile MRI", count: 20, image: mobileMri, link: "/products?category=mobile-mri" },
+    { name: "Mobile CT", count: 1, image: mobileCt, link: "/products?category=mobile-ct" },
   ];
 
+  // Parts - updated with accurate counts from Shopify inventory
   const partsCategories = [
-    { name: "RF Coils", count: 24, image: mriSystems, link: "/products?category=rf-coils" },
-    { name: "Power Supplies", count: 18, image: ctScanner, link: "/products?category=power-supplies" },
-    { name: "MRI Parts", count: 56, image: petctScanners, link: "/products?category=mri-parts" },
-    { name: "Accessories", count: 32, image: xrayUnits, link: "/products?category=accessories" },
+    { name: "RF Coils", count: 126, image: mriSystems, link: "/products?category=rf-coils" },
+    { name: "MRI Parts", count: 296, image: mriSystems, link: "/products?category=mri-parts" },
+    { name: "CT Parts", count: 85, image: ctScanner, link: "/products?category=ct-parts" },
+    { name: "Power Supplies", count: 39, image: ctScanner, link: "/products?category=power-supplies" },
   ];
 
   return (
     <section className="py-16 bg-secondary/20">
       <div className="container mx-auto px-4">
-        {/* MRI Machines Section */}
+        {/* Imaging Systems Section */}
         <div className="mb-12">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-foreground">MRI Machines</h2>
-            <Link to="/equipment" className="text-accent hover:underline font-medium">View All</Link>
+            <h2 className="text-2xl font-bold text-foreground">Imaging Systems</h2>
+            <Link to="/products?category=mri-systems" className="text-accent hover:underline font-medium">View All</Link>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -55,10 +52,10 @@ const EquipmentCategories = () => {
         <div className="mb-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-foreground">Mobile & Portable</h2>
-            <Link to="/equipment/mobile" className="text-accent hover:underline font-medium">Browse All Mobile</Link>
+            <Link to="/products?category=mobile-mri" className="text-accent hover:underline font-medium">Browse All Mobile</Link>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 max-w-2xl">
             {mobileCategories.map((cat) => (
               <CategoryCard key={cat.name} {...cat} />
             ))}
