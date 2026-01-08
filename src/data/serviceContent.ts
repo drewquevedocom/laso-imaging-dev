@@ -688,6 +688,133 @@ Whether you need operator training, technical courses, or safety certification, 
     ],
     keywords: ['on-site MRI training', 'custom MRI training', 'MRI training at your facility', 'MRI education'],
     geoKeywords: ['on-site MRI training California', 'custom MRI training Los Angeles', 'MRI training nationwide']
+  },
+
+  // MOBILE SOLUTIONS
+  'mobile-mri-rental': {
+    slug: 'mobile-mri-rental',
+    title: 'Mobile MRI Rental Programs',
+    metaTitle: 'Mobile MRI Rental Programs | Flexible Imaging Solutions | LASO Imaging',
+    metaDescription: 'Flexible mobile MRI rental programs for healthcare facilities. Short-term or long-term rentals with full service support. Nationwide delivery available.',
+    heroDescription: 'Need imaging capacity fast? Our mobile MRI rental program delivers fully functional systems to your facility with complete support.',
+    overview: `LASO's mobile MRI rental program provides healthcare facilities with flexible imaging solutions. Whether you need temporary capacity during renovations, backup systems during equipment upgrades, or additional throughput during peak demand, our mobile fleet is ready to deploy.
+
+Our rental program includes delivery, installation, operator training, and ongoing technical support. We maintain a diverse fleet of mobile MRI systems from major manufacturers, ensuring we can match your clinical needs and site requirements.`,
+    processSteps: [
+      { step: 'Needs Assessment', description: 'Evaluate your imaging requirements, patient volume, and site conditions.' },
+      { step: 'System Selection', description: 'Match the right mobile system to your clinical and operational needs.' },
+      { step: 'Site Preparation', description: 'Coordinate power, pad requirements, and access considerations.' },
+      { step: 'Delivery & Setup', description: 'Professional delivery and system installation at your site.' },
+      { step: 'Staff Training', description: 'Comprehensive operator training on the mobile system.' },
+      { step: 'Ongoing Support', description: 'Full technical support and maintenance throughout the rental period.' },
+      { step: 'Flexible Terms', description: 'Extend or modify rental as your needs change.' }
+    ],
+    benefits: [
+      'No capital investment required',
+      'Rapid deployment in 2-4 weeks',
+      'Full service support included',
+      'Flexible rental terms from 1 month to 5 years',
+      'Multiple field strengths available',
+      'Seamless transition during facility projects'
+    ],
+    equipmentBrands: ['GE Healthcare', 'Siemens Healthineers', 'Philips Healthcare', 'Canon Medical'],
+    faqs: [
+      { question: 'How quickly can you deliver a mobile MRI?', answer: 'Standard delivery is 2-4 weeks. Emergency deployments can be arranged in as little as 1 week depending on availability.' },
+      { question: 'What site preparation is required?', answer: 'Mobile units need a level pad, adequate power supply, and trailer access. We provide detailed specifications and can assist with site preparation.' },
+      { question: 'Is staffing included in the rental?', answer: 'We offer optional staffing packages with experienced MRI technologists if needed.' },
+      { question: 'What happens if the system needs repair?', answer: 'Full maintenance and repair are included in rental agreements. We respond within 4 hours for most service calls.' }
+    ],
+    relatedServices: [
+      { slug: 'interim-projects', title: 'Interim MRI Projects' },
+      { slug: 'nationwide-coverage', title: 'Nationwide Coverage' },
+      { slug: 'operator-training', title: 'Operator Training' }
+    ],
+    keywords: ['mobile MRI rental', 'MRI trailer rental', 'temporary MRI', 'mobile imaging rental'],
+    geoKeywords: ['mobile MRI rental California', 'MRI trailer rental Los Angeles', 'mobile MRI nationwide']
+  },
+
+  'interim-projects': {
+    slug: 'interim-projects',
+    title: 'Interim MRI Projects & Temporary Solutions',
+    metaTitle: 'Interim MRI Projects | Temporary Imaging Solutions | LASO Imaging',
+    metaDescription: 'Interim MRI solutions for facility renovations, equipment upgrades, and emergency capacity needs. Maintain patient care during transitions.',
+    heroDescription: 'Keep your imaging services running during facility projects. Our interim solutions provide seamless continuity of care.',
+    overview: `Healthcare facility projects shouldn't mean interrupted patient care. LASO's interim MRI solutions provide temporary imaging capacity during renovations, equipment replacements, or unexpected system failures. We manage every aspect of interim projects from planning through completion.
+
+Our project managers coordinate with your facility team, contractors, and equipment vendors to ensure minimal disruption. We've successfully supported hundreds of interim projects, from simple scanner replacements to complete imaging department renovations.`,
+    processSteps: [
+      { step: 'Project Consultation', description: 'Review your project timeline, requirements, and constraints.' },
+      { step: 'Solution Design', description: 'Develop a comprehensive interim plan including equipment, timing, and logistics.' },
+      { step: 'Vendor Coordination', description: 'Coordinate with contractors, equipment vendors, and your facility team.' },
+      { step: 'Equipment Deployment', description: 'Install interim equipment and verify operational readiness.' },
+      { step: 'Transition Management', description: 'Manage the transition from existing to interim equipment.' },
+      { step: 'Project Monitoring', description: 'Ongoing support and coordination throughout the project.' },
+      { step: 'Final Transition', description: 'Seamless transition back to permanent equipment when ready.' }
+    ],
+    benefits: [
+      'Maintain revenue during facility projects',
+      'No patient referrals to competitors',
+      'Experienced project management',
+      'Flexible solutions for any project type',
+      'Single point of contact for all logistics',
+      'Risk mitigation for complex projects'
+    ],
+    equipmentBrands: ['GE Healthcare', 'Siemens Healthineers', 'Philips Healthcare', 'Canon Medical'],
+    faqs: [
+      { question: 'How far in advance should we plan?', answer: 'We recommend starting planning 3-6 months before your project. Emergency situations can be accommodated with shorter timelines.' },
+      { question: 'Can you coordinate with our equipment vendor?', answer: 'Yes, we regularly work with OEM project teams and can coordinate timing and logistics with your new equipment installation.' },
+      { question: 'What types of projects have you supported?', answer: 'We have supported renovations, new construction, emergency replacements, system upgrades, and disaster recovery projects.' },
+      { question: 'How do you handle patient scheduling?', answer: 'We help develop transition plans that minimize scheduling disruption and ensure patients are informed of temporary changes.' }
+    ],
+    relatedServices: [
+      { slug: 'mobile-mri-rental', title: 'Mobile MRI Rental' },
+      { slug: 'mri-installation', title: 'MRI Installation' },
+      { slug: 'relocation', title: 'Relocation Services' }
+    ],
+    keywords: ['interim MRI', 'temporary MRI', 'MRI during renovation', 'interim imaging solutions'],
+    geoKeywords: ['interim MRI California', 'temporary MRI Los Angeles', 'interim imaging nationwide']
+  },
+
+  'nationwide-coverage': {
+    slug: 'nationwide-coverage',
+    title: 'Nationwide MRI Service Coverage',
+    metaTitle: 'Nationwide MRI Service Coverage | Coast-to-Coast Support | LASO Imaging',
+    metaDescription: 'Nationwide MRI service coverage across all 50 states. Local engineers, rapid response, and consistent quality from coast to coast.',
+    heroDescription: 'From California to New York, our nationwide network delivers consistent, expert MRI service wherever you are.',
+    overview: `LASO provides comprehensive MRI services across all 50 states. Our strategic network of field engineers, regional parts depots, and logistics partnerships ensures rapid response and consistent quality no matter where your facility is located.
+
+Whether you have a single imaging center or a multi-site health system, our nationwide coverage provides the consistency and reliability you need. Every service call receives the same expert attention, backed by our national operations center.`,
+    processSteps: [
+      { step: 'National Account Setup', description: 'Establish service agreements across all your locations.' },
+      { step: 'Site Documentation', description: 'Document equipment and site-specific requirements at each location.' },
+      { step: 'Engineer Assignment', description: 'Assign primary and backup engineers for each region.' },
+      { step: 'Parts Positioning', description: 'Pre-position critical parts at strategic locations.' },
+      { step: 'Centralized Dispatch', description: 'Single point of contact for all service requests.' },
+      { step: 'Standardized Reporting', description: 'Consistent reporting and documentation across all sites.' },
+      { step: 'Performance Review', description: 'Regular review of service metrics and continuous improvement.' }
+    ],
+    benefits: [
+      'Single vendor for all locations',
+      'Consistent service quality nationwide',
+      '2-4 hour response in major markets',
+      'Same-day response in most locations',
+      'Centralized account management',
+      'Volume pricing for multi-site organizations'
+    ],
+    equipmentBrands: ['GE Healthcare', 'Siemens Healthineers', 'Philips Healthcare', 'Canon Medical', 'Hitachi'],
+    faqs: [
+      { question: 'What is your response time in rural areas?', answer: 'Response times vary by location, but we maintain engineers within 4 hours of most US facilities. Remote areas may require up to 8 hours.' },
+      { question: 'How do you ensure consistent quality?', answer: 'All engineers follow standardized procedures and are monitored through our quality management system.' },
+      { question: 'Can you service our entire health system?', answer: 'Yes, we regularly support health systems with dozens of locations across multiple states.' },
+      { question: 'How does pricing work for multiple locations?', answer: 'We offer volume discounts and can create custom service packages for multi-site organizations.' }
+    ],
+    relatedServices: [
+      { slug: 'preventive-maintenance', title: 'Preventive Maintenance' },
+      { slug: 'emergency-repairs', title: 'Emergency Repairs' },
+      { slug: 'mobile-mri-rental', title: 'Mobile MRI Rental' }
+    ],
+    keywords: ['nationwide MRI service', 'coast to coast MRI support', 'national MRI service', 'multi-site MRI service'],
+    geoKeywords: ['nationwide MRI service', 'MRI service all states', 'national imaging support']
   }
 };
 

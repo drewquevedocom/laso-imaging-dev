@@ -37,14 +37,14 @@ const menuColumns = [
     viewAll: { label: 'View All Cryo', href: '/services' }
   },
   {
-    title: 'TRAINING',
+    title: 'TRAINING & MOBILE',
     items: [
       { label: 'Operator Training', href: '/services/operator-training' },
       { label: 'Safety Certification', href: '/services/safety-certification' },
-      { label: 'Technical Courses', href: '/services/technical-courses' },
-      { label: 'On-site Training', href: '/services/onsite-training' },
+      { label: 'Mobile MRI Rental', href: '/services/mobile-mri-rental' },
+      { label: 'Nationwide Coverage', href: '/services/nationwide-coverage' },
     ],
-    viewAll: { label: 'View All Training', href: '/services' }
+    viewAll: { label: 'View All Services', href: '/services' }
   }
 ];
 
