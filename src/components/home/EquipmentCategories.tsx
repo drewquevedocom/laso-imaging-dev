@@ -7,7 +7,8 @@ import mriSystems from "@/assets/categories/mri-systems.png";
 // Mobile & Portable section images
 import mobileCt from "@/assets/categories/mobile-ct.png";
 import mobileMri from "@/assets/categories/mobile-mri.png";
-
+import mobilePetct from "@/assets/categories/mobile-petct.png";
+import mobileXray from "@/assets/categories/mobile-xray.png";
 const EquipmentCategories = () => {
   // Imaging Systems - updated with accurate counts and proper query links
   const categories = [
@@ -17,10 +18,12 @@ const EquipmentCategories = () => {
     { name: "3.0T MRI", count: 13, image: mriSystems, link: "/products?category=3t-mri" },
   ];
 
-  // Mobile & Portable - only categories with actual products
+  // Mobile & Portable - all 4 categories
   const mobileCategories = [
     { name: "Mobile MRI", count: 20, image: mobileMri, link: "/products?category=mobile-mri" },
     { name: "Mobile CT", count: 1, image: mobileCt, link: "/products?category=mobile-ct" },
+    { name: "Mobile PET/CT", count: null, image: mobilePetct, link: "/products?category=mobile-petct" },
+    { name: "Mobile X-Ray", count: null, image: mobileXray, link: "/products?category=mobile-xray" },
   ];
 
   // Parts - updated with accurate counts from Shopify inventory
@@ -55,7 +58,7 @@ const EquipmentCategories = () => {
             <Link to="/products?category=mobile-mri" className="text-accent hover:underline font-medium">Browse All Mobile</Link>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 max-w-2xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {mobileCategories.map((cat) => (
               <CategoryCard key={cat.name} {...cat} />
             ))}
