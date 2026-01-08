@@ -21,6 +21,9 @@ import About from "./pages/About";
 import TrackOrder from "./pages/TrackOrder";
 import FAQs from "./pages/FAQs";
 import SignUp from "./pages/SignUp";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import CookiePolicy from "./pages/CookiePolicy";
 import BuySell from "./pages/BuySell";
 import Services from "./pages/services/Services";
 import ServicePage from "./pages/services/ServicePage";
@@ -69,9 +72,13 @@ const App = () => (
             <Route path="/faqs" element={<FAQs />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/buy-sell" element={<BuySell />} />
-            
             {/* Equipment Routes */}
             <Route path="/equipment/1-5t-systems" element={<Systems15T />} />
+            {/* Legal Pages */}
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/cookie-policy" element={<CookiePolicy />} />
+            
             <Route path="/equipment/3t-systems" element={<Systems3T />} />
             <Route path="/equipment/brand/:brand" element={<BrandPage />} />
             <Route path="/equipment/:category" element={<EquipmentCategory />} />
@@ -113,6 +120,7 @@ const App = () => (
             </Route>
             
             {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
             <Route 
               path="/admin/notifications" 
               element={
