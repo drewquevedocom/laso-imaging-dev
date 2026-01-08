@@ -27,30 +27,34 @@ import MakeOfferModal from "@/components/offer/MakeOfferModal";
 
 // Multi-type queries for categories that span multiple Shopify product types
 const categoryMap: Record<string, string> = {
-  "ct-scanners": 'product_type:"64-Slice CT" OR product_type:"128-Slice CT" OR product_type:CT',
+  // Imaging Systems
+  "ct-scanners": 'product_type:"4-Slice CT" OR product_type:"8-Slice CT" OR product_type:"16-Slice CT" OR product_type:"32-Slice CT" OR product_type:"40-Slice CT" OR product_type:"64-Slice CT" OR product_type:"128-Slice CT"',
   "mri-systems": 'product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"',
-  "petct-scanners": "product_type:PET",
-  "xray-units": "product_type:X-Ray",
-  "mobile-ct": "product_type:Mobile CT",
+  "1-5t-mri": 'product_type:"1.5T MRI Systems"',
+  "3t-mri": 'product_type:"3.0T MRI Systems"',
+  // Mobile
+  "mobile-ct": 'product_type:"Mobile CT"',
   "mobile-mri": 'product_type:"Mobile MRI Systems"',
-  "mobile-petct": "product_type:Mobile PET",
-  "mobile-xray": "product_type:Mobile X-Ray",
+  // Parts
   "rf-coils": 'product_type:"RF Coils"',
   "power-supplies": 'product_type:"Power Supplies"',
   "mri-parts": 'product_type:"MRI Parts"',
-  "accessories": "product_type:Accessories",
+  "ct-parts": 'product_type:"CT Parts"',
+  "circuit-boards": 'product_type:"Circuit Boards"',
 };
 
 const categories = [
   { key: "", label: "All Products" },
   { key: "mri-systems", label: "MRI Systems" },
   { key: "ct-scanners", label: "CT Scanners" },
-  { key: "petct-scanners", label: "PET/CT Scanners" },
-  { key: "xray-units", label: "X-Ray Units" },
+  { key: "1-5t-mri", label: "1.5T MRI" },
+  { key: "3t-mri", label: "3.0T MRI" },
   { key: "mobile-mri", label: "Mobile MRI" },
   { key: "mobile-ct", label: "Mobile CT" },
   { key: "rf-coils", label: "RF Coils" },
   { key: "mri-parts", label: "MRI Parts" },
+  { key: "ct-parts", label: "CT Parts" },
+  { key: "power-supplies", label: "Power Supplies" },
 ];
 
 type SortOption = "name-asc" | "name-desc" | "price-asc" | "price-desc";
