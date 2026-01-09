@@ -54,7 +54,7 @@ const PartsSearch = () => {
       setLoading(true);
       try {
         // Fetch parts-related products
-        const data = await fetchShopifyProducts(100);
+        const data = await fetchShopifyProducts(250);
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch parts:", error);

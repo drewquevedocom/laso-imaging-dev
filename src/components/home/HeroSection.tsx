@@ -65,7 +65,7 @@ const slides: SlideContent[] = [
       "Flexible Financing Available"
     ],
     primaryCta: { text: "Get a Quote", link: "/quote" },
-    secondaryCta: { text: "Explore Systems", link: "/products?category=mri-systems" },
+    secondaryCta: { text: "Explore Systems", link: "/products?category=imaging-systems" },
     image: heroSlide3
   }
 ];
@@ -81,19 +81,19 @@ const promoCards = [
     image: promoService,
     label: "SERVICE AGREEMENTS",
     title: "Preventative Maintenance",
-    link: "/services/maintenance"
+    link: "/services/preventive-maintenance"
   },
   {
     image: promoCryo,
     label: "CRYO & COLDHEAD",
     title: "Helium Service & Repair",
-    link: "/services/helium"
+    link: "/services/helium-refills"
   },
   {
     image: promoTraining,
     label: "TRAINING & SUPPORT",
     title: "Applications Training & Remote Scanning",
-    link: "/services/training"
+    link: "/services/operator-training"
   }
 ];
 
