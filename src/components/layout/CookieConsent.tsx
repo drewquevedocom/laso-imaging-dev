@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import { Link } from "react-router-dom";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const COOKIE_CONSENT_KEY = "laso-cookie-consent";
 
-const CookieConsent = () => {
+const CookieConsent = forwardRef<HTMLDivElement>((_, ref) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -31,6 +31,7 @@ const CookieConsent = () => {
     <AnimatePresence>
       {isVisible && (
         <motion.div
+          ref={ref}
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
@@ -84,6 +85,8 @@ const CookieConsent = () => {
       )}
     </AnimatePresence>
   );
-};
+});
+
+CookieConsent.displayName = "CookieConsent";
 
 export default CookieConsent;
