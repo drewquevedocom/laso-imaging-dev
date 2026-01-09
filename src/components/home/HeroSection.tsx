@@ -35,7 +35,7 @@ const slides: SlideContent[] = [
       "Installation & Training Included"
     ],
     primaryCta: { text: "Request a Quote", link: "/quote" },
-    secondaryCta: { text: "Browse MRI Machines", link: "/products?category=mri-systems" },
+    secondaryCta: { text: "Browse MRI Machines", link: "/products?category=imaging-systems" },
     image: heroSlide1
   },
   {

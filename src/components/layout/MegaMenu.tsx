@@ -104,7 +104,7 @@ export const MegaMenu = ({ isOpen }: MegaMenuProps) => {
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
           <Link 
-            to="/products?category=mri-systems"
+            to="/products?category=imaging-systems"
             className="
               inline-flex items-center gap-2 text-sm font-semibold 
               text-accent hover:text-accent/80 transition-colors

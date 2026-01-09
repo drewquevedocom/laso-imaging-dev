@@ -7,7 +7,7 @@ const sitemapSections = [
   {
     title: 'MRI Systems',
     links: [
-      { label: 'All MRI Systems', href: '/products?query=product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"' },
+      { label: 'All MRI Systems', href: '/products?category=imaging-systems' },
       { label: '1.5T MRI Systems', href: '/products?query=product_type:"1.5T MRI Systems"' },
       { label: '3.0T MRI Systems', href: '/products?query=product_type:"3.0T MRI Systems"' },
       { label: 'Mobile MRI Systems', href: '/products?query=product_type:"Mobile MRI Systems"' },
