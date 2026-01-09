@@ -108,6 +108,72 @@ export type Database = {
           },
         ]
       }
+      contractor_timecards: {
+        Row: {
+          created_at: string
+          deductions: number
+          expense_reimb: number
+          id: string
+          net_pay: number
+          notes: string | null
+          pay_period_end: string
+          pay_period_start: string
+          payee_email: string
+          payee_name: string
+          payment_date: string | null
+          payment_method: string | null
+          rate_per_hour: number
+          send_to_email: string
+          status: string
+          time_entries: Json
+          total_hours: number
+          total_pay: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deductions?: number
+          expense_reimb?: number
+          id?: string
+          net_pay?: number
+          notes?: string | null
+          pay_period_end: string
+          pay_period_start: string
+          payee_email: string
+          payee_name: string
+          payment_date?: string | null
+          payment_method?: string | null
+          rate_per_hour?: number
+          send_to_email: string
+          status?: string
+          time_entries?: Json
+          total_hours?: number
+          total_pay?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deductions?: number
+          expense_reimb?: number
+          id?: string
+          net_pay?: number
+          notes?: string | null
+          pay_period_end?: string
+          pay_period_start?: string
+          payee_email?: string
+          payee_name?: string
+          payment_date?: string | null
+          payment_method?: string | null
+          rate_per_hour?: number
+          send_to_email?: string
+          status?: string
+          time_entries?: Json
+          total_hours?: number
+          total_pay?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       customer_documents: {
         Row: {
           created_at: string

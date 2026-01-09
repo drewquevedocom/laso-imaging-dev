@@ -48,6 +48,7 @@ import PortalServices from "./pages/portal/PortalServices";
 import PortalDocuments from "./pages/portal/PortalDocuments";
 import PortalSettings from "./pages/portal/PortalSettings";
 import CookieConsent from "./components/layout/CookieConsent";
+import ContractorTimecard from "./pages/internal/ContractorTimecard";
 
 const queryClient = new QueryClient();
 
@@ -127,9 +128,13 @@ const App = () => (
               element={
                 <AdminRoute>
                   <AdminNotifications />
-                </AdminRoute>
+              </AdminRoute>
               } 
             />
+            
+            {/* Internal Tools (hidden, no navigation links) */}
+            <Route path="/internal/timecard" element={<ContractorTimecard />} />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

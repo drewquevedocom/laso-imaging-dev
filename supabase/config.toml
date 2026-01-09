@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.send-offer-notification]
 verify_jwt = false
+
+[functions.send-timecard-notification]
+verify_jwt = false
