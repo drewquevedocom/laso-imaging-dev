@@ -1,16 +1,9 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SEOHead from '@/components/seo/SEOHead';
-
 const CookiePolicy = () => {
-  return (
-    <div className="min-h-screen bg-background">
-      <SEOHead
-        title="Cookie Policy"
-        description="LASO Imaging Solutions cookie policy. Learn about how we use cookies and similar technologies on our website."
-        keywords={['cookie policy', 'cookies', 'tracking', 'LASO Imaging']}
-        canonical="/cookie-policy"
-      />
+  return <div className="min-h-screen bg-background">
+      <SEOHead title="Cookie Policy" description="LASO Imaging Solutions cookie policy. Learn about how we use cookies and similar technologies on our website." keywords={['cookie policy', 'cookies', 'tracking', 'LASO Imaging']} canonical="/cookie-policy" />
       <Header />
       
       <main>
@@ -86,7 +79,7 @@ const CookiePolicy = () => {
               </p>
               <div className="bg-secondary rounded-lg p-6 mb-6">
                 <p className="text-foreground font-medium">LASO Imaging Solutions</p>
-                <p className="text-muted-foreground">Houston, TX</p>
+                <p className="text-muted-foreground">Los Angeles, CA </p>
                 <p className="text-muted-foreground">Email: info@lasoimaging.com</p>
                 <p className="text-muted-foreground">Phone: (713) 357-2749</p>
               </div>
@@ -96,8 +89,6 @@ const CookiePolicy = () => {
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default CookiePolicy;
