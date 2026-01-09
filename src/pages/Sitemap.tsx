@@ -5,38 +5,55 @@ import Footer from '@/components/layout/Footer';
 
 const sitemapSections = [
   {
-    title: 'Equipment',
+    title: 'MRI Systems',
     links: [
-      { label: 'All Equipment', href: '/products' },
-      { label: '1.5T MRI Systems', href: '/equipment/1-5t-mri-systems' },
-      { label: '3.0T MRI Systems', href: '/equipment/3t-mri-systems' },
-      { label: 'Open MRI Systems', href: '/equipment/open-mri-systems' },
-      { label: 'Mobile MRI Systems', href: '/equipment/mobile-mri-systems' },
-      { label: 'Extremity MRI', href: '/equipment/extremity-mri' },
-      { label: 'GE Healthcare', href: '/equipment/brand/ge' },
-      { label: 'Siemens Healthineers', href: '/equipment/brand/siemens' },
-      { label: 'Philips Healthcare', href: '/equipment/brand/philips' },
-      { label: 'Canon Medical', href: '/equipment/brand/canon' },
-      { label: 'Hitachi Medical', href: '/equipment/brand/hitachi' },
+      { label: 'All MRI Systems', href: '/products?query=product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"' },
+      { label: '1.5T MRI Systems', href: '/products?query=product_type:"1.5T MRI Systems"' },
+      { label: '3.0T MRI Systems', href: '/products?query=product_type:"3.0T MRI Systems"' },
+      { label: 'Mobile MRI Systems', href: '/products?query=product_type:"Mobile MRI Systems"' },
+      { label: 'GE Healthcare MRI', href: '/products?query=vendor:"GE Healthcare" (product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems")' },
+      { label: 'Siemens Healthineers MRI', href: '/products?query=vendor:"Siemens Healthineers" (product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems")' },
+      { label: 'Philips Healthcare MRI', href: '/products?query=vendor:"Philips Healthcare" (product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems")' },
+      { label: 'Canon Medical MRI', href: '/products?query=vendor:"Canon Medical Systems" product_type:"1.5T MRI Systems"' },
     ]
   },
   {
-    title: 'Parts',
+    title: 'CT Scanners',
     links: [
-      { label: 'All Parts', href: '/parts' },
+      { label: 'All CT Scanners', href: '/products?query=product_type:"8-Slice CT" OR product_type:"16-Slice CT" OR product_type:"64-Slice CT"' },
+      { label: '8-Slice CT Scanners', href: '/products?query=product_type:"8-Slice CT"' },
+      { label: '16-Slice CT Scanners', href: '/products?query=product_type:"16-Slice CT"' },
+      { label: '64-Slice CT Scanners', href: '/products?query=product_type:"64-Slice CT"' },
+      { label: 'Portable C-Arms', href: '/products?query=product_type:"Portable C-Arm"' },
+    ]
+  },
+  {
+    title: 'Parts & Components',
+    links: [
+      { label: 'All Parts', href: '/products?query=product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies"' },
       { label: 'RF Coils', href: '/products?query=product_type:"RF Coils"' },
       { label: 'MRI Parts', href: '/products?query=product_type:"MRI Parts"' },
       { label: 'Power Supplies', href: '/products?query=product_type:"Power Supplies"' },
-      { label: 'GE Parts', href: '/parts/brand/ge' },
-      { label: 'Siemens Parts', href: '/parts/brand/siemens' },
-      { label: 'Philips Parts', href: '/parts/brand/philips' },
+      { label: 'Head Coils', href: '/products?query=product_type:"RF Coils" Head' },
+      { label: 'Body Coils', href: '/products?query=product_type:"RF Coils" Body' },
+      { label: 'Spine Coils', href: '/products?query=product_type:"RF Coils" Spine' },
+      { label: 'Cold Heads', href: '/products?query=product_type:"Power Supplies" Coldhead' },
+      { label: 'Compressors', href: '/products?query=product_type:"Power Supplies" Compressor' },
+    ]
+  },
+  {
+    title: 'Parts by Manufacturer',
+    links: [
+      { label: 'GE Parts', href: '/products?query=vendor:"GE Healthcare" (product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies")' },
+      { label: 'Siemens Parts', href: '/products?query=vendor:"Siemens Healthineers" (product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies")' },
+      { label: 'Philips Parts', href: '/products?query=vendor:"Philips Healthcare" (product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies")' },
+      { label: 'Canon Medical Parts', href: '/products?query=vendor:"Canon Medical Systems" (product_type:"MRI Parts" OR product_type:"RF Coils" OR product_type:"Power Supplies")' },
     ]
   },
   {
     title: 'Installation Services',
     links: [
       { label: 'MRI Installation', href: '/services/mri-installation' },
-      { label: 'CT Installation', href: '/services/ct-installation' },
       { label: 'Equipment Relocation', href: '/services/relocation' },
       { label: 'Site Planning', href: '/services/site-planning' },
       { label: 'Deinstallation', href: '/services/deinstallation' },
@@ -49,7 +66,6 @@ const sitemapSections = [
       { label: 'Emergency Repairs', href: '/services/emergency-repairs' },
       { label: 'Software Updates', href: '/services/software-updates' },
       { label: 'Remote Diagnostics', href: '/services/remote-diagnostics' },
-      { label: 'System Upgrades', href: '/services/system-upgrades' },
     ]
   },
   {
@@ -83,6 +99,15 @@ const sitemapSections = [
     links: [
       { label: 'Consulting Services', href: '/services/consulting' },
       { label: 'Equipment Financing', href: '/services/financing' },
+    ]
+  },
+  {
+    title: 'Support',
+    links: [
+      { label: 'Technical Support', href: '/support/technical' },
+      { label: 'Warranty Information', href: '/support/warranty' },
+      { label: 'Returns', href: '/support/returns' },
+      { label: 'Documentation', href: '/support/documentation' },
     ]
   },
   {
