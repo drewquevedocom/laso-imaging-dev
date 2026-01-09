@@ -1,6 +1,7 @@
 import { useEffect, useCallback, useRef } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { createClient } from '@supabase/supabase-js';
 import { useChatStore, ChatMessage } from '@/stores/chatStore';
+import type { Database } from '@/integrations/supabase/types';
 
 const SESSION_KEY = 'laso_chat_session_id';
 
@@ -17,6 +18,25 @@ const getOrCreateSessionId = (): string => {
   return sessionId;
 };
 
+// Create a supabase client with session ID in headers for RLS policy validation
+const createSessionClient = (sessionId: string) => {
+  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+  const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  
+  return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    auth: {
+      storage: localStorage,
+      persistSession: true,
+      autoRefreshToken: true,
+    },
+    global: {
+      headers: {
+        'x-session-id': sessionId
+      }
+    }
+  });
+};
+
 export const useChatPersistence = () => {
   const { 
     messages, 
@@ -28,13 +48,15 @@ export const useChatPersistence = () => {
   
   const isInitialized = useRef(false);
   const lastSavedMessageCount = useRef(0);
+  const sessionId = getOrCreateSessionId();
+  
+  // Create a session-specific client for RLS
+  const supabase = createSessionClient(sessionId);
 
   // Initialize or restore conversation
   const initializeConversation = useCallback(async () => {
     if (isInitialized.current) return;
     isInitialized.current = true;
-
-    const sessionId = getOrCreateSessionId();
 
     try {
       // Try to find existing conversation
@@ -97,7 +119,7 @@ export const useChatPersistence = () => {
     } catch (error) {
       console.error('Error initializing conversation:', error);
     }
-  }, [setConversationId, setMessages]);
+  }, [sessionId, setConversationId, setMessages, supabase]);
 
   // Save new messages to database
   const saveMessage = useCallback(async (message: ChatMessage) => {
@@ -112,7 +134,7 @@ export const useChatPersistence = () => {
     } catch (error) {
       console.error('Error saving message:', error);
     }
-  }, [conversationId]);
+  }, [conversationId, supabase]);
 
   // Watch for new messages and save them
   useEffect(() => {
@@ -140,7 +162,7 @@ export const useChatPersistence = () => {
     } catch (error) {
       console.error('Error requesting handoff:', error);
     }
-  }, [conversationId, addMessage]);
+  }, [conversationId, addMessage, supabase]);
 
   // Initialize on mount
   useEffect(() => {
@@ -149,6 +171,6 @@ export const useChatPersistence = () => {
 
   return {
     requestHumanHandoff,
-    sessionId: getOrCreateSessionId(),
+    sessionId,
   };
 };
