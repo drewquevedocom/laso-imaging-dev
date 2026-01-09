@@ -1,16 +1,9 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SEOHead from '@/components/seo/SEOHead';
-
 const TermsOfService = () => {
-  return (
-    <div className="min-h-screen bg-background">
-      <SEOHead
-        title="Terms of Service"
-        description="LASO Imaging Solutions terms of service. Read our terms and conditions for using our website and services."
-        keywords={['terms of service', 'terms and conditions', 'LASO Imaging']}
-        canonical="/terms-of-service"
-      />
+  return <div className="min-h-screen bg-background">
+      <SEOHead title="Terms of Service" description="LASO Imaging Solutions terms of service. Read our terms and conditions for using our website and services." keywords={['terms of service', 'terms and conditions', 'LASO Imaging']} canonical="/terms-of-service" />
       <Header />
       
       <main>
@@ -83,7 +76,7 @@ const TermsOfService = () => {
               </p>
               <div className="bg-secondary rounded-lg p-6 mb-6">
                 <p className="text-foreground font-medium">LASO Imaging Solutions</p>
-                <p className="text-muted-foreground">Houston, TX</p>
+                <p className="text-muted-foreground">Los Angeles,CA </p>
                 <p className="text-muted-foreground">Email: info@lasoimaging.com</p>
                 <p className="text-muted-foreground">Phone: (713) 357-2749</p>
               </div>
@@ -93,8 +86,6 @@ const TermsOfService = () => {
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default TermsOfService;
