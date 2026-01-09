@@ -24,6 +24,14 @@ const staticPages = [
   { url: '/faqs', priority: '0.6', changefreq: 'monthly' },
   { url: '/track-order', priority: '0.5', changefreq: 'monthly' },
   { url: '/signup', priority: '0.6', changefreq: 'monthly' },
+  { url: '/buy-sell', priority: '0.7', changefreq: 'monthly' },
+  { url: '/blog', priority: '0.7', changefreq: 'weekly' },
+  { url: '/case-studies', priority: '0.7', changefreq: 'weekly' },
+  { url: '/sitemap', priority: '0.4', changefreq: 'monthly' },
+  // Legal pages
+  { url: '/privacy-policy', priority: '0.3', changefreq: 'yearly' },
+  { url: '/terms-of-service', priority: '0.3', changefreq: 'yearly' },
+  { url: '/cookie-policy', priority: '0.3', changefreq: 'yearly' },
   // Equipment categories
   { url: '/equipment/1-5t-mri-systems', priority: '0.9', changefreq: 'weekly' },
   { url: '/equipment/3t-mri-systems', priority: '0.9', changefreq: 'weekly' },
@@ -40,21 +48,38 @@ const staticPages = [
   { url: '/equipment/brand/philips', priority: '0.8', changefreq: 'weekly' },
   { url: '/equipment/brand/canon', priority: '0.7', changefreq: 'weekly' },
   { url: '/equipment/brand/hitachi', priority: '0.7', changefreq: 'weekly' },
-  // Services
+  // Installation Services
   { url: '/services', priority: '0.8', changefreq: 'monthly' },
-  { url: '/services/installation', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/mri-installation', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/ct-installation', priority: '0.7', changefreq: 'monthly' },
   { url: '/services/relocation', priority: '0.7', changefreq: 'monthly' },
-  { url: '/services/maintenance', priority: '0.7', changefreq: 'monthly' },
-  { url: '/services/mobile-rental', priority: '0.7', changefreq: 'monthly' },
-  { url: '/services/training', priority: '0.7', changefreq: 'monthly' },
-  { url: '/services/helium', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/site-planning', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/deinstallation', priority: '0.7', changefreq: 'monthly' },
+  // Maintenance Services
+  { url: '/services/preventive-maintenance', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/emergency-repairs', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/software-updates', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/remote-diagnostics', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/system-upgrades', priority: '0.7', changefreq: 'monthly' },
+  // Cryogenic Services
+  { url: '/services/helium-refills', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/cold-head-service', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/compressor-service', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/system-recovery', priority: '0.7', changefreq: 'monthly' },
+  // Training Services
+  { url: '/services/operator-training', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/technical-courses', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/safety-certification', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/onsite-training', priority: '0.7', changefreq: 'monthly' },
+  // Mobile & Rental Services
+  { url: '/services/mobile-mri-rental', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/interim-projects', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services/nationwide-coverage', priority: '0.7', changefreq: 'monthly' },
+  // Consulting & Financing
   { url: '/services/consulting', priority: '0.7', changefreq: 'monthly' },
   { url: '/services/financing', priority: '0.7', changefreq: 'monthly' },
   // Parts
   { url: '/parts', priority: '0.8', changefreq: 'weekly' },
-  { url: '/parts/rf-coils', priority: '0.7', changefreq: 'weekly' },
-  { url: '/parts/mri-parts', priority: '0.7', changefreq: 'weekly' },
-  { url: '/parts/ct-parts', priority: '0.7', changefreq: 'weekly' },
   { url: '/parts/brand/ge', priority: '0.7', changefreq: 'weekly' },
   { url: '/parts/brand/siemens', priority: '0.7', changefreq: 'weekly' },
   { url: '/parts/brand/philips', priority: '0.7', changefreq: 'weekly' },

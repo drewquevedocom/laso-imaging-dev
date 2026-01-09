@@ -8,26 +8,25 @@ const sitemapSections = [
     title: 'Equipment',
     links: [
       { label: 'All Equipment', href: '/products' },
-      { label: '1.5T MRI Systems', href: '/equipment/1-5t-systems' },
-      { label: '3.0T MRI Systems', href: '/equipment/3t-systems' },
+      { label: '1.5T MRI Systems', href: '/equipment/1-5t-mri-systems' },
+      { label: '3.0T MRI Systems', href: '/equipment/3t-mri-systems' },
       { label: 'Open MRI Systems', href: '/equipment/open-mri-systems' },
       { label: 'Mobile MRI Systems', href: '/equipment/mobile-mri-systems' },
-      { label: 'CT Scanners', href: '/equipment/ct-scanners' },
-      { label: 'X-Ray Units', href: '/equipment/xray-units' },
+      { label: 'Extremity MRI', href: '/equipment/extremity-mri' },
       { label: 'GE Healthcare', href: '/equipment/brand/ge' },
       { label: 'Siemens Healthineers', href: '/equipment/brand/siemens' },
       { label: 'Philips Healthcare', href: '/equipment/brand/philips' },
       { label: 'Canon Medical', href: '/equipment/brand/canon' },
+      { label: 'Hitachi Medical', href: '/equipment/brand/hitachi' },
     ]
   },
   {
     title: 'Parts',
     links: [
       { label: 'All Parts', href: '/parts' },
-      { label: 'MRI Coils', href: '/parts/mri-coils' },
-      { label: 'Gradient Amplifiers', href: '/parts/gradient-amplifiers' },
-      { label: 'RF Amplifiers', href: '/parts/rf-amplifiers' },
-      { label: 'Cold Heads', href: '/parts/cold-heads' },
+      { label: 'RF Coils', href: '/products?query=product_type:"RF Coils"' },
+      { label: 'MRI Parts', href: '/products?query=product_type:"MRI Parts"' },
+      { label: 'Power Supplies', href: '/products?query=product_type:"Power Supplies"' },
       { label: 'GE Parts', href: '/parts/brand/ge' },
       { label: 'Siemens Parts', href: '/parts/brand/siemens' },
       { label: 'Philips Parts', href: '/parts/brand/philips' },
@@ -40,33 +39,50 @@ const sitemapSections = [
       { label: 'CT Installation', href: '/services/ct-installation' },
       { label: 'Equipment Relocation', href: '/services/relocation' },
       { label: 'Site Planning', href: '/services/site-planning' },
+      { label: 'Deinstallation', href: '/services/deinstallation' },
     ]
   },
   {
     title: 'Maintenance Services',
     links: [
-      { label: 'Preventive Maintenance', href: '/services/maintenance' },
-      { label: 'Emergency Repairs', href: '/services/repairs' },
-      { label: 'Parts Replacement', href: '/services/parts-replacement' },
-      { label: 'System Upgrades', href: '/services/upgrades' },
+      { label: 'Preventive Maintenance', href: '/services/preventive-maintenance' },
+      { label: 'Emergency Repairs', href: '/services/emergency-repairs' },
+      { label: 'Software Updates', href: '/services/software-updates' },
+      { label: 'Remote Diagnostics', href: '/services/remote-diagnostics' },
+      { label: 'System Upgrades', href: '/services/system-upgrades' },
     ]
   },
   {
     title: 'Cryogenic Services',
     links: [
-      { label: 'Helium Management', href: '/services/helium' },
-      { label: 'Cold Head Service', href: '/services/cold-head' },
-      { label: 'Magnet Services', href: '/services/magnet-services' },
-      { label: 'Decommissioning', href: '/services/decommissioning' },
+      { label: 'Helium Refills', href: '/services/helium-refills' },
+      { label: 'Cold Head Service', href: '/services/cold-head-service' },
+      { label: 'Compressor Service', href: '/services/compressor-service' },
+      { label: 'System Recovery', href: '/services/system-recovery' },
     ]
   },
   {
-    title: 'Training Services',
+    title: 'Training & Support',
     links: [
       { label: 'Operator Training', href: '/services/operator-training' },
-      { label: 'Service Training', href: '/services/service-training' },
-      { label: 'Safety Training', href: '/services/safety-training' },
-      { label: 'Application Training', href: '/services/application-training' },
+      { label: 'Technical Training', href: '/services/technical-courses' },
+      { label: 'Safety Certification', href: '/services/safety-certification' },
+      { label: 'On-site Training', href: '/services/onsite-training' },
+    ]
+  },
+  {
+    title: 'Mobile & Rental',
+    links: [
+      { label: 'Mobile MRI Rental', href: '/services/mobile-mri-rental' },
+      { label: 'Interim Projects', href: '/services/interim-projects' },
+      { label: 'Nationwide Coverage', href: '/services/nationwide-coverage' },
+    ]
+  },
+  {
+    title: 'Consulting & Financing',
+    links: [
+      { label: 'Consulting Services', href: '/services/consulting' },
+      { label: 'Equipment Financing', href: '/services/financing' },
     ]
   },
   {
@@ -83,8 +99,18 @@ const sitemapSections = [
       { label: 'About Us', href: '/about' },
       { label: 'Contact', href: '/contact' },
       { label: 'Request a Quote', href: '/quote' },
+      { label: 'Buy & Sell Equipment', href: '/buy-sell' },
       { label: 'Track Order', href: '/track-order' },
+      { label: 'Customer Login', href: '/auth/customer' },
       { label: 'Customer Portal', href: '/portal' },
+    ]
+  },
+  {
+    title: 'Legal',
+    links: [
+      { label: 'Privacy Policy', href: '/privacy-policy' },
+      { label: 'Terms of Service', href: '/terms-of-service' },
+      { label: 'Cookie Policy', href: '/cookie-policy' },
     ]
   },
 ];
