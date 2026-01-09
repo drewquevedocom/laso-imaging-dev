@@ -73,8 +73,8 @@ const QuoteForm = ({
     setIsSubmitting(true);
     
     try {
-      // Insert lead into database
-      const { data: lead, error: insertError } = await supabase
+      // Insert lead into database (no .select() to avoid RLS issues for anonymous users)
+      const { error: insertError } = await supabase
         .from("leads")
         .insert({
           name: data.name,
@@ -84,18 +84,9 @@ const QuoteForm = ({
           interest: data.interest,
           message: data.message || null,
           source_page: sourcePage,
-        })
-        .select()
-        .single();
+        });
 
       if (insertError) throw insertError;
-
-      // Trigger lead scoring
-      if (lead) {
-        await supabase.functions.invoke("calculate-lead-score", {
-          body: { leadId: lead.id },
-        });
-      }
 
       // Track quote request in Google Analytics
       trackQuoteRequest(data.interest, sourcePage);
