@@ -7,13 +7,13 @@ const ServicesSection = () => {
       icon: Monitor,
       title: "Imaging Systems",
       description: "New and certified pre-owned imaging systems from leading manufacturers. Complete installation and commissioning.",
-      link: "/equipment/1-5t-mri-systems",
+      link: "/products?category=imaging-systems",
     },
     {
       icon: Truck,
       title: "System Rentals",
       description: "Flexible rental programs for temporary needs, system replacements, or expanding capacity during peak demand.",
-      link: "/services/mobile-rental",
+      link: "/services/mobile-mri-rental",
     },
     {
       icon: Package,
@@ -25,19 +25,19 @@ const ServicesSection = () => {
       icon: GraduationCap,
       title: "Training Programs",
       description: "Comprehensive operator and service engineer training. On-site and virtual options available.",
-      link: "/services/training",
+      link: "/services/operator-training",
     },
     {
       icon: Wrench,
       title: "Service & Support",
       description: "Preventive maintenance, repairs, and system upgrades by factory-trained engineers.",
-      link: "/services/maintenance",
+      link: "/services/preventive-maintenance",
     },
     {
       icon: Users,
       title: "Consulting",
       description: "Expert guidance on system selection, site planning, and regulatory compliance.",
-      link: "/services/consulting",
+      link: "/services/site-planning",
     },
   ];
 
