@@ -75,7 +75,7 @@ const CookiePolicy = () => {
 
               <h2 className="text-2xl font-semibold text-foreground mb-4">Contact Us</h2>
               <p className="text-muted-foreground mb-6">
-                If you have any questions about our use of cookies, please contact us:
+                Phone: 1-800-MRI-LASO (674-5276)
               </p>
               <div className="bg-secondary rounded-lg p-6 mb-6">
                 <p className="text-foreground font-medium">LASO Imaging Solutions</p>
