@@ -27,7 +27,9 @@ import MakeOfferModal from "@/components/offer/MakeOfferModal";
 
 // Multi-type queries for categories that span multiple Shopify product types
 const categoryMap: Record<string, string> = {
-  // Imaging Systems
+  // All Imaging Systems (MRI + CT + Mobile)
+  "imaging-systems": 'product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems" OR product_type:"4-Slice CT" OR product_type:"8-Slice CT" OR product_type:"16-Slice CT" OR product_type:"32-Slice CT" OR product_type:"40-Slice CT" OR product_type:"64-Slice CT" OR product_type:"128-Slice CT" OR product_type:"Mobile CT"',
+  // Individual categories
   "ct-scanners": 'product_type:"4-Slice CT" OR product_type:"8-Slice CT" OR product_type:"16-Slice CT" OR product_type:"32-Slice CT" OR product_type:"40-Slice CT" OR product_type:"64-Slice CT" OR product_type:"128-Slice CT"',
   "mri-systems": 'product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"',
   "1-5t-mri": 'product_type:"1.5T MRI Systems"',
@@ -45,6 +47,7 @@ const categoryMap: Record<string, string> = {
 
 const categories = [
   { key: "", label: "All Products" },
+  { key: "imaging-systems", label: "Imaging Systems" },
   { key: "mri-systems", label: "MRI Systems" },
   { key: "ct-scanners", label: "CT Scanners" },
   { key: "1-5t-mri", label: "1.5T MRI" },
@@ -56,6 +59,21 @@ const categories = [
   { key: "ct-parts", label: "CT Parts" },
   { key: "power-supplies", label: "Power Supplies" },
 ];
+
+// Custom category titles for proper display names
+const categoryTitles: Record<string, string> = {
+  "imaging-systems": "Imaging Systems",
+  "mri-systems": "MRI Systems",
+  "ct-scanners": "CT Scanners",
+  "1-5t-mri": "1.5T MRI Systems",
+  "3t-mri": "3.0T MRI Systems",
+  "mobile-mri": "Mobile MRI",
+  "mobile-ct": "Mobile CT",
+  "rf-coils": "RF Coils",
+  "mri-parts": "MRI Parts",
+  "ct-parts": "CT Parts",
+  "power-supplies": "Power Supplies",
+};
 
 type SortOption = "name-asc" | "name-desc" | "price-asc" | "price-desc";
 
@@ -74,7 +92,7 @@ const ProductListing = () => {
   const addItem = useCartStore((state) => state.addItem);
 
   const categoryTitle = category
-    ? category.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
+    ? categoryTitles[category] || category.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
     : "All Products";
 
   // Get additional filter params

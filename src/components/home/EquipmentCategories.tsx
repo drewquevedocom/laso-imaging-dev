@@ -47,7 +47,7 @@ const EquipmentCategories = () => {
         <div className="mb-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-foreground">Imaging Systems</h2>
-            <Link to="/products?category=mri-systems" className="text-accent hover:underline font-medium">View All</Link>
+            <Link to="/products?category=imaging-systems" className="text-accent hover:underline font-medium">View All</Link>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
