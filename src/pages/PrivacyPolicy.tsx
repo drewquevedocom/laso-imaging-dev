@@ -1,16 +1,9 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SEOHead from '@/components/seo/SEOHead';
-
 const PrivacyPolicy = () => {
-  return (
-    <div className="min-h-screen bg-background">
-      <SEOHead
-        title="Privacy Policy"
-        description="LASO Imaging Solutions privacy policy. Learn how we collect, use, and protect your personal information."
-        keywords={['privacy policy', 'data protection', 'LASO Imaging']}
-        canonical="/privacy-policy"
-      />
+  return <div className="min-h-screen bg-background">
+      <SEOHead title="Privacy Policy" description="LASO Imaging Solutions privacy policy. Learn how we collect, use, and protect your personal information." keywords={['privacy policy', 'data protection', 'LASO Imaging']} canonical="/privacy-policy" />
       <Header />
       
       <main>
@@ -76,7 +69,7 @@ const PrivacyPolicy = () => {
               </p>
               <div className="bg-secondary rounded-lg p-6 mb-6">
                 <p className="text-foreground font-medium">LASO Imaging Solutions</p>
-                <p className="text-muted-foreground">Houston, TX</p>
+                <p className="text-muted-foreground">Los Angeles, CA </p>
                 <p className="text-muted-foreground">Email: info@lasoimaging.com</p>
                 <p className="text-muted-foreground">Phone: (713) 357-2749</p>
               </div>
@@ -86,8 +79,6 @@ const PrivacyPolicy = () => {
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default PrivacyPolicy;
