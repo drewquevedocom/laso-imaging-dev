@@ -18,7 +18,7 @@ const ServicesSection = () => {
     {
       icon: Package,
       title: "Parts Catalog",
-      description: "Over 400,000 MRI parts in stock. Coils, gradients, cryogenics, electronics - all tested and certified.",
+      description: "Over 1000's MRI parts in stock. Coils, gradients, cryogenics, electronics - all tested and certified.",
       link: "/parts",
     },
     {
