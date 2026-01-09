@@ -815,6 +815,91 @@ Whether you have a single imaging center or a multi-site health system, our nati
     ],
     keywords: ['nationwide MRI service', 'coast to coast MRI support', 'national MRI service', 'multi-site MRI service'],
     geoKeywords: ['nationwide MRI service', 'MRI service all states', 'national imaging support']
+  },
+
+  // CONSULTING & FINANCING SERVICES
+  'consulting': {
+    slug: 'consulting',
+    title: 'Imaging Equipment Consulting Services',
+    metaTitle: 'Medical Imaging Consulting | Equipment Advisory | LASO Imaging',
+    metaDescription: 'Expert medical imaging consulting services from Sherman Oaks, CA. Equipment selection, facility planning, workflow optimization, and capital planning for healthcare facilities.',
+    heroDescription: 'Strategic consulting to optimize your imaging operations. From equipment selection to facility planning, we provide expert guidance at every stage.',
+    overview: `LASO's consulting services help healthcare facilities make informed decisions about their imaging programs. With decades of experience across MRI, CT, X-Ray, and PET/CT systems, our consultants provide objective guidance on equipment selection, facility design, and operational optimization.
+
+Whether you're launching a new imaging center, upgrading existing equipment, or optimizing workflows, our team delivers actionable insights that save money and improve patient care. We work with hospitals, imaging centers, and private practices of all sizes.`,
+    processSteps: [
+      { step: 'Initial Assessment', description: 'Comprehensive evaluation of your current imaging capabilities, patient volumes, and strategic goals.' },
+      { step: 'Needs Analysis', description: 'Detailed analysis of clinical requirements, growth projections, and budget constraints.' },
+      { step: 'Market Research', description: 'Evaluate available equipment options from all major manufacturers with objective comparisons.' },
+      { step: 'Financial Modeling', description: 'Develop ROI projections, total cost of ownership analysis, and funding recommendations.' },
+      { step: 'Vendor Negotiations', description: 'Support during vendor selection and contract negotiations to ensure best terms.' },
+      { step: 'Implementation Planning', description: 'Create detailed project timelines, resource requirements, and contingency plans.' },
+      { step: 'Ongoing Support', description: 'Continued advisory services during implementation and beyond.' }
+    ],
+    benefits: [
+      'Objective, manufacturer-independent advice',
+      'Avoid costly equipment selection mistakes',
+      'Optimize facility design for efficiency',
+      'Reduce total cost of ownership by 20-40%',
+      'Faster ROI on imaging investments',
+      'Access to industry benchmarks and best practices'
+    ],
+    equipmentBrands: ['GE Healthcare', 'Siemens Healthineers', 'Philips Healthcare', 'Canon Medical', 'Hitachi', 'United Imaging'],
+    faqs: [
+      { question: 'Do you represent any equipment manufacturers?', answer: 'No. We are completely independent and provide objective advice based solely on your facility\'s needs, not manufacturer relationships.' },
+      { question: 'What size facilities do you work with?', answer: 'We work with organizations of all sizes, from single-physician practices to multi-site hospital systems.' },
+      { question: 'Can you help with ACR accreditation?', answer: 'Yes, we provide guidance on achieving and maintaining ACR accreditation for your imaging programs.' },
+      { question: 'How do consulting fees work?', answer: 'We offer both project-based and retainer arrangements. Most clients find our fees are quickly offset by equipment and operational savings.' }
+    ],
+    relatedServices: [
+      { slug: 'site-planning', title: 'Site Planning & RF Shielding' },
+      { slug: 'financing', title: 'Equipment Financing' },
+      { slug: 'mri-installation', title: 'MRI Installation' }
+    ],
+    keywords: ['medical imaging consulting', 'MRI consulting', 'healthcare equipment advisory', 'imaging center planning'],
+    geoKeywords: ['imaging consulting California', 'MRI consulting Los Angeles', 'healthcare advisory Sherman Oaks']
+  },
+
+  'financing': {
+    slug: 'financing',
+    title: 'Medical Equipment Financing Solutions',
+    metaTitle: 'Medical Equipment Financing | Leasing & Loans | LASO Imaging',
+    metaDescription: 'Flexible medical equipment financing options from Sherman Oaks, CA. Equipment leasing, loans, trade-in programs, and deferred payment plans for MRI, CT, and X-Ray systems.',
+    heroDescription: 'Flexible financing solutions to acquire the imaging equipment you need. From leases to loans, we structure deals that fit your budget.',
+    overview: `LASO partners with leading healthcare lenders to provide flexible financing options for medical imaging equipment. Whether you're acquiring a new MRI system, upgrading your CT scanner, or expanding your imaging capabilities, we structure financing that works for your organization.
+
+Our financing specialists understand the unique needs of healthcare facilities. We offer competitive rates, flexible terms, and creative structures that preserve capital while enabling growth. From operating leases to equipment loans, we find the right solution for your financial objectives.`,
+    processSteps: [
+      { step: 'Needs Assessment', description: 'Understand your equipment requirements, budget constraints, and financial objectives.' },
+      { step: 'Credit Evaluation', description: 'Confidential credit review to determine available financing options and terms.' },
+      { step: 'Structure Options', description: 'Present multiple financing structures with detailed comparisons of cash flow impact.' },
+      { step: 'Documentation', description: 'Streamlined application process with minimal paperwork and fast approvals.' },
+      { step: 'Trade-In Valuation', description: 'Evaluate existing equipment for trade-in credit toward new purchases.' },
+      { step: 'Closing', description: 'Efficient closing process coordinated with equipment delivery timeline.' },
+      { step: 'Ongoing Service', description: 'Account management throughout the financing term with upgrade options.' }
+    ],
+    benefits: [
+      'Preserve capital for other investments',
+      '100% financing available with no down payment',
+      'Tax advantages through operating leases',
+      'Flexible payment schedules (monthly, quarterly, seasonal)',
+      'Trade-in programs for existing equipment',
+      'Fast approvals—often within 24-48 hours'
+    ],
+    equipmentBrands: ['GE Healthcare', 'Siemens Healthineers', 'Philips Healthcare', 'Canon Medical', 'Hitachi', 'United Imaging'],
+    faqs: [
+      { question: 'What credit score is required?', answer: 'We work with healthcare facilities across a range of credit profiles. Even newer practices can often qualify with appropriate collateral or guarantees.' },
+      { question: 'What are typical lease terms?', answer: 'Most equipment leases range from 36 to 84 months. We structure terms to match your expected equipment lifecycle and budget requirements.' },
+      { question: 'Is financing available for used equipment?', answer: 'Yes, we finance both new and pre-owned equipment. Refurbished systems from LASO often qualify for the same terms as new equipment.' },
+      { question: 'Can we include installation costs?', answer: 'Absolutely. We can roll installation, training, and even first-year maintenance into your financing package for a single monthly payment.' }
+    ],
+    relatedServices: [
+      { slug: 'consulting', title: 'Consulting Services' },
+      { slug: 'mri-installation', title: 'MRI Installation' },
+      { slug: 'preventive-maintenance', title: 'Preventive Maintenance' }
+    ],
+    keywords: ['medical equipment financing', 'MRI financing', 'healthcare equipment leasing', 'imaging equipment loans'],
+    geoKeywords: ['medical equipment financing California', 'MRI leasing Los Angeles', 'healthcare financing Sherman Oaks']
   }
 };
 
