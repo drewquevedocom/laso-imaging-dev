@@ -9,6 +9,12 @@ import mobileCt from "@/assets/categories/mobile-ct.png";
 import mobileMri from "@/assets/categories/mobile-mri.png";
 import mobilePetct from "@/assets/categories/mobile-petct.png";
 import mobileXray from "@/assets/categories/mobile-xray.png";
+
+// Parts section images
+import rfCoils from "@/assets/categories/rf-coils.png";
+import mriParts from "@/assets/categories/mri-parts.png";
+import ctParts from "@/assets/categories/ct-parts.png";
+import powerSupplies from "@/assets/categories/power-supplies.png";
 const EquipmentCategories = () => {
   // Imaging Systems - updated with accurate counts and proper query links
   const categories = [
@@ -28,10 +34,10 @@ const EquipmentCategories = () => {
 
   // Parts - updated with accurate counts from Shopify inventory
   const partsCategories = [
-    { name: "RF Coils", count: 126, image: mriSystems, link: "/products?category=rf-coils" },
-    { name: "MRI Parts", count: 296, image: mriSystems, link: "/products?category=mri-parts" },
-    { name: "CT Parts", count: 85, image: ctScanner, link: "/products?category=ct-parts" },
-    { name: "Power Supplies", count: 39, image: ctScanner, link: "/products?category=power-supplies" },
+    { name: "RF Coils", count: 126, image: rfCoils, link: "/products?category=rf-coils" },
+    { name: "MRI Parts", count: 296, image: mriParts, link: "/products?category=mri-parts" },
+    { name: "CT Parts", count: 85, image: ctParts, link: "/products?category=ct-parts" },
+    { name: "Power Supplies", count: 39, image: powerSupplies, link: "/products?category=power-supplies" },
   ];
 
   return (
