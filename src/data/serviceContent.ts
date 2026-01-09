@@ -186,7 +186,7 @@ Whether you're selling the equipment, disposing of it, or preparing for a new in
   // MAINTENANCE SERVICES
   'preventive-maintenance': {
     slug: 'preventive-maintenance',
-    title: 'MRI Preventive Maintenance Programs',
+    title: 'MRI - CT Preventive Maintenance Programs',
     metaTitle: 'MRI Preventive Maintenance Programs | Expert Service | LASO Imaging',
     metaDescription: 'Comprehensive MRI preventive maintenance programs from Sherman Oaks, CA. Maximize uptime, extend equipment life, and reduce costs. 24/7 support available.',
     heroDescription: 'Proactive maintenance keeps your MRI running at peak performance. Our PM programs prevent failures before they happen.',
