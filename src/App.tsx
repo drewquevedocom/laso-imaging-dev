@@ -47,6 +47,7 @@ import PortalOrders from "./pages/portal/PortalOrders";
 import PortalServices from "./pages/portal/PortalServices";
 import PortalDocuments from "./pages/portal/PortalDocuments";
 import PortalSettings from "./pages/portal/PortalSettings";
+import CookieConsent from "./components/layout/CookieConsent";
 
 const queryClient = new QueryClient();
 
@@ -133,6 +134,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatbotWidget />
+          <CookieConsent />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
