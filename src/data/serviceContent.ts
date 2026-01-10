@@ -50,7 +50,7 @@ Whether you're adding imaging capacity, upgrading existing equipment, or buildin
       { question: 'Can you install systems purchased elsewhere?', answer: 'Absolutely. We install systems regardless of where they were purchased and can evaluate equipment before your purchase.' }
     ],
     relatedServices: [
-      { slug: 'site-planning', title: 'Site Planning & RF Shielding' },
+      { slug: 'site-planning', title: 'Site Consulting Planning & RF Shielding' },
       { slug: 'relocation', title: 'Equipment Relocation' },
       { slug: 'operator-training', title: 'Operator Training' }
     ],
@@ -102,8 +102,8 @@ Our comprehensive relocation service includes careful de-installation, specializ
 
   'site-planning': {
     slug: 'site-planning',
-    title: 'Site Planning & RF Shielding',
-    metaTitle: 'MRI Site Planning & RF Shielding | Expert Consultation | LASO Imaging',
+    title: 'Site Consulting Planning & RF Shielding',
+    metaTitle: 'MRI Site Consulting Planning & RF Shielding | Expert Consultation | LASO Imaging',
     metaDescription: 'Comprehensive MRI site planning and RF shielding services from Sherman Oaks, CA. Ensure optimal installation with expert guidance on space, power, and shielding requirements.',
     heroDescription: 'Expert site planning ensures your MRI installation is successful from day one. We evaluate every requirement before equipment arrives.',
     overview: `Proper site planning is critical for MRI installation success. LASO's site planning services evaluate all technical requirements including structural support, RF shielding, electrical infrastructure, HVAC capacity, and regulatory compliance.
@@ -692,8 +692,8 @@ Whether you need operator training, technical courses, or safety certification, 
   // MOBILE SOLUTIONS
   'mobile-mri-rental': {
     slug: 'mobile-mri-rental',
-    title: 'Mobile MRI Rental Programs',
-    metaTitle: 'Mobile MRI Rental Programs | Flexible Imaging Solutions | LASO Imaging',
+    title: 'Mobile MRI CT Rental Programs',
+    metaTitle: 'Mobile MRI CT Rental Programs | Flexible Imaging Solutions | LASO Imaging',
     metaDescription: 'Flexible mobile MRI rental programs for healthcare facilities. Short-term or long-term rentals with full service support. Nationwide delivery available.',
     heroDescription: 'Need imaging capacity fast? Our mobile MRI rental program delivers fully functional systems to your facility with complete support.',
     overview: `LASO's mobile MRI rental program provides healthcare facilities with flexible imaging solutions. Whether you need temporary capacity during renovations, backup systems during equipment upgrades, or additional throughput during peak demand, our mobile fleet is ready to deploy.
@@ -851,7 +851,7 @@ Whether you're launching a new imaging center, upgrading existing equipment, or 
       { question: 'How do consulting fees work?', answer: 'We offer both project-based and retainer arrangements. Most clients find our fees are quickly offset by equipment and operational savings.' }
     ],
     relatedServices: [
-      { slug: 'site-planning', title: 'Site Planning & RF Shielding' },
+      { slug: 'site-planning', title: 'Site Consulting Planning & RF Shielding' },
       { slug: 'financing', title: 'Equipment Financing' },
       { slug: 'mri-installation', title: 'MRI Installation' }
     ],
