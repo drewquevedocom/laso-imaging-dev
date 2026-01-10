@@ -35,7 +35,7 @@ const slides: SlideContent[] = [
       "Installation & Training Included"
     ],
     primaryCta: { text: "Request a Quote", link: "/quote" },
-    secondaryCta: { text: "Browse MRI Machines", link: "/products?category=imaging-systems" },
+    secondaryCta: { text: "Browse Imaging Equipment", link: "/products?category=imaging-systems" },
     image: heroSlide1
   },
   {
@@ -47,7 +47,7 @@ const slides: SlideContent[] = [
     features: [
       "OEM & Aftermarket Options",
       "Same-Day Shipping Available",
-      "90-Day Warranty on All Parts"
+      "90-Day Warranty on Most Parts"
     ],
     primaryCta: { text: "Request Quote", link: "/quote?interest=Parts" },
     secondaryCta: { text: "Shop Parts", link: "/search/parts" },
@@ -56,7 +56,7 @@ const slides: SlideContent[] = [
   {
     badge: "QUALITY SYSTEMS",
     badgeIcon: <Package className="h-3 w-3" />,
-    title: "Mobile & Refurbished MRI Systems",
+    title: "Refurbished MRI, CT, & Mobile Imaging",
     subtitle: "Premium Equipment, Better Value",
     description: "Fully inspected and certified pre-owned systems that deliver exceptional imaging at reduced costs.",
     features: [

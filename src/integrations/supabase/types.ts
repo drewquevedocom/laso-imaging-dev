@@ -257,6 +257,69 @@ export type Database = {
         }
         Relationships: []
       }
+      equipment_sell_requests: {
+        Row: {
+          company: string | null
+          condition: string | null
+          created_at: string
+          email: string
+          equipment_type: string
+          has_service_history: boolean | null
+          id: string
+          location: string | null
+          manufacturer: string | null
+          message: string | null
+          model: string | null
+          name: string
+          phone: string | null
+          reason_for_selling: string | null
+          software_version: string | null
+          status: string | null
+          timeline: string | null
+          year_manufactured: number | null
+        }
+        Insert: {
+          company?: string | null
+          condition?: string | null
+          created_at?: string
+          email: string
+          equipment_type: string
+          has_service_history?: boolean | null
+          id?: string
+          location?: string | null
+          manufacturer?: string | null
+          message?: string | null
+          model?: string | null
+          name: string
+          phone?: string | null
+          reason_for_selling?: string | null
+          software_version?: string | null
+          status?: string | null
+          timeline?: string | null
+          year_manufactured?: number | null
+        }
+        Update: {
+          company?: string | null
+          condition?: string | null
+          created_at?: string
+          email?: string
+          equipment_type?: string
+          has_service_history?: boolean | null
+          id?: string
+          location?: string | null
+          manufacturer?: string | null
+          message?: string | null
+          model?: string | null
+          name?: string
+          phone?: string | null
+          reason_for_selling?: string | null
+          software_version?: string | null
+          status?: string | null
+          timeline?: string | null
+          year_manufactured?: number | null
+        }
+        Relationships: []
+      }
       lead_scoring_rules: {
         Row: {
           condition_field: string

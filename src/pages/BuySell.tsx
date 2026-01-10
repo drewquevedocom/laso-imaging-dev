@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight, ShieldCheck, Truck, Wrench, Phone, CheckCircle, DollarSign, Search } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, ShieldCheck, Truck, Wrench, Phone, CheckCircle, DollarSign, Search, X } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SEOHead from "@/components/seo/SEOHead";
@@ -11,11 +11,19 @@ import { fetchShopifyProducts, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import MakeOfferModal from "@/components/offer/MakeOfferModal";
+import SellEquipmentForm from "@/components/sell/SellEquipmentForm";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const BuySell = () => {
   const [featuredSystems, setFeaturedSystems] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [offerProduct, setOfferProduct] = useState<{ name: string; price?: string } | null>(null);
+  const [showSellForm, setShowSellForm] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
 
   useEffect(() => {
@@ -94,10 +102,13 @@ const BuySell = () => {
                     Browse Systems <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="text-lg bg-transparent border-white text-white hover:bg-white/10">
-                  <Link to="/quote?interest=Sell Equipment">
-                    Sell Your Equipment
-                  </Link>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="text-lg bg-transparent border-white text-white hover:bg-white/10"
+                  onClick={() => setShowSellForm(true)}
+                >
+                  Sell Your Equipment
                 </Button>
               </div>
             </motion.div>
@@ -170,10 +181,13 @@ const BuySell = () => {
                       </li>
                     ))}
                   </ul>
-                  <Button asChild size="lg" variant="secondary" className="w-full">
-                    <Link to="/quote?interest=Sell Equipment">
-                      Get a Free Quote <ArrowRight className="ml-2 h-5 w-5" />
-                    </Link>
+                  <Button 
+                    size="lg" 
+                    variant="secondary" 
+                    className="w-full"
+                    onClick={() => setShowSellForm(true)}
+                  >
+                    Get a Free Quote <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </div>
               </motion.div>
@@ -344,6 +358,15 @@ const BuySell = () => {
         productName={offerProduct?.name || ""}
         productPrice={offerProduct?.price}
       />
+
+      <Dialog open={showSellForm} onOpenChange={setShowSellForm}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">Sell Your Equipment</DialogTitle>
+          </DialogHeader>
+          <SellEquipmentForm onSuccess={() => setShowSellForm(false)} />
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </>

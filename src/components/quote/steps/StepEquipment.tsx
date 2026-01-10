@@ -32,7 +32,7 @@ const equipmentOptions = [
   },
   {
     id: "Mobile MRI",
-    label: "Mobile MRI Units",
+    label: "Mobile MRI, CT Units",
     description: "Trailer-mounted systems",
     icon: Truck,
   },
