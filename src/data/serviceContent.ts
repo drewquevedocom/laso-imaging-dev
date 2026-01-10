@@ -355,15 +355,15 @@ When issues arise, our engineers can often diagnose and sometimes resolve proble
   // CRYOGENIC SERVICES
   'helium-refills': {
     slug: 'helium-refills',
-    title: 'Helium Refill & Management Services',
-    metaTitle: 'Helium Refill & Management Services | Expert Cryogenics | LASO Imaging',
+    title: 'Helium Refills, Cold Head, and Compressor Service',
+    metaTitle: 'Helium Refills, Cold Head, and Compressor Service | Expert Cryogenics | LASO Imaging',
     metaDescription: 'Professional helium refill and management services for MRI systems. Competitive pricing, scheduled refills, and emergency delivery available from Sherman Oaks, CA.',
     heroDescription: 'Keep your magnet cold with reliable helium supply. We offer scheduled refills, emergency delivery, and helium conservation consulting.',
     overview: `Helium is essential for superconducting MRI magnets, and proper helium management is critical for reliable operation. LASO provides comprehensive helium services including scheduled refills, emergency delivery, and consulting on helium conservation strategies.
 
 With global helium supply challenges, having a reliable helium partner is more important than ever. We maintain helium inventory and have established relationships with major suppliers to ensure availability for our customers.`,
     processSteps: [
-      { step: 'Level Assessment', description: 'Evaluate current helium levels and consumption rate.' },
+      { step: 'Level Assessment & Quench Prevention', description: 'Evaluate current helium levels and consumption rate.' },
       { step: 'Schedule Planning', description: 'Establish optimal refill schedule based on your system.' },
       { step: 'Delivery Coordination', description: 'Schedule delivery to minimize operational impact.' },
       { step: 'Professional Fill', description: 'Certified technicians perform the helium transfer.' },
