@@ -524,8 +524,8 @@ LASO's quench recovery team provides 24/7 emergency response to quench events. W
   // TRAINING SERVICES
   'operator-training': {
     slug: 'operator-training',
-    title: 'MRI Operator Training Programs',
-    metaTitle: 'MRI Operator Training Programs | Expert Instruction | LASO Imaging',
+    title: 'MRI - CT & X-Ray Training support and remote scanning option',
+    metaTitle: 'MRI - CT & X-Ray Training support and remote scanning option | LASO Imaging',
     metaDescription: 'Comprehensive MRI operator training for technologists and radiographers. Hands-on instruction, protocol optimization, and best practices.',
     heroDescription: 'Train your team to get the most from your MRI investment. Our applications specialists teach best practices for optimal imaging.',
     overview: `Well-trained operators are essential for consistent, high-quality MRI imaging. LASO's operator training programs are designed by experienced applications specialists who understand both the technical and clinical aspects of MRI operation.
@@ -533,9 +533,8 @@ LASO's quench recovery team provides 24/7 emergency response to quench events. W
 Our training is customized to your equipment and clinical needs, covering everything from basic operation to advanced protocol optimization. We offer on-site training at your facility and can incorporate your specific imaging protocols.`,
     processSteps: [
       { step: 'Needs Assessment', description: 'Evaluate your team current skill levels and identify training needs.' },
-      { step: 'Curriculum Development', description: 'Develop customized training content for your equipment and applications.' },
       { step: 'Scheduling', description: 'Schedule training sessions to minimize operational impact.' },
-      { step: 'Classroom Instruction', description: 'Foundational concepts, safety, and system overview.' },
+      { step: 'Imaging Equipment Safety Training', description: 'Foundational concepts, safety, and system overview.' },
       { step: 'Hands-on Training', description: 'Practical experience with your actual equipment.' },
       { step: 'Protocol Review', description: 'Review and optimize protocols for your clinical needs.' },
       { step: 'Competency Assessment', description: 'Evaluate trainee proficiency and provide certificates.' }
