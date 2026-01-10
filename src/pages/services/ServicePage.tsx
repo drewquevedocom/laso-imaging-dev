@@ -15,6 +15,7 @@ import {
   MapPin
 } from 'lucide-react';
 import QuoteForm from '@/components/shared/QuoteForm';
+import HeliumQuoteForm from '@/components/helium/HeliumQuoteForm';
 
 const ServicePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -139,12 +140,21 @@ const ServicePage = () => {
                     1-800-MRI-LASO
                   </Button>
                 </a>
-                <Link to={`/quote?interest=${encodeURIComponent(service.title)}`}>
-                  <Button size="lg" variant="cta" className="gap-2">
-                    Request a Quote
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
+                {slug === 'helium-refills' ? (
+                  <a href="#helium-quote-form">
+                    <Button size="lg" variant="cta" className="gap-2">
+                      Get Helium Fill Quote
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </a>
+                ) : (
+                  <Link to={`/quote?interest=${encodeURIComponent(service.title)}`}>
+                    <Button size="lg" variant="cta" className="gap-2">
+                      Request a Quote
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -206,11 +216,19 @@ const ServicePage = () => {
                       </div>
                     </div>
                   </div>
-                  <Link to={`/quote?interest=${encodeURIComponent(service.title)}`}>
-                    <Button className="w-full" variant="cta" size="lg">
-                      Request a Quote
-                    </Button>
-                  </Link>
+                  {slug === 'helium-refills' ? (
+                    <a href="#helium-quote-form">
+                      <Button className="w-full" variant="cta" size="lg">
+                        Get Helium Fill Quote
+                      </Button>
+                    </a>
+                  ) : (
+                    <Link to={`/quote?interest=${encodeURIComponent(service.title)}`}>
+                      <Button className="w-full" variant="cta" size="lg">
+                        Request a Quote
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
@@ -371,14 +389,18 @@ const ServicePage = () => {
                 </div>
               </div>
               
-              <div className="bg-card rounded-xl p-6 md:p-8 shadow-xl">
-                <QuoteForm 
-                  sourcePage={`Service: ${service.title}`}
-                  prefilledInterest={service.title}
-                  variant="compact"
-                  title="Request a Free Quote"
-                  subtitle="Get a response within 24 hours"
-                />
+              <div id="helium-quote-form" className="bg-card rounded-xl p-6 md:p-8 shadow-xl">
+                {slug === 'helium-refills' ? (
+                  <HeliumQuoteForm sourcePage={`Service: ${service.title}`} />
+                ) : (
+                  <QuoteForm 
+                    sourcePage={`Service: ${service.title}`}
+                    prefilledInterest={service.title}
+                    variant="compact"
+                    title="Request a Free Quote"
+                    subtitle="Get a response within 24 hours"
+                  />
+                )}
               </div>
             </div>
           </div>
