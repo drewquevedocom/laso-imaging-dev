@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '@/components/layout/Header';
@@ -12,14 +13,18 @@ import {
   Shield, 
   Clock, 
   Award,
-  MapPin
+  MapPin,
+  Thermometer,
+  Settings
 } from 'lucide-react';
 import QuoteForm from '@/components/shared/QuoteForm';
 import HeliumQuoteForm from '@/components/helium/HeliumQuoteForm';
+import CryogenicServiceQuoteForm from '@/components/helium/CryogenicServiceQuoteForm';
 
 const ServicePage = () => {
   const { slug } = useParams<{ slug: string }>();
   const service = slug ? getServiceContent(slug) : null;
+  const [activeQuoteForm, setActiveQuoteForm] = useState<'helium' | 'cryogenic'>('helium');
 
   if (!service) {
     return (
@@ -391,7 +396,40 @@ const ServicePage = () => {
               
               <div id="helium-quote-form" className="bg-card rounded-xl p-6 md:p-8 shadow-xl">
                 {slug === 'helium-refills' ? (
-                  <HeliumQuoteForm sourcePage={`Service: ${service.title}`} />
+                  <div>
+                    {/* Tab Buttons */}
+                    <div className="flex gap-2 mb-6">
+                      <button
+                        onClick={() => setActiveQuoteForm('helium')}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                          activeQuoteForm === 'helium'
+                            ? 'bg-accent text-accent-foreground'
+                            : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                        }`}
+                      >
+                        <Thermometer className="w-4 h-4" />
+                        Helium Fill
+                      </button>
+                      <button
+                        onClick={() => setActiveQuoteForm('cryogenic')}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                          activeQuoteForm === 'cryogenic'
+                            ? 'bg-accent text-accent-foreground'
+                            : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                        }`}
+                      >
+                        <Settings className="w-4 h-4" />
+                        Cold Head / Compressor / HVAC
+                      </button>
+                    </div>
+                    
+                    {/* Active Form */}
+                    {activeQuoteForm === 'helium' ? (
+                      <HeliumQuoteForm sourcePage={`Service: ${service.title}`} />
+                    ) : (
+                      <CryogenicServiceQuoteForm sourcePage={`Service: ${service.title}`} />
+                    )}
+                  </div>
                 ) : (
                   <QuoteForm 
                     sourcePage={`Service: ${service.title}`}

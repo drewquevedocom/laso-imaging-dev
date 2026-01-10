@@ -29,3 +29,6 @@ verify_jwt = false
 
 [functions.send-helium-quote-notification]
 verify_jwt = false
+
+[functions.send-cryogenic-quote-notification]
+verify_jwt = false
