@@ -23,3 +23,6 @@ verify_jwt = false
 
 [functions.send-timecard-notification]
 verify_jwt = false
+
+[functions.send-sell-notification]
+verify_jwt = false
