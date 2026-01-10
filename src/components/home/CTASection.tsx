@@ -10,10 +10,10 @@ const CTASection = () => {
           {/* Left Content */}
           <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Upgrade Your Imaging Capabilities?
+              Don't Just Compete. Lead the Market.
             </h2>
             <p className="text-primary-foreground/80 text-lg mb-8">
-              Let our team of imaging specialists help you find the perfect solution for your facility's needs and budget.
+              Aging equipment slows you down. We evaluate your current systems to help you maximize patient volume.
             </p>
 
             <ul className="space-y-3 mb-8">
