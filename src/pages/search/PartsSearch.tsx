@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Header } from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/badge";
-import { fetchShopifyProducts, ShopifyProduct } from "@/lib/shopify";
+import { fetchAllShopifyProducts, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 
@@ -53,8 +53,8 @@ const PartsSearch = () => {
     const loadParts = async () => {
       setLoading(true);
       try {
-        // Fetch parts-related products
-        const data = await fetchShopifyProducts(250);
+        // Fetch all parts-related products with pagination
+        const data = await fetchAllShopifyProducts();
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch parts:", error);
