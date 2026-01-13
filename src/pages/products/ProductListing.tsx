@@ -20,7 +20,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { fetchShopifyProducts, ShopifyProduct } from "@/lib/shopify";
+import { fetchAllShopifyProducts, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import MakeOfferModal from "@/components/offer/MakeOfferModal";
@@ -124,7 +124,7 @@ const ProductListing = () => {
           }
         }
         
-        const data = await fetchShopifyProducts(250, shopifyQuery.trim() || undefined);
+        const data = await fetchAllShopifyProducts(shopifyQuery.trim() || undefined);
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch products:", error);

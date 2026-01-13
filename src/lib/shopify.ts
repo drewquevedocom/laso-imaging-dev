@@ -135,6 +135,61 @@ const PRODUCTS_QUERY = `
   }
 `;
 
+// Paginated query with cursor support for fetching all products
+const PAGINATED_PRODUCTS_QUERY = `
+  query GetProducts($first: Int!, $query: String, $after: String) {
+    products(first: $first, query: $query, after: $after) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          title
+          description
+          handle
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          images(first: 5) {
+            edges {
+              node {
+                url
+                altText
+              }
+            }
+          }
+          variants(first: 10) {
+            edges {
+              node {
+                id
+                title
+                price {
+                  amount
+                  currencyCode
+                }
+                availableForSale
+                selectedOptions {
+                  name
+                  value
+                }
+              }
+            }
+          }
+          options {
+            name
+            values
+          }
+        }
+      }
+    }
+  }
+`;
+
 const CART_CREATE_MUTATION = `
   mutation cartCreate($input: CartInput!) {
     cartCreate(input: $input) {
@@ -157,7 +212,7 @@ const CART_CREATE_MUTATION = `
   }
 `;
 
-// Fetch products from Shopify
+// Fetch products from Shopify (single page, limited to 250)
 export async function fetchShopifyProducts(first: number = 250, query?: string): Promise<ShopifyProduct[]> {
   try {
     const data = await storefrontApiRequest(PRODUCTS_QUERY, { first, query });
@@ -166,6 +221,34 @@ export async function fetchShopifyProducts(first: number = 250, query?: string):
   } catch (error) {
     console.error('Error fetching Shopify products:', error);
     return [];
+  }
+}
+
+// Fetch ALL products from Shopify using cursor-based pagination
+export async function fetchAllShopifyProducts(query?: string): Promise<ShopifyProduct[]> {
+  const allProducts: ShopifyProduct[] = [];
+  let hasNextPage = true;
+  let cursor: string | null = null;
+
+  try {
+    while (hasNextPage) {
+      const data = await storefrontApiRequest(PAGINATED_PRODUCTS_QUERY, { 
+        first: 250, 
+        query, 
+        after: cursor 
+      });
+      
+      if (!data?.data?.products) break;
+      
+      allProducts.push(...data.data.products.edges);
+      hasNextPage = data.data.products.pageInfo.hasNextPage;
+      cursor = data.data.products.pageInfo.endCursor;
+    }
+    
+    return allProducts;
+  } catch (error) {
+    console.error('Error fetching all Shopify products:', error);
+    return allProducts; // Return what we have so far
   }
 }
 
