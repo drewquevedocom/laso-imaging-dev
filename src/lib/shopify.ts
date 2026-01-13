@@ -342,10 +342,11 @@ export async function createStorefrontCheckout(items: Array<{ variantId: string;
 }
 
 // Search products by product type (e.g., "1.5T MRI Systems", "3.0T MRI Systems")
-export async function searchProductsByType(productType: string, first: number = 50): Promise<ShopifyProduct[]> {
+export async function searchProductsByType(productType: string, first?: number): Promise<ShopifyProduct[]> {
   try {
     const query = `product_type:"${productType}"`;
-    return await fetchShopifyProducts(first, query);
+    const products = await fetchAllShopifyProducts(query);
+    return first ? products.slice(0, first) : products;
   } catch (error) {
     console.error('Error searching products by type:', error);
     return [];
@@ -353,10 +354,11 @@ export async function searchProductsByType(productType: string, first: number = 
 }
 
 // Search products by vendor (e.g., "GE Healthcare", "Siemens Healthineers")
-export async function searchProductsByVendor(vendor: string, first: number = 50): Promise<ShopifyProduct[]> {
+export async function searchProductsByVendor(vendor: string, first?: number): Promise<ShopifyProduct[]> {
   try {
     const query = `vendor:"${vendor}"`;
-    return await fetchShopifyProducts(first, query);
+    const products = await fetchAllShopifyProducts(query);
+    return first ? products.slice(0, first) : products;
   } catch (error) {
     console.error('Error searching products by vendor:', error);
     return [];

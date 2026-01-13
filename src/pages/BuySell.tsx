@@ -7,7 +7,7 @@ import Footer from "@/components/layout/Footer";
 import SEOHead from "@/components/seo/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { fetchShopifyProducts, ShopifyProduct } from "@/lib/shopify";
+import { fetchAllShopifyProducts, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import MakeOfferModal from "@/components/offer/MakeOfferModal";
@@ -29,8 +29,8 @@ const BuySell = () => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const products = await fetchShopifyProducts(6, 'product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"');
-        setFeaturedSystems(products);
+        const products = await fetchAllShopifyProducts('product_type:"1.5T MRI Systems" OR product_type:"3.0T MRI Systems" OR product_type:"Mobile MRI Systems"');
+        setFeaturedSystems(products.slice(0, 6)); // Limit to 6 for featured section
       } catch (error) {
         console.error("Error loading products:", error);
       } finally {
