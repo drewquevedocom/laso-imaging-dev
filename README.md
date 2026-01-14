@@ -64,6 +64,44 @@ This project is built with:
 
 Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
 
+### Deploy to Cloudflare Pages
+
+This project is configured for deployment to Cloudflare Pages using Wrangler.
+
+#### Prerequisites
+
+1. Install Wrangler CLI:
+2. ```bash
+   npm install -g wrangler
+   ```
+
+   2. Authenticate with Cloudflare:
+   3. ```bash
+      wrangler login
+      ```
+
+      #### Deployment Steps
+
+      1. **Build and Deploy:**
+      2. ```bash
+         npm run pages:deploy
+         ```
+
+         2. **Test Locally with Cloudflare Pages:**
+         3. ```bash
+            npm run build
+            npm run pages:dev
+            ```
+
+            #### Configuration
+
+            The project includes a `wrangler.toml` file with Cloudflare Pages configuration including:
+            - Browser rendering support
+            - - Custom security headers (X-Frame-Options, X-Content-Type-Options, etc.)
+              - - Automatic build output from Vite
+               
+                - For more information about Cloudflare Pages, visit the [Cloudflare Pages documentation](https://developers.cloudflare.com/pages/).
+
 ## Can I connect a custom domain to my Lovable project?
 
 Yes, you can!
