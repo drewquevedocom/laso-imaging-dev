@@ -1,20 +1,5 @@
 name = "lasoimaging-site"
 compatibility_date = "2026-01-09"
 
-[assets]
-directory = "./dist"
-browser.render = true
-
 # Pages configuration
-[pages_build_output_dir]
-# Uses the built output from Vite
-dir = "dist"
-
-# Custom headers for security and performance
-[[headers]]
-for = "/*"
-[headers.values]
-  X-Frame-Options = "DENY"
-  X-Content-Type-Options = "nosniff"
-  Referrer-Policy = "strict-origin-when-cross-origin"
-  Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+pages_build_output_dir = "dist"
