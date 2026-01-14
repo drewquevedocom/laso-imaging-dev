@@ -8,9 +8,9 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
-        "pages:dev": "wrangler pages dev dist",
-        "pages:deploy": "npm run build && wrangler pages deploy dist"
+    "preview": "vite preview",
+    "pages:dev": "wrangler pages dev dist",
+    "pages:deploy": "npm run build && wrangler pages deploy dist"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
