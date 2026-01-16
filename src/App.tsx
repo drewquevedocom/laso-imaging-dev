@@ -49,6 +49,7 @@ import PortalDocuments from "./pages/portal/PortalDocuments";
 import PortalSettings from "./pages/portal/PortalSettings";
 import CookieConsent from "./components/layout/CookieConsent";
 import ContractorTimecard from "./pages/internal/ContractorTimecard";
+import CustomerReview from "./pages/internal/CustomerReview";
 
 const queryClient = new QueryClient();
 
@@ -134,6 +135,7 @@ const App = () => (
             
             {/* Internal Tools (hidden, no navigation links) */}
             <Route path="/internal/timecard" element={<ContractorTimecard />} />
+            <Route path="/review" element={<CustomerReview />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
