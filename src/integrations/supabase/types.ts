@@ -112,6 +112,7 @@ export type Database = {
         Row: {
           created_at: string
           deductions: number
+          email_sent_at: string | null
           expense_reimb: number
           id: string
           net_pay: number
@@ -123,6 +124,7 @@ export type Database = {
           payment_date: string | null
           payment_method: string | null
           rate_per_hour: number
+          resend_email_id: string | null
           send_to_email: string
           status: string
           time_entries: Json
@@ -133,6 +135,7 @@ export type Database = {
         Insert: {
           created_at?: string
           deductions?: number
+          email_sent_at?: string | null
           expense_reimb?: number
           id?: string
           net_pay?: number
@@ -144,6 +147,7 @@ export type Database = {
           payment_date?: string | null
           payment_method?: string | null
           rate_per_hour?: number
+          resend_email_id?: string | null
           send_to_email: string
           status?: string
           time_entries?: Json
@@ -154,6 +158,7 @@ export type Database = {
         Update: {
           created_at?: string
           deductions?: number
+          email_sent_at?: string | null
           expense_reimb?: number
           id?: string
           net_pay?: number
@@ -165,6 +170,7 @@ export type Database = {
           payment_date?: string | null
           payment_method?: string | null
           rate_per_hour?: number
+          resend_email_id?: string | null
           send_to_email?: string
           status?: string
           time_entries?: Json
@@ -256,6 +262,44 @@ export type Database = {
           zip?: string | null
         }
         Relationships: []
+      }
+      email_delivery_events: {
+        Row: {
+          created_at: string | null
+          email_id: string
+          event_type: string
+          id: string
+          payload: Json | null
+          recipient: string
+          timecard_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email_id: string
+          event_type: string
+          id?: string
+          payload?: Json | null
+          recipient: string
+          timecard_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email_id?: string
+          event_type?: string
+          id?: string
+          payload?: Json | null
+          recipient?: string
+          timecard_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_delivery_events_timecard_id_fkey"
+            columns: ["timecard_id"]
+            isOneToOne: false
+            referencedRelation: "contractor_timecards"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       equipment_sell_requests: {
         Row: {
