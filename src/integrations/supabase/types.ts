@@ -263,6 +263,51 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_reviews: {
+        Row: {
+          approved: boolean
+          company: string | null
+          consent_given: boolean
+          created_at: string
+          email: string
+          featured: boolean
+          id: string
+          name: string
+          rating: number
+          review_text: string
+          service_used: string | null
+          title: string | null
+        }
+        Insert: {
+          approved?: boolean
+          company?: string | null
+          consent_given?: boolean
+          created_at?: string
+          email: string
+          featured?: boolean
+          id?: string
+          name: string
+          rating: number
+          review_text: string
+          service_used?: string | null
+          title?: string | null
+        }
+        Update: {
+          approved?: boolean
+          company?: string | null
+          consent_given?: boolean
+          created_at?: string
+          email?: string
+          featured?: boolean
+          id?: string
+          name?: string
+          rating?: number
+          review_text?: string
+          service_used?: string | null
+          title?: string | null
+        }
+        Relationships: []
+      }
       email_delivery_events: {
         Row: {
           created_at: string | null
