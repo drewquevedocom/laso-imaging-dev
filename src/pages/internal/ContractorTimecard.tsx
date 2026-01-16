@@ -85,7 +85,7 @@ const ContractorTimecard = () => {
       deductions: 0,
       expenseReimb: 0,
       paymentMethod: "",
-      sendToEmail: "info@lasoimaging.com",
+      sendToEmail: "marketing@lasoimaging.com",
       notes: "",
     },
   });
