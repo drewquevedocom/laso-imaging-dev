@@ -206,7 +206,6 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "LASO Imaging <hello@noreply.lasoimaging.com>",
         to: [data.sendToEmail],
-        cc: ["marketing@lasoimaging.com"],
         subject: `Timecard Submission: ${data.payeeName} - ${formatDate(data.payPeriodStart)} to ${formatDate(data.payPeriodEnd)}`,
         html: emailHtml,
       }),
