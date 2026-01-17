@@ -10,7 +10,6 @@ import {
   Save,
   FolderOpen,
   GripVertical,
-  Store,
 } from "lucide-react";
 import { Reorder } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -81,13 +80,39 @@ const QuoteBuilder = () => {
   const [shopifySearchQuery, setShopifySearchQuery] = useState("");
   const [modalityFilter, setModalityFilter] = useState<string>("all");
   const [oemFilter, setOemFilter] = useState<string>("all");
-  const [productTab, setProductTab] = useState("inventory");
+  const [productTab, setProductTab] = useState("products");
 
-  // Shopify products
+  // Products from catalog
   const { products: shopifyProducts, isLoading: shopifyLoading } = useShopifyProductSearch(
-    shopifySearchQuery || undefined,
-    100
+    shopifySearchQuery || undefined
   );
+
+  // Load pending items from Product Search session storage
+  useEffect(() => {
+    const pendingItems = sessionStorage.getItem('pendingQuoteItems');
+    if (pendingItems) {
+      try {
+        const parsed = JSON.parse(pendingItems);
+        const newItems: QuoteItem[] = parsed.map((item: any) => ({
+          id: crypto.randomUUID(),
+          inventoryId: item.id,
+          name: item.name,
+          description: item.description,
+          quantity: item.quantity || 1,
+          unitPrice: item.unitPrice || 0,
+          originalPrice: item.unitPrice || 0,
+        }));
+        
+        if (newItems.length > 0) {
+          setItems(prevItems => [...prevItems, ...newItems]);
+          sessionStorage.removeItem('pendingQuoteItems');
+          toast.success(`${newItems.length} item(s) imported from Product Search`);
+        }
+      } catch (e) {
+        console.error("Failed to parse pending quote items", e);
+      }
+    }
+  }, []);
 
   // Check for pre-filled customer from session storage (from Sell Requests conversion)
   useEffect(() => {
@@ -408,13 +433,13 @@ const QuoteBuilder = () => {
               </CardTitle>
               <Tabs value={productTab} onValueChange={setProductTab}>
                 <TabsList className="w-full">
+                  <TabsTrigger value="products" className="flex-1 gap-1">
+                    <Package className="h-3 w-3" />
+                    Products ({shopifyProducts.length})
+                  </TabsTrigger>
                   <TabsTrigger value="inventory" className="flex-1 gap-1">
                     <Package className="h-3 w-3" />
                     Inventory
-                  </TabsTrigger>
-                  <TabsTrigger value="shopify" className="flex-1 gap-1">
-                    <Store className="h-3 w-3" />
-                    Shopify
                   </TabsTrigger>
                 </TabsList>
 
@@ -459,12 +484,12 @@ const QuoteBuilder = () => {
                   </div>
                 </TabsContent>
 
-                {/* Shopify Tab Content */}
-                <TabsContent value="shopify" className="mt-3">
+                {/* Products Tab Content */}
+                <TabsContent value="products" className="mt-3">
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
-                      placeholder="Search Shopify products..."
+                      placeholder="Search products..."
                       value={shopifySearchQuery}
                       onChange={(e) => setShopifySearchQuery(e.target.value)}
                       className="pl-10"
@@ -476,7 +501,55 @@ const QuoteBuilder = () => {
             <CardContent className="p-0">
               <ScrollArea className="h-[calc(100vh-450px)]">
                 <div className="p-4 space-y-2">
-                  {productTab === "inventory" ? (
+                {productTab === "products" ? (
+                    <>
+                      {shopifyLoading ? (
+                        <p className="text-center text-muted-foreground py-8">
+                          Loading products...
+                        </p>
+                      ) : shopifyProducts.length === 0 ? (
+                        <p className="text-center text-muted-foreground py-8">
+                          No products found
+                        </p>
+                      ) : (
+                        shopifyProducts.map((product) => (
+                          <div
+                            key={product.node.id}
+                            className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors"
+                          >
+                            <div className="w-12 h-12 bg-muted rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
+                              {product.node.images?.edges?.[0]?.node?.url ? (
+                                <img
+                                  src={product.node.images.edges[0].node.url}
+                                  alt={product.node.title}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <Package className="h-6 w-6 text-muted-foreground" />
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium truncate">{product.node.title}</p>
+                              <p className="text-xs text-muted-foreground truncate">
+                                {product.node.description?.slice(0, 60) || "No description"}
+                              </p>
+                              <p className="text-sm font-semibold text-primary">
+                                {formatCurrency(parseFloat(product.node.priceRange.minVariantPrice.amount))}
+                              </p>
+                            </div>
+                            <Button
+                              size="sm"
+                              onClick={() => handleAddShopifyProduct(product)}
+                              disabled={items.some((i) => i.inventoryId === product.node.id)}
+                            >
+                              <Plus className="h-4 w-4 mr-1" />
+                              Add
+                            </Button>
+                          </div>
+                        ))
+                      )}
+                    </>
+                  ) : (
                     <>
                       {inventoryLoading ? (
                         <p className="text-center text-muted-foreground py-8">
@@ -516,54 +589,6 @@ const QuoteBuilder = () => {
                               size="sm"
                               onClick={() => handleAddItem(item)}
                               disabled={items.some((i) => i.inventoryId === item.id)}
-                            >
-                              <Plus className="h-4 w-4 mr-1" />
-                              Add
-                            </Button>
-                          </div>
-                        ))
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      {shopifyLoading ? (
-                        <p className="text-center text-muted-foreground py-8">
-                          Loading Shopify products...
-                        </p>
-                      ) : shopifyProducts.length === 0 ? (
-                        <p className="text-center text-muted-foreground py-8">
-                          No Shopify products found
-                        </p>
-                      ) : (
-                        shopifyProducts.map((product) => (
-                          <div
-                            key={product.node.id}
-                            className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors"
-                          >
-                            <div className="w-12 h-12 bg-muted rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
-                              {product.node.images?.edges?.[0]?.node?.url ? (
-                                <img
-                                  src={product.node.images.edges[0].node.url}
-                                  alt={product.node.title}
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : (
-                                <Store className="h-6 w-6 text-muted-foreground" />
-                              )}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="font-medium truncate">{product.node.title}</p>
-                              <p className="text-xs text-muted-foreground truncate">
-                                {product.node.description?.slice(0, 60) || "No description"}
-                              </p>
-                              <p className="text-sm font-semibold text-primary">
-                                {formatCurrency(parseFloat(product.node.priceRange.minVariantPrice.amount))}
-                              </p>
-                            </div>
-                            <Button
-                              size="sm"
-                              onClick={() => handleAddShopifyProduct(product)}
-                              disabled={items.some((i) => i.inventoryId === product.node.id)}
                             >
                               <Plus className="h-4 w-4 mr-1" />
                               Add

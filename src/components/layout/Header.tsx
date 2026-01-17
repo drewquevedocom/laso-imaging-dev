@@ -10,7 +10,8 @@ import { MobileNav } from './MobileNav';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 import { trackPhoneCall } from '@/components/analytics/GoogleAnalytics';
 
-import logoLaso from '@/assets/logo-laso.png';
+import logoLasoDark from '@/assets/logo-laso.png';
+import logoLasoLight from '@/assets/laso-logo-light.png';
 import userIcon from '@/assets/icons/user.png';
 import messageIcon from '@/assets/icons/message.png';
 
@@ -119,12 +120,17 @@ export const Header = () => {
       <div className="bg-background border-b border-border">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
-            {/* Logo */}
+            {/* Logo - 30% bigger */}
             <Link to="/" className="flex-shrink-0">
               <img 
-                src={logoLaso} 
+                src={logoLasoLight} 
                 alt="LASO Imaging Solutions" 
-                className="h-14 md:h-20 w-auto dark:brightness-0 dark:invert"
+                className="h-[18px] md:h-[26px] w-auto block dark:hidden"
+              />
+              <img 
+                src={logoLasoDark} 
+                alt="LASO Imaging Solutions" 
+                className="h-[18px] md:h-[26px] w-auto hidden dark:block brightness-0 invert"
               />
             </Link>
 
