@@ -7,6 +7,8 @@ export interface DashboardStats {
   hotLeads: number;
   openTickets: number;
   pendingQuotes: number;
+  availableEquipment: number;
+  quotePipeline: number;
 }
 
 export interface LeadsByWeek {
@@ -67,11 +69,37 @@ export function useDashboardStats() {
         .eq("interest", "quote")
         .eq("status", "new");
 
+      // Try to get inventory stats (may not exist yet)
+      let availableEquipment = 0;
+      try {
+        const { count } = await supabase
+          .from("inventory" as any)
+          .select("*", { count: "exact", head: true })
+          .eq("availability_status", "Available");
+        availableEquipment = count || 0;
+      } catch {
+        // Table may not exist yet
+      }
+
+      // Try to get quote pipeline (may not exist yet)
+      let quotePipeline = 0;
+      try {
+        const { data: quotesData } = await supabase
+          .from("quotes" as any)
+          .select("total_amount")
+          .neq("status", "Draft");
+        quotePipeline = (quotesData as any[])?.reduce((sum, q) => sum + (q.total_amount || 0), 0) || 0;
+      } catch {
+        // Table may not exist yet
+      }
+
       return {
         totalLeads: totalLeads || 0,
         hotLeads: hotLeads || 0,
         openTickets: openTickets || 0,
         pendingQuotes: pendingQuotes || 0,
+        availableEquipment,
+        quotePipeline,
       };
     },
   });

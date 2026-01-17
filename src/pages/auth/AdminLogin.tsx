@@ -38,7 +38,7 @@ const AdminLogin = () => {
   // Redirect if already logged in as admin
   useEffect(() => {
     if (!loading && user && isAdmin) {
-      navigate("/admin/notifications");
+      navigate("/admin/dashboard");
     }
   }, [user, isAdmin, loading, navigate]);
 

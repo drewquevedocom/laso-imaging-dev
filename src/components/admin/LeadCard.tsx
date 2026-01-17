@@ -2,7 +2,6 @@ import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { 
   Flame, 
-  Mail, 
   Phone, 
   Building2, 
   MessageSquare, 
@@ -21,6 +20,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getLeadTypeInfo, getTimeInStage } from "@/hooks/useLeadTriage";
 
 interface Lead {
   id: string;
@@ -35,6 +35,7 @@ interface Lead {
   status: string;
   is_hot: boolean;
   created_at: string;
+  updated_at?: string;
 }
 
 interface LeadCardProps {
@@ -56,12 +57,61 @@ const LeadCard = ({ lead, onStatusChange, variant = "default" }: LeadCardProps) 
   
   const isMobile = variant === "mobile";
   const isCompact = variant === "compact";
+  
+  const typeInfo = getLeadTypeInfo(lead.interest);
+  const timeInStage = lead.updated_at ? getTimeInStage(lead.updated_at) : null;
 
   const scoreColor = lead.lead_score >= 50 
     ? "text-orange-500" 
     : lead.lead_score >= 30 
       ? "text-yellow-500" 
       : "text-muted-foreground";
+
+  // Compact Kanban card
+  if (isCompact) {
+    return (
+      <div 
+        className={`bg-card border-2 rounded-lg p-3 transition-all hover:shadow-md ${
+          lead.is_hot 
+            ? "border-red-400 shadow-[0_0_10px_-3px_rgba(239,68,68,0.3)]" 
+            : `${typeInfo.borderColor} border-opacity-50`
+        }`}
+      >
+        {/* Header with Name & Type Badge */}
+        <div className="flex items-start justify-between gap-2 mb-2">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5">
+              {lead.is_hot && <Flame className="h-3.5 w-3.5 text-red-500 flex-shrink-0" />}
+              <h4 className="font-medium text-sm truncate">{lead.name}</h4>
+            </div>
+            {lead.company && (
+              <p className="text-xs text-muted-foreground truncate mt-0.5">
+                {lead.company}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Type Badge */}
+        <div className="flex items-center gap-2 mb-2">
+          <Badge className={`text-xs ${typeInfo.color}`}>
+            {lead.is_hot && "🔥 "}{typeInfo.label}
+          </Badge>
+        </div>
+
+        {/* Score & Time */}
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <span className={`font-medium ${scoreColor}`}>{lead.lead_score} pts</span>
+          {timeInStage && (
+            <span className="flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              {timeInStage}
+            </span>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div 
@@ -93,11 +143,6 @@ const LeadCard = ({ lead, onStatusChange, variant = "default" }: LeadCardProps) 
             {lead.status}
           </Badge>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => onStatusChange(lead.id, "contacted")}>
                 <CheckCircle2 className="h-4 w-4 mr-2" />

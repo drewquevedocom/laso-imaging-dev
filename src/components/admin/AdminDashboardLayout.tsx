@@ -2,8 +2,11 @@ import { Outlet } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import AdminSidebar from "./AdminSidebar";
 import AdminTopBar from "./AdminTopBar";
+import { useHotLeadNotifications } from "@/hooks/useHotLeadNotifications";
 
 const AdminDashboardLayout = () => {
+  // Enable real-time hot lead notifications with sound alerts
+  useHotLeadNotifications(true);
   return (
     <SidebarProvider defaultOpen={true}>
       <div className="min-h-screen flex w-full">
