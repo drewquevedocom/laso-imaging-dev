@@ -431,6 +431,89 @@ export type Database = {
           },
         ]
       }
+      email_templates: {
+        Row: {
+          body_html: string
+          body_text: string | null
+          category: string
+          created_at: string | null
+          created_by: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          subject: string
+          updated_at: string | null
+          variables: Json | null
+        }
+        Insert: {
+          body_html: string
+          body_text?: string | null
+          category: string
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          subject: string
+          updated_at?: string | null
+          variables?: Json | null
+        }
+        Update: {
+          body_html?: string
+          body_text?: string | null
+          category?: string
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          subject?: string
+          updated_at?: string | null
+          variables?: Json | null
+        }
+        Relationships: []
+      }
+      equipment_images: {
+        Row: {
+          caption: string | null
+          created_at: string | null
+          file_name: string | null
+          file_url: string
+          id: string
+          image_type: string | null
+          sell_request_id: string | null
+          uploaded_by: string | null
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string | null
+          file_name?: string | null
+          file_url: string
+          id?: string
+          image_type?: string | null
+          sell_request_id?: string | null
+          uploaded_by?: string | null
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string | null
+          file_name?: string | null
+          file_url?: string
+          id?: string
+          image_type?: string | null
+          sell_request_id?: string | null
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_images_sell_request_id_fkey"
+            columns: ["sell_request_id"]
+            isOneToOne: false
+            referencedRelation: "equipment_sell_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       equipment_sell_requests: {
         Row: {
           city: string | null
@@ -871,6 +954,84 @@ export type Database = {
             columns: ["customer_id"]
             isOneToOne: false
             referencedRelation: "customer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      site_visits: {
+        Row: {
+          assigned_to: string | null
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string | null
+          description: string | null
+          duration_hours: number | null
+          id: string
+          lead_id: string | null
+          location_address: string | null
+          location_notes: string | null
+          notes: string | null
+          scheduled_date: string
+          scheduled_time: string | null
+          sell_request_id: string | null
+          status: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          description?: string | null
+          duration_hours?: number | null
+          id?: string
+          lead_id?: string | null
+          location_address?: string | null
+          location_notes?: string | null
+          notes?: string | null
+          scheduled_date: string
+          scheduled_time?: string | null
+          sell_request_id?: string | null
+          status?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          description?: string | null
+          duration_hours?: number | null
+          id?: string
+          lead_id?: string | null
+          location_address?: string | null
+          location_notes?: string | null
+          notes?: string | null
+          scheduled_date?: string
+          scheduled_time?: string | null
+          sell_request_id?: string | null
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "site_visits_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "site_visits_sell_request_id_fkey"
+            columns: ["sell_request_id"]
+            isOneToOne: false
+            referencedRelation: "equipment_sell_requests"
             referencedColumns: ["id"]
           },
         ]

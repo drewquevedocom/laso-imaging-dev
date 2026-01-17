@@ -56,3 +56,6 @@ verify_jwt = false
 
 [functions.send-asset-request]
 verify_jwt = false
+
+[functions.send-site-visit-confirmation]
+verify_jwt = false

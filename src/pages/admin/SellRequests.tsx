@@ -61,6 +61,9 @@ import {
   CalendarPlus,
   Zap,
 } from "lucide-react";
+import { PhotoGallery } from "@/components/admin/PhotoGallery";
+import { ScheduleSiteVisitModal } from "@/components/admin/ScheduleSiteVisitModal";
+import { EmailTemplateSelector } from "@/components/admin/EmailTemplateSelector";
 
 interface SellRequest {
   id: string;
@@ -792,6 +795,11 @@ Notes: ${request.message || 'None'}
                       <SelectItem value="declined">Declined</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+
+                {/* Photo Gallery */}
+                <div className="space-y-3 pt-4 border-t">
+                  <PhotoGallery sellRequestId={selectedRequest.id} />
                 </div>
 
                 {/* Quick Actions */}
