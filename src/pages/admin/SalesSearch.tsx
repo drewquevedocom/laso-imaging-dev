@@ -8,7 +8,6 @@ import {
   Plus,
   ShoppingCart,
   Filter,
-  Store,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { useInventory } from "@/hooks/useInventory";
 import { quotableServices, serviceCategories, formatServicePrice, QuotableService } from "@/data/servicesCatalog";
-import { fetchShopifyProducts, ShopifyProduct } from "@/lib/shopify";
+import { fetchAllShopifyProducts, ShopifyProduct } from "@/lib/shopify";
 import { toast } from "sonner";
 
 const SalesSearch = () => {
@@ -37,24 +36,24 @@ const SalesSearch = () => {
   const [modalityFilter, setModalityFilter] = useState("all");
   const [serviceCategoryFilter, setServiceCategoryFilter] = useState("all");
   
-  // Shopify products state
+  // Products state
   const [shopifyProducts, setShopifyProducts] = useState<ShopifyProduct[]>([]);
   const [shopifyLoading, setShopifyLoading] = useState(false);
 
-  // Load Shopify products
+  // Load all products
   useEffect(() => {
-    const loadShopifyProducts = async () => {
+    const loadProducts = async () => {
       setShopifyLoading(true);
       try {
-        const products = await fetchShopifyProducts(100, searchQuery || undefined);
+        const products = await fetchAllShopifyProducts(searchQuery || undefined);
         setShopifyProducts(products);
       } catch (error) {
-        console.error("Error loading Shopify products:", error);
+        console.error("Error loading products:", error);
       } finally {
         setShopifyLoading(false);
       }
     };
-    loadShopifyProducts();
+    loadProducts();
   }, [searchQuery]);
 
   // Filtered inventory
@@ -103,10 +102,10 @@ const SalesSearch = () => {
     } else if (type === 'shopify') {
       const product = item as ShopifyProduct;
       quoteItems.push({
-        type: 'shopify',
+        type: 'product',
         id: product.node.id,
         name: product.node.title,
-        description: product.node.description?.slice(0, 100) || 'Shopify Product',
+        description: product.node.description?.slice(0, 100) || 'Product',
         unitPrice: parseFloat(product.node.priceRange.minVariantPrice.amount),
         quantity: 1,
       });
@@ -189,11 +188,11 @@ const SalesSearch = () => {
             <TabsList>
               <TabsTrigger value="products" className="gap-2">
                 <Package className="h-4 w-4" />
-                Equipment ({filteredInventory.length})
+                Products ({shopifyProducts.length})
               </TabsTrigger>
-              <TabsTrigger value="shopify" className="gap-2">
-                <Store className="h-4 w-4" />
-                Shopify ({shopifyProducts.length})
+              <TabsTrigger value="equipment" className="gap-2">
+                <Package className="h-4 w-4" />
+                Equipment ({filteredInventory.length})
               </TabsTrigger>
               <TabsTrigger value="services" className="gap-2">
                 <Wrench className="h-4 w-4" />
@@ -201,9 +200,8 @@ const SalesSearch = () => {
               </TabsTrigger>
             </TabsList>
             
-            {/* Filters */}
             <div className="flex gap-2">
-              {activeTab === "products" && (
+              {activeTab === "equipment" && (
                 <Select value={modalityFilter} onValueChange={setModalityFilter}>
                   <SelectTrigger className="w-[140px]">
                     <Filter className="h-4 w-4 mr-2" />
@@ -238,11 +236,74 @@ const SalesSearch = () => {
             </div>
           </div>
 
-          {/* Products Tab */}
+          {/* Products Tab - shows all products */}
           <TabsContent value="products" className="mt-4">
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Available Equipment</CardTitle>
+                <CardTitle className="text-lg">All Products</CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <ScrollArea className="h-[calc(100vh-400px)]">
+                  {shopifyLoading ? (
+                    <div className="p-8 text-center text-muted-foreground">
+                      Loading products...
+                    </div>
+                  ) : shopifyProducts.length === 0 ? (
+                    <div className="p-8 text-center text-muted-foreground">
+                      No products found
+                    </div>
+                  ) : (
+                    <div className="grid gap-3 p-4 md:grid-cols-2 lg:grid-cols-3">
+                      {shopifyProducts.map((product) => (
+                        <div
+                          key={product.node.id}
+                          className="flex flex-col p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                        >
+                          <div className="flex items-start gap-3 mb-3">
+                            <div className="w-16 h-16 bg-muted rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
+                              {product.node.images?.edges?.[0]?.node?.url ? (
+                                <img
+                                  src={product.node.images.edges[0].node.url}
+                                  alt={product.node.title}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <Package className="h-8 w-8 text-muted-foreground" />
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium truncate">{product.node.title}</p>
+                              <p className="text-sm text-muted-foreground line-clamp-2">
+                                {product.node.description?.slice(0, 80) || "No description"}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between mt-auto pt-3 border-t">
+                            <span className="font-semibold text-primary">
+                              {formatCurrency(parseFloat(product.node.priceRange.minVariantPrice.amount))}
+                            </span>
+                            <Button
+                              size="sm"
+                              onClick={() => handleAddToQuote(product, 'shopify')}
+                            >
+                              <Plus className="h-4 w-4 mr-1" />
+                              Add to Quote
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </ScrollArea>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Equipment Tab - shows internal inventory */}
+          <TabsContent value="equipment" className="mt-4">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Internal Inventory</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <ScrollArea className="h-[calc(100vh-400px)]">
@@ -295,69 +356,6 @@ const SalesSearch = () => {
                             <Button
                               size="sm"
                               onClick={() => handleAddToQuote(item, 'product')}
-                            >
-                              <Plus className="h-4 w-4 mr-1" />
-                              Add to Quote
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </ScrollArea>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Shopify Products Tab */}
-          <TabsContent value="shopify" className="mt-4">
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Shopify Products</CardTitle>
-              </CardHeader>
-              <CardContent className="p-0">
-                <ScrollArea className="h-[calc(100vh-400px)]">
-                  {shopifyLoading ? (
-                    <div className="p-8 text-center text-muted-foreground">
-                      Loading Shopify products...
-                    </div>
-                  ) : shopifyProducts.length === 0 ? (
-                    <div className="p-8 text-center text-muted-foreground">
-                      No Shopify products found
-                    </div>
-                  ) : (
-                    <div className="grid gap-3 p-4 md:grid-cols-2 lg:grid-cols-3">
-                      {shopifyProducts.map((product) => (
-                        <div
-                          key={product.node.id}
-                          className="flex flex-col p-4 border rounded-lg hover:bg-muted/50 transition-colors"
-                        >
-                          <div className="flex items-start gap-3 mb-3">
-                            <div className="w-16 h-16 bg-muted rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
-                              {product.node.images?.edges?.[0]?.node?.url ? (
-                                <img
-                                  src={product.node.images.edges[0].node.url}
-                                  alt={product.node.title}
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : (
-                                <Store className="h-8 w-8 text-muted-foreground" />
-                              )}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="font-medium truncate">{product.node.title}</p>
-                              <p className="text-sm text-muted-foreground line-clamp-2">
-                                {product.node.description?.slice(0, 80) || "No description"}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-between mt-auto pt-3 border-t">
-                            <span className="font-semibold text-primary">
-                              {formatCurrency(parseFloat(product.node.priceRange.minVariantPrice.amount))}
-                            </span>
-                            <Button
-                              size="sm"
-                              onClick={() => handleAddToQuote(product, 'shopify')}
                             >
                               <Plus className="h-4 w-4 mr-1" />
                               Add to Quote
