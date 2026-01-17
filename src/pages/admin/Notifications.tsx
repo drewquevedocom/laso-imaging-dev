@@ -2,7 +2,6 @@ import { Helmet } from "react-helmet-async";
 import { useIsMobile } from "@/hooks/use-mobile";
 import NotificationFeed from "@/components/admin/NotificationFeed";
 import MobileNotifications from "@/components/admin/MobileNotifications";
-import Header from "@/components/layout/Header";
 
 const AdminNotifications = () => {
   const isMobile = useIsMobile();
@@ -12,7 +11,7 @@ const AdminNotifications = () => {
     return (
       <>
         <Helmet>
-          <title>Lead Notifications | LASO Admin</title>
+          <title>Lead Triage | LASO Admin</title>
           <meta name="robots" content="noindex, nofollow" />
         </Helmet>
         <MobileNotifications />
@@ -20,23 +19,26 @@ const AdminNotifications = () => {
     );
   }
 
-  // Desktop view with standard header
+  // Desktop view - uses AdminDashboardLayout (no separate header needed)
   return (
     <>
       <Helmet>
-        <title>Lead Notifications | LASO Admin</title>
+        <title>Lead Triage | LASO Admin</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <Header />
-
-      <main className="min-h-screen bg-secondary">
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-3xl mx-auto">
-            <NotificationFeed />
-          </div>
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">Lead Triage</h1>
+          <p className="text-muted-foreground">
+            Manage and respond to incoming leads
+          </p>
         </div>
-      </main>
+        
+        <div className="max-w-3xl">
+          <NotificationFeed />
+        </div>
+      </div>
     </>
   );
 };
