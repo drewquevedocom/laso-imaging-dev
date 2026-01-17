@@ -53,3 +53,6 @@ verify_jwt = false
 
 [functions.quote-portal-action]
 verify_jwt = false
+
+[functions.send-asset-request]
+verify_jwt = false

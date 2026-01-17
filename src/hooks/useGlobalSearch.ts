@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 export interface SearchResult {
-  type: 'lead' | 'quote' | 'customer';
+  type: 'lead' | 'quote' | 'customer' | 'sell_request';
   id: string;
   title: string;
   subtitle: string;
@@ -51,7 +51,7 @@ export function useGlobalSearch(searchTerm: string) {
             id: quote.id,
             title: quote.quote_number,
             subtitle: `${quote.customer_name} - $${quote.total_amount?.toLocaleString() || 0}`,
-            url: `/admin/quotes`,
+            url: `/admin/quotes?id=${quote.id}`,
           });
         });
       }
@@ -70,7 +70,26 @@ export function useGlobalSearch(searchTerm: string) {
             id: customer.id,
             title: customer.name,
             subtitle: customer.company || customer.email,
-            url: `/admin/quote-builder`,
+            url: `/admin/customers?id=${customer.id}`,
+          });
+        });
+      }
+      
+      // Search sell requests (MRI/CT Manage)
+      const { data: sellRequests } = await supabase
+        .from("equipment_sell_requests")
+        .select("id, name, company, model, manufacturer, equipment_type, deal_priority")
+        .or(`name.ilike.%${term}%,company.ilike.%${term}%,model.ilike.%${term}%,manufacturer.ilike.%${term}%,city.ilike.%${term}%`)
+        .limit(5);
+      
+      if (sellRequests) {
+        sellRequests.forEach(req => {
+          results.push({
+            type: 'sell_request',
+            id: req.id,
+            title: req.company || req.name,
+            subtitle: `${req.manufacturer || ''} ${req.model || req.equipment_type}`.trim(),
+            url: `/admin/sell-requests?id=${req.id}`,
           });
         });
       }

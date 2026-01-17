@@ -742,6 +742,7 @@ export type Database = {
           customer_email: string
           customer_name: string
           customer_phone: string | null
+          discount: number | null
           id: string
           items: Json | null
           lead_id: string | null
@@ -766,6 +767,7 @@ export type Database = {
           customer_email: string
           customer_name: string
           customer_phone?: string | null
+          discount?: number | null
           id?: string
           items?: Json | null
           lead_id?: string | null
@@ -790,6 +792,7 @@ export type Database = {
           customer_email?: string
           customer_name?: string
           customer_phone?: string | null
+          discount?: number | null
           id?: string
           items?: Json | null
           lead_id?: string | null
