@@ -205,11 +205,12 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Quote email sent successfully:", emailResponse);
 
-    // Update quote status to 'Sent'
+    // Update quote status to 'Sent' and store Resend email ID for tracking
     const { error: updateError } = await supabase
       .from("quotes")
       .update({
         status: "Sent",
+        resend_email_id: emailResponse.data?.id || null,
         updated_at: new Date().toISOString(),
       })
       .eq("id", quoteId);
