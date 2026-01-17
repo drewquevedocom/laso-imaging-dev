@@ -9,6 +9,7 @@ import {
   FileEdit,
   Search,
   Users,
+  Package,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -33,6 +34,7 @@ const navItems = [
   { title: "Dashboard", url: "/admin/dashboard", icon: LayoutDashboard },
   { title: "Lead Triage", url: "/admin/notifications", icon: UserCheck },
   { title: "Customers", url: "/admin/customers", icon: Users },
+  { title: "Sell Requests", url: "/admin/sell-requests", icon: Package },
   { title: "Product Search", url: "/admin/search", icon: Search },
   { title: "Quotes", url: "/admin/quotes", icon: FileText },
   { title: "Quote Builder", url: "/admin/quote-builder", icon: FileEdit },
