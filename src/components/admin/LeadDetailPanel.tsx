@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { 
   Mail, 
@@ -16,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Sheet,
   SheetContent,
@@ -32,6 +34,7 @@ import {
 import { TriageLead, getLeadTypeInfo, getTimeInStage, KANBAN_COLUMNS } from "@/hooks/useLeadTriage";
 import { useActivities } from "@/hooks/useActivities";
 import ActivityLogForm from "./ActivityLogForm";
+import CommunicationHub from "./CommunicationHub";
 
 interface LeadDetailPanelProps {
   lead: TriageLead | null;
@@ -42,6 +45,7 @@ interface LeadDetailPanelProps {
 
 const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPanelProps) => {
   const { data: activities = [] } = useActivities(lead?.id);
+  const [activeTab, setActiveTab] = useState("overview");
   
   if (!lead) return null;
 
@@ -82,175 +86,198 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
               </div>
             </div>
           </div>
+
+          {/* Type & Status Badges */}
+          <div className="flex flex-wrap gap-2 mt-3">
+            <Badge className={typeInfo.color}>
+              {lead.is_hot && "🔥 "}{typeInfo.label}
+            </Badge>
+            <Badge variant="outline">
+              Score: {lead.lead_score}
+            </Badge>
+            <Badge variant="secondary">
+              <Clock className="h-3 w-3 mr-1" />
+              {timeInStage} in stage
+            </Badge>
+          </div>
         </SheetHeader>
 
-        <ScrollArea className="h-[calc(100vh-120px)]">
-          <div className="p-6 space-y-6">
-            {/* Type & Status Badges */}
-            <div className="flex flex-wrap gap-2">
-              <Badge className={typeInfo.color}>
-                {lead.is_hot && "🔥 "}{typeInfo.label}
-              </Badge>
-              <Badge variant="outline">
-                Score: {lead.lead_score}
-              </Badge>
-              <Badge variant="secondary">
-                <Clock className="h-3 w-3 mr-1" />
-                {timeInStage} in stage
-              </Badge>
-            </div>
+        {/* Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1">
+          <div className="px-6 pt-2 border-b">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="overview" className="text-xs">Overview</TabsTrigger>
+              <TabsTrigger value="communication" className="text-xs">Communication</TabsTrigger>
+              <TabsTrigger value="activities" className="text-xs">Activities</TabsTrigger>
+            </TabsList>
+          </div>
 
-            {/* Status Selector */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Status</label>
-              <Select
-                value={lead.status}
-                onValueChange={(value) => onStatusChange(lead.id, value)}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {KANBAN_COLUMNS.map((col) => (
-                    <SelectItem key={col.id} value={col.dbStatus}>
-                      {col.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <Separator />
-
-            {/* Contact Info */}
-            <div className="space-y-3">
-              <h3 className="font-medium text-sm">Contact Information</h3>
-              
+          <ScrollArea className="h-[calc(100vh-230px)]">
+            {/* Overview Tab */}
+            <TabsContent value="overview" className="m-0 p-6 space-y-6">
+              {/* Status Selector */}
               <div className="space-y-2">
-                <div className="flex items-center gap-3 text-sm">
-                  <Mail className="h-4 w-4 text-muted-foreground" />
-                  <a href={`mailto:${lead.email}`} className="text-primary hover:underline">
-                    {lead.email}
-                  </a>
-                </div>
+                <label className="text-sm font-medium">Status</label>
+                <Select
+                  value={lead.status}
+                  onValueChange={(value) => onStatusChange(lead.id, value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {KANBAN_COLUMNS.map((col) => (
+                      <SelectItem key={col.id} value={col.dbStatus}>
+                        {col.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Separator />
+
+              {/* Contact Info */}
+              <div className="space-y-3">
+                <h3 className="font-medium text-sm">Contact Information</h3>
                 
-                {lead.phone && (
+                <div className="space-y-2">
                   <div className="flex items-center gap-3 text-sm">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
-                    <a href={`tel:${lead.phone}`} className="text-primary hover:underline">
-                      {lead.phone}
+                    <Mail className="h-4 w-4 text-muted-foreground" />
+                    <a href={`mailto:${lead.email}`} className="text-primary hover:underline">
+                      {lead.email}
                     </a>
                   </div>
-                )}
-                
-                {lead.company && (
+                  
+                  {lead.phone && (
+                    <div className="flex items-center gap-3 text-sm">
+                      <Phone className="h-4 w-4 text-muted-foreground" />
+                      <a href={`tel:${lead.phone}`} className="text-primary hover:underline">
+                        {lead.phone}
+                      </a>
+                    </div>
+                  )}
+                  
+                  {lead.company && (
+                    <div className="flex items-center gap-3 text-sm">
+                      <Building2 className="h-4 w-4 text-muted-foreground" />
+                      <span>{lead.company}</span>
+                    </div>
+                  )}
+                  
                   <div className="flex items-center gap-3 text-sm">
-                    <Building2 className="h-4 w-4 text-muted-foreground" />
-                    <span>{lead.company}</span>
+                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground">Source: {lead.source_page}</span>
                   </div>
-                )}
-                
-                <div className="flex items-center gap-3 text-sm">
-                  <MapPin className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-muted-foreground">Source: {lead.source_page}</span>
                 </div>
               </div>
-            </div>
 
-            <Separator />
+              <Separator />
 
-            {/* Interest */}
-            <div className="space-y-2">
-              <h3 className="font-medium text-sm">Interest</h3>
-              <p className="text-sm text-muted-foreground">{lead.interest}</p>
-            </div>
+              {/* Interest */}
+              <div className="space-y-2">
+                <h3 className="font-medium text-sm">Interest</h3>
+                <p className="text-sm text-muted-foreground">{lead.interest}</p>
+              </div>
 
-            {/* Message */}
-            {lead.message && (
-              <>
-                <Separator />
-                <div className="space-y-2">
-                  <h3 className="font-medium text-sm">Message</h3>
-                  <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-lg">
-                    {lead.message}
-                  </p>
-                </div>
-              </>
-            )}
+              {/* Message */}
+              {lead.message && (
+                <>
+                  <Separator />
+                  <div className="space-y-2">
+                    <h3 className="font-medium text-sm">Message</h3>
+                    <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-lg">
+                      {lead.message}
+                    </p>
+                  </div>
+                </>
+              )}
 
-            <Separator />
+              <Separator />
 
-            {/* Quick Actions */}
-            <div className="space-y-2">
-              <h3 className="font-medium text-sm">Quick Actions</h3>
-              <div className="flex gap-2">
-                {lead.phone && (
+              {/* Quick Actions */}
+              <div className="space-y-2">
+                <h3 className="font-medium text-sm">Quick Actions</h3>
+                <div className="flex gap-2">
+                  {lead.phone && (
+                    <Button variant="outline" size="sm" asChild>
+                      <a href={`tel:${lead.phone}`}>
+                        <PhoneCall className="h-4 w-4 mr-2" />
+                        Call
+                      </a>
+                    </Button>
+                  )}
                   <Button variant="outline" size="sm" asChild>
-                    <a href={`tel:${lead.phone}`}>
-                      <PhoneCall className="h-4 w-4 mr-2" />
-                      Call
+                    <a href={`mailto:${lead.email}`}>
+                      <Send className="h-4 w-4 mr-2" />
+                      Email
                     </a>
                   </Button>
-                )}
-                <Button variant="outline" size="sm" asChild>
-                  <a href={`mailto:${lead.email}`}>
-                    <Send className="h-4 w-4 mr-2" />
-                    Email
-                  </a>
-                </Button>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Activity Logging Form */}
-            <div className="space-y-2">
-              <h3 className="font-medium text-sm">Log Activity</h3>
-              <ActivityLogForm leadId={lead.id} />
-            </div>
-
-            <Separator />
-
-            {/* Activity Timeline */}
-            <div className="space-y-3">
-              <h3 className="font-medium text-sm">Activity Timeline</h3>
-              
-              {activities.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No activities recorded yet.</p>
-              ) : (
-                <div className="space-y-3">
-                  {activities.map((activity) => (
-                    <div key={activity.id} className="flex gap-3">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                        {getActivityIcon(activity.activity_type)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium capitalize">
-                            {activity.activity_type}
-                          </span>
-                          <span className="text-xs text-muted-foreground">
-                            {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
-                          </span>
-                        </div>
-                        <p className="text-sm text-muted-foreground mt-0.5 truncate">
-                          {activity.content}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
                 </div>
-              )}
-            </div>
+              </div>
 
-            {/* Created At */}
-            <div className="pt-4 border-t">
-              <p className="text-xs text-muted-foreground">
-                Created {formatDistanceToNow(new Date(lead.created_at), { addSuffix: true })}
-              </p>
-            </div>
-          </div>
-        </ScrollArea>
+              {/* Created At */}
+              <div className="pt-4 border-t">
+                <p className="text-xs text-muted-foreground">
+                  Created {formatDistanceToNow(new Date(lead.created_at), { addSuffix: true })}
+                </p>
+              </div>
+            </TabsContent>
+
+            {/* Communication Hub Tab */}
+            <TabsContent value="communication" className="m-0 p-6 h-[calc(100vh-280px)]">
+              <CommunicationHub
+                leadId={lead.id}
+                leadEmail={lead.email}
+                leadPhone={lead.phone}
+                leadCreatedAt={lead.created_at}
+              />
+            </TabsContent>
+
+            {/* Activities Tab */}
+            <TabsContent value="activities" className="m-0 p-6 space-y-6">
+              {/* Activity Logging Form */}
+              <div className="space-y-2">
+                <h3 className="font-medium text-sm">Log Activity</h3>
+                <ActivityLogForm leadId={lead.id} />
+              </div>
+
+              <Separator />
+
+              {/* Activity Timeline */}
+              <div className="space-y-3">
+                <h3 className="font-medium text-sm">Activity Timeline</h3>
+                
+                {activities.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">No activities recorded yet.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {activities.map((activity) => (
+                      <div key={activity.id} className="flex gap-3">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                          {getActivityIcon(activity.activity_type)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium capitalize">
+                              {activity.activity_type}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
+                            </span>
+                          </div>
+                          <p className="text-sm text-muted-foreground mt-0.5 truncate">
+                            {activity.content}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+          </ScrollArea>
+        </Tabs>
       </SheetContent>
     </Sheet>
   );

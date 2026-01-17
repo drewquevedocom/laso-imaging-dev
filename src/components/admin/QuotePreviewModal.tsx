@@ -1,4 +1,5 @@
-import { Mail, Download, X } from "lucide-react";
+import { useState, useRef } from "react";
+import { Mail, Download, Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -9,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import logoLaso from "@/assets/logo-laso.png";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 interface QuoteItem {
   id: string;
@@ -43,6 +46,8 @@ interface QuotePreviewModalProps {
 
 const QuotePreviewModal = ({ open, onOpenChange, data }: QuotePreviewModalProps) => {
   const { customer, items, notes, totals } = data;
+  const pdfContentRef = useRef<HTMLDivElement>(null);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -64,8 +69,53 @@ const QuotePreviewModal = ({ open, onOpenChange, data }: QuotePreviewModalProps)
     day: "numeric",
   });
 
-  const handleDownloadPDF = () => {
-    toast.info("PDF download will be available soon");
+  const handleDownloadPDF = async () => {
+    if (!pdfContentRef.current) return;
+
+    setIsGeneratingPdf(true);
+    try {
+      const element = pdfContentRef.current;
+      
+      // Create canvas from HTML
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+
+      // Calculate dimensions for A4
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      // Create PDF
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgData = canvas.toDataURL("image/png");
+
+      // Handle multi-page if content is too long
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // Download
+      pdf.save(`Quote-${quoteNumber}.pdf`);
+      toast.success("PDF downloaded successfully!");
+    } catch (error) {
+      console.error("PDF generation error:", error);
+      toast.error("Failed to generate PDF. Please try again.");
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
 
   const handleSendEmail = () => {
@@ -82,7 +132,11 @@ const QuotePreviewModal = ({ open, onOpenChange, data }: QuotePreviewModalProps)
         </DialogHeader>
 
         {/* PDF Preview */}
-        <div className="mx-6 mb-4 border rounded-lg shadow-lg bg-white text-black">
+        <div 
+          ref={pdfContentRef}
+          id="quote-pdf-content"
+          className="mx-6 mb-4 border rounded-lg shadow-lg bg-white text-black"
+        >
           {/* Header */}
           <div className="flex items-start justify-between p-8 border-b">
             <div>
@@ -94,7 +148,7 @@ const QuotePreviewModal = ({ open, onOpenChange, data }: QuotePreviewModalProps)
               </p>
             </div>
             <div className="text-right">
-              <h2 className="text-2xl font-bold text-primary mb-1">QUOTE</h2>
+              <h2 className="text-2xl font-bold text-blue-600 mb-1">QUOTE</h2>
               <p className="text-sm text-gray-600">
                 Quote #: <span className="font-medium text-black">{quoteNumber}</span>
               </p>
@@ -171,7 +225,7 @@ const QuotePreviewModal = ({ open, onOpenChange, data }: QuotePreviewModalProps)
                 <Separator className="my-2" />
                 <div className="flex justify-between py-2 font-bold text-lg">
                   <span>Total</span>
-                  <span className="text-primary">{formatCurrency(totals.total)}</span>
+                  <span className="text-blue-600">{formatCurrency(totals.total)}</span>
                 </div>
               </div>
             </div>
@@ -200,9 +254,13 @@ const QuotePreviewModal = ({ open, onOpenChange, data }: QuotePreviewModalProps)
 
         {/* Action Buttons */}
         <div className="flex justify-end gap-3 p-6 pt-0 border-t bg-muted/30">
-          <Button variant="outline" onClick={handleDownloadPDF}>
-            <Download className="h-4 w-4 mr-2" />
-            Download PDF
+          <Button variant="outline" onClick={handleDownloadPDF} disabled={isGeneratingPdf}>
+            {isGeneratingPdf ? (
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+            ) : (
+              <Download className="h-4 w-4 mr-2" />
+            )}
+            {isGeneratingPdf ? "Generating..." : "Download PDF"}
           </Button>
           <Button onClick={handleSendEmail}>
             <Mail className="h-4 w-4 mr-2" />

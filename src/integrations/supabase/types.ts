@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      activities: {
+        Row: {
+          activity_type: string
+          content: string
+          created_at: string | null
+          created_by: string | null
+          direction: string | null
+          id: string
+          lead_id: string
+          metadata: Json | null
+          subject: string | null
+        }
+        Insert: {
+          activity_type: string
+          content: string
+          created_at?: string | null
+          created_by?: string | null
+          direction?: string | null
+          id?: string
+          lead_id: string
+          metadata?: Json | null
+          subject?: string | null
+        }
+        Update: {
+          activity_type?: string
+          content?: string
+          created_at?: string | null
+          created_by?: string | null
+          direction?: string | null
+          id?: string
+          lead_id?: string
+          metadata?: Json | null
+          subject?: string | null
+        }
+        Relationships: []
+      }
       admin_users: {
         Row: {
           created_at: string
@@ -539,6 +575,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      quote_templates: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          id: string
+          items: Json
+          name: string
+          notes: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          items?: Json
+          name: string
+          notes?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          items?: Json
+          name?: string
+          notes?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       service_tickets: {
         Row: {
