@@ -148,20 +148,22 @@ const AdminDashboard = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <div className="space-y-6">
-        {/* Page Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground">
-              Welcome back! Here's an overview of your {formatEquipmentText("MRI")} business.
-            </p>
+      <div className="flex gap-6">
+        {/* Main Content */}
+        <div className="flex-1 space-y-6">
+          {/* Page Header */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+              <p className="text-muted-foreground">
+                Welcome back! Here's an overview of your {formatEquipmentText("MRI")} business.
+              </p>
+            </div>
+            <Badge variant="outline" className="gap-1">
+              <TrendingUp className="h-3 w-3" />
+              Live
+            </Badge>
           </div>
-          <Badge variant="outline" className="gap-1">
-            <TrendingUp className="h-3 w-3" />
-            Live
-          </Badge>
-        </div>
 
         {/* KPI Cards */}
         <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
@@ -400,15 +402,15 @@ const AdminDashboard = () => {
             </CardContent>
           </Card>
         </div>
-        </div>
+      </div>
 
-        {/* Hot List Widget - Pinned Right */}
-        <div className="w-80 flex-shrink-0 hidden lg:block">
-          <div className="sticky top-6">
-            <HotListWidget />
-          </div>
+      {/* Hot List Widget - Pinned Right */}
+      <div className="w-80 flex-shrink-0 hidden lg:block">
+        <div className="sticky top-6">
+          <HotListWidget />
         </div>
       </div>
+    </div>
     </>
   );
 };
