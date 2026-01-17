@@ -63,6 +63,7 @@ import Settings from "./pages/admin/Settings";
 import Customers from "./pages/admin/Customers";
 import SellRequests from "./pages/admin/SellRequests";
 import EmailTemplates from "./pages/admin/EmailTemplates";
+import EquipmentHub from "./pages/admin/EquipmentHub";
 
 const queryClient = new QueryClient();
 
@@ -150,9 +151,9 @@ const App = () => (
                 <Route path="notifications" element={<AdminNotifications />} />
                 <Route path="search" element={<SalesSearch />} />
                 <Route path="customers" element={<Customers />} />
-                <Route path="equipment" element={<SellRequests />} />
+                <Route path="equipment" element={<EquipmentHub />} />
                 <Route path="sell-requests" element={<Navigate to="/admin/equipment" replace />} />
-                <Route path="inventory" element={<AdminInventory />} />
+                <Route path="inventory" element={<Navigate to="/admin/equipment?tab=inventory" replace />} />
                 <Route path="quotes" element={<AdminQuotes />} />
                 <Route path="quote-builder" element={<QuoteBuilder />} />
                 <Route path="email-templates" element={<EmailTemplates />} />
