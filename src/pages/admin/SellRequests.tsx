@@ -124,6 +124,8 @@ const SellRequests = () => {
   const [mobileFilter, setMobileFilter] = useState<string>("all");
   const [priorityFilter, setPriorityFilter] = useState<string>("all");
   const [selectedRequest, setSelectedRequest] = useState<SellRequest | null>(null);
+  const [siteVisitModalOpen, setSiteVisitModalOpen] = useState(false);
+  const [emailTemplateSelectorOpen, setEmailTemplateSelectorOpen] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: requests = [], isLoading } = useQuery({
@@ -817,10 +819,10 @@ Notes: ${request.message || 'None'}
                     )}
                     <Button 
                       variant="outline"
-                      onClick={() => window.location.href = `mailto:${selectedRequest.email}`}
+                      onClick={() => setEmailTemplateSelectorOpen(true)}
                     >
                       <Mail className="h-4 w-4 mr-2" />
-                      Email
+                      Send Email
                     </Button>
                     <Button 
                       variant="outline"
@@ -828,6 +830,13 @@ Notes: ${request.message || 'None'}
                     >
                       <Camera className="h-4 w-4 mr-2" />
                       Request Photos
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      onClick={() => setSiteVisitModalOpen(true)}
+                    >
+                      <CalendarPlus className="h-4 w-4 mr-2" />
+                      Schedule Visit
                     </Button>
                     <Button 
                       variant="outline"
@@ -856,6 +865,42 @@ Notes: ${request.message || 'None'}
           )}
         </SheetContent>
       </Sheet>
+
+      {/* Site Visit Modal */}
+      {selectedRequest && (
+        <ScheduleSiteVisitModal
+          isOpen={siteVisitModalOpen}
+          onClose={() => setSiteVisitModalOpen(false)}
+          sellRequestId={selectedRequest.id}
+          defaultData={{
+            contactName: selectedRequest.name,
+            contactEmail: selectedRequest.email,
+            contactPhone: selectedRequest.phone || undefined,
+            location: [selectedRequest.city, selectedRequest.state, selectedRequest.country]
+              .filter(Boolean).join(', ') || selectedRequest.location || undefined,
+            equipmentType: `${selectedRequest.manufacturer || ''} ${selectedRequest.model || selectedRequest.equipment_type}`.trim(),
+          }}
+        />
+      )}
+
+      {/* Email Template Selector */}
+      {selectedRequest && (
+        <EmailTemplateSelector
+          isOpen={emailTemplateSelectorOpen}
+          onClose={() => setEmailTemplateSelectorOpen(false)}
+          recipientEmail={selectedRequest.email}
+          recipientName={selectedRequest.name}
+          variables={{
+            name: selectedRequest.name,
+            first_name: selectedRequest.name.split(' ')[0],
+            company: selectedRequest.company || '',
+            equipment_type: selectedRequest.equipment_type,
+            manufacturer: selectedRequest.manufacturer || '',
+            model: selectedRequest.model || '',
+            location: [selectedRequest.city, selectedRequest.state].filter(Boolean).join(', ') || '',
+          }}
+        />
+      )}
     </div>
   );
 };
