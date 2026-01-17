@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes emergency-pulse {
+  0%, 100% { background-color: rgba(239, 68, 68, 0.05); }
+  50% { background-color: rgba(239, 68, 68, 0.15); }
+}
+
+.animate-emergency-pulse {
+  animation: emergency-pulse 1.5s ease-in-out infinite;
+}
+
 /* LASO Imaging - Professional Healthcare Equipment Design System */
 
 @layer base {

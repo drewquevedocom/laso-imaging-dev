@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { isAfter, isBefore, startOfDay, endOfDay } from "date-fns";
 
 export interface TriageLead {
   id: string;
@@ -18,6 +19,15 @@ export interface TriageLead {
   updated_at: string;
 }
 
+export interface LeadFilters {
+  search: string;
+  dateFrom: Date | undefined;
+  dateTo: Date | undefined;
+  scoreMin: number;
+  scoreMax: number;
+  types: string[];
+}
+
 // Map Kanban columns to database status values
 export const KANBAN_COLUMNS = [
   { id: "new", label: "New Inquiry", dbStatus: "new" },
@@ -27,9 +37,9 @@ export const KANBAN_COLUMNS = [
   { id: "closed", label: "Closed", dbStatus: "closed" },
 ] as const;
 
-export function useTriageLeads() {
+export function useTriageLeads(filters?: LeadFilters) {
   return useQuery({
-    queryKey: ["triage-leads"],
+    queryKey: ["triage-leads", filters],
     queryFn: async (): Promise<TriageLead[]> => {
       const { data, error } = await supabase
         .from("leads")
@@ -37,7 +47,47 @@ export function useTriageLeads() {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data || [];
+      
+      let filteredData = data || [];
+      
+      if (filters) {
+        if (filters.search) {
+          const searchLower = filters.search.toLowerCase();
+          filteredData = filteredData.filter(lead =>
+            lead.name.toLowerCase().includes(searchLower) ||
+            lead.email.toLowerCase().includes(searchLower) ||
+            lead.company?.toLowerCase().includes(searchLower) ||
+            lead.message?.toLowerCase().includes(searchLower)
+          );
+        }
+        
+        if (filters.dateFrom) {
+          filteredData = filteredData.filter(lead =>
+            isAfter(new Date(lead.created_at), startOfDay(filters.dateFrom!))
+          );
+        }
+        if (filters.dateTo) {
+          filteredData = filteredData.filter(lead =>
+            isBefore(new Date(lead.created_at), endOfDay(filters.dateTo!))
+          );
+        }
+        
+        if (filters.scoreMin > 0 || filters.scoreMax < 100) {
+          filteredData = filteredData.filter(lead =>
+            lead.lead_score >= filters.scoreMin && lead.lead_score <= filters.scoreMax
+          );
+        }
+        
+        if (filters.types.length > 0) {
+          filteredData = filteredData.filter(lead =>
+            filters.types.some(type => 
+              lead.interest.toLowerCase().includes(type.toLowerCase())
+            )
+          );
+        }
+      }
+      
+      return filteredData;
     },
   });
 }
@@ -71,7 +121,6 @@ export function useUpdateLeadStatus() {
   });
 }
 
-// Get lead type badge color based on interest field
 export function getLeadTypeInfo(interest: string): { label: string; color: string; borderColor: string } {
   const lowerInterest = interest.toLowerCase();
   
@@ -98,7 +147,6 @@ export function getLeadTypeInfo(interest: string): { label: string; color: strin
   };
 }
 
-// Calculate time in stage
 export function getTimeInStage(updatedAt: string): string {
   const now = new Date();
   const updated = new Date(updatedAt);
