@@ -124,7 +124,7 @@ export const Header = () => {
               <img 
                 src={logoLaso} 
                 alt="LASO Imaging Solutions" 
-                className="h-14 md:h-20 w-auto"
+                className="h-14 md:h-20 w-auto dark:brightness-0 dark:invert"
               />
             </Link>
 

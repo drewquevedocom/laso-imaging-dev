@@ -6,7 +6,8 @@ import {
   FileText, 
   MessageSquare, 
   Settings,
-  ChevronLeft
+  ChevronLeft,
+  FileEdit
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -30,6 +31,7 @@ const navItems = [
   { title: "Lead Triage", url: "/admin/notifications", icon: UserCheck },
   { title: "Inventory", url: "/admin/inventory", icon: Package },
   { title: "Quotes", url: "/admin/quotes", icon: FileText },
+  { title: "Quote Builder", url: "/admin/quote-builder", icon: FileEdit },
   { title: "Communication", url: "/admin/communication", icon: MessageSquare },
 ];
 

@@ -14,6 +14,7 @@ import {
   Clock,
   CheckCircle,
   XCircle,
+  Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -69,6 +70,7 @@ import {
 } from "@/hooks/useQuotes";
 import { Quote, QuoteLineItem } from "@/types/database";
 import { format } from "date-fns";
+import SendQuoteModal from "@/components/admin/SendQuoteModal";
 
 const STATUS_OPTIONS = ["Draft", "Sent", "Viewed", "Accepted", "Rejected", "Expired"];
 
@@ -90,6 +92,8 @@ const AdminQuotes = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedQuote, setSelectedQuote] = useState<Quote | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [sendQuoteModalOpen, setSendQuoteModalOpen] = useState(false);
+  const [quoteToSend, setQuoteToSend] = useState<Quote | null>(null);
 
   const { data: quotes = [], isLoading } = useQuotes();
   const { data: stats } = useQuotesStats();
@@ -199,6 +203,11 @@ const AdminQuotes = () => {
   const handleViewQuote = (quote: Quote) => {
     setSelectedQuote(quote);
     setIsSheetOpen(true);
+  };
+
+  const handleOpenSendModal = (quote: Quote) => {
+    setQuoteToSend(quote);
+    setSendQuoteModalOpen(true);
   };
 
   // Filter quotes
@@ -541,6 +550,10 @@ const AdminQuotes = () => {
                               <Eye className="h-4 w-4 mr-2" />
                               View
                             </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleOpenSendModal(quote)}>
+                              <Mail className="h-4 w-4 mr-2" />
+                              Generate & Send
+                            </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={() => handleStatusChange(quote.id, "Sent")}>
                               <Send className="h-4 w-4 mr-2" />
@@ -653,6 +666,16 @@ const AdminQuotes = () => {
           )}
         </SheetContent>
       </Sheet>
+
+      <SendQuoteModal
+        quote={quoteToSend}
+        open={sendQuoteModalOpen}
+        onOpenChange={setSendQuoteModalOpen}
+        onSuccess={() => {
+          setSendQuoteModalOpen(false);
+          setQuoteToSend(null);
+        }}
+      />
     </>
   );
 };

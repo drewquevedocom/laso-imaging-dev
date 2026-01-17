@@ -21,10 +21,10 @@ interface Quote {
   customer_name: string;
   customer_email: string;
   customer_company?: string;
-  line_items: any[];
+  items: any[];
   subtotal: number;
   tax: number;
-  total: number;
+  total_amount: number;
   notes?: string;
   valid_until?: string;
   status: string;
@@ -49,7 +49,7 @@ const SendQuoteModal = ({ quote, open, onOpenChange, onSuccess }: SendQuoteModal
     if (quote) {
       setEmailTo(quote.customer_email || "");
       setEmailSubject(`Quote ${quote.quote_number} from LASO Imaging Solutions`);
-      setEmailMessage(`Dear ${quote.customer_name},\n\nPlease find attached your quote ${quote.quote_number} for the requested equipment and services.\n\nThe total amount is $${quote.total?.toLocaleString() || "0"}.\n\nThis quote is valid until ${quote.valid_until ? new Date(quote.valid_until).toLocaleDateString() : "30 days from issue date"}.\n\nPlease don't hesitate to contact us if you have any questions.\n\nBest regards,\nLASO Imaging Solutions Team`);
+      setEmailMessage(`Dear ${quote.customer_name},\n\nPlease find attached your quote ${quote.quote_number} for the requested equipment and services.\n\nThe total amount is $${quote.total_amount?.toLocaleString() || "0"}.\n\nThis quote is valid until ${quote.valid_until ? new Date(quote.valid_until).toLocaleDateString() : "30 days from issue date"}.\n\nPlease don't hesitate to contact us if you have any questions.\n\nBest regards,\nLASO Imaging Solutions Team`);
     }
   });
 
@@ -151,12 +151,12 @@ const SendQuoteModal = ({ quote, open, onOpenChange, onSuccess }: SendQuoteModal
             )}
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">Items:</span>
-              <span>{quote.line_items?.length || 0} line items</span>
+              <span>{quote.items?.length || 0} line items</span>
             </div>
             <Separator />
             <div className="flex justify-between font-semibold">
               <span>Total:</span>
-              <span className="text-lg">{formatCurrency(quote.total)}</span>
+              <span className="text-lg">{formatCurrency(quote.total_amount)}</span>
             </div>
           </div>
 
