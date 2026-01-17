@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import {
   Search,
@@ -10,6 +10,7 @@ import {
   Save,
   FolderOpen,
   GripVertical,
+  Store,
 } from "lucide-react";
 import { Reorder } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -41,10 +42,13 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useInventory } from "@/hooks/useInventory";
 import { useCreateQuote } from "@/hooks/useQuotes";
 import { useQuoteTemplates, useCreateQuoteTemplate, useDeleteQuoteTemplate } from "@/hooks/useQuoteTemplates";
 import { useSearchCustomers, Customer } from "@/hooks/useCustomers";
+import { useShopifyProductSearch } from "@/hooks/useShopifyProductSearch";
+import { ShopifyProduct } from "@/lib/shopify";
 import { toast } from "sonner";
 import QuotePreviewModal from "@/components/admin/QuotePreviewModal";
 import CustomerSearchSelect from "@/components/admin/CustomerSearchSelect";
@@ -74,8 +78,39 @@ const QuoteBuilder = () => {
   const deleteTemplate = useDeleteQuoteTemplate();
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [shopifySearchQuery, setShopifySearchQuery] = useState("");
   const [modalityFilter, setModalityFilter] = useState<string>("all");
   const [oemFilter, setOemFilter] = useState<string>("all");
+  const [productTab, setProductTab] = useState("inventory");
+
+  // Shopify products
+  const { products: shopifyProducts, isLoading: shopifyLoading } = useShopifyProductSearch(
+    shopifySearchQuery || undefined,
+    100
+  );
+
+  // Check for pre-filled customer from session storage (from Sell Requests conversion)
+  useEffect(() => {
+    const prefilledCustomer = sessionStorage.getItem('quoteBuilderCustomer');
+    if (prefilledCustomer) {
+      try {
+        const parsed = JSON.parse(prefilledCustomer);
+        setCustomer({
+          name: parsed.name || "",
+          email: parsed.email || "",
+          company: parsed.company || "",
+          phone: parsed.phone || "",
+        });
+        if (parsed.notes) {
+          setNotes(parsed.notes);
+        }
+        sessionStorage.removeItem('quoteBuilderCustomer');
+        toast.success("Customer info loaded from Sell Request");
+      } catch (e) {
+        console.error("Failed to parse pre-filled customer", e);
+      }
+    }
+  }, []);
 
   const [customer, setCustomer] = useState<CustomerInfo>({
     name: "",
@@ -146,6 +181,31 @@ const QuoteBuilder = () => {
 
     setItems([...items, newItem]);
     toast.success("Added to quote");
+  };
+
+  const handleAddShopifyProduct = (product: ShopifyProduct) => {
+    const productId = product.node.id;
+    
+    // Check if already in quote
+    if (items.some((item) => item.inventoryId === productId)) {
+      toast.info("Product already in quote");
+      return;
+    }
+
+    const price = parseFloat(product.node.priceRange.minVariantPrice.amount);
+    
+    const newItem: QuoteItem = {
+      id: crypto.randomUUID(),
+      inventoryId: productId,
+      name: product.node.title,
+      description: product.node.description?.slice(0, 100) || "Shopify Product",
+      quantity: 1,
+      unitPrice: price,
+      originalPrice: price,
+    };
+
+    setItems([...items, newItem]);
+    toast.success("Shopify product added to quote");
   };
 
   const handleRemoveItem = (id: string) => {
@@ -346,93 +406,172 @@ const QuoteBuilder = () => {
                 <Package className="h-5 w-5" />
                 Product Search
               </CardTitle>
-              <div className="space-y-3">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search inventory..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <Select value={modalityFilter} onValueChange={setModalityFilter}>
-                    <SelectTrigger className="flex-1">
-                      <SelectValue placeholder="Modality" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Modalities</SelectItem>
-                      {modalities.map((mod) => (
-                        <SelectItem key={mod} value={mod!}>
-                          {mod}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Select value={oemFilter} onValueChange={setOemFilter}>
-                    <SelectTrigger className="flex-1">
-                      <SelectValue placeholder="OEM" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All OEMs</SelectItem>
-                      {oems.map((oem) => (
-                        <SelectItem key={oem} value={oem!}>
-                          {oem}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+              <Tabs value={productTab} onValueChange={setProductTab}>
+                <TabsList className="w-full">
+                  <TabsTrigger value="inventory" className="flex-1 gap-1">
+                    <Package className="h-3 w-3" />
+                    Inventory
+                  </TabsTrigger>
+                  <TabsTrigger value="shopify" className="flex-1 gap-1">
+                    <Store className="h-3 w-3" />
+                    Shopify
+                  </TabsTrigger>
+                </TabsList>
+
+                {/* Inventory Tab Content */}
+                <TabsContent value="inventory" className="mt-3 space-y-3">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search inventory..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <Select value={modalityFilter} onValueChange={setModalityFilter}>
+                      <SelectTrigger className="flex-1">
+                        <SelectValue placeholder="Modality" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Modalities</SelectItem>
+                        {modalities.map((mod) => (
+                          <SelectItem key={mod} value={mod!}>
+                            {mod}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Select value={oemFilter} onValueChange={setOemFilter}>
+                      <SelectTrigger className="flex-1">
+                        <SelectValue placeholder="OEM" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All OEMs</SelectItem>
+                        {oems.map((oem) => (
+                          <SelectItem key={oem} value={oem!}>
+                            {oem}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </TabsContent>
+
+                {/* Shopify Tab Content */}
+                <TabsContent value="shopify" className="mt-3">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search Shopify products..."
+                      value={shopifySearchQuery}
+                      onChange={(e) => setShopifySearchQuery(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </TabsContent>
+              </Tabs>
             </CardHeader>
             <CardContent className="p-0">
-              <ScrollArea className="h-[calc(100vh-420px)]">
+              <ScrollArea className="h-[calc(100vh-450px)]">
                 <div className="p-4 space-y-2">
-                  {inventoryLoading ? (
-                    <p className="text-center text-muted-foreground py-8">
-                      Loading inventory...
-                    </p>
-                  ) : filteredInventory.length === 0 ? (
-                    <p className="text-center text-muted-foreground py-8">
-                      No available items match your search
-                    </p>
+                  {productTab === "inventory" ? (
+                    <>
+                      {inventoryLoading ? (
+                        <p className="text-center text-muted-foreground py-8">
+                          Loading inventory...
+                        </p>
+                      ) : filteredInventory.length === 0 ? (
+                        <p className="text-center text-muted-foreground py-8">
+                          No available items match your search
+                        </p>
+                      ) : (
+                        filteredInventory.map((item) => (
+                          <div
+                            key={item.id}
+                            className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors"
+                          >
+                            <div className="w-12 h-12 bg-muted rounded flex items-center justify-center flex-shrink-0">
+                              {item.images?.[0] ? (
+                                <img
+                                  src={item.images[0]}
+                                  alt={item.product_name}
+                                  className="w-full h-full object-cover rounded"
+                                />
+                              ) : (
+                                <Package className="h-6 w-6 text-muted-foreground" />
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium truncate">{item.product_name}</p>
+                              <p className="text-sm text-muted-foreground truncate">
+                                {item.oem} {item.modality}
+                              </p>
+                              <p className="text-sm font-semibold text-primary">
+                                {formatCurrency(item.price || 0)}
+                              </p>
+                            </div>
+                            <Button
+                              size="sm"
+                              onClick={() => handleAddItem(item)}
+                              disabled={items.some((i) => i.inventoryId === item.id)}
+                            >
+                              <Plus className="h-4 w-4 mr-1" />
+                              Add
+                            </Button>
+                          </div>
+                        ))
+                      )}
+                    </>
                   ) : (
-                    filteredInventory.map((item) => (
-                      <div
-                        key={item.id}
-                        className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors"
-                      >
-                        <div className="w-12 h-12 bg-muted rounded flex items-center justify-center flex-shrink-0">
-                          {item.images?.[0] ? (
-                            <img
-                              src={item.images[0]}
-                              alt={item.product_name}
-                              className="w-full h-full object-cover rounded"
-                            />
-                          ) : (
-                            <Package className="h-6 w-6 text-muted-foreground" />
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-medium truncate">{item.product_name}</p>
-                          <p className="text-sm text-muted-foreground truncate">
-                            {item.oem} {item.modality}
-                          </p>
-                          <p className="text-sm font-semibold text-primary">
-                            {formatCurrency(item.price || 0)}
-                          </p>
-                        </div>
-                        <Button
-                          size="sm"
-                          onClick={() => handleAddItem(item)}
-                          disabled={items.some((i) => i.inventoryId === item.id)}
-                        >
-                          <Plus className="h-4 w-4 mr-1" />
-                          Add
-                        </Button>
-                      </div>
-                    ))
+                    <>
+                      {shopifyLoading ? (
+                        <p className="text-center text-muted-foreground py-8">
+                          Loading Shopify products...
+                        </p>
+                      ) : shopifyProducts.length === 0 ? (
+                        <p className="text-center text-muted-foreground py-8">
+                          No Shopify products found
+                        </p>
+                      ) : (
+                        shopifyProducts.map((product) => (
+                          <div
+                            key={product.node.id}
+                            className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors"
+                          >
+                            <div className="w-12 h-12 bg-muted rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
+                              {product.node.images?.edges?.[0]?.node?.url ? (
+                                <img
+                                  src={product.node.images.edges[0].node.url}
+                                  alt={product.node.title}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <Store className="h-6 w-6 text-muted-foreground" />
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium truncate">{product.node.title}</p>
+                              <p className="text-xs text-muted-foreground truncate">
+                                {product.node.description?.slice(0, 60) || "No description"}
+                              </p>
+                              <p className="text-sm font-semibold text-primary">
+                                {formatCurrency(parseFloat(product.node.priceRange.minVariantPrice.amount))}
+                              </p>
+                            </div>
+                            <Button
+                              size="sm"
+                              onClick={() => handleAddShopifyProduct(product)}
+                              disabled={items.some((i) => i.inventoryId === product.node.id)}
+                            >
+                              <Plus className="h-4 w-4 mr-1" />
+                              Add
+                            </Button>
+                          </div>
+                        ))
+                      )}
+                    </>
                   )}
                 </div>
               </ScrollArea>

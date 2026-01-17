@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import {
@@ -7,8 +7,8 @@ import {
   Wrench,
   Plus,
   ShoppingCart,
-  ExternalLink,
   Filter,
+  Store,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { useInventory } from "@/hooks/useInventory";
 import { quotableServices, serviceCategories, formatServicePrice, QuotableService } from "@/data/servicesCatalog";
+import { fetchShopifyProducts, ShopifyProduct } from "@/lib/shopify";
 import { toast } from "sonner";
 
 const SalesSearch = () => {
@@ -35,6 +36,26 @@ const SalesSearch = () => {
   const [activeTab, setActiveTab] = useState("products");
   const [modalityFilter, setModalityFilter] = useState("all");
   const [serviceCategoryFilter, setServiceCategoryFilter] = useState("all");
+  
+  // Shopify products state
+  const [shopifyProducts, setShopifyProducts] = useState<ShopifyProduct[]>([]);
+  const [shopifyLoading, setShopifyLoading] = useState(false);
+
+  // Load Shopify products
+  useEffect(() => {
+    const loadShopifyProducts = async () => {
+      setShopifyLoading(true);
+      try {
+        const products = await fetchShopifyProducts(100, searchQuery || undefined);
+        setShopifyProducts(products);
+      } catch (error) {
+        console.error("Error loading Shopify products:", error);
+      } finally {
+        setShopifyLoading(false);
+      }
+    };
+    loadShopifyProducts();
+  }, [searchQuery]);
 
   // Filtered inventory
   const filteredInventory = useMemo(() => {
@@ -65,7 +86,7 @@ const SalesSearch = () => {
     return Array.from(mods);
   }, [inventory]);
 
-  const handleAddToQuote = (item: typeof inventory[0] | QuotableService, type: 'product' | 'service') => {
+  const handleAddToQuote = (item: typeof inventory[0] | QuotableService | ShopifyProduct, type: 'product' | 'service' | 'shopify') => {
     // Store in session storage for Quote Builder to pick up
     const quoteItems = JSON.parse(sessionStorage.getItem('pendingQuoteItems') || '[]');
     
@@ -77,6 +98,16 @@ const SalesSearch = () => {
         name: product.product_name,
         description: `${product.oem} ${product.modality || ''}`.trim(),
         unitPrice: product.price || 0,
+        quantity: 1,
+      });
+    } else if (type === 'shopify') {
+      const product = item as ShopifyProduct;
+      quoteItems.push({
+        type: 'shopify',
+        id: product.node.id,
+        name: product.node.title,
+        description: product.node.description?.slice(0, 100) || 'Shopify Product',
+        unitPrice: parseFloat(product.node.priceRange.minVariantPrice.amount),
         quantity: 1,
       });
     } else {
@@ -159,6 +190,10 @@ const SalesSearch = () => {
               <TabsTrigger value="products" className="gap-2">
                 <Package className="h-4 w-4" />
                 Equipment ({filteredInventory.length})
+              </TabsTrigger>
+              <TabsTrigger value="shopify" className="gap-2">
+                <Store className="h-4 w-4" />
+                Shopify ({shopifyProducts.length})
               </TabsTrigger>
               <TabsTrigger value="services" className="gap-2">
                 <Wrench className="h-4 w-4" />
@@ -260,6 +295,69 @@ const SalesSearch = () => {
                             <Button
                               size="sm"
                               onClick={() => handleAddToQuote(item, 'product')}
+                            >
+                              <Plus className="h-4 w-4 mr-1" />
+                              Add to Quote
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </ScrollArea>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Shopify Products Tab */}
+          <TabsContent value="shopify" className="mt-4">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Shopify Products</CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <ScrollArea className="h-[calc(100vh-400px)]">
+                  {shopifyLoading ? (
+                    <div className="p-8 text-center text-muted-foreground">
+                      Loading Shopify products...
+                    </div>
+                  ) : shopifyProducts.length === 0 ? (
+                    <div className="p-8 text-center text-muted-foreground">
+                      No Shopify products found
+                    </div>
+                  ) : (
+                    <div className="grid gap-3 p-4 md:grid-cols-2 lg:grid-cols-3">
+                      {shopifyProducts.map((product) => (
+                        <div
+                          key={product.node.id}
+                          className="flex flex-col p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                        >
+                          <div className="flex items-start gap-3 mb-3">
+                            <div className="w-16 h-16 bg-muted rounded flex items-center justify-center flex-shrink-0 overflow-hidden">
+                              {product.node.images?.edges?.[0]?.node?.url ? (
+                                <img
+                                  src={product.node.images.edges[0].node.url}
+                                  alt={product.node.title}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <Store className="h-8 w-8 text-muted-foreground" />
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium truncate">{product.node.title}</p>
+                              <p className="text-sm text-muted-foreground line-clamp-2">
+                                {product.node.description?.slice(0, 80) || "No description"}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between mt-auto pt-3 border-t">
+                            <span className="font-semibold text-primary">
+                              {formatCurrency(parseFloat(product.node.priceRange.minVariantPrice.amount))}
+                            </span>
+                            <Button
+                              size="sm"
+                              onClick={() => handleAddToQuote(product, 'shopify')}
                             >
                               <Plus className="h-4 w-4 mr-1" />
                               Add to Quote
