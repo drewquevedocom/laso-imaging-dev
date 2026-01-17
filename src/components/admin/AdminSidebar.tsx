@@ -10,6 +10,7 @@ import {
   Search,
   Users,
   ScanLine,
+  MailOpen,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -38,6 +39,7 @@ const navItems = [
   { title: "Product Search", url: "/admin/search", icon: Search },
   { title: "Quotes", url: "/admin/quotes", icon: FileText },
   { title: "Quote Builder", url: "/admin/quote-builder", icon: FileEdit },
+  { title: "Email Templates", url: "/admin/email-templates", icon: MailOpen },
   { title: "Communication", url: "/admin/communication", icon: MessageSquare },
 ];
 
