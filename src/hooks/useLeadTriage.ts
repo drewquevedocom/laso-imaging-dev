@@ -15,6 +15,8 @@ export interface TriageLead {
   lead_score: number;
   status: string;
   is_hot: boolean;
+  sms_opt_in: boolean;
+  email_opt_in: boolean;
   created_at: string;
   updated_at: string;
 }

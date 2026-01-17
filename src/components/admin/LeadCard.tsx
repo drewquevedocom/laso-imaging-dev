@@ -10,7 +10,9 @@ import {
   Clock,
   MoreVertical,
   PhoneCall,
-  Send
+  Send,
+  Mail,
+  MessageCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +36,8 @@ interface Lead {
   lead_score: number;
   status: string;
   is_hot: boolean;
+  sms_opt_in?: boolean;
+  email_opt_in?: boolean;
   created_at: string;
   updated_at?: string;
 }
@@ -92,11 +96,23 @@ const LeadCard = ({ lead, onStatusChange, variant = "default" }: LeadCardProps) 
           </div>
         </div>
 
-        {/* Type Badge */}
-        <div className="flex items-center gap-2 mb-2">
+        {/* Type Badge & Opt-in indicators */}
+        <div className="flex items-center gap-1.5 mb-2 flex-wrap">
           <Badge className={`text-xs ${typeInfo.color}`}>
             {lead.is_hot && "🔥 "}{typeInfo.label}
           </Badge>
+          {lead.sms_opt_in && (
+            <Badge variant="outline" className="text-[10px] px-1 py-0 h-4 text-green-600 border-green-300">
+              <MessageCircle className="h-2.5 w-2.5 mr-0.5" />
+              SMS
+            </Badge>
+          )}
+          {lead.email_opt_in && (
+            <Badge variant="outline" className="text-[10px] px-1 py-0 h-4 text-blue-600 border-blue-300">
+              <Mail className="h-2.5 w-2.5 mr-0.5" />
+              Email
+            </Badge>
+          )}
         </div>
 
         {/* Score & Time */}
