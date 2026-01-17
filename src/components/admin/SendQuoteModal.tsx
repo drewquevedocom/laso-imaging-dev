@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Loader2, Send, FileText, Mail } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Loader2, Send, FileText, Mail, Copy, Check, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
@@ -28,6 +28,7 @@ interface Quote {
   notes?: string;
   valid_until?: string;
   status: string;
+  acceptance_token?: string;
 }
 
 interface SendQuoteModalProps {
@@ -37,21 +38,42 @@ interface SendQuoteModalProps {
   onSuccess: () => void;
 }
 
+const PORTAL_BASE_URL = "https://laso-ver1.lovable.app";
+
 const SendQuoteModal = ({ quote, open, onOpenChange, onSuccess }: SendQuoteModalProps) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [emailTo, setEmailTo] = useState("");
   const [emailSubject, setEmailSubject] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
+  const [copied, setCopied] = useState(false);
 
   // Reset form when quote changes
-  useState(() => {
+  useEffect(() => {
     if (quote) {
       setEmailTo(quote.customer_email || "");
       setEmailSubject(`Quote ${quote.quote_number} from LASO Imaging Solutions`);
       setEmailMessage(`Dear ${quote.customer_name},\n\nPlease find attached your quote ${quote.quote_number} for the requested equipment and services.\n\nThe total amount is $${quote.total_amount?.toLocaleString() || "0"}.\n\nThis quote is valid until ${quote.valid_until ? new Date(quote.valid_until).toLocaleDateString() : "30 days from issue date"}.\n\nPlease don't hesitate to contact us if you have any questions.\n\nBest regards,\nLASO Imaging Solutions Team`);
+      setCopied(false);
     }
-  });
+  }, [quote]);
+
+  const portalLink = quote?.acceptance_token 
+    ? `${PORTAL_BASE_URL}/quote/${quote.acceptance_token}` 
+    : null;
+
+  const handleCopyLink = async () => {
+    if (!portalLink) return;
+    
+    try {
+      await navigator.clipboard.writeText(portalLink);
+      setCopied(true);
+      toast.success("Link copied to clipboard!");
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      toast.error("Failed to copy link");
+    }
+  };
 
   const handleGeneratePDF = async () => {
     if (!quote) return;
@@ -160,6 +182,47 @@ const SendQuoteModal = ({ quote, open, onOpenChange, onSuccess }: SendQuoteModal
             </div>
           </div>
 
+          {/* Quote Acceptance Portal Link */}
+          {portalLink && (
+            <div className="p-4 bg-success/10 border border-success/20 rounded-lg space-y-3">
+              <div className="flex items-center gap-2">
+                <ExternalLink className="h-4 w-4 text-success" />
+                <span className="font-medium text-success">Customer Acceptance Portal</span>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                This link allows the customer to view, accept, or decline the quote online.
+              </p>
+              <div className="flex gap-2">
+                <Input
+                  readOnly
+                  value={portalLink}
+                  className="flex-1 text-xs bg-background"
+                />
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleCopyLink}
+                  className="shrink-0"
+                >
+                  {copied ? (
+                    <Check className="h-4 w-4 text-success" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => window.open(portalLink, "_blank")}
+                  className="shrink-0"
+                >
+                  <ExternalLink className="h-4 w-4 mr-1" />
+                  Preview
+                </Button>
+              </div>
+            </div>
+          )}
+
           {/* Generate PDF Button */}
           <div className="flex items-center gap-3 p-4 border rounded-lg">
             <FileText className="h-8 w-8 text-primary" />
@@ -215,6 +278,9 @@ const SendQuoteModal = ({ quote, open, onOpenChange, onSuccess }: SendQuoteModal
                 rows={6}
                 className="resize-none"
               />
+              <p className="text-xs text-muted-foreground">
+                The email will automatically include a "View & Accept Quote" button linking to the acceptance portal.
+              </p>
             </div>
           </div>
 

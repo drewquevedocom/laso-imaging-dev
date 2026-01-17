@@ -57,6 +57,8 @@ import CookieConsent from "./components/layout/CookieConsent";
 import ContractorTimecard from "./pages/internal/ContractorTimecard";
 import CustomerReview from "./pages/internal/CustomerReview";
 import QuoteAcceptance from "./pages/quotes/QuoteAcceptance";
+import Communications from "./pages/admin/Communications";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -144,7 +146,7 @@ const App = () => (
                 <Route path="inventory" element={<AdminInventory />} />
                 <Route path="quotes" element={<AdminQuotes />} />
                 <Route path="quote-builder" element={<QuoteBuilder />} />
-                <Route path="communication" element={<PlaceholderPage title="Communication" />} />
+                <Route path="communication" element={<Communications />} />
                 <Route path="settings" element={<PlaceholderPage title="Settings" />} />
               </Route>
               
