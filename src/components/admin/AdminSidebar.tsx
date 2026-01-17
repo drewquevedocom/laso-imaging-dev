@@ -2,12 +2,13 @@ import { useLocation } from "react-router-dom";
 import { 
   LayoutDashboard, 
   UserCheck, 
-  Package, 
   FileText, 
   MessageSquare, 
   Settings,
   ChevronLeft,
-  FileEdit
+  FileEdit,
+  Search,
+  Users,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -28,11 +29,10 @@ import { Badge } from "@/components/ui/badge";
 import logoLaso from "@/assets/logo-laso.png";
 import { useHotList } from "@/hooks/useHotList";
 
-import { Search } from "lucide-react";
-
 const navItems = [
   { title: "Dashboard", url: "/admin/dashboard", icon: LayoutDashboard },
   { title: "Lead Triage", url: "/admin/notifications", icon: UserCheck },
+  { title: "Customers", url: "/admin/customers", icon: Users },
   { title: "Product Search", url: "/admin/search", icon: Search },
   { title: "Quotes", url: "/admin/quotes", icon: FileText },
   { title: "Quote Builder", url: "/admin/quote-builder", icon: FileEdit },
@@ -94,8 +94,7 @@ const AdminSidebar = () => {
                           {!isCollapsed && <span>{item.title}</span>}
                           {item.title === "Dashboard" && hotCount > 0 && (
                             <Badge 
-                              variant="destructive" 
-                              className="absolute -top-1 -right-1 h-5 min-w-5 flex items-center justify-center text-[10px] p-0"
+                              className="absolute -top-1 -right-1 h-5 min-w-5 flex items-center justify-center text-[10px] p-0 bg-red-500 text-white border-2 border-white shadow-lg font-bold"
                             >
                               {hotCount}
                             </Badge>

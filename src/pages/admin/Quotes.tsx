@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import {
   FileText,
@@ -61,6 +61,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import {
   useQuotes,
   useCreateQuote,
@@ -68,6 +69,8 @@ import {
   useDeleteQuote,
   useQuotesStats,
 } from "@/hooks/useQuotes";
+import { useQuoteEmailStatuses } from "@/hooks/useEmailDeliveryStatus";
+import { EmailTrackingBadge } from "@/components/admin/EmailTrackingBadge";
 import { Quote, QuoteLineItem } from "@/types/database";
 import { format } from "date-fns";
 import SendQuoteModal from "@/components/admin/SendQuoteModal";
@@ -100,6 +103,10 @@ const AdminQuotes = () => {
   const createQuote = useCreateQuote();
   const updateQuote = useUpdateQuote();
   const deleteQuote = useDeleteQuote();
+  
+  // Get email statuses for all quotes
+  const quoteIds = useMemo(() => quotes.map(q => q.id), [quotes]);
+  const { data: emailStatuses = {} } = useQuoteEmailStatuses(quoteIds);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -503,6 +510,7 @@ const AdminQuotes = () => {
                   <TableHead>Company</TableHead>
                   <TableHead>Amount</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead>Email</TableHead>
                   <TableHead>Created</TableHead>
                   <TableHead className="w-[50px]"></TableHead>
                 </TableRow>
@@ -510,13 +518,13 @@ const AdminQuotes = () => {
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                    <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                       Loading quotes...
                     </TableCell>
                   </TableRow>
                 ) : filteredQuotes.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                    <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                       {quotes.length === 0 ? "No quotes yet" : "No quotes match filters"}
                     </TableCell>
                   </TableRow>
@@ -530,12 +538,21 @@ const AdminQuotes = () => {
                       </TableCell>
                       <TableCell>{quote.customer_company || "—"}</TableCell>
                       <TableCell className="font-medium">{formatCurrency(quote.total_amount)}</TableCell>
-                      <TableCell>
-                        <Badge variant="secondary" className={getStatusBadge(quote.status)}>
-                          {quote.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">
+                        <TableCell>
+                          <Badge variant="secondary" className={getStatusBadge(quote.status)}>
+                            {quote.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <TooltipProvider>
+                            <EmailTrackingBadge 
+                              status={quote.status}
+                              eventType={emailStatuses[quote.id]?.event_type}
+                              timestamp={emailStatuses[quote.id]?.created_at}
+                            />
+                          </TooltipProvider>
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">
                         {format(new Date(quote.created_at), "MMM d, yyyy")}
                       </TableCell>
                       <TableCell>

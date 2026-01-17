@@ -44,8 +44,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { useInventory } from "@/hooks/useInventory";
 import { useCreateQuote } from "@/hooks/useQuotes";
 import { useQuoteTemplates, useCreateQuoteTemplate, useDeleteQuoteTemplate } from "@/hooks/useQuoteTemplates";
+import { useSearchCustomers, Customer } from "@/hooks/useCustomers";
 import { toast } from "sonner";
 import QuotePreviewModal from "@/components/admin/QuotePreviewModal";
+import CustomerSearchSelect from "@/components/admin/CustomerSearchSelect";
 
 interface QuoteItem {
   id: string;
@@ -449,41 +451,18 @@ const QuoteBuilder = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* Customer Info */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <Label className="text-xs">Customer Name *</Label>
-                  <Input
-                    placeholder="Dr. John Smith"
-                    value={customer.name}
-                    onChange={(e) => setCustomer({ ...customer, name: e.target.value })}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label className="text-xs">Email *</Label>
-                  <Input
-                    type="email"
-                    placeholder="john@hospital.com"
-                    value={customer.email}
-                    onChange={(e) => setCustomer({ ...customer, email: e.target.value })}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label className="text-xs">Company</Label>
-                  <Input
-                    placeholder="ABC Hospital"
-                    value={customer.company}
-                    onChange={(e) => setCustomer({ ...customer, company: e.target.value })}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label className="text-xs">Phone</Label>
-                  <Input
-                    placeholder="(555) 123-4567"
-                    value={customer.phone}
-                    onChange={(e) => setCustomer({ ...customer, phone: e.target.value })}
-                  />
-                </div>
+              {/* Customer Info with Search */}
+              <div className="space-y-3">
+                <Label className="text-xs font-medium">Customer Information</Label>
+                <CustomerSearchSelect
+                  value={customer}
+                  onChange={(c) => setCustomer({
+                    name: c.name,
+                    email: c.email,
+                    company: c.company || "",
+                    phone: c.phone || "",
+                  })}
+                />
               </div>
 
               <Separator />
