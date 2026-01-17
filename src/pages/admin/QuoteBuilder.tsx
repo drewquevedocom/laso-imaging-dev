@@ -8,7 +8,10 @@ import {
   ShoppingCart,
   Package,
   Save,
+  FolderOpen,
+  GripVertical,
 } from "lucide-react";
+import { Reorder } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,9 +26,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { useInventory } from "@/hooks/useInventory";
 import { useCreateQuote } from "@/hooks/useQuotes";
+import { useQuoteTemplates, useCreateQuoteTemplate, useDeleteQuoteTemplate } from "@/hooks/useQuoteTemplates";
 import { toast } from "sonner";
 import QuotePreviewModal from "@/components/admin/QuotePreviewModal";
 
@@ -49,6 +67,9 @@ interface CustomerInfo {
 const QuoteBuilder = () => {
   const { data: inventory = [], isLoading: inventoryLoading } = useInventory();
   const createQuote = useCreateQuote();
+  const { data: templates = [] } = useQuoteTemplates();
+  const createTemplate = useCreateQuoteTemplate();
+  const deleteTemplate = useDeleteQuoteTemplate();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [modalityFilter, setModalityFilter] = useState<string>("all");
@@ -65,6 +86,11 @@ const QuoteBuilder = () => {
   const [notes, setNotes] = useState("");
   const [discount, setDiscount] = useState(0);
   const [previewOpen, setPreviewOpen] = useState(false);
+
+  // Template dialog state
+  const [saveTemplateOpen, setSaveTemplateOpen] = useState(false);
+  const [templateName, setTemplateName] = useState("");
+  const [templateDescription, setTemplateDescription] = useState("");
 
   // Get unique modalities and OEMs from inventory
   const modalities = useMemo(() => {
@@ -171,6 +197,52 @@ const QuoteBuilder = () => {
     setDiscount(0);
   };
 
+  const handleSaveTemplate = async () => {
+    if (!templateName.trim()) {
+      toast.error("Please enter a template name");
+      return;
+    }
+    if (items.length === 0) {
+      toast.error("Add items before saving as template");
+      return;
+    }
+
+    await createTemplate.mutateAsync({
+      name: templateName,
+      description: templateDescription || undefined,
+      items: items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+      })),
+      notes: notes || undefined,
+    });
+
+    setSaveTemplateOpen(false);
+    setTemplateName("");
+    setTemplateDescription("");
+  };
+
+  const handleLoadTemplate = (template: typeof templates[0]) => {
+    const newItems: QuoteItem[] = template.items.map((item) => ({
+      id: crypto.randomUUID(),
+      inventoryId: "",
+      name: item.name,
+      description: item.description,
+      quantity: item.quantity,
+      unitPrice: item.unitPrice,
+      originalPrice: item.unitPrice,
+    }));
+
+    setItems(newItems);
+    if (template.notes) {
+      setNotes(template.notes);
+    }
+    toast.success(`Template "${template.name}" applied`);
+  };
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -195,17 +267,72 @@ const QuoteBuilder = () => {
 
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">Quote Builder</h1>
             <p className="text-muted-foreground">
               Build quotes from inventory items
             </p>
           </div>
-          <Button variant="outline" disabled>
-            <Save className="h-4 w-4 mr-2" />
-            Save Draft
-          </Button>
+          <div className="flex gap-2">
+            {/* Load Template Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  <FolderOpen className="h-4 w-4 mr-2" />
+                  Load Template
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                {templates.length === 0 ? (
+                  <DropdownMenuItem disabled>
+                    No templates saved yet
+                  </DropdownMenuItem>
+                ) : (
+                  templates.map((template) => (
+                    <DropdownMenuItem
+                      key={template.id}
+                      onClick={() => handleLoadTemplate(template)}
+                    >
+                      <div className="flex flex-col">
+                        <span>{template.name}</span>
+                        {template.description && (
+                          <span className="text-xs text-muted-foreground">
+                            {template.description}
+                          </span>
+                        )}
+                      </div>
+                    </DropdownMenuItem>
+                  ))
+                )}
+                {templates.length > 0 && (
+                  <>
+                    <DropdownMenuSeparator />
+                    {templates.map((template) => (
+                      <DropdownMenuItem
+                        key={`delete-${template.id}`}
+                        className="text-destructive"
+                        onClick={() => deleteTemplate.mutate(template.id)}
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Delete "{template.name}"
+                      </DropdownMenuItem>
+                    ))}
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Save Template Button */}
+            <Button
+              variant="outline"
+              disabled={items.length === 0}
+              onClick={() => setSaveTemplateOpen(true)}
+            >
+              <Save className="h-4 w-4 mr-2" />
+              Save as Template
+            </Button>
+          </div>
         </div>
 
         {/* Two Column Layout */}
@@ -361,9 +488,9 @@ const QuoteBuilder = () => {
 
               <Separator />
 
-              {/* Quote Items */}
+              {/* Quote Items with Drag and Drop */}
               <div className="space-y-2">
-                <Label className="text-xs font-medium">Items</Label>
+                <Label className="text-xs font-medium">Items (drag to reorder)</Label>
                 {items.length === 0 ? (
                   <div className="text-center py-8 text-muted-foreground border rounded-lg border-dashed">
                     <ShoppingCart className="h-8 w-8 mx-auto mb-2 opacity-50" />
@@ -371,12 +498,21 @@ const QuoteBuilder = () => {
                   </div>
                 ) : (
                   <ScrollArea className="h-[180px]">
-                    <div className="space-y-2 pr-4">
+                    <Reorder.Group
+                      axis="y"
+                      values={items}
+                      onReorder={setItems}
+                      className="space-y-2 pr-4"
+                    >
                       {items.map((item) => (
-                        <div
+                        <Reorder.Item
                           key={item.id}
-                          className="flex items-start gap-2 p-3 border rounded-lg bg-muted/30"
+                          value={item}
+                          className="flex items-start gap-2 p-3 border rounded-lg bg-background cursor-grab active:cursor-grabbing active:shadow-lg active:scale-[1.02] transition-all"
                         >
+                          <div className="flex-shrink-0 pt-1 text-muted-foreground hover:text-foreground">
+                            <GripVertical className="h-4 w-4" />
+                          </div>
                           <div className="flex-1 min-w-0">
                             <p className="font-medium text-sm truncate">{item.name}</p>
                             <p className="text-xs text-muted-foreground truncate">
@@ -393,6 +529,7 @@ const QuoteBuilder = () => {
                                     handleUpdateItem(item.id, "quantity", parseInt(e.target.value) || 1)
                                   }
                                   className="w-16 h-7 text-xs"
+                                  onPointerDown={(e) => e.stopPropagation()}
                                 />
                               </div>
                               <div className="flex items-center gap-1">
@@ -405,6 +542,7 @@ const QuoteBuilder = () => {
                                     handleUpdateItem(item.id, "unitPrice", parseFloat(e.target.value) || 0)
                                   }
                                   className="w-24 h-7 text-xs"
+                                  onPointerDown={(e) => e.stopPropagation()}
                                 />
                               </div>
                             </div>
@@ -418,13 +556,14 @@ const QuoteBuilder = () => {
                               size="icon"
                               className="h-7 w-7 mt-1"
                               onClick={() => handleRemoveItem(item.id)}
+                              onPointerDown={(e) => e.stopPropagation()}
                             >
                               <Trash2 className="h-4 w-4 text-destructive" />
                             </Button>
                           </div>
-                        </div>
+                        </Reorder.Item>
                       ))}
-                    </div>
+                    </Reorder.Group>
                   </ScrollArea>
                 )}
               </div>
@@ -493,6 +632,45 @@ const QuoteBuilder = () => {
         onOpenChange={setPreviewOpen}
         data={quotePreviewData}
       />
+
+      {/* Save Template Dialog */}
+      <Dialog open={saveTemplateOpen} onOpenChange={setSaveTemplateOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Save as Template</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>Template Name *</Label>
+              <Input
+                placeholder="e.g., Standard MRI Quote"
+                value={templateName}
+                onChange={(e) => setTemplateName(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Description (optional)</Label>
+              <Textarea
+                placeholder="Brief description of this template..."
+                value={templateDescription}
+                onChange={(e) => setTemplateDescription(e.target.value)}
+                rows={2}
+              />
+            </div>
+            <div className="text-sm text-muted-foreground">
+              This will save {items.length} item(s) and any notes as a reusable template.
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setSaveTemplateOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveTemplate} disabled={createTemplate.isPending}>
+              {createTemplate.isPending ? "Saving..." : "Save Template"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

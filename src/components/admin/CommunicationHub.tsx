@@ -1,0 +1,322 @@
+import { useState } from "react";
+import { formatDistanceToNow, format } from "date-fns";
+import {
+  Mail,
+  MessageSquare,
+  StickyNote,
+  FileText,
+  Eye,
+  User,
+  Send,
+  Phone,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
+import { useActivities, useCreateActivity } from "@/hooks/useActivities";
+import { toast } from "sonner";
+
+interface CommunicationHubProps {
+  leadId: string;
+  leadEmail: string;
+  leadPhone?: string;
+  leadCreatedAt: string;
+}
+
+type ComposeMode = "email" | "sms" | "note";
+
+interface TimelineItem {
+  id: string;
+  type: "email" | "sms" | "note" | "quote_sent" | "contract_viewed" | "lead_created";
+  direction: "outbound" | "inbound" | "system";
+  subject?: string;
+  content: string;
+  timestamp: string;
+}
+
+const CommunicationHub = ({
+  leadId,
+  leadEmail,
+  leadPhone,
+  leadCreatedAt,
+}: CommunicationHubProps) => {
+  const { data: activities = [] } = useActivities(leadId);
+  const createActivity = useCreateActivity();
+
+  const [composeMode, setComposeMode] = useState<ComposeMode>("note");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+
+  // Map activity type to timeline type
+  const mapActivityType = (activityType: string): TimelineItem["type"] => {
+    const lowerType = activityType.toLowerCase();
+    if (lowerType === "email") return "email";
+    if (lowerType === "sms") return "sms";
+    if (lowerType === "note") return "note";
+    if (lowerType === "quote sent") return "quote_sent";
+    if (lowerType === "contract viewed") return "contract_viewed";
+    return "note";
+  };
+
+  // Build timeline from activities
+  const activityItems: TimelineItem[] = activities.map((activity) => ({
+    id: activity.id,
+    type: mapActivityType(activity.activity_type),
+    direction: ((activity as any).direction || "outbound") as "outbound" | "inbound",
+    subject: (activity as any).subject,
+    content: activity.content,
+    timestamp: activity.created_at,
+  }));
+
+  const leadCreatedItem: TimelineItem = {
+    id: "lead-created",
+    type: "lead_created",
+    direction: "system",
+    content: "Lead created",
+    timestamp: leadCreatedAt,
+  };
+
+  const timeline: TimelineItem[] = [leadCreatedItem, ...activityItems].sort(
+    (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+  );
+
+  const handleSend = async () => {
+    if (!message.trim()) {
+      toast.error("Please enter a message");
+      return;
+    }
+
+    const activityData: any = {
+      lead_id: leadId,
+      activity_type: composeMode === "note" ? "Note" : composeMode === "email" ? "Email" : "SMS",
+      content: message,
+      metadata: {},
+      direction: "outbound",
+    };
+
+    if (composeMode === "email" && subject) {
+      activityData.subject = subject;
+    }
+
+    await createActivity.mutateAsync(activityData);
+
+    // Reset form
+    setMessage("");
+    setSubject("");
+
+    // Show mock success for email/sms
+    if (composeMode === "email") {
+      toast.success(`Email logged (sending mocked) to ${leadEmail}`);
+    } else if (composeMode === "sms") {
+      toast.success(`SMS logged (sending mocked) to ${leadPhone || "N/A"}`);
+    }
+  };
+
+  const getTimelineIcon = (type: TimelineItem["type"]) => {
+    switch (type) {
+      case "email":
+        return <Mail className="h-4 w-4" />;
+      case "sms":
+        return <MessageSquare className="h-4 w-4" />;
+      case "note":
+        return <StickyNote className="h-4 w-4" />;
+      case "quote_sent":
+        return <FileText className="h-4 w-4" />;
+      case "contract_viewed":
+        return <Eye className="h-4 w-4" />;
+      case "lead_created":
+        return <User className="h-4 w-4" />;
+      default:
+        return <Mail className="h-4 w-4" />;
+    }
+  };
+
+  const getTimelineLabel = (type: TimelineItem["type"]) => {
+    switch (type) {
+      case "email":
+        return "Email";
+      case "sms":
+        return "SMS";
+      case "note":
+        return "Note";
+      case "quote_sent":
+        return "Quote Sent";
+      case "contract_viewed":
+        return "Contract Viewed";
+      case "lead_created":
+        return "Lead Created";
+      default:
+        return type;
+    }
+  };
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* Timeline */}
+      <ScrollArea className="flex-1 pr-4">
+        <div className="space-y-4 pb-4">
+          {timeline.length === 0 ? (
+            <p className="text-sm text-muted-foreground text-center py-8">
+              No communications yet. Start by adding a note or sending a message.
+            </p>
+          ) : (
+            timeline.map((item) => (
+              <div
+                key={item.id}
+                className={cn(
+                  "flex",
+                  item.direction === "outbound" && "justify-end",
+                  item.direction === "inbound" && "justify-start",
+                  item.direction === "system" && "justify-center"
+                )}
+              >
+                {item.direction === "system" ? (
+                  // System message - centered
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full">
+                    {getTimelineIcon(item.type)}
+                    <span>{getTimelineLabel(item.type)}</span>
+                    <span>•</span>
+                    <span>{format(new Date(item.timestamp), "MMM d, h:mm a")}</span>
+                  </div>
+                ) : (
+                  // Message bubble
+                  <div
+                    className={cn(
+                      "max-w-[80%] rounded-lg p-3 space-y-1",
+                      item.direction === "outbound"
+                        ? "bg-primary text-primary-foreground rounded-br-none"
+                        : "bg-muted rounded-bl-none"
+                    )}
+                  >
+                    {/* Header */}
+                    <div
+                      className={cn(
+                        "flex items-center gap-2 text-xs",
+                        item.direction === "outbound"
+                          ? "text-primary-foreground/70"
+                          : "text-muted-foreground"
+                      )}
+                    >
+                      {getTimelineIcon(item.type)}
+                      <span className="font-medium">
+                        {getTimelineLabel(item.type)}
+                        {item.direction === "outbound" ? " Sent" : " Received"}
+                      </span>
+                    </div>
+
+                    {/* Subject (if email) */}
+                    {item.subject && (
+                      <p
+                        className={cn(
+                          "text-sm font-medium",
+                          item.direction === "outbound"
+                            ? "text-primary-foreground"
+                            : "text-foreground"
+                        )}
+                      >
+                        {item.subject}
+                      </p>
+                    )}
+
+                    {/* Content */}
+                    <p
+                      className={cn(
+                        "text-sm",
+                        item.direction === "outbound"
+                          ? "text-primary-foreground"
+                          : "text-foreground"
+                      )}
+                    >
+                      {item.content}
+                    </p>
+
+                    {/* Timestamp */}
+                    <p
+                      className={cn(
+                        "text-xs",
+                        item.direction === "outbound"
+                          ? "text-primary-foreground/60"
+                          : "text-muted-foreground"
+                      )}
+                    >
+                      {formatDistanceToNow(new Date(item.timestamp), { addSuffix: true })}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      </ScrollArea>
+
+      {/* Compose Section */}
+      <div className="border-t pt-4 space-y-3">
+        <Tabs value={composeMode} onValueChange={(v) => setComposeMode(v as ComposeMode)}>
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="email" className="text-xs">
+              <Mail className="h-3 w-3 mr-1" />
+              Email
+            </TabsTrigger>
+            <TabsTrigger value="sms" className="text-xs" disabled={!leadPhone}>
+              <Phone className="h-3 w-3 mr-1" />
+              SMS
+            </TabsTrigger>
+            <TabsTrigger value="note" className="text-xs">
+              <StickyNote className="h-3 w-3 mr-1" />
+              Note
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+
+        {composeMode === "email" && (
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <span>To:</span>
+              <span className="font-medium">{leadEmail}</span>
+            </div>
+            <Input
+              placeholder="Subject"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              className="h-8 text-sm"
+            />
+          </div>
+        )}
+
+        {composeMode === "sms" && (
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span>To:</span>
+            <span className="font-medium">{leadPhone || "No phone number"}</span>
+          </div>
+        )}
+
+        <div className="flex gap-2">
+          <Textarea
+            placeholder={
+              composeMode === "note"
+                ? "Add an internal note..."
+                : `Type your ${composeMode === "email" ? "email" : "message"}...`
+            }
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            rows={2}
+            className="flex-1 text-sm resize-none"
+          />
+          <Button
+            size="icon"
+            onClick={handleSend}
+            disabled={!message.trim() || createActivity.isPending}
+          >
+            <Send className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CommunicationHub;

@@ -78,6 +78,27 @@ export interface Activity {
   activity_type: 'Email' | 'Call' | 'SMS' | 'Note' | 'Meeting' | 'Quote Sent';
   content: string;
   metadata: Record<string, unknown>;
+  direction?: 'outbound' | 'inbound';
+  subject?: string;
   created_by?: string;
   created_at: string;
+}
+
+export interface QuoteTemplate {
+  id: string;
+  name: string;
+  description: string | null;
+  items: QuoteTemplateItem[];
+  notes: string | null;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface QuoteTemplateItem {
+  id: string;
+  name: string;
+  description: string;
+  quantity: number;
+  unitPrice: number;
 }
