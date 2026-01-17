@@ -60,6 +60,7 @@ import QuoteAcceptance from "./pages/quotes/QuoteAcceptance";
 import Communications from "./pages/admin/Communications";
 import SalesSearch from "./pages/admin/SalesSearch";
 import Settings from "./pages/admin/Settings";
+import Customers from "./pages/admin/Customers";
 
 const queryClient = new QueryClient();
 
@@ -146,6 +147,7 @@ const App = () => (
                 <Route path="dashboard" element={<AdminDashboard />} />
                 <Route path="notifications" element={<AdminNotifications />} />
                 <Route path="search" element={<SalesSearch />} />
+                <Route path="customers" element={<Customers />} />
                 <Route path="inventory" element={<AdminInventory />} />
                 <Route path="quotes" element={<AdminQuotes />} />
                 <Route path="quote-builder" element={<QuoteBuilder />} />

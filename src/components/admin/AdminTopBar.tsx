@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Bell, LogOut, User, Settings, FileText, Users, Package } from "lucide-react";
+import { Search, Bell, LogOut, User, Settings, FileText, Users, Package, UserPlus, FilePlus, Wrench } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,11 +13,24 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import ThemeToggle from "./ThemeToggle";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useGlobalSearch, SearchResult } from "@/hooks/useGlobalSearch";
+import { useCreateCustomer } from "@/hooks/useCustomers";
+import { toast } from "sonner";
 
 const AdminTopBar = () => {
   const navigate = useNavigate();
@@ -25,6 +38,12 @@ const AdminTopBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  
+  // Quick action dialogs
+  const [newCustomerOpen, setNewCustomerOpen] = useState(false);
+  const [customerForm, setCustomerForm] = useState({ name: "", email: "", company: "", phone: "", notes: "" });
+  
+  const createCustomer = useCreateCustomer();
 
   const { data: searchResults = [], isLoading: isSearching } = useGlobalSearch(searchQuery);
 
@@ -75,6 +94,21 @@ const AdminTopBar = () => {
         return <User className="h-4 w-4 text-purple-500" />;
       default:
         return <Package className="h-4 w-4 text-muted-foreground" />;
+    }
+  };
+  
+  const handleCreateCustomer = async () => {
+    if (!customerForm.name || !customerForm.email) {
+      toast.error("Name and email are required");
+      return;
+    }
+    try {
+      await createCustomer.mutateAsync(customerForm);
+      toast.success("Customer created");
+      setNewCustomerOpen(false);
+      setCustomerForm({ name: "", email: "", company: "", phone: "", notes: "" });
+    } catch (error) {
+      toast.error("Failed to create customer");
     }
   };
 
@@ -152,7 +186,32 @@ const AdminTopBar = () => {
         </div>
 
         {/* Right Side Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          {/* Quick Actions */}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={() => setNewCustomerOpen(true)}>
+                  <UserPlus className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>New Customer</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={() => navigate("/admin/quote-builder")}>
+                  <FilePlus className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>New Quote</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <div className="w-px h-6 bg-border mx-1" />
+          
           {/* Theme Toggle */}
           <ThemeToggle />
 
@@ -166,8 +225,7 @@ const AdminTopBar = () => {
             <Bell className="h-5 w-5" />
             {hotLeadsCount > 0 && (
               <Badge 
-                variant="destructive" 
-                className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-[10px]"
+                className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-[10px] bg-red-500 text-white border-2 border-white shadow-lg font-bold"
               >
                 {hotLeadsCount > 9 ? "9+" : hotLeadsCount}
               </Badge>
@@ -210,6 +268,69 @@ const AdminTopBar = () => {
           </DropdownMenu>
         </div>
       </div>
+      
+      {/* New Customer Dialog */}
+      <Dialog open={newCustomerOpen} onOpenChange={setNewCustomerOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Customer</DialogTitle>
+            <DialogDescription>
+              Quick add a new customer to your database
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="quick-name">Name *</Label>
+                <Input
+                  id="quick-name"
+                  value={customerForm.name}
+                  onChange={(e) => setCustomerForm({ ...customerForm, name: e.target.value })}
+                  placeholder="John Smith"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="quick-email">Email *</Label>
+                <Input
+                  id="quick-email"
+                  type="email"
+                  value={customerForm.email}
+                  onChange={(e) => setCustomerForm({ ...customerForm, email: e.target.value })}
+                  placeholder="john@hospital.com"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="quick-company">Company</Label>
+                <Input
+                  id="quick-company"
+                  value={customerForm.company}
+                  onChange={(e) => setCustomerForm({ ...customerForm, company: e.target.value })}
+                  placeholder="ABC Hospital"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="quick-phone">Phone</Label>
+                <Input
+                  id="quick-phone"
+                  value={customerForm.phone}
+                  onChange={(e) => setCustomerForm({ ...customerForm, phone: e.target.value })}
+                  placeholder="(555) 123-4567"
+                />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setNewCustomerOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleCreateCustomer} disabled={createCustomer.isPending}>
+              {createCustomer.isPending ? "Adding..." : "Add Customer"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };
