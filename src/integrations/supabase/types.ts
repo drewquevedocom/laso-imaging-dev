@@ -490,6 +490,7 @@ export type Database = {
           source_page: string
           status: string
           updated_at: string
+          urgency: string | null
         }
         Insert: {
           company?: string | null
@@ -505,6 +506,7 @@ export type Database = {
           source_page: string
           status?: string
           updated_at?: string
+          urgency?: string | null
         }
         Update: {
           company?: string | null
@@ -520,6 +522,7 @@ export type Database = {
           source_page?: string
           status?: string
           updated_at?: string
+          urgency?: string | null
         }
         Relationships: []
       }
@@ -608,6 +611,86 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      quotes: {
+        Row: {
+          acceptance_token: string | null
+          accepted_at: string | null
+          created_at: string
+          customer_company: string | null
+          customer_email: string
+          customer_name: string
+          customer_phone: string | null
+          id: string
+          items: Json | null
+          lead_id: string | null
+          notes: string | null
+          quote_number: string
+          rejected_at: string | null
+          rejection_reason: string | null
+          status: string | null
+          subtotal: number | null
+          tax: number | null
+          total_amount: number | null
+          updated_at: string
+          valid_until: string | null
+          viewed_at: string | null
+        }
+        Insert: {
+          acceptance_token?: string | null
+          accepted_at?: string | null
+          created_at?: string
+          customer_company?: string | null
+          customer_email: string
+          customer_name: string
+          customer_phone?: string | null
+          id?: string
+          items?: Json | null
+          lead_id?: string | null
+          notes?: string | null
+          quote_number: string
+          rejected_at?: string | null
+          rejection_reason?: string | null
+          status?: string | null
+          subtotal?: number | null
+          tax?: number | null
+          total_amount?: number | null
+          updated_at?: string
+          valid_until?: string | null
+          viewed_at?: string | null
+        }
+        Update: {
+          acceptance_token?: string | null
+          accepted_at?: string | null
+          created_at?: string
+          customer_company?: string | null
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string | null
+          id?: string
+          items?: Json | null
+          lead_id?: string | null
+          notes?: string | null
+          quote_number?: string
+          rejected_at?: string | null
+          rejection_reason?: string | null
+          status?: string | null
+          subtotal?: number | null
+          tax?: number | null
+          total_amount?: number | null
+          updated_at?: string
+          valid_until?: string | null
+          viewed_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotes_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       service_tickets: {
         Row: {

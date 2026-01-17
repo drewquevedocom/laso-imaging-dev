@@ -35,7 +35,7 @@ import {
   useRecentTickets,
 } from "@/hooks/useAdminDashboardData";
 import LeadTriageBoard from "@/components/admin/LeadTriageBoard";
-
+import HotListWidget from "@/components/admin/HotListWidget";
 const CHART_COLORS = [
   "hsl(209, 100%, 45%)",
   "hsl(209, 69%, 55%)",
@@ -399,6 +399,14 @@ const AdminDashboard = () => {
               </Table>
             </CardContent>
           </Card>
+        </div>
+        </div>
+
+        {/* Hot List Widget - Pinned Right */}
+        <div className="w-80 flex-shrink-0 hidden lg:block">
+          <div className="sticky top-6">
+            <HotListWidget />
+          </div>
         </div>
       </div>
     </>
