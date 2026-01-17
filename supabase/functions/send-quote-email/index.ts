@@ -9,6 +9,9 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Portal URL for quote acceptance
+const PORTAL_URL = "https://laso-ver1.lovable.app";
+
 interface SendQuoteRequest {
   quoteId: string;
   to: string;
@@ -38,8 +41,8 @@ const formatDate = (dateStr: string): string => {
   });
 };
 
-const generateEmailHtml = (quote: any, message: string): string => {
-  const lineItemsHtml = (quote.line_items || [])
+const generateEmailHtml = (quote: any, message: string, acceptanceToken: string): string => {
+  const lineItemsHtml = (quote.items || [])
     .map(
       (item: LineItem) => `
       <tr>
@@ -53,6 +56,7 @@ const generateEmailHtml = (quote: any, message: string): string => {
     .join("");
 
   const messageHtml = message.replace(/\n/g, "<br>");
+  const portalLink = `${PORTAL_URL}/quote/${acceptanceToken}`;
 
   return `
     <!DOCTYPE html>
@@ -101,7 +105,7 @@ const generateEmailHtml = (quote: any, message: string): string => {
               <div style="margin-top: 16px; text-align: right;">
                 <p style="margin: 4px 0; color: #6b7280;">Subtotal: ${formatCurrency(quote.subtotal)}</p>
                 <p style="margin: 4px 0; color: #6b7280;">Tax: ${formatCurrency(quote.tax)}</p>
-                <p style="margin: 8px 0 0 0; font-size: 20px; font-weight: bold; color: #1e40af;">Total: ${formatCurrency(quote.total)}</p>
+                <p style="margin: 8px 0 0 0; font-size: 20px; font-weight: bold; color: #1e40af;">Total: ${formatCurrency(quote.total_amount)}</p>
               </div>
             </div>
 
@@ -112,12 +116,26 @@ const generateEmailHtml = (quote: any, message: string): string => {
               </p>
             </div>
 
-            <!-- CTA -->
+            <!-- CTA Buttons -->
             <div style="text-align: center; margin-bottom: 24px;">
-              <a href="mailto:info@lasoimaging.com?subject=RE: ${quote.quote_number}" 
-                 style="display: inline-block; background: #1e40af; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600;">
-                Reply to This Quote
+              <a href="${portalLink}" 
+                 style="display: inline-block; background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%); color: white; padding: 16px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-right: 12px; margin-bottom: 12px;">
+                ✓ View & Accept Quote
               </a>
+              <a href="mailto:info@lasoimaging.com?subject=RE: ${quote.quote_number}" 
+                 style="display: inline-block; background: #1e40af; color: white; padding: 16px 32px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+                Reply with Questions
+              </a>
+            </div>
+
+            <!-- Portal Link Notice -->
+            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+              <p style="margin: 0; color: #166534; font-size: 14px; text-align: center;">
+                <strong>Quick Access:</strong> Click the button above to view your quote online, accept it, or request changes.
+              </p>
+              <p style="margin: 8px 0 0 0; color: #6b7280; font-size: 12px; text-align: center; word-break: break-all;">
+                ${portalLink}
+              </p>
             </div>
           </div>
 
@@ -143,6 +161,8 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { quoteId, to, subject, message }: SendQuoteRequest = await req.json();
 
+    console.log("Sending quote email for quoteId:", quoteId, "to:", to);
+
     if (!quoteId || !to) {
       return new Response(
         JSON.stringify({ error: "Quote ID and recipient email are required" }),
@@ -155,7 +175,7 @@ const handler = async (req: Request): Promise<Response> => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Fetch the quote
+    // Fetch the quote with acceptance_token
     const { data: quote, error: fetchError } = await supabase
       .from("quotes")
       .select("*")
@@ -170,8 +190,10 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Generate email HTML
-    const emailHtml = generateEmailHtml(quote, message);
+    console.log("Quote found:", quote.quote_number, "Token:", quote.acceptance_token);
+
+    // Generate email HTML with acceptance portal link
+    const emailHtml = generateEmailHtml(quote, message, quote.acceptance_token);
 
     // Send email via Resend
     const emailResponse = await resend.emails.send({
@@ -188,7 +210,7 @@ const handler = async (req: Request): Promise<Response> => {
       .from("quotes")
       .update({
         status: "Sent",
-        sent_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       })
       .eq("id", quoteId);
 
@@ -196,11 +218,28 @@ const handler = async (req: Request): Promise<Response> => {
       console.error("Error updating quote status:", updateError);
     }
 
+    // Log activity if quote is linked to a lead
+    if (quote.lead_id) {
+      await supabase.from("activities").insert({
+        lead_id: quote.lead_id,
+        activity_type: "quote_sent",
+        content: `Quote ${quote.quote_number} sent to ${to}`,
+        direction: "outbound",
+        metadata: {
+          quote_id: quote.id,
+          quote_number: quote.quote_number,
+          recipient: to,
+          total_amount: quote.total_amount,
+        },
+      });
+    }
+
     return new Response(
       JSON.stringify({
         success: true,
         message: "Quote sent successfully",
         emailId: emailResponse.data?.id,
+        portalLink: `${PORTAL_URL}/quote/${quote.acceptance_token}`,
       }),
       {
         status: 200,

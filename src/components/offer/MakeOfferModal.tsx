@@ -57,6 +57,23 @@ const MakeOfferModal = ({ isOpen, onClose, productName, productPrice }: MakeOffe
   const onSubmit = async (data: OfferFormData) => {
     setIsSubmitting(true);
     try {
+      // First, save to leads table
+      const { error: leadError } = await supabase.from("leads").insert({
+        name: data.name,
+        email: data.email,
+        phone: data.phone || null,
+        company: null,
+        interest: `Offer: ${productName}`,
+        message: `Offer Amount: $${data.offerAmount}${data.message ? `\nNotes: ${data.message}` : ""}`,
+        source_page: `Product Offer - ${productName}`,
+        status: "new",
+      });
+
+      if (leadError) {
+        console.error("Error saving lead:", leadError);
+        // Continue with email notification even if lead save fails
+      }
+
       // Send email notification
       const { error } = await supabase.functions.invoke("send-offer-notification", {
         body: {
