@@ -60,6 +60,7 @@ import {
   Camera,
   CalendarPlus,
   Zap,
+  Boxes,
 } from "lucide-react";
 import { PhotoGallery } from "@/components/admin/PhotoGallery";
 import { ScheduleSiteVisitModal } from "@/components/admin/ScheduleSiteVisitModal";
@@ -213,6 +214,47 @@ Notes: ${request.message || 'None'}
     navigate("/admin/quote-builder");
     toast.success("Customer info loaded into Quote Builder");
   };
+
+  const convertToInventoryMutation = useMutation({
+    mutationFn: async (request: SellRequest) => {
+      const productName = `${request.manufacturer || ''} ${request.model || request.equipment_type}`.trim();
+      const modality = request.has_mri ? 'MRI' : request.has_ct ? 'CT' : 'Other';
+      const location = request.city ? `${request.city}${request.state ? ', ' + request.state : ''}` : request.location;
+      
+      const { error } = await supabase.from("inventory").insert({
+        product_name: productName,
+        oem: request.manufacturer || 'Other',
+        modality: modality,
+        availability_status: 'Reserved',
+        condition: request.condition || 'Good',
+        year_manufactured: request.year_manufactured,
+        location: location,
+        magnet_type: request.magnet_strength,
+        notes: `Acquired from: ${request.name}\nCompany: ${request.company || 'N/A'}\nOriginal request: ${request.message || 'None'}`,
+      });
+
+      if (error) throw error;
+
+      // Update sell request status to closed
+      await supabase
+        .from("equipment_sell_requests")
+        .update({ status: 'closed' })
+        .eq("id", request.id);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sell-requests"] });
+      queryClient.invalidateQueries({ queryKey: ["inventory"] });
+      toast.success("Added to inventory!", {
+        action: {
+          label: "View Inventory",
+          onClick: () => navigate("/admin/equipment?tab=inventory"),
+        },
+      });
+    },
+    onError: () => {
+      toast.error("Failed to convert to inventory");
+    },
+  });
 
   const sendAssetRequestMutation = useMutation({
     mutationFn: async (request: SellRequest) => {
@@ -574,6 +616,10 @@ Notes: ${request.message || 'None'}
                             <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleCreateQuote(request); }}>
                               <FileText className="h-4 w-4 mr-2" />
                               Create Quote
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={(e) => { e.stopPropagation(); convertToInventoryMutation.mutate(request); }}>
+                              <Boxes className="h-4 w-4 mr-2" />
+                              Convert to Inventory
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
