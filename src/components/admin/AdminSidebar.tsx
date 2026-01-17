@@ -9,7 +9,7 @@ import {
   FileEdit,
   Search,
   Users,
-  ScanLine,
+  Package,
   MailOpen,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
@@ -18,6 +18,7 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -31,16 +32,36 @@ import { Badge } from "@/components/ui/badge";
 import logoLaso from "@/assets/logo-laso.png";
 import { useHotList } from "@/hooks/useHotList";
 
-const navItems = [
-  { title: "Dashboard", url: "/admin/dashboard", icon: LayoutDashboard },
-  { title: "Lead Triage", url: "/admin/notifications", icon: UserCheck },
-  { title: "Customers", url: "/admin/customers", icon: Users },
-  { title: "MRI/CT Manage", url: "/admin/sell-requests", icon: ScanLine },
-  { title: "Product Search", url: "/admin/search", icon: Search },
-  { title: "Quotes", url: "/admin/quotes", icon: FileText },
-  { title: "Quote Builder", url: "/admin/quote-builder", icon: FileEdit },
-  { title: "Email Templates", url: "/admin/email-templates", icon: MailOpen },
-  { title: "Communication", url: "/admin/communication", icon: MessageSquare },
+const navGroups = [
+  {
+    label: "Sales & Leads",
+    items: [
+      { title: "Dashboard", url: "/admin/dashboard", icon: LayoutDashboard, showHotCount: true },
+      { title: "Lead Triage", url: "/admin/notifications", icon: UserCheck },
+      { title: "Customers", url: "/admin/customers", icon: Users },
+    ]
+  },
+  {
+    label: "Equipment",
+    items: [
+      { title: "Equipment Hub", url: "/admin/equipment", icon: Package },
+      { title: "Product Search", url: "/admin/search", icon: Search },
+    ]
+  },
+  {
+    label: "Quotes & Orders",
+    items: [
+      { title: "Quotes", url: "/admin/quotes", icon: FileText },
+      { title: "Quote Builder", url: "/admin/quote-builder", icon: FileEdit },
+    ]
+  },
+  {
+    label: "Communication",
+    items: [
+      { title: "Communication", url: "/admin/communication", icon: MessageSquare },
+      { title: "Email Templates", url: "/admin/email-templates", icon: MailOpen },
+    ]
+  }
 ];
 
 const AdminSidebar = () => {
@@ -75,48 +96,55 @@ const AdminSidebar = () => {
       </SidebarHeader>
 
       <SidebarContent className="px-2 py-4">
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <SidebarMenuButton
-                        asChild
-                        isActive={isActive(item.url)}
-                        className={`
-                          group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all
-                          ${isActive(item.url) 
-                            ? "bg-primary/20 text-white" 
-                            : "text-slate-400 hover:bg-slate-700/50 hover:text-white"
-                          }
-                        `}
-                      >
-                        <NavLink to={item.url} className="flex items-center gap-3 w-full">
-                          <item.icon className={`h-5 w-5 flex-shrink-0 ${isActive(item.url) ? "text-primary" : ""}`} />
-                          {!isCollapsed && <span>{item.title}</span>}
-                          {item.title === "Dashboard" && hotCount > 0 && (
-                            <Badge 
-                              className="absolute -top-1 -right-1 h-5 min-w-5 flex items-center justify-center text-[10px] p-0 bg-red-500 text-white border-2 border-white shadow-lg font-bold"
-                            >
-                              {hotCount}
-                            </Badge>
-                          )}
-                        </NavLink>
-                      </SidebarMenuButton>
-                    </TooltipTrigger>
-                    {isCollapsed && (
-                      <TooltipContent side="right" className="bg-slate-800 text-white border-slate-700">
-                        {item.title}
-                      </TooltipContent>
-                    )}
-                  </Tooltip>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {navGroups.map((group, groupIndex) => (
+          <SidebarGroup key={group.label} className={groupIndex > 0 ? "mt-4" : ""}>
+            {!isCollapsed && (
+              <SidebarGroupLabel className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                {group.label}
+              </SidebarGroupLabel>
+            )}
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={isActive(item.url)}
+                          className={`
+                            group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all
+                            ${isActive(item.url) 
+                              ? "bg-primary/20 text-white" 
+                              : "text-slate-400 hover:bg-slate-700/50 hover:text-white"
+                            }
+                          `}
+                        >
+                          <NavLink to={item.url} className="flex items-center gap-3 w-full">
+                            <item.icon className={`h-5 w-5 flex-shrink-0 ${isActive(item.url) ? "text-primary" : ""}`} />
+                            {!isCollapsed && <span>{item.title}</span>}
+                            {item.showHotCount && hotCount > 0 && (
+                              <Badge 
+                                className="absolute -top-1 -right-1 h-5 min-w-5 flex items-center justify-center text-[10px] p-0 bg-red-500 text-white border-2 border-white shadow-lg font-bold"
+                              >
+                                {hotCount}
+                              </Badge>
+                            )}
+                          </NavLink>
+                        </SidebarMenuButton>
+                      </TooltipTrigger>
+                      {isCollapsed && (
+                        <TooltipContent side="right" className="bg-slate-800 text-white border-slate-700">
+                          {item.title}
+                        </TooltipContent>
+                      )}
+                    </Tooltip>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
 
       <SidebarFooter className="border-t border-slate-700/50 p-2">
