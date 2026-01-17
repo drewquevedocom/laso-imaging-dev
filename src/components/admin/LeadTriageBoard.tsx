@@ -1,12 +1,26 @@
 import { useState } from "react";
+import { Plus } from "lucide-react";
 import { useTriageLeads, useUpdateLeadStatus, KANBAN_COLUMNS, TriageLead } from "@/hooks/useLeadTriage";
 import LeadCard from "./LeadCard";
 import LeadDetailPanel from "./LeadDetailPanel";
+import LeadTriageFilters, { LeadFilters } from "./LeadTriageFilters";
+import UniversalIntakeForm from "./UniversalIntakeForm";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const LeadTriageBoard = () => {
-  const { data: leads = [], isLoading } = useTriageLeads();
+  const [filters, setFilters] = useState<LeadFilters>({
+    search: "",
+    dateFrom: undefined,
+    dateTo: undefined,
+    scoreMin: 0,
+    scoreMax: 100,
+    types: [],
+  });
+  const [intakeFormOpen, setIntakeFormOpen] = useState(false);
+  
+  const { data: leads = [], isLoading } = useTriageLeads(filters);
   const updateStatus = useUpdateLeadStatus();
   const [selectedLead, setSelectedLead] = useState<TriageLead | null>(null);
   const [draggedLeadId, setDraggedLeadId] = useState<string | null>(null);
@@ -58,6 +72,21 @@ const LeadTriageBoard = () => {
 
   return (
     <>
+      {/* Header with Filters and New Inquiry Button */}
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div className="flex-1">
+          <LeadTriageFilters filters={filters} onFiltersChange={setFilters} />
+        </div>
+        <Button
+          onClick={() => setIntakeFormOpen(true)}
+          className="gap-2 bg-primary hover:bg-primary/90 shadow-lg"
+          size="lg"
+        >
+          <Plus className="h-5 w-5" />
+          New Inquiry
+        </Button>
+      </div>
+
       <ScrollArea className="w-full">
         <div className="flex gap-4 pb-4 min-w-[1000px]">
           {KANBAN_COLUMNS.map((column) => {
@@ -117,6 +146,12 @@ const LeadTriageBoard = () => {
         isOpen={!!selectedLead}
         onClose={() => setSelectedLead(null)}
         onStatusChange={handleStatusChange}
+      />
+
+      {/* Universal Intake Form */}
+      <UniversalIntakeForm
+        open={intakeFormOpen}
+        onOpenChange={setIntakeFormOpen}
       />
     </>
   );
