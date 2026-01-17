@@ -431,6 +431,202 @@ export type Database = {
           },
         ]
       }
+      email_sends: {
+        Row: {
+          clicked_at: string | null
+          created_at: string | null
+          id: string
+          lead_id: string | null
+          opened_at: string | null
+          recipient: string
+          resend_email_id: string | null
+          sell_request_id: string | null
+          status: string | null
+          subject: string | null
+          template_id: string | null
+        }
+        Insert: {
+          clicked_at?: string | null
+          created_at?: string | null
+          id?: string
+          lead_id?: string | null
+          opened_at?: string | null
+          recipient: string
+          resend_email_id?: string | null
+          sell_request_id?: string | null
+          status?: string | null
+          subject?: string | null
+          template_id?: string | null
+        }
+        Update: {
+          clicked_at?: string | null
+          created_at?: string | null
+          id?: string
+          lead_id?: string | null
+          opened_at?: string | null
+          recipient?: string
+          resend_email_id?: string | null
+          sell_request_id?: string | null
+          status?: string | null
+          subject?: string | null
+          template_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_sends_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_sends_sell_request_id_fkey"
+            columns: ["sell_request_id"]
+            isOneToOne: false
+            referencedRelation: "equipment_sell_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_sends_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "email_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_sequence_enrollments: {
+        Row: {
+          completed_at: string | null
+          current_step: number | null
+          id: string
+          lead_id: string | null
+          next_email_at: string | null
+          sequence_id: string | null
+          started_at: string | null
+          status: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          current_step?: number | null
+          id?: string
+          lead_id?: string | null
+          next_email_at?: string | null
+          sequence_id?: string | null
+          started_at?: string | null
+          status?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          current_step?: number | null
+          id?: string
+          lead_id?: string | null
+          next_email_at?: string | null
+          sequence_id?: string | null
+          started_at?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_sequence_enrollments_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_sequence_enrollments_sequence_id_fkey"
+            columns: ["sequence_id"]
+            isOneToOne: false
+            referencedRelation: "email_sequences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_sequence_steps: {
+        Row: {
+          condition_type: string | null
+          created_at: string | null
+          delay_days: number | null
+          delay_hours: number | null
+          id: string
+          is_active: boolean | null
+          sequence_id: string | null
+          step_order: number
+          template_id: string | null
+        }
+        Insert: {
+          condition_type?: string | null
+          created_at?: string | null
+          delay_days?: number | null
+          delay_hours?: number | null
+          id?: string
+          is_active?: boolean | null
+          sequence_id?: string | null
+          step_order: number
+          template_id?: string | null
+        }
+        Update: {
+          condition_type?: string | null
+          created_at?: string | null
+          delay_days?: number | null
+          delay_hours?: number | null
+          id?: string
+          is_active?: boolean | null
+          sequence_id?: string | null
+          step_order?: number
+          template_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_sequence_steps_sequence_id_fkey"
+            columns: ["sequence_id"]
+            isOneToOne: false
+            referencedRelation: "email_sequences"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_sequence_steps_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "email_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_sequences: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          trigger_config: Json | null
+          trigger_type: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          trigger_config?: Json | null
+          trigger_type: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          trigger_config?: Json | null
+          trigger_type?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       email_templates: {
         Row: {
           body_html: string
@@ -442,6 +638,9 @@ export type Database = {
           is_active: boolean | null
           name: string
           subject: string
+          total_clicked: number | null
+          total_opened: number | null
+          total_sent: number | null
           updated_at: string | null
           variables: Json | null
         }
@@ -455,6 +654,9 @@ export type Database = {
           is_active?: boolean | null
           name: string
           subject: string
+          total_clicked?: number | null
+          total_opened?: number | null
+          total_sent?: number | null
           updated_at?: string | null
           variables?: Json | null
         }
@@ -468,6 +670,9 @@ export type Database = {
           is_active?: boolean | null
           name?: string
           subject?: string
+          total_clicked?: number | null
+          total_opened?: number | null
+          total_sent?: number | null
           updated_at?: string | null
           variables?: Json | null
         }

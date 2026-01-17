@@ -12,7 +12,9 @@ import {
   MessageSquare,
   Calendar,
   AlertCircle,
-  Route
+  Route,
+  CheckCircle,
+  XCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -182,6 +184,31 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
 
               <Separator />
 
+              {/* Communication Preferences */}
+              <div className="space-y-3">
+                <h3 className="font-medium text-sm">Communication Preferences</h3>
+                <div className="flex gap-3">
+                  <div className="flex items-center gap-2">
+                    {lead.email_opt_in ? (
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                    ) : (
+                      <XCircle className="h-4 w-4 text-red-400" />
+                    )}
+                    <span className="text-sm">Email</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {lead.sms_opt_in ? (
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                    ) : (
+                      <XCircle className="h-4 w-4 text-red-400" />
+                    )}
+                    <span className="text-sm">SMS</span>
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
               {/* Interest */}
               <div className="space-y-2">
                 <h3 className="font-medium text-sm">Interest</h3>
@@ -206,7 +233,7 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
               {/* Quick Actions */}
               <div className="space-y-2">
                 <h3 className="font-medium text-sm">Quick Actions</h3>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {lead.phone && (
                     <Button variant="outline" size="sm" asChild>
                       <a href={`tel:${lead.phone}`}>
@@ -221,6 +248,16 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
                       Email
                     </a>
                   </Button>
+                  {lead.phone && (
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setActiveTab("communication")}
+                    >
+                      <MessageSquare className="h-4 w-4 mr-2" />
+                      Send SMS
+                    </Button>
+                  )}
                 </div>
               </div>
 
@@ -252,6 +289,9 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
                 leadEmail={lead.email}
                 leadPhone={lead.phone}
                 leadCreatedAt={lead.created_at}
+                smsOptIn={lead.sms_opt_in}
+                emailOptIn={lead.email_opt_in}
+                defaultTab={lead.phone ? "sms" : "email"}
               />
             </TabsContent>
 

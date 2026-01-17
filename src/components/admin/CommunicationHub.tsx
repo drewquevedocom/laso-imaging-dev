@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useActivities, useCreateActivity } from "@/hooks/useActivities";
 import { toast } from "sonner";
@@ -25,8 +26,11 @@ import { supabase } from "@/integrations/supabase/client";
 interface CommunicationHubProps {
   leadId: string;
   leadEmail: string;
-  leadPhone?: string;
+  leadPhone?: string | null;
   leadCreatedAt: string;
+  defaultTab?: ComposeMode;
+  smsOptIn?: boolean;
+  emailOptIn?: boolean;
 }
 
 type ComposeMode = "email" | "sms" | "note";
@@ -45,11 +49,14 @@ const CommunicationHub = ({
   leadEmail,
   leadPhone,
   leadCreatedAt,
+  defaultTab = "note",
+  smsOptIn = false,
+  emailOptIn = true,
 }: CommunicationHubProps) => {
   const { data: activities = [] } = useActivities(leadId);
   const createActivity = useCreateActivity();
 
-  const [composeMode, setComposeMode] = useState<ComposeMode>("note");
+  const [composeMode, setComposeMode] = useState<ComposeMode>(defaultTab);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -317,6 +324,11 @@ const CommunicationHub = ({
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <span>To:</span>
               <span className="font-medium">{leadEmail}</span>
+              {!emailOptIn && (
+                <Badge variant="outline" className="text-[10px] px-1 py-0 text-amber-600 border-amber-300">
+                  Not opted in
+                </Badge>
+              )}
             </div>
             <Input
               placeholder="Subject"
@@ -328,9 +340,21 @@ const CommunicationHub = ({
         )}
 
         {composeMode === "sms" && (
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <span>To:</span>
-            <span className="font-medium">{leadPhone || "No phone number"}</span>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <span>To:</span>
+              <span className="font-medium">{leadPhone || "No phone number"}</span>
+              {leadPhone && !smsOptIn && (
+                <Badge variant="outline" className="text-[10px] px-1 py-0 text-amber-600 border-amber-300">
+                  Not opted in
+                </Badge>
+              )}
+            </div>
+            {leadPhone && !smsOptIn && (
+              <p className="text-xs text-amber-600 bg-amber-50 dark:bg-amber-900/20 p-2 rounded">
+                ⚠️ This contact has not opted in for SMS. Proceed with caution.
+              </p>
+            )}
           </div>
         )}
 
