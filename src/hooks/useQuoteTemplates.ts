@@ -21,6 +21,8 @@ export interface QuoteTemplate {
   updated_at: string;
 }
 
+type QuoteTemplateRow = Omit<QuoteTemplate, 'items'> & { items: QuoteTemplate['items'] | null };
+
 export function useQuoteTemplates() {
   return useQuery({
     queryKey: ["quote-templates"],
@@ -31,7 +33,7 @@ export function useQuoteTemplates() {
         .order("created_at", { ascending: false }) as any);
 
       if (error) throw error;
-      return (data || []).map((template: any) => ({
+      return (data || []).map((template: QuoteTemplateRow) => ({
         ...template,
         items: Array.isArray(template.items) ? template.items : [],
       }));

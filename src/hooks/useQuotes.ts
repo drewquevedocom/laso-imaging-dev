@@ -3,6 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Quote } from "@/types/database";
 import { toast } from "sonner";
 
+type QuoteRow = Omit<Quote, 'items'> & { items: Quote['items'] | null };
+
 export function useQuotes() {
   return useQuery({
     queryKey: ["quotes"],
@@ -13,7 +15,7 @@ export function useQuotes() {
         .order("created_at", { ascending: false }) as any);
 
       if (error) throw error;
-      return (data || []).map((quote: any) => ({
+      return (data || []).map((quote: QuoteRow) => ({
         ...quote,
         items: Array.isArray(quote.items) ? quote.items : []
       })) as Quote[];
@@ -116,6 +118,8 @@ export function useDeleteQuote() {
   });
 }
 
+type QuoteStatsRow = Pick<Quote, 'status' | 'total_amount'>;
+
 export function useQuotesStats() {
   return useQuery({
     queryKey: ["quotes-stats"],
@@ -127,10 +131,10 @@ export function useQuotesStats() {
       if (error) throw error;
 
       const total = data?.length || 0;
-      const draft = data?.filter((q: any) => q.status === "Draft").length || 0;
-      const sent = data?.filter((q: any) => q.status === "Sent").length || 0;
-      const accepted = data?.filter((q: any) => q.status === "Accepted").length || 0;
-      const totalValue = data?.reduce((sum: number, q: any) => sum + (q.total_amount || 0), 0) || 0;
+      const draft = data?.filter((q: QuoteStatsRow) => q.status === "Draft").length || 0;
+      const sent = data?.filter((q: QuoteStatsRow) => q.status === "Sent").length || 0;
+      const accepted = data?.filter((q: QuoteStatsRow) => q.status === "Accepted").length || 0;
+      const totalValue = data?.reduce((sum: number, q: QuoteStatsRow) => sum + (q.total_amount || 0), 0) || 0;
 
       return { total, draft, sent, accepted, totalValue };
     },

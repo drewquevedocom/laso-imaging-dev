@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Loader2, Send, FileText, Mail, Copy, Check, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { QuoteLineItem } from "@/types/database";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +22,7 @@ interface Quote {
   customer_name: string;
   customer_email: string;
   customer_company?: string;
-  items: any[];
+  items: QuoteLineItem[];
   subtotal: number;
   tax: number;
   total_amount: number;

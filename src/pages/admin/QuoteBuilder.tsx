@@ -45,7 +45,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useInventory } from "@/hooks/useInventory";
 import { useCreateQuote } from "@/hooks/useQuotes";
 import { useQuoteTemplates, useCreateQuoteTemplate, useDeleteQuoteTemplate } from "@/hooks/useQuoteTemplates";
-import { useSearchCustomers, Customer } from "@/hooks/useCustomers";
 import { useShopifyProductSearch } from "@/hooks/useShopifyProductSearch";
 import { ShopifyProduct } from "@/lib/shopify";
 import { toast } from "sonner";
@@ -67,6 +66,14 @@ interface CustomerInfo {
   email: string;
   company: string;
   phone: string;
+}
+
+interface PendingQuoteItem {
+  id: string;
+  name: string;
+  description: string;
+  quantity?: number;
+  unitPrice?: number;
 }
 
 const QuoteBuilder = () => {
@@ -92,8 +99,8 @@ const QuoteBuilder = () => {
     const pendingItems = sessionStorage.getItem('pendingQuoteItems');
     if (pendingItems) {
       try {
-        const parsed = JSON.parse(pendingItems);
-        const newItems: QuoteItem[] = parsed.map((item: any) => ({
+        const parsed: PendingQuoteItem[] = JSON.parse(pendingItems);
+        const newItems: QuoteItem[] = parsed.map((item: PendingQuoteItem) => ({
           id: crypto.randomUUID(),
           inventoryId: item.id,
           name: item.name,

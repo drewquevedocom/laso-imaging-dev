@@ -5,7 +5,7 @@ import Footer from '@/components/layout/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import { Button } from '@/components/ui/button';
 import { searchProductsByType, ShopifyProduct } from '@/lib/shopify';
-import { Loader2, FileText, Eye, CheckCircle2 } from 'lucide-react';
+import { Loader2, FileText, Eye } from 'lucide-react';
 
 const equipmentData: Record<string, { title: string; description: string; metaDescription: string; keywords: string[]; searchQuery: string }> = {
   '1-5t-mri-systems': {

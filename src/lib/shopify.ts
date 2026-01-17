@@ -1,10 +1,15 @@
 import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 // Shopify Storefront API Configuration
-const SHOPIFY_API_VERSION = '2025-07';
-const SHOPIFY_STORE_PERMANENT_DOMAIN = '4nxsp2-kf.myshopify.com';
+const SHOPIFY_API_VERSION = import.meta.env.VITE_SHOPIFY_API_VERSION || '2025-07';
+const SHOPIFY_STORE_PERMANENT_DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || '4nxsp2-kf.myshopify.com';
 const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
-const SHOPIFY_STOREFRONT_TOKEN = '4851d3a2a4db49349aa5166a5cfa42d3';
+const SHOPIFY_STOREFRONT_TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN;
+
+if (!SHOPIFY_STOREFRONT_TOKEN) {
+  logger.error('VITE_SHOPIFY_STOREFRONT_TOKEN is not set in environment variables');
+}
 
 export interface ShopifyProduct {
   node: {
@@ -219,7 +224,7 @@ export async function fetchShopifyProducts(first: number = 250, query?: string):
     if (!data) return [];
     return data.data?.products?.edges || [];
   } catch (error) {
-    console.error('Error fetching Shopify products:', error);
+    logger.error('Error fetching Shopify products:', error);
     return [];
   }
 }

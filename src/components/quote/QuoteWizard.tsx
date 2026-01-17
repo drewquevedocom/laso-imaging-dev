@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { trackQuoteRequest } from "@/components/analytics/GoogleAnalytics";
+import { logger } from "@/lib/logger";
 import StepEquipment from "./steps/StepEquipment";
 import StepDetails from "./steps/StepDetails";
 import StepContact from "./steps/StepContact";
@@ -106,9 +107,9 @@ const QuoteWizard = ({
   };
 
   const handleSubmit = async () => {
-    console.log("🚀 Starting quote submission...");
+    logger.log("🚀 Starting quote submission...");
     setIsSubmitting(true);
-    
+
     try {
       // Build message from wizard data
       const message = `
@@ -121,7 +122,7 @@ Role: ${formData.role}
 Additional Requirements: ${formData.additionalRequirements || "None"}
       `.trim();
 
-      console.log("📝 Inserting lead into database...");
+      logger.log("📝 Inserting lead into database...");
       
       // Simple insert without .select() - just insert and check for error
       const { error: insertError } = await supabase
@@ -143,14 +144,14 @@ Additional Requirements: ${formData.additionalRequirements || "None"}
         throw insertError;
       }
 
-      console.log("✅ Lead inserted successfully!");
+      logger.log("✅ Lead inserted successfully!");
 
       // Fire-and-forget: Edge functions (completely non-blocking)
       // We don't await these - they run in background
       supabase.functions.invoke("calculate-lead-score", {
         body: { leadId: crypto.randomUUID() }, // We don't have the ID, but scoring can still work
-      }).then(res => console.log("📊 Lead scoring complete:", res))
-        .catch(err => console.warn("⚠️ Lead scoring failed (non-blocking):", err));
+      }).then(res => logger.log("📊 Lead scoring complete:", res))
+        .catch(err => logger.warn("⚠️ Lead scoring failed (non-blocking):", err));
 
       supabase.functions.invoke("send-quote-notification", {
         body: {
@@ -168,13 +169,13 @@ Additional Requirements: ${formData.additionalRequirements || "None"}
           additionalRequirements: formData.additionalRequirements,
           sourcePage: sourcePage,
         },
-      }).then(res => console.log("📧 Email notification sent:", res))
-        .catch(err => console.warn("⚠️ Email notification failed (non-blocking):", err));
+      }).then(res => logger.log("📧 Email notification sent:", res))
+        .catch(err => logger.warn("⚠️ Email notification failed (non-blocking):", err));
 
       // Track quote request in Google Analytics
       trackQuoteRequest(formData.equipmentType, sourcePage);
 
-      console.log("🎉 Quote submission complete!");
+      logger.log("🎉 Quote submission complete!");
       setIsSubmitted(true);
       toast({
         title: "Quote Request Submitted!",

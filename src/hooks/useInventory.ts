@@ -3,6 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { InventoryItem } from "@/types/database";
 import { toast } from "sonner";
 
+type InventoryRow = Omit<InventoryItem, 'images'> & { images: string[] | null };
+
 export function useInventory() {
   return useQuery({
     queryKey: ["inventory"],
@@ -13,7 +15,7 @@ export function useInventory() {
         .order("created_at", { ascending: false }) as any);
 
       if (error) throw error;
-      return (data || []).map((item: any) => ({
+      return (data || []).map((item: InventoryRow) => ({
         ...item,
         images: Array.isArray(item.images) ? item.images : []
       })) as InventoryItem[];
@@ -109,6 +111,8 @@ export function useDeleteInventory() {
   });
 }
 
+type InventoryStatsRow = Pick<InventoryItem, 'availability_status'>;
+
 export function useInventoryStats() {
   return useQuery({
     queryKey: ["inventory-stats"],
@@ -120,9 +124,9 @@ export function useInventoryStats() {
       if (error) throw error;
 
       const total = data?.length || 0;
-      const available = data?.filter((i: any) => i.availability_status === "Available").length || 0;
-      const sold = data?.filter((i: any) => i.availability_status === "Sold").length || 0;
-      const reserved = data?.filter((i: any) => i.availability_status === "Reserved").length || 0;
+      const available = data?.filter((i: InventoryStatsRow) => i.availability_status === "Available").length || 0;
+      const sold = data?.filter((i: InventoryStatsRow) => i.availability_status === "Sold").length || 0;
+      const reserved = data?.filter((i: InventoryStatsRow) => i.availability_status === "Reserved").length || 0;
 
       return { total, available, sold, reserved };
     },

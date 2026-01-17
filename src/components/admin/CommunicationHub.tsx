@@ -20,6 +20,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useActivities, useCreateActivity } from "@/hooks/useActivities";
+import { Activity } from "@/types/database";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -76,8 +77,8 @@ const CommunicationHub = ({
   const activityItems: TimelineItem[] = activities.map((activity) => ({
     id: activity.id,
     type: mapActivityType(activity.activity_type),
-    direction: ((activity as any).direction || "outbound") as "outbound" | "inbound",
-    subject: (activity as any).subject,
+    direction: (activity.direction || "outbound") as "outbound" | "inbound",
+    subject: activity.subject,
     content: activity.content,
     timestamp: activity.created_at,
   }));
@@ -138,7 +139,7 @@ const CommunicationHub = ({
         toast.success(`SMS sent to ${leadPhone}`);
       } else {
         // Just log the note
-        const activityData: any = {
+        const activityData: Omit<Activity, "id" | "created_at"> = {
           lead_id: leadId,
           activity_type: "Note",
           content: message,
@@ -153,10 +154,11 @@ const CommunicationHub = ({
       // Reset form
       setMessage("");
       setSubject("");
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Please try again";
       console.error("Error sending message:", error);
       toast.error(`Failed to send ${composeMode}`, {
-        description: error.message || "Please try again",
+        description: errorMessage,
       });
     } finally {
       setIsSending(false);

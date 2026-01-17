@@ -43,13 +43,14 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  useEmailTemplates, 
-  useCreateEmailTemplate, 
-  useUpdateEmailTemplate, 
+import {
+  useEmailTemplates,
+  useCreateEmailTemplate,
+  useUpdateEmailTemplate,
   useDeleteEmailTemplate,
-  EmailTemplate 
+  EmailTemplate
 } from "@/hooks/useEmailTemplates";
+import { createSanitizedHTML } from "@/lib/sanitize";
 
 const CATEGORIES = [
   { value: "follow_up", label: "Follow Up" },
@@ -440,9 +441,9 @@ const EmailTemplates = () => {
               </div>
               <div>
                 <Label className="text-xs text-muted-foreground">BODY</Label>
-                <div 
+                <div
                   className="mt-2 p-4 border rounded-lg bg-white dark:bg-gray-900 prose prose-sm max-w-none"
-                  dangerouslySetInnerHTML={{ __html: previewTemplate.body_html }}
+                  dangerouslySetInnerHTML={createSanitizedHTML(previewTemplate.body_html)}
                 />
               </div>
               {previewTemplate.variables && previewTemplate.variables.length > 0 && (

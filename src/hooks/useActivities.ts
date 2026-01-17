@@ -3,6 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Activity } from "@/types/database";
 import { toast } from "sonner";
 
+type ActivityRow = Omit<Activity, 'metadata'> & { metadata: Activity['metadata'] | null };
+
 export function useActivities(leadId?: string) {
   return useQuery({
     queryKey: ["activities", leadId],
@@ -18,7 +20,7 @@ export function useActivities(leadId?: string) {
 
       const { data, error } = await (query as any);
       if (error) throw error;
-      return (data || []).map((activity: any) => ({
+      return (data || []).map((activity: ActivityRow) => ({
         ...activity,
         metadata: typeof activity.metadata === 'object' ? activity.metadata : {}
       })) as Activity[];

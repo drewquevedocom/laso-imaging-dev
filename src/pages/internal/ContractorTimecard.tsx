@@ -181,9 +181,10 @@ const ContractorTimecard = () => {
       }
 
       form.reset();
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to submit timecard";
       console.error("Submission error:", error);
-      toast.error(error.message || "Failed to submit timecard");
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

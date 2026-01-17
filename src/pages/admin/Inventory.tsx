@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
-  Package,
   Plus,
   Search,
-  Filter,
   MoreHorizontal,
   Edit,
   Trash2,

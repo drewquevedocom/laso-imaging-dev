@@ -39,7 +39,7 @@ interface Activity {
   direction: string | null;
   subject: string | null;
   created_at: string;
-  metadata: any;
+  metadata: Record<string, unknown>;
   lead_name?: string;
   lead_email?: string;
   lead_company?: string;

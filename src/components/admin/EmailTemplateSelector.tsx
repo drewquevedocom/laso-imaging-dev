@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { createSanitizedHTML } from "@/lib/sanitize";
 import { Mail, Send, FileText, Truck, Calendar, Camera, MessageSquare } from "lucide-react";
 
 interface EmailTemplateSelectorProps {
@@ -234,9 +235,7 @@ export function EmailTemplateSelector({
               <Label>Preview</Label>
               <ScrollArea className="h-[200px] mt-1 border rounded-lg p-4">
                 <div
-                  dangerouslySetInnerHTML={{
-                    __html: replaceVariables(editedBody),
-                  }}
+                  dangerouslySetInnerHTML={createSanitizedHTML(replaceVariables(editedBody))}
                 />
               </ScrollArea>
             </div>

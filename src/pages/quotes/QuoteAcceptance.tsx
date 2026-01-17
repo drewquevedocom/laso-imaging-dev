@@ -102,7 +102,7 @@ const QuoteAcceptance = () => {
           body: { action: "view", token: urlToken },
         });
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Error fetching quote:", err);
       setError("Failed to load quote");
     } finally {
@@ -124,13 +124,14 @@ const QuoteAcceptance = () => {
       toast.success("Quote accepted!", {
         description: "Thank you for your business. We'll be in touch shortly.",
       });
-      
+
       // Refresh quote data
       await fetchQuote();
-    } catch (err: any) {
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Please try again.";
       console.error("Error accepting quote:", err);
       toast.error("Failed to accept quote", {
-        description: err.message || "Please try again.",
+        description: errorMessage,
       });
     } finally {
       setIsProcessing(false);
@@ -151,13 +152,14 @@ const QuoteAcceptance = () => {
       toast.info("Quote declined", {
         description: "We appreciate your consideration.",
       });
-      
+
       setShowRejectDialog(false);
       await fetchQuote();
-    } catch (err: any) {
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Please try again.";
       console.error("Error rejecting quote:", err);
       toast.error("Failed to decline quote", {
-        description: err.message || "Please try again.",
+        description: errorMessage,
       });
     } finally {
       setIsProcessing(false);
