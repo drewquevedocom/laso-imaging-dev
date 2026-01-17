@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import { 
   Users, 
   Flame, 
@@ -72,6 +73,7 @@ const AdminDashboard = () => {
       trendUp: true,
       color: "text-primary",
       bgColor: "bg-primary/10",
+      link: "/admin/notifications",
     },
     {
       title: "Hot Leads",
@@ -81,6 +83,7 @@ const AdminDashboard = () => {
       trendUp: true,
       color: "text-orange-500",
       bgColor: "bg-orange-500/10",
+      link: "/admin/notifications?filter=hot",
     },
     {
       title: "Available Equipment",
@@ -90,6 +93,7 @@ const AdminDashboard = () => {
       trendUp: true,
       color: "text-blue-500",
       bgColor: "bg-blue-500/10",
+      link: "/admin/search",
     },
     {
       title: "Quote Pipeline",
@@ -99,6 +103,7 @@ const AdminDashboard = () => {
       trendUp: true,
       color: "text-emerald-500",
       bgColor: "bg-emerald-500/10",
+      link: "/admin/quotes",
     },
     {
       title: "Open Tickets",
@@ -108,6 +113,7 @@ const AdminDashboard = () => {
       trendUp: false,
       color: "text-green-500",
       bgColor: "bg-green-500/10",
+      link: "/admin/dashboard",
     },
     {
       title: "Pending Quotes",
@@ -117,6 +123,7 @@ const AdminDashboard = () => {
       trendUp: true,
       color: "text-purple-500",
       bgColor: "bg-purple-500/10",
+      link: "/admin/quotes?status=Draft",
     },
   ];
 
@@ -168,28 +175,30 @@ const AdminDashboard = () => {
         {/* KPI Cards */}
         <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
           {kpiCards.map((card) => (
-            <Card key={card.title} className="relative overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  {card.title}
-                </CardTitle>
-                <div className={`p-2 rounded-lg ${card.bgColor}`}>
-                  <card.icon className={`h-4 w-4 ${card.color}`} />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold">{statsLoading ? "..." : card.value}</div>
-                <div className="flex items-center gap-1 mt-1">
-                  {card.trendUp ? (
-                    <ArrowUpRight className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <ArrowDownRight className="h-4 w-4 text-green-500" />
-                  )}
-                  <span className="text-sm text-green-500">{card.trend}</span>
-                  <span className="text-sm text-muted-foreground">vs last week</span>
-                </div>
-              </CardContent>
-            </Card>
+            <Link key={card.title} to={card.link}>
+              <Card className="relative overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                    {card.title}
+                  </CardTitle>
+                  <div className={`p-2 rounded-lg ${card.bgColor}`}>
+                    <card.icon className={`h-4 w-4 ${card.color}`} />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold">{statsLoading ? "..." : card.value}</div>
+                  <div className="flex items-center gap-1 mt-1">
+                    {card.trendUp ? (
+                      <ArrowUpRight className="h-4 w-4 text-green-500" />
+                    ) : (
+                      <ArrowDownRight className="h-4 w-4 text-green-500" />
+                    )}
+                    <span className="text-sm text-green-500">{card.trend}</span>
+                    <span className="text-sm text-muted-foreground">vs last week</span>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
 
@@ -320,12 +329,15 @@ const AdminDashboard = () => {
                     </TableRow>
                   ) : (
                     recentLeads.map((lead) => (
-                      <TableRow key={lead.id}>
+                      <TableRow key={lead.id} className="cursor-pointer hover:bg-muted/50">
                         <TableCell className="font-medium">
-                          <div className="flex items-center gap-2">
+                          <Link 
+                            to={`/admin/notifications?lead=${lead.id}`}
+                            className="hover:underline flex items-center gap-2"
+                          >
                             {lead.is_hot && <Flame className="h-4 w-4 text-orange-500" />}
                             {lead.name}
-                          </div>
+                          </Link>
                         </TableCell>
                         <TableCell className="text-muted-foreground">
                           {lead.company || "—"}

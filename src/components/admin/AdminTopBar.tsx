@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Bell, LogOut, User, Settings, FileText, Users, Package, UserPlus, FilePlus, Wrench } from "lucide-react";
+import { Search, Bell, LogOut, User, Settings, FileText, Users, Package, UserPlus, FilePlus, ScanLine } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -92,6 +92,8 @@ const AdminTopBar = () => {
         return <FileText className="h-4 w-4 text-green-500" />;
       case 'customer':
         return <User className="h-4 w-4 text-purple-500" />;
+      case 'sell_request':
+        return <ScanLine className="h-4 w-4 text-orange-500" />;
       default:
         return <Package className="h-4 w-4 text-muted-foreground" />;
     }
@@ -150,14 +152,21 @@ const AdminTopBar = () => {
                   ) : (
                     <div className="p-1">
                       {/* Group results by type */}
-                      {['lead', 'quote', 'customer'].map(type => {
+                      {['lead', 'quote', 'customer', 'sell_request'].map(type => {
                         const typeResults = searchResults.filter(r => r.type === type);
                         if (typeResults.length === 0) return null;
+                        
+                        const typeLabels: Record<string, string> = {
+                          lead: 'Leads',
+                          quote: 'Quotes',
+                          customer: 'Customers',
+                          sell_request: 'MRI/CT Requests',
+                        };
                         
                         return (
                           <div key={type} className="mb-2">
                             <p className="px-2 py-1 text-xs font-medium text-muted-foreground uppercase">
-                              {type === 'lead' ? 'Leads' : type === 'quote' ? 'Quotes' : 'Customers'}
+                              {typeLabels[type] || type}
                             </p>
                             {typeResults.map(result => (
                               <button

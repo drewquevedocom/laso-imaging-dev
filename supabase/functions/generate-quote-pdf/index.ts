@@ -243,7 +243,8 @@ const generatePdfHtml = (quote: Quote): string => {
       </div>
 
       <div class="footer">
-        <p>LASO Imaging Solutions | info@lasoimaging.com | (555) 123-4567</p>
+        <p>LASO Imaging Solutions | info@lasoimaging.com | (818) 555-1234</p>
+        <p>14900 Magnolia Blvd #5442, Sherman Oaks, CA 91413</p>
         <p>Thank you for your business!</p>
       </div>
     </body>

@@ -209,22 +209,27 @@ Notes: ${request.message || 'None'}
     toast.success("Customer info loaded into Quote Builder");
   };
 
+  const sendAssetRequestMutation = useMutation({
+    mutationFn: async (request: SellRequest) => {
+      const { data, error } = await supabase.functions.invoke('send-asset-request', {
+        body: { sellRequestId: request.id },
+      });
+      
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sell-requests"] });
+      toast.success("Photo/video request email sent successfully!");
+    },
+    onError: (error) => {
+      console.error("Failed to send asset request:", error);
+      toast.error("Failed to send email. Please try again.");
+    },
+  });
+
   const handleRequestPhotos = (request: SellRequest) => {
-    const subject = encodeURIComponent(`Photos/Video Request - ${request.equipment_type}`);
-    const body = encodeURIComponent(`Hi ${request.name},
-
-Thank you for your interest in selling your ${request.equipment_type}. To provide you with an accurate valuation, we would appreciate if you could share:
-
-1. Current photos of the equipment (exterior and interior if applicable)
-2. Any recent service reports or maintenance records
-3. Brief video walkthrough (optional but helpful)
-
-You can reply directly to this email with the attachments or share via a file sharing service.
-
-Best regards,
-LASO Imaging Team`);
-    window.location.href = `mailto:${request.email}?subject=${subject}&body=${body}`;
-    toast.success("Opening email client for photo request");
+    sendAssetRequestMutation.mutate(request);
   };
 
   const filteredRequests = requests.filter((request) => {
@@ -315,7 +320,7 @@ LASO Imaging Team`);
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Sell Requests</h1>
+        <h1 className="text-2xl font-bold">MRI/CT Manage</h1>
         <p className="text-muted-foreground">Manage MRI & CT equipment acquisition inquiries</p>
       </div>
 
