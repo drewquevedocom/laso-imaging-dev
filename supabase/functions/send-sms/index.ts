@@ -66,8 +66,19 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (!telnyxResponse.ok) {
       console.error("Telnyx API error:", telnyxData);
+      
+      // Check for specific error codes and provide better messages
+      const errorCode = telnyxData?.errors?.[0]?.code;
+      let userMessage = "Failed to send SMS";
+      
+      if (errorCode === "10039") {
+        userMessage = "SMS service is in trial mode. The destination number must be pre-verified in Telnyx, or upgrade your account.";
+      } else if (errorCode === "40013") {
+        userMessage = "Invalid source phone number. Please check your Telnyx configuration.";
+      }
+      
       return new Response(
-        JSON.stringify({ error: "Failed to send SMS", details: telnyxData }),
+        JSON.stringify({ error: userMessage, details: telnyxData }),
         { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
