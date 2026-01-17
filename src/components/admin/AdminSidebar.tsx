@@ -28,10 +28,12 @@ import { Badge } from "@/components/ui/badge";
 import logoLaso from "@/assets/logo-laso.png";
 import { useHotList } from "@/hooks/useHotList";
 
+import { Search } from "lucide-react";
+
 const navItems = [
   { title: "Dashboard", url: "/admin/dashboard", icon: LayoutDashboard },
   { title: "Lead Triage", url: "/admin/notifications", icon: UserCheck },
-  { title: "Inventory", url: "/admin/inventory", icon: Package },
+  { title: "Product Search", url: "/admin/search", icon: Search },
   { title: "Quotes", url: "/admin/quotes", icon: FileText },
   { title: "Quote Builder", url: "/admin/quote-builder", icon: FileEdit },
   { title: "Communication", url: "/admin/communication", icon: MessageSquare },
