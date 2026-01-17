@@ -34,6 +34,8 @@ const sellFormSchema = z.object({
   timeline: z.string().optional(),
   has_service_history: z.boolean().default(false),
   message: z.string().optional(),
+  emailOptIn: z.boolean().default(true),
+  smsOptIn: z.boolean().default(false),
 });
 
 type SellFormData = z.infer<typeof sellFormSchema>;
@@ -105,8 +107,13 @@ const SellEquipmentForm = ({ onSuccess }: SellEquipmentFormProps) => {
     resolver: zodResolver(sellFormSchema),
     defaultValues: {
       has_service_history: false,
+      emailOptIn: true,
+      smsOptIn: false,
     },
   });
+
+  const emailOptIn = watch("emailOptIn");
+  const smsOptIn = watch("smsOptIn");
 
   const onSubmit = async (data: SellFormData) => {
     setIsSubmitting(true);
@@ -130,6 +137,8 @@ const SellEquipmentForm = ({ onSuccess }: SellEquipmentFormProps) => {
           timeline: data.timeline || null,
           has_service_history: data.has_service_history,
           message: data.message || null,
+          email_opt_in: data.emailOptIn,
+          sms_opt_in: data.smsOptIn,
         });
 
       if (dbError) throw dbError;
@@ -377,6 +386,33 @@ const SellEquipmentForm = ({ onSuccess }: SellEquipmentFormProps) => {
         />
       </div>
 
+      {/* Communication Preferences */}
+      <div className="space-y-3 pt-4 border-t border-border">
+        <Label className="text-sm font-medium">Communication Preferences</Label>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <Checkbox 
+              id="email-opt-in" 
+              checked={emailOptIn}
+              onCheckedChange={(checked) => setValue("emailOptIn", !!checked)}
+            />
+            <Label htmlFor="email-opt-in" className="text-sm font-normal cursor-pointer">
+              I agree to receive emails about my equipment evaluation
+            </Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <Checkbox 
+              id="sms-opt-in" 
+              checked={smsOptIn}
+              onCheckedChange={(checked) => setValue("smsOptIn", !!checked)}
+            />
+            <Label htmlFor="sms-opt-in" className="text-sm font-normal cursor-pointer">
+              I agree to receive SMS updates (optional)
+            </Label>
+          </div>
+        </div>
+      </div>
+
       <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
         {isSubmitting ? (
           <>
@@ -393,7 +429,7 @@ const SellEquipmentForm = ({ onSuccess }: SellEquipmentFormProps) => {
         <a href="/privacy-policy" className="underline hover:text-primary">
           Privacy Policy
         </a>
-        . We'll contact you within 24-48 hours.
+        . We never sell your data and will contact you within 24-48 hours.
       </p>
     </form>
   );

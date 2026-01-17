@@ -14,8 +14,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -27,6 +29,8 @@ const Contact = () => {
     company: "",
     subject: "",
     message: "",
+    emailOptIn: true,
+    smsOptIn: false,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,6 +46,8 @@ const Contact = () => {
         interest: formData.subject || "General Inquiry",
         message: formData.message,
         source_page: "Contact Page",
+        email_opt_in: formData.emailOptIn,
+        sms_opt_in: formData.smsOptIn,
       });
 
       if (error) throw error;
@@ -70,6 +76,8 @@ const Contact = () => {
         company: "",
         subject: "",
         message: "",
+        emailOptIn: true,
+        smsOptIn: false,
       });
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -220,6 +228,40 @@ const Contact = () => {
                       }
                       required
                     />
+                  </div>
+
+                  {/* Communication Preferences */}
+                  <div className="space-y-3 pt-2 border-t border-border">
+                    <Label className="text-sm font-medium">Communication Preferences</Label>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-2">
+                        <Checkbox 
+                          id="email-opt-in" 
+                          checked={formData.emailOptIn}
+                          onCheckedChange={(checked) => setFormData({ ...formData, emailOptIn: !!checked })}
+                        />
+                        <Label htmlFor="email-opt-in" className="text-sm font-normal cursor-pointer">
+                          I agree to receive emails about my inquiry
+                        </Label>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Checkbox 
+                          id="sms-opt-in" 
+                          checked={formData.smsOptIn}
+                          onCheckedChange={(checked) => setFormData({ ...formData, smsOptIn: !!checked })}
+                        />
+                        <Label htmlFor="sms-opt-in" className="text-sm font-normal cursor-pointer">
+                          I agree to receive SMS updates (optional)
+                        </Label>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      We never sell your data. See our{" "}
+                      <Link to="/privacy-policy" className="underline hover:text-foreground">
+                        Privacy Policy
+                      </Link>
+                      .
+                    </p>
                   </div>
 
                   <Button

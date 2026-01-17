@@ -349,30 +349,36 @@ export type Database = {
           company: string | null
           created_at: string | null
           email: string
+          email_opt_in: boolean | null
           id: string
           name: string
           notes: string | null
           phone: string | null
+          sms_opt_in: boolean | null
           updated_at: string | null
         }
         Insert: {
           company?: string | null
           created_at?: string | null
           email: string
+          email_opt_in?: boolean | null
           id?: string
           name: string
           notes?: string | null
           phone?: string | null
+          sms_opt_in?: boolean | null
           updated_at?: string | null
         }
         Update: {
           company?: string | null
           created_at?: string | null
           email?: string
+          email_opt_in?: boolean | null
           id?: string
           name?: string
           notes?: string | null
           phone?: string | null
+          sms_opt_in?: boolean | null
           updated_at?: string | null
         }
         Relationships: []
@@ -431,6 +437,7 @@ export type Database = {
           condition: string | null
           created_at: string
           email: string
+          email_opt_in: boolean | null
           equipment_type: string
           has_service_history: boolean | null
           id: string
@@ -441,6 +448,7 @@ export type Database = {
           name: string
           phone: string | null
           reason_for_selling: string | null
+          sms_opt_in: boolean | null
           software_version: string | null
           status: string | null
           timeline: string | null
@@ -451,6 +459,7 @@ export type Database = {
           condition?: string | null
           created_at?: string
           email: string
+          email_opt_in?: boolean | null
           equipment_type: string
           has_service_history?: boolean | null
           id?: string
@@ -461,6 +470,7 @@ export type Database = {
           name: string
           phone?: string | null
           reason_for_selling?: string | null
+          sms_opt_in?: boolean | null
           software_version?: string | null
           status?: string | null
           timeline?: string | null
@@ -471,6 +481,7 @@ export type Database = {
           condition?: string | null
           created_at?: string
           email?: string
+          email_opt_in?: boolean | null
           equipment_type?: string
           has_service_history?: boolean | null
           id?: string
@@ -481,6 +492,7 @@ export type Database = {
           name?: string
           phone?: string | null
           reason_for_selling?: string | null
+          sms_opt_in?: boolean | null
           software_version?: string | null
           status?: string | null
           timeline?: string | null
@@ -523,6 +535,7 @@ export type Database = {
           company: string | null
           created_at: string
           email: string
+          email_opt_in: boolean | null
           id: string
           interest: string
           is_hot: boolean
@@ -530,6 +543,7 @@ export type Database = {
           message: string | null
           name: string
           phone: string | null
+          sms_opt_in: boolean | null
           source_page: string
           status: string
           updated_at: string
@@ -539,6 +553,7 @@ export type Database = {
           company?: string | null
           created_at?: string
           email: string
+          email_opt_in?: boolean | null
           id?: string
           interest: string
           is_hot?: boolean
@@ -546,6 +561,7 @@ export type Database = {
           message?: string | null
           name: string
           phone?: string | null
+          sms_opt_in?: boolean | null
           source_page: string
           status?: string
           updated_at?: string
@@ -555,6 +571,7 @@ export type Database = {
           company?: string | null
           created_at?: string
           email?: string
+          email_opt_in?: boolean | null
           id?: string
           interest?: string
           is_hot?: boolean
@@ -562,6 +579,7 @@ export type Database = {
           message?: string | null
           name?: string
           phone?: string | null
+          sms_opt_in?: boolean | null
           source_page?: string
           status?: string
           updated_at?: string
