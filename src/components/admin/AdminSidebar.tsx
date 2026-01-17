@@ -24,7 +24,9 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 import logoLaso from "@/assets/logo-laso.png";
+import { useHotList } from "@/hooks/useHotList";
 
 const navItems = [
   { title: "Dashboard", url: "/admin/dashboard", icon: LayoutDashboard },
@@ -39,6 +41,7 @@ const AdminSidebar = () => {
   const { state, toggleSidebar } = useSidebar();
   const location = useLocation();
   const isCollapsed = state === "collapsed";
+  const { count: hotCount } = useHotList();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -77,7 +80,7 @@ const AdminSidebar = () => {
                         asChild
                         isActive={isActive(item.url)}
                         className={`
-                          group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all
+                          group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all
                           ${isActive(item.url) 
                             ? "bg-primary/20 text-white" 
                             : "text-slate-400 hover:bg-slate-700/50 hover:text-white"
@@ -87,6 +90,14 @@ const AdminSidebar = () => {
                         <NavLink to={item.url} className="flex items-center gap-3 w-full">
                           <item.icon className={`h-5 w-5 flex-shrink-0 ${isActive(item.url) ? "text-primary" : ""}`} />
                           {!isCollapsed && <span>{item.title}</span>}
+                          {item.title === "Dashboard" && hotCount > 0 && (
+                            <Badge 
+                              variant="destructive" 
+                              className="absolute -top-1 -right-1 h-5 min-w-5 flex items-center justify-center text-[10px] p-0"
+                            >
+                              {hotCount}
+                            </Badge>
+                          )}
                         </NavLink>
                       </SidebarMenuButton>
                     </TooltipTrigger>

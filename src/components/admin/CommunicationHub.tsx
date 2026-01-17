@@ -9,6 +9,7 @@ import {
   User,
   Send,
   Phone,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,6 +20,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { useActivities, useCreateActivity } from "@/hooks/useActivities";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 interface CommunicationHubProps {
   leadId: string;
@@ -50,6 +52,7 @@ const CommunicationHub = ({
   const [composeMode, setComposeMode] = useState<ComposeMode>("note");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
 
   // Map activity type to timeline type
   const mapActivityType = (activityType: string): TimelineItem["type"] => {
@@ -90,29 +93,66 @@ const CommunicationHub = ({
       return;
     }
 
-    const activityData: any = {
-      lead_id: leadId,
-      activity_type: composeMode === "note" ? "Note" : composeMode === "email" ? "Email" : "SMS",
-      content: message,
-      metadata: {},
-      direction: "outbound",
-    };
+    setIsSending(true);
 
-    if (composeMode === "email" && subject) {
-      activityData.subject = subject;
-    }
+    try {
+      if (composeMode === "email") {
+        // Send real email via edge function
+        const { error } = await supabase.functions.invoke("send-lead-email", {
+          body: {
+            to: leadEmail,
+            subject: subject || "Message from LASO Imaging",
+            body: message,
+            leadId: leadId,
+          },
+        });
 
-    await createActivity.mutateAsync(activityData);
+        if (error) throw error;
 
-    // Reset form
-    setMessage("");
-    setSubject("");
+        toast.success(`Email sent to ${leadEmail}`);
+      } else if (composeMode === "sms") {
+        if (!leadPhone) {
+          toast.error("No phone number available");
+          setIsSending(false);
+          return;
+        }
 
-    // Show mock success for email/sms
-    if (composeMode === "email") {
-      toast.success(`Email logged (sending mocked) to ${leadEmail}`);
-    } else if (composeMode === "sms") {
-      toast.success(`SMS logged (sending mocked) to ${leadPhone || "N/A"}`);
+        // Send real SMS via edge function
+        const { error } = await supabase.functions.invoke("send-sms", {
+          body: {
+            to: leadPhone,
+            message: message,
+            leadId: leadId,
+          },
+        });
+
+        if (error) throw error;
+
+        toast.success(`SMS sent to ${leadPhone}`);
+      } else {
+        // Just log the note
+        const activityData: any = {
+          lead_id: leadId,
+          activity_type: "Note",
+          content: message,
+          metadata: {},
+          direction: "outbound",
+        };
+
+        await createActivity.mutateAsync(activityData);
+        toast.success("Note added");
+      }
+
+      // Reset form
+      setMessage("");
+      setSubject("");
+    } catch (error: any) {
+      console.error("Error sending message:", error);
+      toast.error(`Failed to send ${composeMode}`, {
+        description: error.message || "Please try again",
+      });
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -309,9 +349,13 @@ const CommunicationHub = ({
           <Button
             size="icon"
             onClick={handleSend}
-            disabled={!message.trim() || createActivity.isPending}
+            disabled={!message.trim() || isSending}
           >
-            <Send className="h-4 w-4" />
+            {isSending ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Send className="h-4 w-4" />
+            )}
           </Button>
         </div>
       </div>

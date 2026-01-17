@@ -56,7 +56,7 @@ import PortalSettings from "./pages/portal/PortalSettings";
 import CookieConsent from "./components/layout/CookieConsent";
 import ContractorTimecard from "./pages/internal/ContractorTimecard";
 import CustomerReview from "./pages/internal/CustomerReview";
-
+import QuoteAcceptance from "./pages/quotes/QuoteAcceptance";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -152,6 +152,8 @@ const App = () => (
               <Route path="/internal/timecard" element={<ContractorTimecard />} />
               <Route path="/review" element={<CustomerReview />} />
               
+              {/* Quote Acceptance Portal (public) */}
+              <Route path="/quote/:token" element={<QuoteAcceptance />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
