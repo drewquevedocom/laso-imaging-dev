@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
@@ -150,7 +150,8 @@ const App = () => (
                 <Route path="notifications" element={<AdminNotifications />} />
                 <Route path="search" element={<SalesSearch />} />
                 <Route path="customers" element={<Customers />} />
-                <Route path="sell-requests" element={<SellRequests />} />
+                <Route path="equipment" element={<SellRequests />} />
+                <Route path="sell-requests" element={<Navigate to="/admin/equipment" replace />} />
                 <Route path="inventory" element={<AdminInventory />} />
                 <Route path="quotes" element={<AdminQuotes />} />
                 <Route path="quote-builder" element={<QuoteBuilder />} />
