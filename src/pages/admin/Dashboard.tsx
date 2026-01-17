@@ -6,7 +6,9 @@ import {
   FileText,
   TrendingUp,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  Package,
+  DollarSign
 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -32,6 +34,7 @@ import {
   useRecentLeads,
   useRecentTickets,
 } from "@/hooks/useAdminDashboardData";
+import LeadTriageBoard from "@/components/admin/LeadTriageBoard";
 
 const CHART_COLORS = [
   "hsl(209, 100%, 45%)",
@@ -55,6 +58,11 @@ const AdminDashboard = () => {
   const { data: recentLeads = [], isLoading: leadsLoading } = useRecentLeads();
   const { data: recentTickets = [], isLoading: ticketsLoading } = useRecentTickets();
 
+  // Format currency helper
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(amount);
+  };
+
   const kpiCards = [
     {
       title: "Total Leads",
@@ -73,6 +81,24 @@ const AdminDashboard = () => {
       trendUp: true,
       color: "text-orange-500",
       bgColor: "bg-orange-500/10",
+    },
+    {
+      title: "Available Equipment",
+      value: stats?.availableEquipment || 0,
+      icon: Package,
+      trend: "In stock",
+      trendUp: true,
+      color: "text-blue-500",
+      bgColor: "bg-blue-500/10",
+    },
+    {
+      title: "Quote Pipeline",
+      value: formatCurrency(stats?.quotePipeline || 0),
+      icon: DollarSign,
+      trend: "Active",
+      trendUp: true,
+      color: "text-emerald-500",
+      bgColor: "bg-emerald-500/10",
     },
     {
       title: "Open Tickets",
@@ -138,7 +164,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* KPI Cards */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
           {kpiCards.map((card) => (
             <Card key={card.title} className="relative overflow-hidden">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -164,6 +190,17 @@ const AdminDashboard = () => {
             </Card>
           ))}
         </div>
+
+        {/* Lead Triage Kanban Board */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Lead Triage Board</CardTitle>
+            <CardDescription>Drag and drop leads to update their status</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <LeadTriageBoard />
+          </CardContent>
+        </Card>
 
         {/* Charts Row */}
         <div className="grid gap-4 md:grid-cols-2">

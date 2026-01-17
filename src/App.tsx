@@ -13,6 +13,8 @@ import Systems3T from "./pages/equipment/Systems3T";
 import BrandPage from "./pages/equipment/brand/BrandPage";
 import EquipmentCategory from "./pages/equipment/EquipmentCategory";
 import AdminNotifications from "./pages/admin/Notifications";
+import AdminInventory from "./pages/admin/Inventory";
+import AdminQuotes from "./pages/admin/Quotes";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminDashboardLayout from "./components/admin/AdminDashboardLayout";
 import AdminLogin from "./pages/auth/AdminLogin";
@@ -138,8 +140,8 @@ const App = () => (
               >
                 <Route path="dashboard" element={<AdminDashboard />} />
                 <Route path="notifications" element={<AdminNotifications />} />
-                <Route path="inventory" element={<PlaceholderPage title="Inventory" />} />
-                <Route path="quotes" element={<PlaceholderPage title="Quotes" />} />
+                <Route path="inventory" element={<AdminInventory />} />
+                <Route path="quotes" element={<AdminQuotes />} />
                 <Route path="communication" element={<PlaceholderPage title="Communication" />} />
                 <Route path="settings" element={<PlaceholderPage title="Settings" />} />
               </Route>
