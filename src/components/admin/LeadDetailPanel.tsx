@@ -11,7 +11,8 @@ import {
   Send,
   MessageSquare,
   Calendar,
-  AlertCircle
+  AlertCircle,
+  Route
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -33,8 +34,10 @@ import {
 } from "@/components/ui/select";
 import { TriageLead, getLeadTypeInfo, getTimeInStage, KANBAN_COLUMNS } from "@/hooks/useLeadTriage";
 import { useActivities } from "@/hooks/useActivities";
+import { useLeadJourney } from "@/hooks/useLeadJourney";
 import ActivityLogForm from "./ActivityLogForm";
 import CommunicationHub from "./CommunicationHub";
+import JourneyTimeline from "./JourneyTimeline";
 
 interface LeadDetailPanelProps {
   lead: TriageLead | null;
@@ -45,6 +48,7 @@ interface LeadDetailPanelProps {
 
 const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPanelProps) => {
   const { data: activities = [] } = useActivities(lead?.id);
+  const { data: journeyEvents = [], isLoading: journeyLoading } = useLeadJourney(lead?.id);
   const [activeTab, setActiveTab] = useState("overview");
   
   if (!lead) return null;
@@ -105,10 +109,14 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1">
           <div className="px-6 pt-2 border-b">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="overview" className="text-xs">Overview</TabsTrigger>
-              <TabsTrigger value="communication" className="text-xs">Communication</TabsTrigger>
-              <TabsTrigger value="activities" className="text-xs">Activities</TabsTrigger>
+              <TabsTrigger value="journey" className="text-xs">
+                <Route className="h-3 w-3 mr-1" />
+                Journey
+              </TabsTrigger>
+              <TabsTrigger value="communication" className="text-xs">Comms</TabsTrigger>
+              <TabsTrigger value="activities" className="text-xs">Log</TabsTrigger>
             </TabsList>
           </div>
 
@@ -221,6 +229,19 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
                 <p className="text-xs text-muted-foreground">
                   Created {formatDistanceToNow(new Date(lead.created_at), { addSuffix: true })}
                 </p>
+              </div>
+            </TabsContent>
+
+            {/* Journey Tab - NEW */}
+            <TabsContent value="journey" className="m-0 p-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-medium text-sm">Customer Journey</h3>
+                  <Badge variant="outline" className="text-xs">
+                    {journeyEvents.length} events
+                  </Badge>
+                </div>
+                <JourneyTimeline events={journeyEvents} isLoading={journeyLoading} />
               </div>
             </TabsContent>
 

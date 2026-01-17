@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Bell, LogOut, User, Settings } from "lucide-react";
+import { Search, Bell, LogOut, User, Settings, FileText, Users, Package } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,15 +12,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import ThemeToggle from "./ThemeToggle";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useGlobalSearch, SearchResult } from "@/hooks/useGlobalSearch";
 
 const AdminTopBar = () => {
   const navigate = useNavigate();
   const { user, signOut } = useAdminAuth();
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  const { data: searchResults = [], isLoading: isSearching } = useGlobalSearch(searchQuery);
 
   // Fetch hot leads count for notification badge
   const { data: hotLeadsCount = 0 } = useQuery({
@@ -37,9 +43,39 @@ const AdminTopBar = () => {
     },
   });
 
+  // Close search on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearchOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const handleSignOut = async () => {
     await signOut();
     navigate("/admin/login");
+  };
+
+  const handleResultClick = (result: SearchResult) => {
+    navigate(result.url);
+    setSearchQuery("");
+    setIsSearchOpen(false);
+  };
+
+  const getResultIcon = (type: SearchResult['type']) => {
+    switch (type) {
+      case 'lead':
+        return <Users className="h-4 w-4 text-blue-500" />;
+      case 'quote':
+        return <FileText className="h-4 w-4 text-green-500" />;
+      case 'customer':
+        return <User className="h-4 w-4 text-purple-500" />;
+      default:
+        return <Package className="h-4 w-4 text-muted-foreground" />;
+    }
   };
 
   const userInitials = user?.email
@@ -50,16 +86,68 @@ const AdminTopBar = () => {
     <header className="sticky top-0 z-40 border-b bg-card">
       <div className="flex h-16 items-center justify-between px-6">
         {/* Global Search */}
-        <div className="flex-1 max-w-xl">
+        <div className="flex-1 max-w-xl" ref={searchRef}>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Search serial #, doctor name..."
+              placeholder="Search leads, quotes, customers..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setIsSearchOpen(true);
+              }}
+              onFocus={() => setIsSearchOpen(true)}
               className="pl-10 bg-muted/50 border-0 focus-visible:ring-1"
             />
+            
+            {/* Search Results Dropdown */}
+            {isSearchOpen && searchQuery.length >= 2 && (
+              <div className="absolute top-full left-0 right-0 mt-1 bg-popover border rounded-lg shadow-lg z-50">
+                <ScrollArea className="max-h-[300px]">
+                  {isSearching ? (
+                    <div className="p-4 text-center text-sm text-muted-foreground">
+                      Searching...
+                    </div>
+                  ) : searchResults.length === 0 ? (
+                    <div className="p-4 text-center text-sm text-muted-foreground">
+                      No results found for "{searchQuery}"
+                    </div>
+                  ) : (
+                    <div className="p-1">
+                      {/* Group results by type */}
+                      {['lead', 'quote', 'customer'].map(type => {
+                        const typeResults = searchResults.filter(r => r.type === type);
+                        if (typeResults.length === 0) return null;
+                        
+                        return (
+                          <div key={type} className="mb-2">
+                            <p className="px-2 py-1 text-xs font-medium text-muted-foreground uppercase">
+                              {type === 'lead' ? 'Leads' : type === 'quote' ? 'Quotes' : 'Customers'}
+                            </p>
+                            {typeResults.map(result => (
+                              <button
+                                key={`${result.type}-${result.id}`}
+                                className="w-full flex items-center gap-3 p-2 hover:bg-muted rounded-md text-left"
+                                onClick={() => handleResultClick(result)}
+                              >
+                                {getResultIcon(result.type)}
+                                <div className="min-w-0 flex-1">
+                                  <p className="font-medium text-sm truncate">{result.title}</p>
+                                  <p className="text-xs text-muted-foreground truncate">
+                                    {result.subtitle}
+                                  </p>
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </ScrollArea>
+              </div>
+            )}
           </div>
         </div>
 

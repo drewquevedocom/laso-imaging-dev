@@ -344,6 +344,39 @@ export type Database = {
         }
         Relationships: []
       }
+      customers: {
+        Row: {
+          company: string | null
+          created_at: string | null
+          email: string
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       email_delivery_events: {
         Row: {
           created_at: string | null
@@ -351,6 +384,7 @@ export type Database = {
           event_type: string
           id: string
           payload: Json | null
+          quote_id: string | null
           recipient: string
           timecard_id: string | null
         }
@@ -360,6 +394,7 @@ export type Database = {
           event_type: string
           id?: string
           payload?: Json | null
+          quote_id?: string | null
           recipient: string
           timecard_id?: string | null
         }
@@ -369,10 +404,18 @@ export type Database = {
           event_type?: string
           id?: string
           payload?: Json | null
+          quote_id?: string | null
           recipient?: string
           timecard_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "email_delivery_events_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "email_delivery_events_timecard_id_fkey"
             columns: ["timecard_id"]
@@ -628,6 +671,7 @@ export type Database = {
           quote_number: string
           rejected_at: string | null
           rejection_reason: string | null
+          resend_email_id: string | null
           status: string | null
           subtotal: number | null
           tax: number | null
@@ -651,6 +695,7 @@ export type Database = {
           quote_number: string
           rejected_at?: string | null
           rejection_reason?: string | null
+          resend_email_id?: string | null
           status?: string | null
           subtotal?: number | null
           tax?: number | null
@@ -674,6 +719,7 @@ export type Database = {
           quote_number?: string
           rejected_at?: string | null
           rejection_reason?: string | null
+          resend_email_id?: string | null
           status?: string | null
           subtotal?: number | null
           tax?: number | null

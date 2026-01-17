@@ -58,6 +58,8 @@ import ContractorTimecard from "./pages/internal/ContractorTimecard";
 import CustomerReview from "./pages/internal/CustomerReview";
 import QuoteAcceptance from "./pages/quotes/QuoteAcceptance";
 import Communications from "./pages/admin/Communications";
+import SalesSearch from "./pages/admin/SalesSearch";
+import Settings from "./pages/admin/Settings";
 
 const queryClient = new QueryClient();
 
@@ -143,11 +145,12 @@ const App = () => (
               >
                 <Route path="dashboard" element={<AdminDashboard />} />
                 <Route path="notifications" element={<AdminNotifications />} />
+                <Route path="search" element={<SalesSearch />} />
                 <Route path="inventory" element={<AdminInventory />} />
                 <Route path="quotes" element={<AdminQuotes />} />
                 <Route path="quote-builder" element={<QuoteBuilder />} />
                 <Route path="communication" element={<Communications />} />
-                <Route path="settings" element={<PlaceholderPage title="Settings" />} />
+                <Route path="settings" element={<Settings />} />
               </Route>
               
               {/* Internal Tools (hidden, no navigation links) */}
