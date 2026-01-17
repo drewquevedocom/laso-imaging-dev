@@ -433,69 +433,129 @@ export type Database = {
       }
       equipment_sell_requests: {
         Row: {
+          city: string | null
           company: string | null
           condition: string | null
+          country: string | null
           created_at: string
+          daily_scan_volume: string | null
+          deal_priority: string | null
+          desired_price: string | null
           email: string
           email_opt_in: boolean | null
+          equipment_status: string | null
           equipment_type: string
+          facility_type: string | null
+          has_ct: boolean | null
+          has_mri: boolean | null
           has_service_history: boolean | null
           id: string
+          is_mobile: boolean | null
           location: string | null
+          magnet_strength: string | null
           manufacturer: string | null
           message: string | null
+          mobile_status: string | null
+          mobile_units_count: number | null
           model: string | null
           name: string
           phone: string | null
           reason_for_selling: string | null
+          seller_role: string | null
           sms_opt_in: boolean | null
           software_version: string | null
+          state: string | null
           status: string | null
+          systems_count: number | null
+          systems_count_range: string | null
+          systems_detail: Json | null
           timeline: string | null
+          trailer_included: boolean | null
+          year_installed: number | null
           year_manufactured: number | null
         }
         Insert: {
+          city?: string | null
           company?: string | null
           condition?: string | null
+          country?: string | null
           created_at?: string
+          daily_scan_volume?: string | null
+          deal_priority?: string | null
+          desired_price?: string | null
           email: string
           email_opt_in?: boolean | null
+          equipment_status?: string | null
           equipment_type: string
+          facility_type?: string | null
+          has_ct?: boolean | null
+          has_mri?: boolean | null
           has_service_history?: boolean | null
           id?: string
+          is_mobile?: boolean | null
           location?: string | null
+          magnet_strength?: string | null
           manufacturer?: string | null
           message?: string | null
+          mobile_status?: string | null
+          mobile_units_count?: number | null
           model?: string | null
           name: string
           phone?: string | null
           reason_for_selling?: string | null
+          seller_role?: string | null
           sms_opt_in?: boolean | null
           software_version?: string | null
+          state?: string | null
           status?: string | null
+          systems_count?: number | null
+          systems_count_range?: string | null
+          systems_detail?: Json | null
           timeline?: string | null
+          trailer_included?: boolean | null
+          year_installed?: number | null
           year_manufactured?: number | null
         }
         Update: {
+          city?: string | null
           company?: string | null
           condition?: string | null
+          country?: string | null
           created_at?: string
+          daily_scan_volume?: string | null
+          deal_priority?: string | null
+          desired_price?: string | null
           email?: string
           email_opt_in?: boolean | null
+          equipment_status?: string | null
           equipment_type?: string
+          facility_type?: string | null
+          has_ct?: boolean | null
+          has_mri?: boolean | null
           has_service_history?: boolean | null
           id?: string
+          is_mobile?: boolean | null
           location?: string | null
+          magnet_strength?: string | null
           manufacturer?: string | null
           message?: string | null
+          mobile_status?: string | null
+          mobile_units_count?: number | null
           model?: string | null
           name?: string
           phone?: string | null
           reason_for_selling?: string | null
+          seller_role?: string | null
           sms_opt_in?: boolean | null
           software_version?: string | null
+          state?: string | null
           status?: string | null
+          systems_count?: number | null
+          systems_count_range?: string | null
+          systems_detail?: Json | null
           timeline?: string | null
+          trailer_included?: boolean | null
+          year_installed?: number | null
           year_manufactured?: number | null
         }
         Relationships: []

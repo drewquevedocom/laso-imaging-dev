@@ -11,7 +11,7 @@ import { fetchAllShopifyProducts, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import MakeOfferModal from "@/components/offer/MakeOfferModal";
-import SellEquipmentForm from "@/components/sell/SellEquipmentForm";
+import { SellRequestWizard } from "@/components/sell/SellRequestWizard";
 import {
   Dialog,
   DialogContent,
@@ -360,11 +360,11 @@ const BuySell = () => {
       />
 
       <Dialog open={showSellForm} onOpenChange={setShowSellForm}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">Sell Your Equipment</DialogTitle>
-          </DialogHeader>
-          <SellEquipmentForm onSuccess={() => setShowSellForm(false)} />
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto p-0 sm:p-0">
+          <SellRequestWizard 
+            onSuccess={() => setShowSellForm(false)} 
+            onClose={() => setShowSellForm(false)}
+          />
         </DialogContent>
       </Dialog>
 
