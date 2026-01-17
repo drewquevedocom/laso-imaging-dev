@@ -1,6 +1,5 @@
 import { formatDistanceToNow } from "date-fns";
 import { 
-  X, 
   Mail, 
   Phone, 
   Building2, 
@@ -32,6 +31,7 @@ import {
 } from "@/components/ui/select";
 import { TriageLead, getLeadTypeInfo, getTimeInStage, KANBAN_COLUMNS } from "@/hooks/useLeadTriage";
 import { useActivities } from "@/hooks/useActivities";
+import ActivityLogForm from "./ActivityLogForm";
 
 interface LeadDetailPanelProps {
   lead: TriageLead | null;
@@ -199,6 +199,14 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
                   </a>
                 </Button>
               </div>
+            </div>
+
+            <Separator />
+
+            {/* Activity Logging Form */}
+            <div className="space-y-2">
+              <h3 className="font-medium text-sm">Log Activity</h3>
+              <ActivityLogForm leadId={lead.id} />
             </div>
 
             <Separator />

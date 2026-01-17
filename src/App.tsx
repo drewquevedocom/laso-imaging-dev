@@ -15,6 +15,7 @@ import EquipmentCategory from "./pages/equipment/EquipmentCategory";
 import AdminNotifications from "./pages/admin/Notifications";
 import AdminInventory from "./pages/admin/Inventory";
 import AdminQuotes from "./pages/admin/Quotes";
+import QuoteBuilder from "./pages/admin/QuoteBuilder";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminDashboardLayout from "./components/admin/AdminDashboardLayout";
 import AdminLogin from "./pages/auth/AdminLogin";
@@ -142,6 +143,7 @@ const App = () => (
                 <Route path="notifications" element={<AdminNotifications />} />
                 <Route path="inventory" element={<AdminInventory />} />
                 <Route path="quotes" element={<AdminQuotes />} />
+                <Route path="quote-builder" element={<QuoteBuilder />} />
                 <Route path="communication" element={<PlaceholderPage title="Communication" />} />
                 <Route path="settings" element={<PlaceholderPage title="Settings" />} />
               </Route>
