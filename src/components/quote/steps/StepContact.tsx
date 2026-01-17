@@ -1,6 +1,7 @@
 import { QuoteWizardData } from "../QuoteWizard";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -8,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Link } from "react-router-dom";
 
 interface StepContactProps {
   data: QuoteWizardData;
@@ -100,11 +102,42 @@ const StepContact = ({ data, updateData }: StepContactProps) => {
         </div>
       </div>
 
+      {/* Communication Preferences */}
+      <div className="space-y-4 pt-4 border-t border-border">
+        <Label className="text-sm font-medium">Communication Preferences</Label>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-2">
+            <Checkbox 
+              id="email-opt-in" 
+              checked={data.emailOptIn ?? true}
+              onCheckedChange={(checked) => updateData({ emailOptIn: !!checked })}
+            />
+            <Label htmlFor="email-opt-in" className="text-sm font-normal cursor-pointer">
+              I agree to receive emails about my inquiry
+            </Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <Checkbox 
+              id="sms-opt-in" 
+              checked={data.smsOptIn ?? false}
+              onCheckedChange={(checked) => updateData({ smsOptIn: !!checked })}
+            />
+            <Label htmlFor="sms-opt-in" className="text-sm font-normal cursor-pointer">
+              I agree to receive SMS updates (optional)
+            </Label>
+          </div>
+        </div>
+      </div>
+
       <div className="p-4 bg-muted/30 rounded-lg border border-border">
         <p className="text-sm text-muted-foreground">
           <span className="font-medium text-foreground">Privacy Note:</span>{" "}
           Your information is secure and will only be used to provide your quote. 
-          We never share your data with third parties.
+          We never sell your data. See our{" "}
+          <Link to="/privacy-policy" className="underline hover:text-foreground">
+            Privacy Policy
+          </Link>
+          .
         </p>
       </div>
     </div>

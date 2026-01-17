@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
@@ -48,6 +50,8 @@ import {
   Clock,
   XCircle,
   TrendingUp,
+  UserPlus,
+  FileText,
 } from "lucide-react";
 
 interface SellRequest {
@@ -77,6 +81,7 @@ const statusConfig: Record<string, { label: string; icon: React.ElementType; cla
 };
 
 const Customers = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [selectedRequest, setSelectedRequest] = useState<SellRequest | null>(null);
@@ -112,6 +117,58 @@ const Customers = () => {
       toast.error("Failed to update status");
     },
   });
+
+  // Convert to Lead mutation
+  const convertToLeadMutation = useMutation({
+    mutationFn: async (request: SellRequest) => {
+      const message = `
+Equipment: ${request.equipment_type}
+Manufacturer: ${request.manufacturer || 'Not specified'}
+Model: ${request.model || 'Not specified'}
+Year: ${request.year_manufactured || 'Not specified'}
+Condition: ${request.condition || 'Not specified'}
+Location: ${request.location || 'Not specified'}
+Timeline: ${request.timeline || 'Not specified'}
+Notes: ${request.message || 'None'}
+      `.trim();
+
+      const { error } = await supabase.from("leads").insert({
+        name: request.name,
+        email: request.email,
+        phone: request.phone || null,
+        company: request.company || null,
+        interest: `Equipment Acquisition - ${request.equipment_type}`,
+        message: message,
+        source_page: "Converted from Sell Request",
+        status: "new",
+      });
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Converted to lead! View in Lead Triage.", {
+        action: {
+          label: "Go to Leads",
+          onClick: () => navigate("/admin/notifications"),
+        },
+      });
+    },
+    onError: () => {
+      toast.error("Failed to convert to lead");
+    },
+  });
+
+  // Create Quote from sell request
+  const handleCreateQuote = (request: SellRequest) => {
+    sessionStorage.setItem("quoteCustomerPrefill", JSON.stringify({
+      name: request.name,
+      email: request.email,
+      company: request.company || "",
+      phone: request.phone || "",
+    }));
+    navigate("/admin/quote-builder");
+    toast.success("Customer info loaded into Quote Builder");
+  };
 
   const filteredRequests = requests.filter((request) => {
     const matchesSearch = 
@@ -301,6 +358,15 @@ const Customers = () => {
                             <DropdownMenuItem onClick={() => updateStatusMutation.mutate({ id: request.id, status: "closed" })}>
                               <CheckCircle className="h-4 w-4 mr-2" />
                               Mark Closed
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => convertToLeadMutation.mutate(request)}>
+                              <UserPlus className="h-4 w-4 mr-2" />
+                              Convert to Lead
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleCreateQuote(request)}>
+                              <FileText className="h-4 w-4 mr-2" />
+                              Create Quote
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>

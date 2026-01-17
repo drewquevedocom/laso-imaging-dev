@@ -37,6 +37,8 @@ const heliumFormSchema = z.object({
   isEmergency: z.boolean().default(false),
   preferredDate: z.string().optional(),
   message: z.string().max(1000).optional(),
+  emailOptIn: z.boolean().default(true),
+  smsOptIn: z.boolean().default(false),
 });
 
 type HeliumFormData = z.infer<typeof heliumFormSchema>;
@@ -72,6 +74,8 @@ const HeliumQuoteForm = ({ sourcePage }: HeliumQuoteFormProps) => {
       isEmergency: false,
       preferredDate: '',
       message: '',
+      emailOptIn: true,
+      smsOptIn: false,
     },
   });
 
@@ -97,6 +101,8 @@ Notes: ${data.message || 'None'}
         interest: 'Helium Fill Quote',
         message: equipmentDetails,
         source_page: sourcePage,
+        email_opt_in: data.emailOptIn,
+        sms_opt_in: data.smsOptIn,
       });
 
       if (dbError) {
@@ -350,6 +356,41 @@ Notes: ${data.message || 'None'}
             )}
           />
 
+          {/* Communication Preferences */}
+          <div className="space-y-3 pt-2 border-t border-border">
+            <FormLabel className="text-sm font-medium">Communication Preferences</FormLabel>
+            <div className="flex flex-col gap-2">
+              <FormField
+                control={form.control}
+                name="emailOptIn"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                    </FormControl>
+                    <FormLabel className="font-normal cursor-pointer">
+                      I agree to receive emails about my inquiry
+                    </FormLabel>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="smsOptIn"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                    </FormControl>
+                    <FormLabel className="font-normal cursor-pointer">
+                      I agree to receive SMS updates (optional)
+                    </FormLabel>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
           <Button
             type="submit"
             variant="cta"
@@ -368,7 +409,7 @@ Notes: ${data.message || 'None'}
           </Button>
 
           <p className="text-xs text-muted-foreground text-center">
-            By submitting, you agree to our privacy policy. We'll never share your information.
+            By submitting, you agree to our privacy policy. We never sell your data.
           </p>
         </form>
       </Form>

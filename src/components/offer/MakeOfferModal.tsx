@@ -14,8 +14,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 const offerFormSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
@@ -23,6 +25,8 @@ const offerFormSchema = z.object({
   phone: z.string().optional(),
   offerAmount: z.string().min(1, "Offer amount is required"),
   message: z.string().max(1000).optional(),
+  emailOptIn: z.boolean().default(true),
+  smsOptIn: z.boolean().default(false),
 });
 
 type OfferFormData = z.infer<typeof offerFormSchema>;
@@ -42,6 +46,8 @@ const MakeOfferModal = ({ isOpen, onClose, productName, productPrice }: MakeOffe
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<OfferFormData>({
     resolver: zodResolver(offerFormSchema),
@@ -51,8 +57,13 @@ const MakeOfferModal = ({ isOpen, onClose, productName, productPrice }: MakeOffe
       phone: "",
       offerAmount: "",
       message: "",
+      emailOptIn: true,
+      smsOptIn: false,
     },
   });
+
+  const emailOptIn = watch("emailOptIn");
+  const smsOptIn = watch("smsOptIn");
 
   const onSubmit = async (data: OfferFormData) => {
     setIsSubmitting(true);
@@ -67,6 +78,8 @@ const MakeOfferModal = ({ isOpen, onClose, productName, productPrice }: MakeOffe
         message: `Offer Amount: $${data.offerAmount}${data.message ? `\nNotes: ${data.message}` : ""}`,
         source_page: `Product Offer - ${productName}`,
         status: "new",
+        email_opt_in: data.emailOptIn,
+        sms_opt_in: data.smsOptIn,
       });
 
       if (leadError) {
@@ -201,6 +214,40 @@ const MakeOfferModal = ({ isOpen, onClose, productName, productPrice }: MakeOffe
                 rows={3}
                 {...register("message")}
               />
+            </div>
+
+            {/* Communication Preferences */}
+            <div className="space-y-3 pt-2 border-t border-border">
+              <Label className="text-sm font-medium">Communication Preferences</Label>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <Checkbox 
+                    id="email-opt-in" 
+                    checked={emailOptIn}
+                    onCheckedChange={(checked) => setValue("emailOptIn", !!checked)}
+                  />
+                  <Label htmlFor="email-opt-in" className="text-xs font-normal cursor-pointer">
+                    I agree to receive emails about my offer
+                  </Label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Checkbox 
+                    id="sms-opt-in" 
+                    checked={smsOptIn}
+                    onCheckedChange={(checked) => setValue("smsOptIn", !!checked)}
+                  />
+                  <Label htmlFor="sms-opt-in" className="text-xs font-normal cursor-pointer">
+                    I agree to receive SMS updates (optional)
+                  </Label>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                We never sell your data. See our{" "}
+                <Link to="/privacy-policy" className="underline hover:text-foreground">
+                  Privacy Policy
+                </Link>
+                .
+              </p>
             </div>
 
             <div className="flex gap-3 pt-2">

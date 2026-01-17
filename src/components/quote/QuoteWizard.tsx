@@ -26,6 +26,9 @@ export interface QuoteWizardData {
   phone?: string;
   company?: string;
   role: string;
+  // Communication Preferences
+  emailOptIn?: boolean;
+  smsOptIn?: boolean;
 }
 
 const initialData: QuoteWizardData = {
@@ -41,6 +44,8 @@ const initialData: QuoteWizardData = {
   phone: "",
   company: "",
   role: "",
+  emailOptIn: true,
+  smsOptIn: false,
 };
 
 const steps = [
@@ -129,6 +134,8 @@ Additional Requirements: ${formData.additionalRequirements || "None"}
           interest: formData.equipmentType,
           message: message,
           source_page: sourcePage,
+          email_opt_in: formData.emailOptIn ?? true,
+          sms_opt_in: formData.smsOptIn ?? false,
         });
 
       if (insertError) {

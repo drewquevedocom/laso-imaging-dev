@@ -7,10 +7,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import { trackQuoteRequest } from "@/components/analytics/GoogleAnalytics";
+import { Link } from "react-router-dom";
 
 const quoteFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
@@ -19,6 +21,8 @@ const quoteFormSchema = z.object({
   company: z.string().optional(),
   interest: z.string().min(1, "Please select an interest"),
   message: z.string().max(1000).optional(),
+  emailOptIn: z.boolean().default(true),
+  smsOptIn: z.boolean().default(false),
 });
 
 type QuoteFormData = z.infer<typeof quoteFormSchema>;
@@ -64,8 +68,13 @@ const QuoteForm = ({
     resolver: zodResolver(quoteFormSchema),
     defaultValues: {
       interest: prefilledInterest || "",
+      emailOptIn: true,
+      smsOptIn: false,
     },
   });
+
+  const emailOptIn = watch("emailOptIn");
+  const smsOptIn = watch("smsOptIn");
 
   const selectedInterest = watch("interest");
 
@@ -84,6 +93,8 @@ const QuoteForm = ({
           interest: data.interest,
           message: data.message || null,
           source_page: sourcePage,
+          email_opt_in: data.emailOptIn,
+          sms_opt_in: data.smsOptIn,
         });
 
       if (insertError) throw insertError;
@@ -237,6 +248,33 @@ const QuoteForm = ({
           </div>
         )}
 
+        {/* Communication Preferences */}
+        <div className="space-y-3 pt-2 border-t border-border">
+          <Label className="text-sm font-medium">Communication Preferences</Label>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <Checkbox 
+                id="email-opt-in" 
+                checked={emailOptIn}
+                onCheckedChange={(checked) => setValue("emailOptIn", !!checked)}
+              />
+              <Label htmlFor="email-opt-in" className="text-sm font-normal cursor-pointer">
+                I agree to receive emails about my inquiry
+              </Label>
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox 
+                id="sms-opt-in" 
+                checked={smsOptIn}
+                onCheckedChange={(checked) => setValue("smsOptIn", !!checked)}
+              />
+              <Label htmlFor="sms-opt-in" className="text-sm font-normal cursor-pointer">
+                I agree to receive SMS updates (optional)
+              </Label>
+            </div>
+          </div>
+        </div>
+
         <Button
           type="submit"
           className="w-full"
@@ -254,7 +292,11 @@ const QuoteForm = ({
         </Button>
 
         <p className="text-xs text-muted-foreground text-center">
-          By submitting, you agree to our privacy policy. We'll never share your information.
+          By submitting, you agree to our{" "}
+          <Link to="/privacy-policy" className="underline hover:text-foreground">
+            Privacy Policy
+          </Link>
+          . We never sell your data and only contact you about your inquiry.
         </p>
       </form>
     </div>
