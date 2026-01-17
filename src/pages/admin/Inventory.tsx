@@ -11,6 +11,7 @@ import {
   CheckCircle,
   XCircle,
   Clock,
+  CalendarClock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,6 +50,8 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
 import {
   useInventory,
   useCreateInventory,
@@ -104,6 +107,10 @@ const AdminInventory = () => {
     software_version: "",
     magnet_type: "",
     notes: "",
+    is_rental: false,
+    rental_daily_rate: "",
+    rental_weekly_rate: "",
+    rental_monthly_rate: "",
   });
 
   const resetForm = () => {
@@ -121,6 +128,10 @@ const AdminInventory = () => {
       software_version: "",
       magnet_type: "",
       notes: "",
+      is_rental: false,
+      rental_daily_rate: "",
+      rental_weekly_rate: "",
+      rental_monthly_rate: "",
     });
     setEditingItem(null);
   };
@@ -142,6 +153,10 @@ const AdminInventory = () => {
         software_version: item.software_version || "",
         magnet_type: item.magnet_type || "",
         notes: item.notes || "",
+        is_rental: item.is_rental || false,
+        rental_daily_rate: item.rental_daily_rate?.toString() || "",
+        rental_weekly_rate: item.rental_weekly_rate?.toString() || "",
+        rental_monthly_rate: item.rental_monthly_rate?.toString() || "",
       });
     } else {
       resetForm();
@@ -165,6 +180,10 @@ const AdminInventory = () => {
       magnet_type: formData.magnet_type || undefined,
       notes: formData.notes || undefined,
       images: [],
+      is_rental: formData.is_rental,
+      rental_daily_rate: formData.rental_daily_rate ? parseFloat(formData.rental_daily_rate) : undefined,
+      rental_weekly_rate: formData.rental_weekly_rate ? parseFloat(formData.rental_weekly_rate) : undefined,
+      rental_monthly_rate: formData.rental_monthly_rate ? parseFloat(formData.rental_monthly_rate) : undefined,
     };
 
     if (editingItem) {
@@ -377,6 +396,56 @@ const AdminInventory = () => {
                     placeholder="Internal notes..."
                     rows={2}
                   />
+                </div>
+
+                {/* Rental Settings Section */}
+                <Separator className="my-4" />
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <Label className="text-base">Available for Rental</Label>
+                      <p className="text-sm text-muted-foreground">Mark this equipment as rentable</p>
+                    </div>
+                    <Switch
+                      checked={formData.is_rental}
+                      onCheckedChange={(checked) => setFormData({ ...formData, is_rental: checked })}
+                    />
+                  </div>
+                  
+                  {formData.is_rental && (
+                    <div className="grid grid-cols-3 gap-4 pt-2 p-4 bg-muted/50 rounded-lg">
+                      <div className="space-y-2">
+                        <Label htmlFor="rental_daily_rate">Daily Rate ($)</Label>
+                        <Input
+                          id="rental_daily_rate"
+                          type="number"
+                          value={formData.rental_daily_rate}
+                          onChange={(e) => setFormData({ ...formData, rental_daily_rate: e.target.value })}
+                          placeholder="500"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="rental_weekly_rate">Weekly Rate ($)</Label>
+                        <Input
+                          id="rental_weekly_rate"
+                          type="number"
+                          value={formData.rental_weekly_rate}
+                          onChange={(e) => setFormData({ ...formData, rental_weekly_rate: e.target.value })}
+                          placeholder="2500"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="rental_monthly_rate">Monthly Rate ($)</Label>
+                        <Input
+                          id="rental_monthly_rate"
+                          type="number"
+                          value={formData.rental_monthly_rate}
+                          onChange={(e) => setFormData({ ...formData, rental_monthly_rate: e.target.value })}
+                          placeholder="8000"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               <DialogFooter>

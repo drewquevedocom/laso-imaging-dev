@@ -28,18 +28,13 @@ export function useHotList() {
   const query = useQuery({
     queryKey: ["hot-list"],
     queryFn: async () => {
-      // Calculate the threshold for stale leads (2 hours ago)
-      const twoHoursAgo = new Date();
-      twoHoursAgo.setHours(twoHoursAgo.getHours() - 2);
-      const thresholdISO = twoHoursAgo.toISOString();
-
-      // Fetch emergency leads OR stale new leads
+      // Fetch hot leads (is_hot=true OR urgency=Emergency)
       const { data: leads, error: leadsError } = await supabase
         .from("leads")
         .select("id, name, company, phone, email, status, urgency, is_hot, created_at, interest")
-        .or(`urgency.eq.Emergency,and(status.eq.new,created_at.lt.${thresholdISO})`)
+        .or("is_hot.eq.true,urgency.eq.Emergency")
         .order("created_at", { ascending: false })
-        .limit(10);
+        .limit(15);
 
       if (leadsError) {
         console.error("Error fetching hot leads:", leadsError);
@@ -51,7 +46,7 @@ export function useHotList() {
         .select("id, name, company, phone, email, timeline, deal_priority, equipment_type, created_at")
         .or("timeline.eq.Immediately,deal_priority.eq.urgent")
         .order("created_at", { ascending: false })
-        .limit(10);
+        .limit(15);
 
       if (sellError) {
         console.error("Error fetching urgent sell requests:", sellError);

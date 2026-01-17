@@ -29,7 +29,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
-import logoLaso from "@/assets/logo-laso.png";
+import logoLasoAdmin from "@/assets/logo-laso-admin.png";
 import { useHotList } from "@/hooks/useHotList";
 
 const navGroups = [
@@ -81,7 +81,7 @@ const AdminSidebar = () => {
         <div className="flex items-center justify-between">
           {!isCollapsed && (
             <div className="flex items-center gap-2">
-              <img src={logoLaso} alt="LASO" className="h-10 w-auto brightness-0 invert" />
+              <img src={logoLasoAdmin} alt="LASO" className="h-10 w-auto" />
             </div>
           )}
           <Button
