@@ -719,6 +719,102 @@ export type Database = {
           },
         ]
       }
+      equipment_rentals: {
+        Row: {
+          created_at: string | null
+          customer_company: string | null
+          customer_email: string
+          customer_id: string | null
+          customer_name: string
+          customer_phone: string | null
+          daily_rate: number | null
+          delivery_address: string | null
+          delivery_notes: string | null
+          deposit_amount: number | null
+          end_date: string
+          id: string
+          inventory_id: string | null
+          monthly_rate: number | null
+          notes: string | null
+          pickup_date: string | null
+          pickup_reminder_sent: boolean | null
+          return_date: string | null
+          return_reminder_sent: boolean | null
+          start_date: string
+          status: string | null
+          total_amount: number | null
+          updated_at: string | null
+          weekly_rate: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          customer_company?: string | null
+          customer_email: string
+          customer_id?: string | null
+          customer_name: string
+          customer_phone?: string | null
+          daily_rate?: number | null
+          delivery_address?: string | null
+          delivery_notes?: string | null
+          deposit_amount?: number | null
+          end_date: string
+          id?: string
+          inventory_id?: string | null
+          monthly_rate?: number | null
+          notes?: string | null
+          pickup_date?: string | null
+          pickup_reminder_sent?: boolean | null
+          return_date?: string | null
+          return_reminder_sent?: boolean | null
+          start_date: string
+          status?: string | null
+          total_amount?: number | null
+          updated_at?: string | null
+          weekly_rate?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          customer_company?: string | null
+          customer_email?: string
+          customer_id?: string | null
+          customer_name?: string
+          customer_phone?: string | null
+          daily_rate?: number | null
+          delivery_address?: string | null
+          delivery_notes?: string | null
+          deposit_amount?: number | null
+          end_date?: string
+          id?: string
+          inventory_id?: string | null
+          monthly_rate?: number | null
+          notes?: string | null
+          pickup_date?: string | null
+          pickup_reminder_sent?: boolean | null
+          return_date?: string | null
+          return_reminder_sent?: boolean | null
+          start_date?: string
+          status?: string | null
+          total_amount?: number | null
+          updated_at?: string | null
+          weekly_rate?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_rentals_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "equipment_rentals_inventory_id_fkey"
+            columns: ["inventory_id"]
+            isOneToOne: false
+            referencedRelation: "inventory"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       equipment_sell_requests: {
         Row: {
           city: string | null
@@ -844,6 +940,84 @@ export type Database = {
           timeline?: string | null
           trailer_included?: boolean | null
           year_installed?: number | null
+          year_manufactured?: number | null
+        }
+        Relationships: []
+      }
+      inventory: {
+        Row: {
+          availability_status: string | null
+          condition: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          images: Json | null
+          is_rental: boolean | null
+          location: string | null
+          magnet_type: string | null
+          modality: string
+          next_available_date: string | null
+          notes: string | null
+          oem: string
+          price: number | null
+          product_name: string
+          rental_daily_rate: number | null
+          rental_monthly_rate: number | null
+          rental_weekly_rate: number | null
+          serial_number: string | null
+          software_version: string | null
+          updated_at: string | null
+          warehouse_location: string | null
+          year_manufactured: number | null
+        }
+        Insert: {
+          availability_status?: string | null
+          condition?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          images?: Json | null
+          is_rental?: boolean | null
+          location?: string | null
+          magnet_type?: string | null
+          modality: string
+          next_available_date?: string | null
+          notes?: string | null
+          oem: string
+          price?: number | null
+          product_name: string
+          rental_daily_rate?: number | null
+          rental_monthly_rate?: number | null
+          rental_weekly_rate?: number | null
+          serial_number?: string | null
+          software_version?: string | null
+          updated_at?: string | null
+          warehouse_location?: string | null
+          year_manufactured?: number | null
+        }
+        Update: {
+          availability_status?: string | null
+          condition?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          images?: Json | null
+          is_rental?: boolean | null
+          location?: string | null
+          magnet_type?: string | null
+          modality?: string
+          next_available_date?: string | null
+          notes?: string | null
+          oem?: string
+          price?: number | null
+          product_name?: string
+          rental_daily_rate?: number | null
+          rental_monthly_rate?: number | null
+          rental_weekly_rate?: number | null
+          serial_number?: string | null
+          software_version?: string | null
+          updated_at?: string | null
+          warehouse_location?: string | null
           year_manufactured?: number | null
         }
         Relationships: []

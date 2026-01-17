@@ -24,7 +24,7 @@ export interface InventoryItem {
   oem: 'GE' | 'Siemens' | 'Philips' | 'Toshiba/Canon' | 'Hitachi' | 'Other' | string;
   modality: 'MRI' | 'CT' | 'X-Ray' | 'PET/CT' | 'Ultrasound' | 'Other' | string;
   serial_number?: string;
-  availability_status: 'Available' | 'Sold' | 'Reserved' | 'In Transit' | 'Under Repair';
+  availability_status: 'Available' | 'Sold' | 'Reserved' | 'In Transit' | 'Under Repair' | 'Rented';
   price?: number;
   description?: string;
   location?: string;
@@ -34,6 +34,13 @@ export interface InventoryItem {
   magnet_type?: string;
   images: string[];
   notes?: string;
+  // Rental-specific fields
+  is_rental?: boolean;
+  rental_daily_rate?: number;
+  rental_weekly_rate?: number;
+  rental_monthly_rate?: number;
+  warehouse_location?: string;
+  next_available_date?: string;
   created_at: string;
   updated_at: string;
 }
@@ -101,4 +108,33 @@ export interface QuoteTemplateItem {
   description: string;
   quantity: number;
   unitPrice: number;
+}
+
+export interface EquipmentRental {
+  id: string;
+  inventory_id?: string;
+  customer_id?: string;
+  customer_name: string;
+  customer_email: string;
+  customer_company?: string;
+  customer_phone?: string;
+  start_date: string;
+  end_date: string;
+  pickup_date?: string;
+  return_date?: string;
+  daily_rate?: number;
+  weekly_rate?: number;
+  monthly_rate?: number;
+  total_amount?: number;
+  deposit_amount?: number;
+  status: 'pending' | 'confirmed' | 'active' | 'completed' | 'cancelled';
+  notes?: string;
+  delivery_address?: string;
+  delivery_notes?: string;
+  pickup_reminder_sent?: boolean;
+  return_reminder_sent?: boolean;
+  created_at: string;
+  updated_at: string;
+  // Joined data
+  inventory?: InventoryItem;
 }
