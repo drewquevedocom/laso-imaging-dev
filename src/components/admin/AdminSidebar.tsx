@@ -81,7 +81,7 @@ const AdminSidebar = () => {
         <div className="flex items-center justify-between">
           {!isCollapsed && (
             <div className="flex items-center gap-2">
-              <img src={logoLasoAdmin} alt="LASO" className="h-10 w-auto" />
+              <img src={logoLasoAdmin} alt="LASO" className="h-[52px] w-auto" />
             </div>
           )}
           <Button

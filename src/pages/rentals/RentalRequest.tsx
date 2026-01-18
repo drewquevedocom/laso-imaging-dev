@@ -106,14 +106,21 @@ ${formData.notes ? `- Additional Notes: ${formData.notes}` : ""}
       if (error) throw error;
 
       try {
-        await supabase.functions.invoke("send-quote-notification", {
+        await supabase.functions.invoke("send-rental-request-notification", {
           body: {
             name: formData.name,
             email: formData.email,
             phone: formData.phone,
             company: formData.company,
-            interest: `Equipment Rental - ${formData.equipment_type}`,
-            message: message,
+            equipment_type: formData.equipment_type,
+            specific_model: formData.specific_model,
+            rental_duration: formData.rental_duration,
+            start_date: formData.start_date,
+            delivery_address: `${formData.delivery_address}, ${formData.city}, ${formData.state} ${formData.zip}`,
+            facility_type: formData.facility_type,
+            notes: formData.notes,
+            email_opt_in: formData.email_opt_in,
+            sms_opt_in: formData.sms_opt_in,
           },
         });
       } catch (notifyError) {
