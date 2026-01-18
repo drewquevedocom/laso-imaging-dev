@@ -25,6 +25,9 @@ interface EquipmentAvailability {
   modality: string;
   oem: string;
   isAvailable: boolean;
+  dailyRate?: number;
+  weeklyRate?: number;
+  monthlyRate?: number;
   nextAvailable?: string;
   currentRental?: {
     start: string;
@@ -88,6 +91,9 @@ export const RentalAvailabilityCalendar = () => {
         modality: item.modality,
         oem: item.oem,
         isAvailable: !overlappingRental,
+        dailyRate: item.rental_daily_rate ?? undefined,
+        weeklyRate: item.rental_weekly_rate ?? undefined,
+        monthlyRate: item.rental_monthly_rate ?? undefined,
         nextAvailable: overlappingRental ? overlappingRental.end_date : undefined,
         currentRental: overlappingRental
           ? {
@@ -328,6 +334,30 @@ export const RentalAvailabilityCalendar = () => {
                               {equipment.isAvailable ? "Available" : "Rented"}
                             </Badge>
                           </div>
+
+                          {/* Rental Rates */}
+                          {equipment.isAvailable && (equipment.dailyRate || equipment.weeklyRate || equipment.monthlyRate) && (
+                            <div className="mt-2 pt-2 border-t">
+                              <p className="text-xs font-medium text-muted-foreground mb-1">Rental Rates:</p>
+                              <div className="flex flex-wrap gap-1">
+                                {equipment.dailyRate && (
+                                  <Badge variant="outline" className="bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-300 text-[10px]">
+                                    ${equipment.dailyRate.toLocaleString()}/day
+                                  </Badge>
+                                )}
+                                {equipment.weeklyRate && (
+                                  <Badge variant="outline" className="bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 text-[10px]">
+                                    ${equipment.weeklyRate.toLocaleString()}/wk
+                                  </Badge>
+                                )}
+                                {equipment.monthlyRate && (
+                                  <Badge variant="outline" className="bg-purple-50 dark:bg-purple-950/30 text-purple-700 dark:text-purple-300 text-[10px]">
+                                    ${equipment.monthlyRate.toLocaleString()}/mo
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                          )}
 
                           {!equipment.isAvailable && equipment.currentRental && (
                             <div className="mt-2 pt-2 border-t text-xs text-muted-foreground">

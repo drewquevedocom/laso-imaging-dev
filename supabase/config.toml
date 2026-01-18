@@ -62,3 +62,6 @@ verify_jwt = false
 
 [functions.send-rental-reminders]
 verify_jwt = false
+
+[functions.send-rental-request-notification]
+verify_jwt = false
