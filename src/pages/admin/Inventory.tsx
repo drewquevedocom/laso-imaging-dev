@@ -4,15 +4,16 @@ import {
   Package,
   Plus,
   Search,
-  Filter,
   MoreHorizontal,
   Edit,
   Trash2,
   CheckCircle,
   XCircle,
   Clock,
-  CalendarClock,
   CalendarCheck,
+  TrendingUp,
+  History,
+  AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,10 +50,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 import {
   useInventory,
   useCreateInventory,
@@ -62,6 +74,13 @@ import {
 } from "@/hooks/useInventory";
 import { InventoryItem } from "@/types/database";
 import { formatEquipmentText } from "@/lib/utils";
+import { SalesActionButtons } from "@/components/admin/inventory/SalesActionButtons";
+import { ProductStatusChips } from "@/components/admin/inventory/ProductStatusChips";
+import { QuickQuoteSheet } from "@/components/admin/inventory/QuickQuoteSheet";
+import { AdminMakeOfferModal } from "@/components/admin/inventory/AdminMakeOfferModal";
+import { ProductHistoryDrawer } from "@/components/admin/inventory/ProductHistoryDrawer";
+import { InventoryFilters } from "@/components/admin/inventory/InventoryFilters";
+import { useCartStore } from "@/stores/cartStore";
 
 const OEM_OPTIONS = ["GE", "Siemens", "Philips", "Toshiba/Canon", "Hitachi", "Other"];
 const MODALITY_OPTIONS = ["MRI", "CT", "X-Ray", "PET/CT", "Ultrasound", "Other"];
@@ -86,12 +105,25 @@ const AdminInventory = () => {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null);
+  
+  // Quick filter states
+  const [hasQuotesFilter, setHasQuotesFilter] = useState(false);
+  const [hasOffersFilter, setHasOffersFilter] = useState(false);
+  const [rentalFilter, setRentalFilter] = useState(false);
+
+  // Sales tool states
+  const [quoteSheetOpen, setQuoteSheetOpen] = useState(false);
+  const [offerModalOpen, setOfferModalOpen] = useState(false);
+  const [historyDrawerOpen, setHistoryDrawerOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
+  const [conflictWarningOpen, setConflictWarningOpen] = useState(false);
 
   const { data: inventory = [], isLoading } = useInventory();
   const { data: stats } = useInventoryStats();
   const createInventory = useCreateInventory();
   const updateInventory = useUpdateInventory();
   const deleteInventory = useDeleteInventory();
+  const addToCart = useCartStore((state) => state.addItem);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -209,7 +241,47 @@ const AdminInventory = () => {
     });
   };
 
-  // Filter inventory
+  // Sales action handlers
+  const handleBuy = (item: InventoryItem) => {
+    const hasOpenQuote = (item.open_quotes_count || 0) > 0;
+    const hasOpenOffer = (item.open_offers_count || 0) > 0;
+    
+    if (hasOpenQuote || hasOpenOffer) {
+      setSelectedItem(item);
+      setConflictWarningOpen(true);
+    } else {
+      proceedWithBuy(item);
+    }
+  };
+
+  const proceedWithBuy = (item: InventoryItem) => {
+    addToCart({
+      id: item.id,
+      name: item.product_name,
+      price: item.price || 0,
+      quantity: 1,
+      image: (item.images as string[])?.[0] || undefined,
+    });
+    toast.success(`${item.product_name} added to cart`);
+    setConflictWarningOpen(false);
+  };
+
+  const handleQuote = (item: InventoryItem) => {
+    setSelectedItem(item);
+    setQuoteSheetOpen(true);
+  };
+
+  const handleOffer = (item: InventoryItem) => {
+    setSelectedItem(item);
+    setOfferModalOpen(true);
+  };
+
+  const handleViewHistory = (item: InventoryItem) => {
+    setSelectedItem(item);
+    setHistoryDrawerOpen(true);
+  };
+
+  // Filter inventory with quick filters
   const filteredInventory = inventory.filter((item) => {
     const matchesSearch =
       item.product_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -218,7 +290,14 @@ const AdminInventory = () => {
     const matchesOem = oemFilter === "all" || item.oem === oemFilter;
     const matchesModality = modalityFilter === "all" || item.modality === modalityFilter;
     const matchesStatus = statusFilter === "all" || item.availability_status === statusFilter;
-    return matchesSearch && matchesOem && matchesModality && matchesStatus;
+    
+    // Quick filters
+    const matchesQuotesFilter = !hasQuotesFilter || (item.open_quotes_count || 0) > 0;
+    const matchesOffersFilter = !hasOffersFilter || (item.open_offers_count || 0) > 0;
+    const matchesRentalFilter = !rentalFilter || item.is_rental;
+    
+    return matchesSearch && matchesOem && matchesModality && matchesStatus 
+      && matchesQuotesFilter && matchesOffersFilter && matchesRentalFilter;
   });
 
   const formatPrice = (price?: number) => {
@@ -241,9 +320,9 @@ const AdminInventory = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Inventory Management</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Sales Inventory</h1>
             <p className="text-muted-foreground">
-              Track and manage {formatEquipmentText("MRI")} equipment inventory
+              Manage equipment, quotes, and offers
             </p>
           </div>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -506,6 +585,16 @@ const AdminInventory = () => {
           </Card>
         </div>
 
+        {/* Quick Filters */}
+        <InventoryFilters
+          hasQuotesFilter={hasQuotesFilter}
+          setHasQuotesFilter={setHasQuotesFilter}
+          hasOffersFilter={hasOffersFilter}
+          setHasOffersFilter={setHasOffersFilter}
+          rentalFilter={rentalFilter}
+          setRentalFilter={setRentalFilter}
+        />
+
         {/* Filters */}
         <Card>
           <CardContent className="pt-6">
@@ -556,62 +645,106 @@ const AdminInventory = () => {
           </CardContent>
         </Card>
 
-        {/* Inventory Table */}
+        {/* 3-Column Inventory Table */}
         <Card>
           <CardContent className="p-0">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Product</TableHead>
-                  <TableHead>OEM</TableHead>
-                  <TableHead>Modality</TableHead>
-                  <TableHead>Serial #</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Location</TableHead>
-                  <TableHead className="w-[50px]"></TableHead>
+                  <TableHead className="w-[40%]">Product Info</TableHead>
+                  <TableHead className="w-[30%]">Deal Tools</TableHead>
+                  <TableHead className="w-[20%]">Status & Metrics</TableHead>
+                  <TableHead className="w-[10%]"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                    <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
                       Loading inventory...
                     </TableCell>
                   </TableRow>
                 ) : filteredInventory.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                    <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
                       {inventory.length === 0 ? "No equipment in inventory" : "No equipment matches filters"}
                     </TableCell>
                   </TableRow>
                 ) : (
                   filteredInventory.map((item) => (
-                    <TableRow key={item.id}>
+                    <TableRow key={item.id} className="hover:bg-muted/50">
+                      {/* Column 1: Product Info */}
                       <TableCell>
-                        <div className="font-medium">{item.product_name}</div>
-                        <div className="flex items-center gap-2 mt-1">
-                          {item.condition && (
-                            <span className="text-xs text-muted-foreground">{item.condition}</span>
-                          )}
-                          {item.is_rental && (
-                            <Badge variant="outline" className="text-xs bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-700">
-                              <CalendarCheck className="h-3 w-3 mr-1" />
-                              Rentable
+                        <div className="space-y-1">
+                          <div className="font-semibold text-base">{item.product_name}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {item.oem} • {formatEquipmentText(item.modality)} • {item.condition || "Good"}
+                          </div>
+                          <div className="flex items-center gap-2 text-sm">
+                            <span className="font-mono text-muted-foreground">
+                              {item.serial_number ? `SN: ${item.serial_number}` : "No SN"}
+                            </span>
+                            <span className="text-muted-foreground">|</span>
+                            <span className="font-semibold text-primary">{formatPrice(item.price)}</span>
+                            <Badge variant="secondary" className={getStatusBadge(item.availability_status)}>
+                              {item.availability_status}
                             </Badge>
-                          )}
+                          </div>
+                          <ProductStatusChips item={item} />
                         </div>
                       </TableCell>
-                      <TableCell>{item.oem}</TableCell>
-                      <TableCell>{formatEquipmentText(item.modality)}</TableCell>
-                      <TableCell className="font-mono text-sm">{item.serial_number || "—"}</TableCell>
+                      
+                      {/* Column 2: Deal Tools */}
                       <TableCell>
-                        <Badge variant="secondary" className={getStatusBadge(item.availability_status)}>
-                          {item.availability_status}
-                        </Badge>
+                        <div className="space-y-2">
+                          <SalesActionButtons
+                            item={item}
+                            onBuy={handleBuy}
+                            onQuote={handleQuote}
+                            onOffer={handleOffer}
+                            hasOpenQuote={(item.open_quotes_count || 0) > 0}
+                            hasOpenOffer={(item.open_offers_count || 0) > 0}
+                          />
+                          <Button
+                            variant="link"
+                            size="sm"
+                            className="h-auto p-0 text-xs text-muted-foreground hover:text-primary"
+                            onClick={() => handleViewHistory(item)}
+                          >
+                            <History className="h-3 w-3 mr-1" />
+                            View History
+                          </Button>
+                        </div>
                       </TableCell>
-                      <TableCell>{formatPrice(item.price)}</TableCell>
-                      <TableCell>{item.location || "—"}</TableCell>
+                      
+                      {/* Column 3: Status & Metrics */}
+                      <TableCell>
+                        <div className="space-y-1 text-sm">
+                          <div className="flex items-center justify-between">
+                            <span className="text-muted-foreground">Conv Rate:</span>
+                            <span className="font-medium flex items-center gap-1">
+                              {item.conversion_rate || 0}%
+                              {(item.conversion_rate || 0) > 40 && (
+                                <TrendingUp className="h-3 w-3 text-green-500" />
+                              )}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-muted-foreground">Avg Discount:</span>
+                            <span className="font-medium">{item.avg_discount_percentage || 0}%</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-muted-foreground">Open Quotes:</span>
+                            <span className="font-medium">{item.open_quotes_count || 0}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-muted-foreground">Open Offers:</span>
+                            <span className="font-medium">{item.open_offers_count || 0}</span>
+                          </div>
+                        </div>
+                      </TableCell>
+                      
+                      {/* Column 4: Actions */}
                       <TableCell>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -653,6 +786,48 @@ const AdminInventory = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Sales Modals/Sheets */}
+      <QuickQuoteSheet
+        open={quoteSheetOpen}
+        onOpenChange={setQuoteSheetOpen}
+        inventoryItem={selectedItem}
+      />
+
+      <AdminMakeOfferModal
+        open={offerModalOpen}
+        onOpenChange={setOfferModalOpen}
+        inventoryItem={selectedItem}
+      />
+
+      <ProductHistoryDrawer
+        open={historyDrawerOpen}
+        onOpenChange={setHistoryDrawerOpen}
+        inventoryItem={selectedItem}
+      />
+
+      {/* Conflict Warning Dialog */}
+      <AlertDialog open={conflictWarningOpen} onOpenChange={setConflictWarningOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-yellow-500" />
+              Open Deals Detected
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This equipment has {selectedItem?.open_quotes_count || 0} open quote(s) and{" "}
+              {selectedItem?.open_offers_count || 0} pending offer(s). Adding to cart may conflict
+              with existing negotiations.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={() => selectedItem && proceedWithBuy(selectedItem)}>
+              Proceed Anyway
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };

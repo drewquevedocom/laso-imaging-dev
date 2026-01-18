@@ -11,6 +11,7 @@ import {
   Users,
   Package,
   MailOpen,
+  Calculator,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -60,6 +61,12 @@ const navGroups = [
     items: [
       { title: "Communication", url: "/admin/communication", icon: MessageSquare },
       { title: "Email Templates", url: "/admin/email-templates", icon: MailOpen },
+    ]
+  },
+  {
+    label: "Configuration",
+    items: [
+      { title: "Pricing Rules", url: "/admin/pricing-rules", icon: Calculator },
     ]
   }
 ];
