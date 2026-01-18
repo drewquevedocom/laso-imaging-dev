@@ -65,3 +65,6 @@ verify_jwt = false
 
 [functions.send-rental-request-notification]
 verify_jwt = false
+
+[functions.notify-offer-approval]
+verify_jwt = false

@@ -5,11 +5,14 @@ import LeadCard from "./LeadCard";
 import LeadDetailPanel from "./LeadDetailPanel";
 import LeadTriageFilters, { LeadFilters } from "./LeadTriageFilters";
 import UniversalIntakeForm from "./UniversalIntakeForm";
+import MobileLeadTriageView from "./MobileLeadTriageView";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const LeadTriageBoard = () => {
+  const isMobile = useIsMobile();
   const [filters, setFilters] = useState<LeadFilters>({
     search: "",
     dateFrom: undefined,
@@ -55,6 +58,18 @@ const LeadTriageBoard = () => {
   const handleCardClick = (lead: TriageLead) => {
     setSelectedLead(lead);
   };
+
+  // Mobile view
+  if (isMobile) {
+    return (
+      <MobileLeadTriageView
+        leads={leads}
+        filters={filters}
+        onFiltersChange={setFilters}
+        isLoading={isLoading}
+      />
+    );
+  }
 
   if (isLoading) {
     return (
