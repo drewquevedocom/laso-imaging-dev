@@ -64,6 +64,7 @@ import Customers from "./pages/admin/Customers";
 import SellRequests from "./pages/admin/SellRequests";
 import EmailTemplates from "./pages/admin/EmailTemplates";
 import EquipmentHub from "./pages/admin/EquipmentHub";
+import RentalRequest from "./pages/rentals/RentalRequest";
 
 const queryClient = new QueryClient();
 
@@ -126,6 +127,9 @@ const App = () => (
               
               {/* Sitemap */}
               <Route path="/sitemap" element={<Sitemap />} />
+              
+              {/* Equipment Rental */}
+              <Route path="/rentals" element={<RentalRequest />} />
               
               {/* Customer Portal Routes */}
               <Route path="/auth/customer" element={<CustomerAuth />} />

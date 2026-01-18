@@ -12,6 +12,7 @@ import {
   XCircle,
   Clock,
   CalendarClock,
+  CalendarCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -589,9 +590,17 @@ const AdminInventory = () => {
                     <TableRow key={item.id}>
                       <TableCell>
                         <div className="font-medium">{item.product_name}</div>
-                        {item.condition && (
-                          <div className="text-xs text-muted-foreground">{item.condition}</div>
-                        )}
+                        <div className="flex items-center gap-2 mt-1">
+                          {item.condition && (
+                            <span className="text-xs text-muted-foreground">{item.condition}</span>
+                          )}
+                          {item.is_rental && (
+                            <Badge variant="outline" className="text-xs bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-700">
+                              <CalendarCheck className="h-3 w-3 mr-1" />
+                              Rentable
+                            </Badge>
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell>{item.oem}</TableCell>
                       <TableCell>{formatEquipmentText(item.modality)}</TableCell>
