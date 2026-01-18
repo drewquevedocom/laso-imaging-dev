@@ -26,6 +26,7 @@ const navItems = [
   { label: 'EQUIPMENT', hasDropdown: true, key: 'equipment', href: '/products' },
   { label: 'PARTS', hasDropdown: true, key: 'parts', href: '/parts' },
   { label: 'SERVICES', hasDropdown: true, key: 'services', href: '/services' },
+  { label: 'RENTALS', hasDropdown: false, key: 'rentals', href: '/rentals' },
   { label: 'RESOURCES', hasDropdown: false, key: 'resources', href: '/blog' },
   { label: 'CONTACT', hasDropdown: false, key: 'contact', href: '/contact' },
 ];
