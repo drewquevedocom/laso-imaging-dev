@@ -41,6 +41,16 @@ export interface InventoryItem {
   rental_monthly_rate?: number;
   warehouse_location?: string;
   next_available_date?: string;
+  // Sales tracking fields
+  open_quotes_count?: number;
+  open_offers_count?: number;
+  total_quotes_count?: number;
+  total_offers_count?: number;
+  conversion_rate?: number;
+  avg_discount_percentage?: number;
+  last_quote_at?: string;
+  last_offer_at?: string;
+  sales_strategy?: 'all' | 'list_only' | 'quote_only' | 'offer_enabled';
   created_at: string;
   updated_at: string;
 }
