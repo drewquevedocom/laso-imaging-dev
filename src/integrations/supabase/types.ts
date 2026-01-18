@@ -947,75 +947,102 @@ export type Database = {
       inventory: {
         Row: {
           availability_status: string | null
+          avg_discount_percentage: number | null
           condition: string | null
+          conversion_rate: number | null
           created_at: string | null
           description: string | null
           id: string
           images: Json | null
           is_rental: boolean | null
+          last_offer_at: string | null
+          last_quote_at: string | null
           location: string | null
           magnet_type: string | null
           modality: string
           next_available_date: string | null
           notes: string | null
           oem: string
+          open_offers_count: number | null
+          open_quotes_count: number | null
           price: number | null
           product_name: string
           rental_daily_rate: number | null
           rental_monthly_rate: number | null
           rental_weekly_rate: number | null
+          sales_strategy: string | null
           serial_number: string | null
           software_version: string | null
+          total_offers_count: number | null
+          total_quotes_count: number | null
           updated_at: string | null
           warehouse_location: string | null
           year_manufactured: number | null
         }
         Insert: {
           availability_status?: string | null
+          avg_discount_percentage?: number | null
           condition?: string | null
+          conversion_rate?: number | null
           created_at?: string | null
           description?: string | null
           id?: string
           images?: Json | null
           is_rental?: boolean | null
+          last_offer_at?: string | null
+          last_quote_at?: string | null
           location?: string | null
           magnet_type?: string | null
           modality: string
           next_available_date?: string | null
           notes?: string | null
           oem: string
+          open_offers_count?: number | null
+          open_quotes_count?: number | null
           price?: number | null
           product_name: string
           rental_daily_rate?: number | null
           rental_monthly_rate?: number | null
           rental_weekly_rate?: number | null
+          sales_strategy?: string | null
           serial_number?: string | null
           software_version?: string | null
+          total_offers_count?: number | null
+          total_quotes_count?: number | null
           updated_at?: string | null
           warehouse_location?: string | null
           year_manufactured?: number | null
         }
         Update: {
           availability_status?: string | null
+          avg_discount_percentage?: number | null
           condition?: string | null
+          conversion_rate?: number | null
           created_at?: string | null
           description?: string | null
           id?: string
           images?: Json | null
           is_rental?: boolean | null
+          last_offer_at?: string | null
+          last_quote_at?: string | null
           location?: string | null
           magnet_type?: string | null
           modality?: string
           next_available_date?: string | null
           notes?: string | null
           oem?: string
+          open_offers_count?: number | null
+          open_quotes_count?: number | null
           price?: number | null
           product_name?: string
           rental_daily_rate?: number | null
           rental_monthly_rate?: number | null
           rental_weekly_rate?: number | null
+          sales_strategy?: string | null
           serial_number?: string | null
           software_version?: string | null
+          total_offers_count?: number | null
+          total_quotes_count?: number | null
           updated_at?: string | null
           warehouse_location?: string | null
           year_manufactured?: number | null
@@ -1158,6 +1185,126 @@ export type Database = {
             columns: ["customer_id"]
             isOneToOne: false
             referencedRelation: "customer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pricing_rules: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          modality: string | null
+          rule_type: string
+          updated_at: string | null
+          value: number
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          modality?: string | null
+          rule_type: string
+          updated_at?: string | null
+          value: number
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          modality?: string | null
+          rule_type?: string
+          updated_at?: string | null
+          value?: number
+        }
+        Relationships: []
+      }
+      product_offers: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          competitor_info: string | null
+          created_at: string | null
+          customer_company: string | null
+          customer_email: string
+          customer_id: string | null
+          customer_name: string
+          expires_at: string | null
+          id: string
+          inventory_id: string | null
+          list_price: number | null
+          margin_percentage: number | null
+          offer_amount: number
+          offer_type: string | null
+          reason: string | null
+          requires_approval: boolean | null
+          status: string | null
+          target_price: number | null
+          updated_at: string | null
+          validity_days: number | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          competitor_info?: string | null
+          created_at?: string | null
+          customer_company?: string | null
+          customer_email: string
+          customer_id?: string | null
+          customer_name: string
+          expires_at?: string | null
+          id?: string
+          inventory_id?: string | null
+          list_price?: number | null
+          margin_percentage?: number | null
+          offer_amount: number
+          offer_type?: string | null
+          reason?: string | null
+          requires_approval?: boolean | null
+          status?: string | null
+          target_price?: number | null
+          updated_at?: string | null
+          validity_days?: number | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          competitor_info?: string | null
+          created_at?: string | null
+          customer_company?: string | null
+          customer_email?: string
+          customer_id?: string | null
+          customer_name?: string
+          expires_at?: string | null
+          id?: string
+          inventory_id?: string | null
+          list_price?: number | null
+          margin_percentage?: number | null
+          offer_amount?: number
+          offer_type?: string | null
+          reason?: string | null
+          requires_approval?: boolean | null
+          status?: string | null
+          target_price?: number | null
+          updated_at?: string | null
+          validity_days?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_offers_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_offers_inventory_id_fkey"
+            columns: ["inventory_id"]
+            isOneToOne: false
+            referencedRelation: "inventory"
             referencedColumns: ["id"]
           },
         ]
