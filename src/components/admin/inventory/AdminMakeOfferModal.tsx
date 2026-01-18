@@ -12,6 +12,8 @@ import { InventoryItem } from "@/types/database";
 import { useCreateProductOffer } from "@/hooks/useProductOffers";
 import { useMinMargin, useApprovalThreshold } from "@/hooks/usePricingRules";
 import { AlertTriangle, ShieldAlert, DollarSign } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface AdminMakeOfferModalProps {
   isOpen: boolean;
@@ -58,7 +60,7 @@ export function AdminMakeOfferModal({ isOpen, onClose, item }: AdminMakeOfferMod
   const handleSubmit = async () => {
     if (!selectedCustomer || !item) return;
     
-    await createOffer.mutateAsync({
+    const offerResult = await createOffer.mutateAsync({
       inventory_id: item.id,
       customer_id: selectedCustomer.id,
       customer_name: selectedCustomer.name,
@@ -75,6 +77,32 @@ export function AdminMakeOfferModal({ isOpen, onClose, item }: AdminMakeOfferMod
       margin_percentage: marginPercent,
       requires_approval: requiresApproval,
     });
+    
+    // Send approval notification if required
+    if (requiresApproval) {
+      try {
+        const reasonLabel = OFFER_REASONS.find(r => r.value === reason)?.label || reason;
+        await supabase.functions.invoke('notify-offer-approval', {
+          body: {
+            offerId: offerResult?.id || 'unknown',
+            productName: item.product_name,
+            productOem: item.oem,
+            listPrice,
+            offerAmount,
+            discountPercent,
+            marginPercent,
+            customerName: selectedCustomer.name,
+            customerEmail: selectedCustomer.email,
+            customerCompany: selectedCustomer.company,
+            reason: reasonLabel,
+            competitorInfo,
+          }
+        });
+        toast.info("Offer submitted for manager approval");
+      } catch (error) {
+        console.error("Failed to send approval notification:", error);
+      }
+    }
     
     onClose();
     resetForm();
