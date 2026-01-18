@@ -64,6 +64,7 @@ import Customers from "./pages/admin/Customers";
 import SellRequests from "./pages/admin/SellRequests";
 import EmailTemplates from "./pages/admin/EmailTemplates";
 import EquipmentHub from "./pages/admin/EquipmentHub";
+import PricingRules from "./pages/admin/PricingRules";
 import RentalRequest from "./pages/rentals/RentalRequest";
 
 const queryClient = new QueryClient();
@@ -162,6 +163,7 @@ const App = () => (
                 <Route path="quote-builder" element={<QuoteBuilder />} />
                 <Route path="email-templates" element={<EmailTemplates />} />
                 <Route path="communication" element={<Communications />} />
+                <Route path="pricing-rules" element={<PricingRules />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
               
