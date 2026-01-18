@@ -127,6 +127,7 @@ const LeadTriageBoard = () => {
                         <LeadCard
                           lead={lead}
                           onStatusChange={handleStatusChange}
+                          onViewDetails={handleCardClick}
                           variant="compact"
                         />
                       </div>

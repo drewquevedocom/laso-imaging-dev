@@ -123,12 +123,47 @@ export function useUpdateLeadStatus() {
   });
 }
 
+export function useToggleLeadHot() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  return useMutation({
+    mutationFn: async ({ leadId, isHot }: { leadId: string; isHot: boolean }) => {
+      const { error } = await supabase
+        .from("leads")
+        .update({ is_hot: isHot, updated_at: new Date().toISOString() })
+        .eq("id", leadId);
+
+      if (error) throw error;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["triage-leads"] });
+      queryClient.invalidateQueries({ queryKey: ["hot-list"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
+      toast({
+        title: variables.isHot ? "Added to Hot List" : "Removed from Hot List",
+        description: variables.isHot 
+          ? "Lead has been marked as hot priority" 
+          : "Lead has been removed from hot priority",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to update lead priority",
+        variant: "destructive",
+      });
+      console.error("Toggle lead hot error:", error);
+    },
+  });
+}
+
 export function getLeadTypeInfo(interest: string): { label: string; color: string; borderColor: string } {
   const lowerInterest = interest.toLowerCase();
   
   if (lowerInterest.includes("mobile") || lowerInterest.includes("rental")) {
     return { 
-      label: "Mobile MRI", 
+      label: "Mobile/Rental", 
       color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
       borderColor: "border-red-400"
     };
@@ -139,6 +174,14 @@ export function getLeadTypeInfo(interest: string): { label: string; color: strin
       label: "Service", 
       color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
       borderColor: "border-yellow-400"
+    };
+  }
+  
+  if (lowerInterest.includes("part") || lowerInterest.includes("component")) {
+    return { 
+      label: "Parts", 
+      color: "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400",
+      borderColor: "border-purple-400"
     };
   }
   

@@ -9,6 +9,53 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// SMS sending via Telnyx
+async function sendSMS(to: string, message: string): Promise<boolean> {
+  const TELNYX_API_KEY = Deno.env.get("TELNYX_API_KEY");
+  const TELNYX_PHONE_NUMBER = Deno.env.get("TELNYX_PHONE_NUMBER");
+
+  if (!TELNYX_API_KEY || !TELNYX_PHONE_NUMBER || !to) {
+    console.log("SMS not sent - missing API key, phone number, or recipient");
+    return false;
+  }
+
+  try {
+    // Format phone number to E.164
+    let formattedTo = to.replace(/\D/g, "");
+    if (!formattedTo.startsWith("1") && formattedTo.length === 10) {
+      formattedTo = "1" + formattedTo;
+    }
+    formattedTo = "+" + formattedTo;
+
+    console.log(`Sending SMS to ${formattedTo}`);
+
+    const response = await fetch("https://api.telnyx.com/v2/messages", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${TELNYX_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: TELNYX_PHONE_NUMBER,
+        to: formattedTo,
+        text: message,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Telnyx API error:", errorData);
+      return false;
+    }
+
+    console.log(`SMS sent successfully to ${formattedTo}`);
+    return true;
+  } catch (error) {
+    console.error("Error sending SMS:", error);
+    return false;
+  }
+}
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -57,7 +104,9 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Found ${pickupRentals?.length || 0} rentals needing pickup reminder`);
 
-    let pickupSentCount = 0;
+    let pickupEmailsSent = 0;
+    let pickupSMSSent = 0;
+    
     for (const rental of pickupRentals || []) {
       try {
         const invArray = rental.inventory as unknown as Array<{ product_name: string; oem: string; modality: string }> | null;
@@ -67,6 +116,7 @@ const handler = async (req: Request): Promise<Response> => {
         
         console.log(`Sending pickup reminder to ${rental.customer_email} for ${equipmentName}`);
 
+        // Send Email
         await resend.emails.send({
           from: "LASO Imaging <onboarding@resend.dev>",
           to: [rental.customer_email],
@@ -100,6 +150,19 @@ const handler = async (req: Request): Promise<Response> => {
             </div>
           `,
         });
+        pickupEmailsSent++;
+
+        // Send SMS if phone number available
+        if (rental.customer_phone) {
+          const startDateFormatted = new Date(rental.start_date).toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric' 
+          });
+          const smsMessage = `LASO Imaging: Hi ${rental.customer_name.split(' ')[0]}, reminder that your ${equipmentName} rental begins in 3 days on ${startDateFormatted}. Questions? Call (800) 555-LASO`;
+          
+          const smsSent = await sendSMS(rental.customer_phone, smsMessage);
+          if (smsSent) pickupSMSSent++;
+        }
 
         // Mark reminder as sent
         await supabase
@@ -107,7 +170,6 @@ const handler = async (req: Request): Promise<Response> => {
           .update({ pickup_reminder_sent: true })
           .eq("id", rental.id);
 
-        pickupSentCount++;
         console.log(`Pickup reminder sent successfully for rental ${rental.id}`);
       } catch (emailError) {
         console.error(`Failed to send pickup reminder for rental ${rental.id}:`, emailError);
@@ -132,7 +194,9 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Found ${returnRentals?.length || 0} rentals needing return reminder`);
 
-    let returnSentCount = 0;
+    let returnEmailsSent = 0;
+    let returnSMSSent = 0;
+    
     for (const rental of returnRentals || []) {
       try {
         const invArray = rental.inventory as unknown as Array<{ product_name: string; oem: string; modality: string }> | null;
@@ -142,6 +206,7 @@ const handler = async (req: Request): Promise<Response> => {
 
         console.log(`Sending return reminder to ${rental.customer_email} for ${equipmentName}`);
 
+        // Send Email
         await resend.emails.send({
           from: "LASO Imaging <onboarding@resend.dev>",
           to: [rental.customer_email],
@@ -182,6 +247,19 @@ const handler = async (req: Request): Promise<Response> => {
             </div>
           `,
         });
+        returnEmailsSent++;
+
+        // Send SMS if phone number available
+        if (rental.customer_phone) {
+          const returnDateFormatted = new Date(rental.end_date).toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric' 
+          });
+          const smsMessage = `LASO Imaging: Hi ${rental.customer_name.split(' ')[0]}, reminder your ${equipmentName} is due for return tomorrow (${returnDateFormatted}). Have it ready for pickup. Questions? (800) 555-LASO`;
+          
+          const smsSent = await sendSMS(rental.customer_phone, smsMessage);
+          if (smsSent) returnSMSSent++;
+        }
 
         // Mark reminder as sent
         await supabase
@@ -189,7 +267,6 @@ const handler = async (req: Request): Promise<Response> => {
           .update({ return_reminder_sent: true })
           .eq("id", rental.id);
 
-        returnSentCount++;
         console.log(`Return reminder sent successfully for rental ${rental.id}`);
       } catch (emailError) {
         console.error(`Failed to send return reminder for rental ${rental.id}:`, emailError);
@@ -198,9 +275,16 @@ const handler = async (req: Request): Promise<Response> => {
 
     const result = {
       success: true,
-      pickup_reminders_sent: pickupSentCount,
-      return_reminders_sent: returnSentCount,
-      total_sent: pickupSentCount + returnSentCount,
+      pickup: {
+        emails_sent: pickupEmailsSent,
+        sms_sent: pickupSMSSent,
+      },
+      return: {
+        emails_sent: returnEmailsSent,
+        sms_sent: returnSMSSent,
+      },
+      total_emails: pickupEmailsSent + returnEmailsSent,
+      total_sms: pickupSMSSent + returnSMSSent,
       timestamp: new Date().toISOString(),
     };
 

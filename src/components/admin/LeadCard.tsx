@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
+import { useNavigate } from "react-router-dom";
 import { 
   Flame, 
   Phone, 
@@ -12,7 +13,12 @@ import {
   PhoneCall,
   Send,
   Mail,
-  MessageCircle
+  MessageCircle,
+  Eye,
+  FileText,
+  StickyNote,
+  Archive,
+  Calendar
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,9 +26,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getLeadTypeInfo, getTimeInStage } from "@/hooks/useLeadTriage";
+import { getLeadTypeInfo, getTimeInStage, useToggleLeadHot } from "@/hooks/useLeadTriage";
 
 interface Lead {
   id: string;
@@ -45,6 +52,8 @@ interface Lead {
 interface LeadCardProps {
   lead: Lead;
   onStatusChange: (leadId: string, status: string) => void;
+  onViewDetails?: (lead: Lead) => void;
+  onAddNote?: (lead: Lead) => void;
   variant?: "default" | "compact" | "mobile";
 }
 
@@ -56,8 +65,10 @@ const statusColors: Record<string, string> = {
   closed: "bg-gray-500/10 text-gray-600 border-gray-200",
 };
 
-const LeadCard = ({ lead, onStatusChange, variant = "default" }: LeadCardProps) => {
+const LeadCard = ({ lead, onStatusChange, onViewDetails, onAddNote, variant = "default" }: LeadCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const navigate = useNavigate();
+  const toggleHot = useToggleLeadHot();
   
   const isMobile = variant === "mobile";
   const isCompact = variant === "compact";
@@ -71,7 +82,17 @@ const LeadCard = ({ lead, onStatusChange, variant = "default" }: LeadCardProps) 
       ? "text-yellow-500" 
       : "text-muted-foreground";
 
-  // Compact Kanban card
+  const handleToggleHot = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleHot.mutate({ leadId: lead.id, isHot: !lead.is_hot });
+  };
+
+  const handleCreateQuote = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigate(`/admin/quote-builder?leadId=${lead.id}`);
+  };
+
+  // Compact Kanban card with dropdown
   if (isCompact) {
     return (
       <div 
@@ -81,7 +102,7 @@ const LeadCard = ({ lead, onStatusChange, variant = "default" }: LeadCardProps) 
             : `${typeInfo.borderColor} border-opacity-50`
         }`}
       >
-        {/* Header with Name & Type Badge */}
+        {/* Header with Name & Dropdown */}
         <div className="flex items-start justify-between gap-2 mb-2">
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
@@ -94,6 +115,81 @@ const LeadCard = ({ lead, onStatusChange, variant = "default" }: LeadCardProps) 
               </p>
             )}
           </div>
+          
+          {/* Dropdown Menu */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+              <Button variant="ghost" size="icon" className="h-6 w-6 flex-shrink-0">
+                <MoreVertical className="h-3.5 w-3.5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onViewDetails?.(lead); }}>
+                <Eye className="h-4 w-4 mr-2" />
+                View Details
+              </DropdownMenuItem>
+              
+              <DropdownMenuSeparator />
+              
+              {lead.phone && (
+                <DropdownMenuItem asChild>
+                  <a href={`tel:${lead.phone}`} onClick={(e) => e.stopPropagation()}>
+                    <PhoneCall className="h-4 w-4 mr-2" />
+                    Call
+                  </a>
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuItem asChild>
+                <a href={`mailto:${lead.email}`} onClick={(e) => e.stopPropagation()}>
+                  <Mail className="h-4 w-4 mr-2" />
+                  Email
+                </a>
+              </DropdownMenuItem>
+              {lead.phone && lead.sms_opt_in && (
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onViewDetails?.(lead); }}>
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Send SMS
+                </DropdownMenuItem>
+              )}
+              
+              <DropdownMenuSeparator />
+              
+              <DropdownMenuItem onClick={handleToggleHot}>
+                <Flame className={`h-4 w-4 mr-2 ${lead.is_hot ? 'text-orange-500' : ''}`} />
+                {lead.is_hot ? 'Remove from Hot List' : 'Add to Hot List'}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onAddNote?.(lead); }}>
+                <StickyNote className="h-4 w-4 mr-2" />
+                Add Note
+              </DropdownMenuItem>
+              
+              <DropdownMenuSeparator />
+              
+              <DropdownMenuItem onClick={handleCreateQuote}>
+                <FileText className="h-4 w-4 mr-2" />
+                Create Quote
+              </DropdownMenuItem>
+              
+              <DropdownMenuSeparator />
+              
+              <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onStatusChange(lead.id, "contacted"); }}>
+                <CheckCircle2 className="h-4 w-4 mr-2" />
+                Mark Contacted
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onStatusChange(lead.id, "qualified"); }}>
+                <CheckCircle2 className="h-4 w-4 mr-2" />
+                Mark Quoting
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onStatusChange(lead.id, "converted"); }}>
+                <Send className="h-4 w-4 mr-2" />
+                Mark Contract Sent
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onStatusChange(lead.id, "closed"); }}>
+                <Archive className="h-4 w-4 mr-2" />
+                Archive
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Type Badge & Opt-in indicators */}
@@ -159,7 +255,47 @@ const LeadCard = ({ lead, onStatusChange, variant = "default" }: LeadCardProps) 
             {lead.status}
           </Badge>
           <DropdownMenu>
-            <DropdownMenuContent align="end">
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8">
+                <MoreVertical className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={() => onViewDetails?.(lead)}>
+                <Eye className="h-4 w-4 mr-2" />
+                View Details
+              </DropdownMenuItem>
+              
+              <DropdownMenuSeparator />
+              
+              {lead.phone && (
+                <DropdownMenuItem asChild>
+                  <a href={`tel:${lead.phone}`}>
+                    <PhoneCall className="h-4 w-4 mr-2" />
+                    Call
+                  </a>
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuItem asChild>
+                <a href={`mailto:${lead.email}`}>
+                  <Mail className="h-4 w-4 mr-2" />
+                  Email
+                </a>
+              </DropdownMenuItem>
+              
+              <DropdownMenuSeparator />
+              
+              <DropdownMenuItem onClick={handleToggleHot}>
+                <Flame className={`h-4 w-4 mr-2 ${lead.is_hot ? 'text-orange-500' : ''}`} />
+                {lead.is_hot ? 'Remove from Hot List' : 'Add to Hot List'}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleCreateQuote}>
+                <FileText className="h-4 w-4 mr-2" />
+                Create Quote
+              </DropdownMenuItem>
+              
+              <DropdownMenuSeparator />
+              
               <DropdownMenuItem onClick={() => onStatusChange(lead.id, "contacted")}>
                 <CheckCircle2 className="h-4 w-4 mr-2" />
                 Mark as Contacted
@@ -173,7 +309,7 @@ const LeadCard = ({ lead, onStatusChange, variant = "default" }: LeadCardProps) 
                 Mark as Converted
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onStatusChange(lead.id, "closed")}>
-                <Clock className="h-4 w-4 mr-2" />
+                <Archive className="h-4 w-4 mr-2" />
                 Close Lead
               </DropdownMenuItem>
             </DropdownMenuContent>
