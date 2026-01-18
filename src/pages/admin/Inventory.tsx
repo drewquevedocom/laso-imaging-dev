@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
-  Package,
   Plus,
   Search,
   MoreHorizontal,
@@ -10,14 +9,13 @@ import {
   CheckCircle,
   XCircle,
   Clock,
-  CalendarCheck,
   TrendingUp,
   History,
   AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -79,8 +77,6 @@ import { ProductStatusChips } from "@/components/admin/inventory/ProductStatusCh
 import { QuickQuoteSheet } from "@/components/admin/inventory/QuickQuoteSheet";
 import { AdminMakeOfferModal } from "@/components/admin/inventory/AdminMakeOfferModal";
 import { ProductHistoryDrawer } from "@/components/admin/inventory/ProductHistoryDrawer";
-import { InventoryFilters } from "@/components/admin/inventory/InventoryFilters";
-import { useCartStore } from "@/stores/cartStore";
 
 const OEM_OPTIONS = ["GE", "Siemens", "Philips", "Toshiba/Canon", "Hitachi", "Other"];
 const MODALITY_OPTIONS = ["MRI", "CT", "X-Ray", "PET/CT", "Ultrasound", "Other"];
@@ -123,7 +119,6 @@ const AdminInventory = () => {
   const createInventory = useCreateInventory();
   const updateInventory = useUpdateInventory();
   const deleteInventory = useDeleteInventory();
-  const addToCart = useCartStore((state) => state.addItem);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -255,14 +250,7 @@ const AdminInventory = () => {
   };
 
   const proceedWithBuy = (item: InventoryItem) => {
-    addToCart({
-      id: item.id,
-      name: item.product_name,
-      price: item.price || 0,
-      quantity: 1,
-      image: (item.images as string[])?.[0] || undefined,
-    });
-    toast.success(`${item.product_name} added to cart`);
+    toast.success(`${item.product_name} - Ready for checkout. Navigate to Quote Builder to complete the sale.`);
     setConflictWarningOpen(false);
   };
 
@@ -586,14 +574,29 @@ const AdminInventory = () => {
         </div>
 
         {/* Quick Filters */}
-        <InventoryFilters
-          hasQuotesFilter={hasQuotesFilter}
-          setHasQuotesFilter={setHasQuotesFilter}
-          hasOffersFilter={hasOffersFilter}
-          setHasOffersFilter={setHasOffersFilter}
-          rentalFilter={rentalFilter}
-          setRentalFilter={setRentalFilter}
-        />
+        <div className="flex flex-wrap gap-2">
+          <Badge
+            variant={hasQuotesFilter ? "default" : "outline"}
+            className="cursor-pointer hover:bg-primary/80 transition-colors"
+            onClick={() => setHasQuotesFilter(!hasQuotesFilter)}
+          >
+            Has Open Quotes
+          </Badge>
+          <Badge
+            variant={hasOffersFilter ? "default" : "outline"}
+            className="cursor-pointer hover:bg-primary/80 transition-colors"
+            onClick={() => setHasOffersFilter(!hasOffersFilter)}
+          >
+            Has Open Offers
+          </Badge>
+          <Badge
+            variant={rentalFilter ? "default" : "outline"}
+            className="cursor-pointer hover:bg-primary/80 transition-colors"
+            onClick={() => setRentalFilter(!rentalFilter)}
+          >
+            Rental Eligible
+          </Badge>
+        </div>
 
         {/* Filters */}
         <Card>
@@ -690,7 +693,12 @@ const AdminInventory = () => {
                               {item.availability_status}
                             </Badge>
                           </div>
-                          <ProductStatusChips item={item} />
+                          <ProductStatusChips
+                            openQuotesCount={item.open_quotes_count}
+                            openOffersCount={item.open_offers_count}
+                            isRentable={item.is_rental}
+                            salesStrategy={item.sales_strategy}
+                          />
                         </div>
                       </TableCell>
                       
@@ -789,21 +797,21 @@ const AdminInventory = () => {
 
       {/* Sales Modals/Sheets */}
       <QuickQuoteSheet
-        open={quoteSheetOpen}
-        onOpenChange={setQuoteSheetOpen}
-        inventoryItem={selectedItem}
+        isOpen={quoteSheetOpen}
+        onClose={() => setQuoteSheetOpen(false)}
+        item={selectedItem}
       />
 
       <AdminMakeOfferModal
-        open={offerModalOpen}
-        onOpenChange={setOfferModalOpen}
-        inventoryItem={selectedItem}
+        isOpen={offerModalOpen}
+        onClose={() => setOfferModalOpen(false)}
+        item={selectedItem}
       />
 
       <ProductHistoryDrawer
-        open={historyDrawerOpen}
-        onOpenChange={setHistoryDrawerOpen}
-        inventoryItem={selectedItem}
+        isOpen={historyDrawerOpen}
+        onClose={() => setHistoryDrawerOpen(false)}
+        item={selectedItem}
       />
 
       {/* Conflict Warning Dialog */}
@@ -816,7 +824,7 @@ const AdminInventory = () => {
             </AlertDialogTitle>
             <AlertDialogDescription>
               This equipment has {selectedItem?.open_quotes_count || 0} open quote(s) and{" "}
-              {selectedItem?.open_offers_count || 0} pending offer(s). Adding to cart may conflict
+              {selectedItem?.open_offers_count || 0} pending offer(s). Proceeding may conflict
               with existing negotiations.
             </AlertDialogDescription>
           </AlertDialogHeader>
