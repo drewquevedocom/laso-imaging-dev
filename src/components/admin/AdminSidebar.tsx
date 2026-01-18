@@ -12,6 +12,7 @@ import {
   Package,
   MailOpen,
   Calculator,
+  ClipboardCheck,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -67,6 +68,7 @@ const navGroups = [
     label: "Configuration",
     items: [
       { title: "Pricing Rules", url: "/admin/pricing-rules", icon: Calculator },
+      { title: "Testing Guide", url: "/admin/testing-guide", icon: ClipboardCheck },
     ]
   }
 ];
