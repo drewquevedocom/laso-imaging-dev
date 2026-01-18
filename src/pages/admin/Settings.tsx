@@ -1,15 +1,65 @@
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Settings as SettingsIcon, User, Bell, Shield, Database, Mail } from "lucide-react";
+import { Settings as SettingsIcon, User, Bell, Shield, Database, Mail, Volume2, VolumeX } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { useHotLeadNotifications } from "@/hooks/useHotLeadNotifications";
+import { toast } from "sonner";
+
+interface NotificationPrefs {
+  hotLeadAlerts: boolean;
+  soundEnabled: boolean;
+  browserPushEnabled: boolean;
+  quoteResponses: boolean;
+  dailyDigest: boolean;
+}
+
+const defaultPrefs: NotificationPrefs = {
+  hotLeadAlerts: true,
+  soundEnabled: true,
+  browserPushEnabled: false,
+  quoteResponses: true,
+  dailyDigest: false,
+};
 
 const Settings = () => {
   const { user } = useAdminAuth();
+  const { testNotification, pushPermission, requestPushPermission } = useHotLeadNotifications();
+  
+  const [prefs, setPrefs] = useState<NotificationPrefs>(defaultPrefs);
+
+  // Load preferences from localStorage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("laso-notification-prefs");
+      if (stored) {
+        setPrefs({ ...defaultPrefs, ...JSON.parse(stored) });
+      }
+    } catch {
+      // Use defaults
+    }
+  }, []);
+
+  // Save preferences to localStorage
+  const updatePref = (key: keyof NotificationPrefs, value: boolean) => {
+    const newPrefs = { ...prefs, [key]: value };
+    setPrefs(newPrefs);
+    localStorage.setItem("laso-notification-prefs", JSON.stringify(newPrefs));
+    toast.success("Settings saved");
+  };
+
+  const handleEnablePush = async () => {
+    const granted = await requestPushPermission();
+    if (granted) {
+      updatePref("browserPushEnabled", true);
+    }
+  };
 
   return (
     <>
@@ -72,9 +122,58 @@ const Settings = () => {
                     Get notified for high-priority leads
                   </p>
                 </div>
-                <Switch defaultChecked />
+                <Switch 
+                  checked={prefs.hotLeadAlerts}
+                  onCheckedChange={(checked) => updatePref("hotLeadAlerts", checked)}
+                />
               </div>
               <Separator />
+              
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  {prefs.soundEnabled ? (
+                    <Volume2 className="h-4 w-4 text-muted-foreground" />
+                  ) : (
+                    <VolumeX className="h-4 w-4 text-muted-foreground" />
+                  )}
+                  <div>
+                    <p className="font-medium text-sm">Sound Alerts</p>
+                    <p className="text-xs text-muted-foreground">
+                      Play audio for notifications
+                    </p>
+                  </div>
+                </div>
+                <Switch 
+                  checked={prefs.soundEnabled}
+                  onCheckedChange={(checked) => updatePref("soundEnabled", checked)}
+                />
+              </div>
+              <Separator />
+              
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-sm">Browser Push Notifications</p>
+                  <p className="text-xs text-muted-foreground">
+                    Receive desktop alerts even when tab is minimized
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  {pushPermission === "denied" ? (
+                    <Badge variant="destructive" className="text-xs">Blocked</Badge>
+                  ) : pushPermission === "granted" ? (
+                    <Switch 
+                      checked={prefs.browserPushEnabled}
+                      onCheckedChange={(checked) => updatePref("browserPushEnabled", checked)}
+                    />
+                  ) : (
+                    <Button size="sm" variant="outline" onClick={handleEnablePush}>
+                      Enable
+                    </Button>
+                  )}
+                </div>
+              </div>
+              <Separator />
+              
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium text-sm">Quote Responses</p>
@@ -82,9 +181,13 @@ const Settings = () => {
                     Notify when quotes are viewed/accepted
                   </p>
                 </div>
-                <Switch defaultChecked />
+                <Switch 
+                  checked={prefs.quoteResponses}
+                  onCheckedChange={(checked) => updatePref("quoteResponses", checked)}
+                />
               </div>
               <Separator />
+              
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium text-sm">Daily Digest</p>
@@ -92,8 +195,21 @@ const Settings = () => {
                     Daily summary of lead activity
                   </p>
                 </div>
-                <Switch />
+                <Switch 
+                  checked={prefs.dailyDigest}
+                  onCheckedChange={(checked) => updatePref("dailyDigest", checked)}
+                />
               </div>
+              
+              <Separator />
+              
+              <Button 
+                variant="outline" 
+                className="w-full" 
+                onClick={testNotification}
+              >
+                Test Notification
+              </Button>
             </CardContent>
           </Card>
 
