@@ -189,6 +189,13 @@ export const MobileNav = () => {
               <NavSection title="SERVICES" items={servicesItems} onClose={handleClose} />
               
               <Link 
+                to="/rentals" 
+                className="flex items-center py-3 px-4 text-foreground font-semibold hover:bg-secondary transition-colors"
+                onClick={handleClose}
+              >
+                RENTALS
+              </Link>
+              <Link 
                 to="/blog" 
                 className="flex items-center py-3 px-4 text-foreground font-semibold hover:bg-secondary transition-colors"
                 onClick={handleClose}

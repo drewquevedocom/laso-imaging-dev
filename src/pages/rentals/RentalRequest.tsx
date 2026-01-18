@@ -17,6 +17,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { RentalAvailabilityCalendar } from "@/components/rentals/RentalAvailabilityCalendar";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -79,7 +80,6 @@ const RentalRequest = () => {
     setIsSubmitting(true);
 
     try {
-      // Build the message for the lead
       const message = `
 Equipment Rental Request:
 - Equipment Type: ${formData.equipment_type}
@@ -91,7 +91,6 @@ ${formData.facility_type ? `- Facility Type: ${formData.facility_type}` : ""}
 ${formData.notes ? `- Additional Notes: ${formData.notes}` : ""}
       `.trim();
 
-      // Insert as a lead
       const { error } = await supabase.from("leads").insert({
         name: formData.name,
         email: formData.email,
@@ -106,7 +105,6 @@ ${formData.notes ? `- Additional Notes: ${formData.notes}` : ""}
 
       if (error) throw error;
 
-      // Try to send notification (don't fail if it doesn't work)
       try {
         await supabase.functions.invoke("send-quote-notification", {
           body: {
@@ -175,7 +173,7 @@ ${formData.notes ? `- Additional Notes: ${formData.notes}` : ""}
       <Header />
 
       <main className="py-12 px-4 bg-muted/30 min-h-screen">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Header Section */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4">
@@ -183,17 +181,22 @@ ${formData.notes ? `- Additional Notes: ${formData.notes}` : ""}
               <span className="font-medium">Equipment Rental</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              Request Equipment Rental
+              Rent Medical Imaging Equipment
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Need temporary imaging equipment? We offer flexible rental terms for mobile and fixed systems with nationwide delivery and full support.
+              Need temporary imaging equipment? Check availability and request a rental with flexible terms, nationwide delivery, and full support.
             </p>
           </div>
 
+          {/* Availability Calendar Section */}
+          <div className="mb-12">
+            <RentalAvailabilityCalendar />
+          </div>
+
           {/* Form Card */}
-          <Card>
+          <Card id="rental-form">
             <CardHeader>
-              <CardTitle>Rental Details</CardTitle>
+              <CardTitle>Request a Rental</CardTitle>
               <CardDescription>
                 Tell us about your equipment needs and we'll provide a custom quote
               </CardDescription>
