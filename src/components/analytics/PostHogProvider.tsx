@@ -1,7 +1,6 @@
 import posthog from 'posthog-js';
 import { PostHogProvider as PHProvider } from 'posthog-js/react';
 import { useEffect, ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
 
 const POSTHOG_KEY = 'phc_uVFWYa2TC55CNAndoJwtY2aCfFP1htbHd10Igmi3XRP';
 const POSTHOG_HOST = 'https://us.i.posthog.com';
@@ -25,21 +24,6 @@ export const initPostHog = () => {
   }
 };
 
-// PostHog page view tracker for SPAs
-const PostHogPageView = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (posthog.__loaded) {
-      posthog.capture('$pageview', {
-        $current_url: window.location.href,
-      });
-    }
-  }, [location]);
-
-  return null;
-};
-
 interface PostHogProviderProps {
   children: ReactNode;
 }
@@ -51,7 +35,6 @@ export const PostHogProvider = ({ children }: PostHogProviderProps) => {
 
   return (
     <PHProvider client={posthog}>
-      <PostHogPageView />
       {children}
     </PHProvider>
   );
