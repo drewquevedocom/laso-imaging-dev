@@ -12,10 +12,18 @@ interface HeliumQuoteRequest {
   email: string;
   phone?: string;
   company?: string;
+  siteAddress: string;
+  city: string;
+  state: string;
+  customerPO?: string;
   manufacturer: string;
   model: string;
   heliumLevel?: string;
   lastRefillDate?: string;
+  heliumTypeLH?: boolean;
+  heliumTypeHG?: boolean;
+  quantityNeeded?: string;
+  dewarSize?: string;
   isEmergency: boolean;
   preferredDate?: string;
   message?: string;
@@ -28,6 +36,13 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const data: HeliumQuoteRequest = await req.json();
+    console.log("Received helium quote request:", data);
+
+    // Build helium type string
+    const heliumTypes = [];
+    if (data.heliumTypeLH) heliumTypes.push('Liquid Helium (LH)');
+    if (data.heliumTypeHG) heliumTypes.push('Helium Gas (HG)');
+    const heliumTypeStr = heliumTypes.length > 0 ? heliumTypes.join(', ') : 'Not specified';
 
     const emergencyBadge = data.isEmergency 
       ? '<span style="background: #dc2626; color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold;">🚨 EMERGENCY REQUEST</span>' 
@@ -56,13 +71,27 @@ const handler = async (req: Request): Promise<Response> => {
             <tr><td style="padding: 8px 0; color: #64748b;">Company:</td><td style="padding: 8px 0;">${data.company || 'Not provided'}</td></tr>
           </table>
           
+          <h2 style="color: #0c4a6e; margin-top: 24px;">Delivery Location</h2>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr><td style="padding: 8px 0; color: #64748b;">Site Address:</td><td style="padding: 8px 0; font-weight: 600;">${data.siteAddress}</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">City, State:</td><td style="padding: 8px 0;">${data.city}, ${data.state}</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Customer PO #:</td><td style="padding: 8px 0;">${data.customerPO || 'N/A'}</td></tr>
+          </table>
+          
           <h2 style="color: #0c4a6e; margin-top: 24px;">Equipment Details</h2>
           <table style="width: 100%; border-collapse: collapse;">
             <tr><td style="padding: 8px 0; color: #64748b;">Manufacturer:</td><td style="padding: 8px 0; font-weight: 600;">${data.manufacturer}</td></tr>
             <tr><td style="padding: 8px 0; color: #64748b;">Model:</td><td style="padding: 8px 0; font-weight: 600;">${data.model}</td></tr>
             <tr><td style="padding: 8px 0; color: #64748b;">Current Helium Level:</td><td style="padding: 8px 0;">${data.heliumLevel ? `${data.heliumLevel}%` : 'Not specified'}</td></tr>
             <tr><td style="padding: 8px 0; color: #64748b;">Last Refill Date:</td><td style="padding: 8px 0;">${data.lastRefillDate || 'Not specified'}</td></tr>
-            <tr><td style="padding: 8px 0; color: #64748b;">Preferred Service Date:</td><td style="padding: 8px 0;">${data.preferredDate || 'Flexible'}</td></tr>
+          </table>
+          
+          <h2 style="color: #0c4a6e; margin-top: 24px;">Helium Requirements</h2>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr><td style="padding: 8px 0; color: #64748b;">Helium Type:</td><td style="padding: 8px 0; font-weight: 600; color: #3b82f6;">${heliumTypeStr}</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Quantity Needed:</td><td style="padding: 8px 0;">${data.quantityNeeded || 'Not specified'}</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Dewar Size:</td><td style="padding: 8px 0;">${data.dewarSize || 'Not specified'}</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Preferred Delivery Date:</td><td style="padding: 8px 0;">${data.preferredDate || 'Flexible'}</td></tr>
           </table>
           
           ${data.message ? `
@@ -107,7 +136,11 @@ const handler = async (req: Request): Promise<Response> => {
           
           <div style="background: white; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0; margin: 16px 0;">
             <p style="margin: 0; font-weight: 600; color: #0c4a6e;">${data.manufacturer} ${data.model}</p>
+            <p style="margin: 8px 0 0 0; color: #64748b;">Delivery to: ${data.city}, ${data.state}</p>
             ${data.heliumLevel ? `<p style="margin: 8px 0 0 0; color: #64748b;">Current Helium Level: ${data.heliumLevel}%</p>` : ''}
+            <p style="margin: 8px 0 0 0; color: #3b82f6; font-weight: 500;">Helium Type: ${heliumTypeStr}</p>
+            ${data.quantityNeeded ? `<p style="margin: 8px 0 0 0; color: #64748b;">Quantity: ${data.quantityNeeded}</p>` : ''}
+            ${data.customerPO ? `<p style="margin: 8px 0 0 0; color: #64748b;">Your PO #: ${data.customerPO}</p>` : ''}
           </div>
           
           <p style="color: #64748b;">Our cryogenics team will review your request and provide a quote within <strong>24 hours</strong>. ${data.isEmergency ? 'Since you marked this as an emergency, we will prioritize your request.' : ''}</p>
@@ -141,7 +174,7 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "LASO Imaging <hello@noreply.lasoimaging.com>",
         to: ["info@lasoimaging.com"],
-        subject: `${data.isEmergency ? '🚨 EMERGENCY: ' : ''}Helium Fill Quote Request - ${data.manufacturer} ${data.model}`,
+        subject: `${data.isEmergency ? '🚨 EMERGENCY: ' : ''}Helium Fill Quote Request - ${data.manufacturer} ${data.model} (${data.city}, ${data.state})`,
         html: adminEmailHtml,
       }),
     });

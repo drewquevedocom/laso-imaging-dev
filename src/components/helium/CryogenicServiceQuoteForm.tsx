@@ -25,15 +25,49 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Loader2, CheckCircle2, Settings } from 'lucide-react';
 
+const US_STATES = [
+  { value: 'AL', label: 'Alabama' }, { value: 'AK', label: 'Alaska' },
+  { value: 'AZ', label: 'Arizona' }, { value: 'AR', label: 'Arkansas' },
+  { value: 'CA', label: 'California' }, { value: 'CO', label: 'Colorado' },
+  { value: 'CT', label: 'Connecticut' }, { value: 'DE', label: 'Delaware' },
+  { value: 'FL', label: 'Florida' }, { value: 'GA', label: 'Georgia' },
+  { value: 'HI', label: 'Hawaii' }, { value: 'ID', label: 'Idaho' },
+  { value: 'IL', label: 'Illinois' }, { value: 'IN', label: 'Indiana' },
+  { value: 'IA', label: 'Iowa' }, { value: 'KS', label: 'Kansas' },
+  { value: 'KY', label: 'Kentucky' }, { value: 'LA', label: 'Louisiana' },
+  { value: 'ME', label: 'Maine' }, { value: 'MD', label: 'Maryland' },
+  { value: 'MA', label: 'Massachusetts' }, { value: 'MI', label: 'Michigan' },
+  { value: 'MN', label: 'Minnesota' }, { value: 'MS', label: 'Mississippi' },
+  { value: 'MO', label: 'Missouri' }, { value: 'MT', label: 'Montana' },
+  { value: 'NE', label: 'Nebraska' }, { value: 'NV', label: 'Nevada' },
+  { value: 'NH', label: 'New Hampshire' }, { value: 'NJ', label: 'New Jersey' },
+  { value: 'NM', label: 'New Mexico' }, { value: 'NY', label: 'New York' },
+  { value: 'NC', label: 'North Carolina' }, { value: 'ND', label: 'North Dakota' },
+  { value: 'OH', label: 'Ohio' }, { value: 'OK', label: 'Oklahoma' },
+  { value: 'OR', label: 'Oregon' }, { value: 'PA', label: 'Pennsylvania' },
+  { value: 'RI', label: 'Rhode Island' }, { value: 'SC', label: 'South Carolina' },
+  { value: 'SD', label: 'South Dakota' }, { value: 'TN', label: 'Tennessee' },
+  { value: 'TX', label: 'Texas' }, { value: 'UT', label: 'Utah' },
+  { value: 'VT', label: 'Vermont' }, { value: 'VA', label: 'Virginia' },
+  { value: 'WA', label: 'Washington' }, { value: 'WV', label: 'West Virginia' },
+  { value: 'WI', label: 'Wisconsin' }, { value: 'WY', label: 'Wyoming' },
+];
+
 const cryogenicFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters').max(100),
   email: z.string().email('Please enter a valid email').max(255),
   phone: z.string().max(20).optional(),
   company: z.string().max(200).optional(),
+  siteAddress: z.string().min(5, 'Please enter the site address'),
+  city: z.string().min(2, 'Please enter the city'),
+  state: z.string().min(2, 'Please select a state'),
+  customerPO: z.string().max(50).optional(),
   serviceType: z.string().min(1, 'Please select a service type'),
   manufacturer: z.string().min(1, 'Please select a manufacturer'),
   model: z.string().min(1, 'Please enter the equipment model').max(100),
   issueType: z.string().optional(),
+  needsLN: z.boolean().default(false),
+  needsNG: z.boolean().default(false),
   isEmergency: z.boolean().default(false),
   preferredDate: z.string().optional(),
   message: z.string().max(1000).optional(),
@@ -82,10 +116,16 @@ const CryogenicServiceQuoteForm = ({ sourcePage }: CryogenicServiceQuoteFormProp
       email: '',
       phone: '',
       company: '',
+      siteAddress: '',
+      city: '',
+      state: '',
+      customerPO: '',
       serviceType: '',
       manufacturer: '',
       model: '',
       issueType: '',
+      needsLN: false,
+      needsNG: false,
       isEmergency: false,
       preferredDate: '',
       message: '',
@@ -97,11 +137,19 @@ const CryogenicServiceQuoteForm = ({ sourcePage }: CryogenicServiceQuoteFormProp
   const onSubmit = async (data: CryogenicFormData) => {
     setIsSubmitting(true);
     try {
+      // Build gas needs string
+      const gasNeeds = [];
+      if (data.needsLN) gasNeeds.push('Liquid Nitrogen (LN)');
+      if (data.needsNG) gasNeeds.push('Nitrogen Gas (NG)');
+
       // Prepare the message with service details
       const serviceDetails = `
 Service Type: ${data.serviceType}
 Equipment: ${data.manufacturer} - ${data.model}
+Site Address: ${data.siteAddress}, ${data.city}, ${data.state}
+Customer PO: ${data.customerPO || 'N/A'}
 Issue Type: ${data.issueType || 'Not specified'}
+Additional Gas Needs: ${gasNeeds.length > 0 ? gasNeeds.join(', ') : 'None'}
 Emergency: ${data.isEmergency ? 'Yes' : 'No'}
 Preferred Date: ${data.preferredDate || 'Flexible'}
 Notes: ${data.message || 'None'}
@@ -132,10 +180,16 @@ Notes: ${data.message || 'None'}
           email: data.email,
           phone: data.phone,
           company: data.company,
+          siteAddress: data.siteAddress,
+          city: data.city,
+          state: data.state,
+          customerPO: data.customerPO,
           serviceType: data.serviceType,
           manufacturer: data.manufacturer,
           model: data.model,
           issueType: data.issueType,
+          needsLN: data.needsLN,
+          needsNG: data.needsNG,
           isEmergency: data.isEmergency,
           preferredDate: data.preferredDate,
           message: data.message,
@@ -144,7 +198,6 @@ Notes: ${data.message || 'None'}
 
       if (emailError) {
         console.error('Email notification error:', emailError);
-        // Don't throw - the lead was saved
       }
 
       setIsSuccess(true);
@@ -189,6 +242,7 @@ Notes: ${data.message || 'None'}
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {/* Contact Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
@@ -247,6 +301,80 @@ Notes: ${data.message || 'None'}
             />
           </div>
 
+          {/* Service Location Section */}
+          <div className="border-t border-border pt-4 mt-4">
+            <h4 className="text-sm font-semibold text-foreground mb-3">Service Location</h4>
+          </div>
+
+          <FormField
+            control={form.control}
+            name="siteAddress"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Site Address *</FormLabel>
+                <FormControl>
+                  <Input placeholder="123 Medical Center Drive" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>City *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Los Angeles" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>State *</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select state" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {US_STATES.map((state) => (
+                        <SelectItem key={state.value} value={state.value}>
+                          {state.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={form.control}
+            name="customerPO"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Customer PO # (Optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="PO-12345" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Service Information */}
           <div className="border-t border-border pt-4 mt-4">
             <h4 className="text-sm font-semibold text-foreground mb-3">Service Information</h4>
           </div>
@@ -354,6 +482,41 @@ Notes: ${data.message || 'None'}
                 </FormItem>
               )}
             />
+          </div>
+
+          {/* Additional Cryogenic Supplies */}
+          <div className="space-y-3">
+            <FormLabel className="text-sm font-medium">Additional Cryogenic Supplies Needed</FormLabel>
+            <div className="flex flex-wrap gap-4">
+              <FormField
+                control={form.control}
+                name="needsLN"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                    </FormControl>
+                    <FormLabel className="font-normal cursor-pointer">
+                      Liquid Nitrogen (LN)
+                    </FormLabel>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="needsNG"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                    </FormControl>
+                    <FormLabel className="font-normal cursor-pointer">
+                      Nitrogen Gas (NG)
+                    </FormLabel>
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
 
           <FormField

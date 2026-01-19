@@ -25,15 +25,59 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Loader2, CheckCircle2, Thermometer } from 'lucide-react';
 
+const US_STATES = [
+  { value: 'AL', label: 'Alabama' }, { value: 'AK', label: 'Alaska' },
+  { value: 'AZ', label: 'Arizona' }, { value: 'AR', label: 'Arkansas' },
+  { value: 'CA', label: 'California' }, { value: 'CO', label: 'Colorado' },
+  { value: 'CT', label: 'Connecticut' }, { value: 'DE', label: 'Delaware' },
+  { value: 'FL', label: 'Florida' }, { value: 'GA', label: 'Georgia' },
+  { value: 'HI', label: 'Hawaii' }, { value: 'ID', label: 'Idaho' },
+  { value: 'IL', label: 'Illinois' }, { value: 'IN', label: 'Indiana' },
+  { value: 'IA', label: 'Iowa' }, { value: 'KS', label: 'Kansas' },
+  { value: 'KY', label: 'Kentucky' }, { value: 'LA', label: 'Louisiana' },
+  { value: 'ME', label: 'Maine' }, { value: 'MD', label: 'Maryland' },
+  { value: 'MA', label: 'Massachusetts' }, { value: 'MI', label: 'Michigan' },
+  { value: 'MN', label: 'Minnesota' }, { value: 'MS', label: 'Mississippi' },
+  { value: 'MO', label: 'Missouri' }, { value: 'MT', label: 'Montana' },
+  { value: 'NE', label: 'Nebraska' }, { value: 'NV', label: 'Nevada' },
+  { value: 'NH', label: 'New Hampshire' }, { value: 'NJ', label: 'New Jersey' },
+  { value: 'NM', label: 'New Mexico' }, { value: 'NY', label: 'New York' },
+  { value: 'NC', label: 'North Carolina' }, { value: 'ND', label: 'North Dakota' },
+  { value: 'OH', label: 'Ohio' }, { value: 'OK', label: 'Oklahoma' },
+  { value: 'OR', label: 'Oregon' }, { value: 'PA', label: 'Pennsylvania' },
+  { value: 'RI', label: 'Rhode Island' }, { value: 'SC', label: 'South Carolina' },
+  { value: 'SD', label: 'South Dakota' }, { value: 'TN', label: 'Tennessee' },
+  { value: 'TX', label: 'Texas' }, { value: 'UT', label: 'Utah' },
+  { value: 'VT', label: 'Vermont' }, { value: 'VA', label: 'Virginia' },
+  { value: 'WA', label: 'Washington' }, { value: 'WV', label: 'West Virginia' },
+  { value: 'WI', label: 'Wisconsin' }, { value: 'WY', label: 'Wyoming' },
+];
+
+const DEWAR_SIZES = [
+  '100L (Standard)',
+  '180L',
+  '250L (Popular)',
+  '500L (Large)',
+  'Custom/Other',
+];
+
 const heliumFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters').max(100),
   email: z.string().email('Please enter a valid email').max(255),
   phone: z.string().max(20).optional(),
   company: z.string().max(200).optional(),
+  siteAddress: z.string().min(5, 'Please enter the site address'),
+  city: z.string().min(2, 'Please enter the city'),
+  state: z.string().min(2, 'Please select a state'),
+  customerPO: z.string().max(50).optional(),
   manufacturer: z.string().min(1, 'Please select a manufacturer'),
   model: z.string().min(1, 'Please enter the equipment model').max(100),
   heliumLevel: z.string().optional(),
   lastRefillDate: z.string().optional(),
+  heliumTypeLH: z.boolean().default(false),
+  heliumTypeHG: z.boolean().default(false),
+  quantityNeeded: z.string().optional(),
+  dewarSize: z.string().optional(),
   isEmergency: z.boolean().default(false),
   preferredDate: z.string().optional(),
   message: z.string().max(1000).optional(),
@@ -67,10 +111,18 @@ const HeliumQuoteForm = ({ sourcePage }: HeliumQuoteFormProps) => {
       email: '',
       phone: '',
       company: '',
+      siteAddress: '',
+      city: '',
+      state: '',
+      customerPO: '',
       manufacturer: '',
       model: '',
       heliumLevel: '',
       lastRefillDate: '',
+      heliumTypeLH: false,
+      heliumTypeHG: false,
+      quantityNeeded: '',
+      dewarSize: '',
       isEmergency: false,
       preferredDate: '',
       message: '',
@@ -82,11 +134,21 @@ const HeliumQuoteForm = ({ sourcePage }: HeliumQuoteFormProps) => {
   const onSubmit = async (data: HeliumFormData) => {
     setIsSubmitting(true);
     try {
+      // Build helium type string
+      const heliumTypes = [];
+      if (data.heliumTypeLH) heliumTypes.push('Liquid Helium (LH)');
+      if (data.heliumTypeHG) heliumTypes.push('Helium Gas (HG)');
+
       // Prepare the message with equipment details
       const equipmentDetails = `
 Equipment: ${data.manufacturer} - ${data.model}
+Site Address: ${data.siteAddress}, ${data.city}, ${data.state}
+Customer PO: ${data.customerPO || 'N/A'}
 Helium Level: ${data.heliumLevel || 'Not specified'}%
 Last Refill: ${data.lastRefillDate || 'Not specified'}
+Helium Type: ${heliumTypes.length > 0 ? heliumTypes.join(', ') : 'Not specified'}
+Quantity Needed: ${data.quantityNeeded || 'Not specified'}
+Dewar Size: ${data.dewarSize || 'Not specified'}
 Emergency: ${data.isEmergency ? 'Yes' : 'No'}
 Preferred Date: ${data.preferredDate || 'Flexible'}
 Notes: ${data.message || 'None'}
@@ -117,10 +179,18 @@ Notes: ${data.message || 'None'}
           email: data.email,
           phone: data.phone,
           company: data.company,
+          siteAddress: data.siteAddress,
+          city: data.city,
+          state: data.state,
+          customerPO: data.customerPO,
           manufacturer: data.manufacturer,
           model: data.model,
           heliumLevel: data.heliumLevel,
           lastRefillDate: data.lastRefillDate,
+          heliumTypeLH: data.heliumTypeLH,
+          heliumTypeHG: data.heliumTypeHG,
+          quantityNeeded: data.quantityNeeded,
+          dewarSize: data.dewarSize,
           isEmergency: data.isEmergency,
           preferredDate: data.preferredDate,
           message: data.message,
@@ -129,7 +199,6 @@ Notes: ${data.message || 'None'}
 
       if (emailError) {
         console.error('Email notification error:', emailError);
-        // Don't throw - the lead was saved
       }
 
       setIsSuccess(true);
@@ -174,6 +243,7 @@ Notes: ${data.message || 'None'}
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {/* Contact Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
@@ -232,6 +302,80 @@ Notes: ${data.message || 'None'}
             />
           </div>
 
+          {/* Delivery Location Section */}
+          <div className="border-t border-border pt-4 mt-4">
+            <h4 className="text-sm font-semibold text-foreground mb-3">Delivery Location</h4>
+          </div>
+
+          <FormField
+            control={form.control}
+            name="siteAddress"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Site Address *</FormLabel>
+                <FormControl>
+                  <Input placeholder="123 Medical Center Drive" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>City *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Los Angeles" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>State *</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select state" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {US_STATES.map((state) => (
+                        <SelectItem key={state.value} value={state.value}>
+                          {state.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={form.control}
+            name="customerPO"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Customer PO # (Optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="PO-12345" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Equipment Information */}
           <div className="border-t border-border pt-4 mt-4">
             <h4 className="text-sm font-semibold text-foreground mb-3">Equipment Information</h4>
           </div>
@@ -305,13 +449,92 @@ Notes: ${data.message || 'None'}
             />
           </div>
 
+          {/* Helium Requirements */}
+          <div className="border-t border-border pt-4 mt-4">
+            <h4 className="text-sm font-semibold text-foreground mb-3">Helium Requirements</h4>
+          </div>
+
+          <div className="space-y-3">
+            <FormLabel className="text-sm font-medium">Helium Type Needed</FormLabel>
+            <div className="flex flex-wrap gap-4">
+              <FormField
+                control={form.control}
+                name="heliumTypeLH"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                    </FormControl>
+                    <FormLabel className="font-normal cursor-pointer">
+                      Liquid Helium (LH)
+                    </FormLabel>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="heliumTypeHG"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                    </FormControl>
+                    <FormLabel className="font-normal cursor-pointer">
+                      Helium Gas (HG)
+                    </FormLabel>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="quantityNeeded"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantity Needed (Liters/CF)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 250 liters" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="dewarSize"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Dewar Size Preference</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select dewar size" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {DEWAR_SIZES.map((size) => (
+                        <SelectItem key={size} value={size}>
+                          {size}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
               name="preferredDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Preferred Service Date</FormLabel>
+                  <FormLabel>Preferred Delivery Date</FormLabel>
                   <FormControl>
                     <Input type="date" {...field} />
                   </FormControl>
