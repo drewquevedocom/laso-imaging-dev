@@ -68,3 +68,6 @@ verify_jwt = false
 
 [functions.notify-offer-approval]
 verify_jwt = false
+
+[functions.send-offer-decision-notification]
+verify_jwt = false

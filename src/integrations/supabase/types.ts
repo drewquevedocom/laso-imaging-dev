@@ -1228,6 +1228,8 @@ export type Database = {
           approved_by: string | null
           competitor_info: string | null
           created_at: string | null
+          created_by: string | null
+          created_by_email: string | null
           customer_company: string | null
           customer_email: string
           customer_id: string | null
@@ -1251,6 +1253,8 @@ export type Database = {
           approved_by?: string | null
           competitor_info?: string | null
           created_at?: string | null
+          created_by?: string | null
+          created_by_email?: string | null
           customer_company?: string | null
           customer_email: string
           customer_id?: string | null
@@ -1274,6 +1278,8 @@ export type Database = {
           approved_by?: string | null
           competitor_info?: string | null
           created_at?: string | null
+          created_by?: string | null
+          created_by_email?: string | null
           customer_company?: string | null
           customer_email?: string
           customer_id?: string | null

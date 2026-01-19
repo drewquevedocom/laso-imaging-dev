@@ -22,6 +22,8 @@ export interface ProductOffer {
   requires_approval: boolean;
   approved_by?: string;
   approved_at?: string;
+  created_by?: string;
+  created_by_email?: string;
   created_at: string;
   updated_at: string;
 }
