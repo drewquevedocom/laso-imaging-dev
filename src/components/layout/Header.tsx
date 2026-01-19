@@ -10,8 +10,7 @@ import { MobileNav } from './MobileNav';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 import { trackPhoneCall } from '@/components/analytics/GoogleAnalytics';
 
-import logoLasoDark from '@/assets/logo-laso.png';
-import logoLasoLight from '@/assets/laso-logo-light.png';
+import logoLasoHome from '@/assets/logo-laso-home.png';
 import userIcon from '@/assets/icons/user.png';
 import messageIcon from '@/assets/icons/message.png';
 
@@ -124,14 +123,9 @@ export const Header = () => {
             {/* Logo - 30% bigger */}
             <Link to="/" className="flex-shrink-0">
               <img 
-                src={logoLasoLight} 
+                src={logoLasoHome} 
                 alt="LASO Imaging Solutions" 
-                className="h-16 md:h-20 w-auto block dark:hidden"
-              />
-              <img 
-                src={logoLasoDark} 
-                alt="LASO Imaging Solutions" 
-                className="h-16 md:h-20 w-auto hidden dark:block brightness-0 invert"
+                className="h-16 md:h-20 w-auto"
               />
             </Link>
 

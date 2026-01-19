@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "next-themes";
 import { PostHogProvider } from "@/components/analytics/PostHogProvider";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Contact from "./pages/Contact";
@@ -14,7 +15,6 @@ import Systems3T from "./pages/equipment/Systems3T";
 import BrandPage from "./pages/equipment/brand/BrandPage";
 import EquipmentCategory from "./pages/equipment/EquipmentCategory";
 import AdminNotifications from "./pages/admin/Notifications";
-import AdminInventory from "./pages/admin/Inventory";
 import AdminQuotes from "./pages/admin/Quotes";
 import QuoteBuilder from "./pages/admin/QuoteBuilder";
 import AdminDashboard from "./pages/admin/Dashboard";
@@ -63,7 +63,6 @@ import Communications from "./pages/admin/Communications";
 import SalesSearch from "./pages/admin/SalesSearch";
 import Settings from "./pages/admin/Settings";
 import Customers from "./pages/admin/Customers";
-import SellRequests from "./pages/admin/SellRequests";
 import EmailTemplates from "./pages/admin/EmailTemplates";
 import EquipmentHub from "./pages/admin/EquipmentHub";
 import PricingRules from "./pages/admin/PricingRules";
@@ -74,12 +73,13 @@ import OfferApprovals from "./pages/admin/OfferApprovals";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-        <PostHogProvider>
-          <TooltipProvider>
-          <Toaster />
+  <ErrorBoundary>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <PostHogProvider>
+            <TooltipProvider>
+              <Toaster />
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
@@ -186,22 +186,13 @@ const App = () => (
             </Routes>
             <ChatbotWidget />
             <CookieConsent />
-          </BrowserRouter>
-          </TooltipProvider>
-        </PostHogProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
-  </HelmetProvider>
-);
-
-// Placeholder component for admin pages not yet implemented
-const PlaceholderPage = ({ title }: { title: string }) => (
-  <div className="flex items-center justify-center h-[50vh]">
-    <div className="text-center">
-      <h1 className="text-2xl font-bold mb-2">{title}</h1>
-      <p className="text-muted-foreground">This section is coming soon.</p>
-    </div>
-  </div>
+            </BrowserRouter>
+            </TooltipProvider>
+          </PostHogProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
+  </ErrorBoundary>
 );
 
 export default App;
