@@ -46,6 +46,7 @@ import PartsSearch from "./pages/search/PartsSearch";
 import Sitemap from "./pages/Sitemap";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import GoogleAnalytics from "./components/analytics/GoogleAnalytics";
+import PostHogPageView from "./components/analytics/PostHogPageView";
 import ChatbotWidget from "./components/chat/ChatbotWidget";
 import CustomerAuth from "./pages/auth/CustomerAuth";
 import CustomerPortal from "./pages/portal/CustomerPortal";
@@ -83,6 +84,7 @@ const App = () => (
           <BrowserRouter>
             <ScrollToTop />
             <GoogleAnalytics />
+            <PostHogPageView />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/contact" element={<Contact />} />
