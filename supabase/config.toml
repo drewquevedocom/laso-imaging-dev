@@ -74,3 +74,9 @@ verify_jwt = false
 
 [functions.send-customer-offer-approved]
 verify_jwt = false
+
+[functions.send-customer-offer-rejected]
+verify_jwt = false
+
+[functions.send-offer-followup-reminder]
+verify_jwt = false
