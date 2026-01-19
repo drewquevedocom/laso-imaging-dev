@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { format, formatDistanceToNow } from "date-fns";
 import { 
   Search, 
-  Filter, 
   Check, 
   X, 
   Clock, 
@@ -13,20 +12,23 @@ import {
   CheckCircle2,
   XCircle,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Loader2
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useApproveOffer, useRejectOffer } from "@/hooks/useOfferApprovals";
 import ApprovalActionModal from "@/components/admin/offers/ApprovalActionModal";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
 
 interface OfferWithInventory {
   id: string;
@@ -61,7 +63,10 @@ const OfferApprovals = () => {
   const [selectedOffer, setSelectedOffer] = useState<OfferWithInventory | null>(null);
   const [actionType, setActionType] = useState<"approve" | "reject" | null>(null);
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+  const [selectedOffers, setSelectedOffers] = useState<Set<string>>(new Set());
+  const [bulkProcessing, setBulkProcessing] = useState(false);
 
+  const queryClient = useQueryClient();
   const approveOffer = useApproveOffer();
   const rejectOffer = useRejectOffer();
 
@@ -154,6 +159,9 @@ const OfferApprovals = () => {
     return sortDirection === "desc" ? -comparison : comparison;
   });
 
+  // Only show pending offers in selection
+  const selectableOffers = sortedOffers.filter(o => o.status === "pending" && o.requires_approval);
+
   const handleAction = (offer: OfferWithInventory, action: "approve" | "reject") => {
     setSelectedOffer(offer);
     setActionType(action);
@@ -180,6 +188,58 @@ const OfferApprovals = () => {
       newExpanded.add(id);
     }
     setExpandedRows(newExpanded);
+  };
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedOffers(new Set(selectableOffers.map(o => o.id)));
+    } else {
+      setSelectedOffers(new Set());
+    }
+  };
+
+  const handleSelectOffer = (offerId: string, checked: boolean) => {
+    const newSelected = new Set(selectedOffers);
+    if (checked) {
+      newSelected.add(offerId);
+    } else {
+      newSelected.delete(offerId);
+    }
+    setSelectedOffers(newSelected);
+  };
+
+  const handleBulkAction = async (action: "approve" | "reject") => {
+    if (selectedOffers.size === 0) return;
+
+    setBulkProcessing(true);
+    const offerIds = Array.from(selectedOffers);
+    let successCount = 0;
+    let failCount = 0;
+
+    for (const offerId of offerIds) {
+      try {
+        if (action === "approve") {
+          await approveOffer.mutateAsync({ offerId, notes: "Bulk approved" });
+        } else {
+          await rejectOffer.mutateAsync({ offerId, reason: "Bulk rejected" });
+        }
+        successCount++;
+      } catch (error) {
+        failCount++;
+        console.error(`Failed to ${action} offer ${offerId}:`, error);
+      }
+    }
+
+    setBulkProcessing(false);
+    setSelectedOffers(new Set());
+    
+    if (failCount === 0) {
+      toast.success(`Successfully ${action}d ${successCount} offers`);
+    } else {
+      toast.warning(`${action === "approve" ? "Approved" : "Rejected"} ${successCount} offers, ${failCount} failed`);
+    }
+
+    queryClient.invalidateQueries({ queryKey: ["all-offers"] });
   };
 
   const getStatusBadge = (status: string | null) => {
@@ -271,6 +331,41 @@ const OfferApprovals = () => {
         </CardHeader>
 
         <CardContent>
+          {/* Bulk Action Bar */}
+          {selectedOffers.size > 0 && (
+            <div className="flex items-center gap-4 p-3 mb-4 bg-muted rounded-lg border">
+              <span className="text-sm font-medium">{selectedOffers.size} selected</span>
+              <div className="flex gap-2">
+                <Button 
+                  size="sm" 
+                  className="bg-green-600 hover:bg-green-700"
+                  onClick={() => handleBulkAction("approve")}
+                  disabled={bulkProcessing}
+                >
+                  {bulkProcessing ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <Check className="h-4 w-4 mr-1" />}
+                  Approve All
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="destructive"
+                  onClick={() => handleBulkAction("reject")}
+                  disabled={bulkProcessing}
+                >
+                  {bulkProcessing ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <X className="h-4 w-4 mr-1" />}
+                  Reject All
+                </Button>
+              </div>
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                onClick={() => setSelectedOffers(new Set())}
+                disabled={bulkProcessing}
+              >
+                Clear Selection
+              </Button>
+            </div>
+          )}
+
           {isLoading ? (
             <div className="space-y-3">
               {[1, 2, 3].map(i => <Skeleton key={i} className="h-16 w-full" />)}
@@ -284,6 +379,14 @@ const OfferApprovals = () => {
             <Table>
               <TableHeader>
                 <TableRow>
+                  {activeTab === "pending" && (
+                    <TableHead className="w-10">
+                      <Checkbox
+                        checked={selectableOffers.length > 0 && selectedOffers.size === selectableOffers.length}
+                        onCheckedChange={(checked) => handleSelectAll(!!checked)}
+                      />
+                    </TableHead>
+                  )}
                   <TableHead className="w-10"></TableHead>
                   <TableHead>Customer</TableHead>
                   <TableHead>Product</TableHead>
@@ -299,11 +402,22 @@ const OfferApprovals = () => {
                 {sortedOffers.map((offer) => {
                   const discount = getDiscountPercent(offer);
                   const isExpanded = expandedRows.has(offer.id);
+                  const isSelectable = offer.status === "pending" && offer.requires_approval;
 
                   return (
                     <Collapsible key={offer.id} asChild open={isExpanded}>
                       <>
                         <TableRow className="cursor-pointer hover:bg-muted/50" onClick={() => toggleRowExpand(offer.id)}>
+                          {activeTab === "pending" && (
+                            <TableCell onClick={(e) => e.stopPropagation()}>
+                              {isSelectable && (
+                                <Checkbox
+                                  checked={selectedOffers.has(offer.id)}
+                                  onCheckedChange={(checked) => handleSelectOffer(offer.id, !!checked)}
+                                />
+                              )}
+                            </TableCell>
+                          )}
                           <TableCell>
                             <CollapsibleTrigger asChild>
                               <Button variant="ghost" size="icon" className="h-6 w-6">
@@ -374,7 +488,7 @@ const OfferApprovals = () => {
                         </TableRow>
                         <CollapsibleContent asChild>
                           <TableRow className="bg-muted/30">
-                            <TableCell colSpan={9} className="py-4">
+                            <TableCell colSpan={activeTab === "pending" ? 10 : 9} className="py-4">
                               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                                 <div>
                                   <p className="text-muted-foreground text-xs mb-1">List Price</p>

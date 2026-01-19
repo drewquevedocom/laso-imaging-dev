@@ -29,9 +29,9 @@ const equipmentItems = [
   { 
     title: 'MOBILE SOLUTIONS', 
     items: [
-      { label: 'Mobile MRI Rental', href: '/services/mobile-rental' },
+      { label: 'Mobile MRI Rental', href: '/services/mobile-mri-rental' },
       { label: 'Mobile MRI Systems', href: '/equipment/mobile-mri-systems' },
-      { label: 'Interim Projects', href: '/services/interim-solutions' },
+      { label: 'Interim Projects', href: '/services/interim-projects' },
     ]
   },
   { 
@@ -87,17 +87,17 @@ const servicesItems = [
   { 
     title: 'MAINTENANCE', 
     items: [
-      { label: 'Preventive Maintenance', href: '/services/maintenance' },
-      { label: 'Emergency Repairs', href: '/services/repairs' },
-      { label: 'Software Updates', href: '/services/software' },
+      { label: 'Preventive Maintenance', href: '/services/preventive-maintenance' },
+      { label: 'Emergency Repairs', href: '/services/emergency-repairs' },
+      { label: 'Software Updates', href: '/services/software-updates' },
     ]
   },
   { 
     title: 'CRYOGENIC', 
     items: [
-      { label: 'Helium Refills', href: '/services/helium' },
-      { label: 'Cold Head Service', href: '/services/cold-head' },
-      { label: 'System Recovery', href: '/services/recovery' },
+      { label: 'Helium Refills', href: '/services/helium-refills' },
+      { label: 'Cold Head Service', href: '/services/cold-head-service' },
+      { label: 'System Recovery', href: '/services/system-recovery' },
     ]
   }
 ];
