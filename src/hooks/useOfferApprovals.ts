@@ -109,14 +109,14 @@ export function useApproveOffer() {
 
       if (error) throw error;
 
+      const inventory = offer?.inventory as { product_name: string; oem: string } | null;
+      const listPrice = offer?.list_price || 0;
+      const discountPercent = listPrice > 0 
+        ? ((listPrice - (offer?.offer_amount || 0)) / listPrice) * 100 
+        : 0;
+
       // Send notification to sales rep
       if (offer?.created_by_email) {
-        const inventory = offer.inventory as { product_name: string; oem: string } | null;
-        const listPrice = offer.list_price || 0;
-        const discountPercent = listPrice > 0 
-          ? ((listPrice - offer.offer_amount) / listPrice) * 100 
-          : 0;
-
         try {
           await supabase.functions.invoke('send-offer-decision-notification', {
             body: {
@@ -137,12 +137,34 @@ export function useApproveOffer() {
           console.error("Failed to send approval notification:", error);
         }
       }
+
+      // Send notification to customer
+      if (offer?.customer_email) {
+        try {
+          await supabase.functions.invoke('send-customer-offer-approved', {
+            body: {
+              customerEmail: offer.customer_email,
+              customerName: offer.customer_name,
+              productName: inventory?.product_name || 'Unknown Product',
+              productOem: inventory?.oem || '',
+              approvedAmount: offer.offer_amount,
+              listPrice,
+              discountPercent,
+              salesRepEmail: offer.created_by_email,
+              validityDays: 30,
+            }
+          });
+        } catch (error) {
+          console.error("Failed to send customer notification:", error);
+        }
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["pending-approvals"] });
       queryClient.invalidateQueries({ queryKey: ["pending-approvals-count"] });
       queryClient.invalidateQueries({ queryKey: ["product-offers"] });
       queryClient.invalidateQueries({ queryKey: ["all-offers"] });
+      queryClient.invalidateQueries({ queryKey: ["offer-metrics"] });
       toast.success("Offer approved successfully");
     },
     onError: (error) => {
@@ -224,6 +246,7 @@ export function useRejectOffer() {
       queryClient.invalidateQueries({ queryKey: ["pending-approvals-count"] });
       queryClient.invalidateQueries({ queryKey: ["product-offers"] });
       queryClient.invalidateQueries({ queryKey: ["all-offers"] });
+      queryClient.invalidateQueries({ queryKey: ["offer-metrics"] });
       toast.success("Offer rejected");
     },
     onError: (error) => {

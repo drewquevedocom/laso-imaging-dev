@@ -39,6 +39,7 @@ import LeadTriageBoard from "@/components/admin/LeadTriageBoard";
 import HotListWidget from "@/components/admin/HotListWidget";
 import UpcomingSiteVisitsWidget from "@/components/admin/UpcomingSiteVisitsWidget";
 import PendingApprovalsWidget from "@/components/admin/offers/PendingApprovalsWidget";
+import OfferMetricsCard from "@/components/admin/offers/OfferMetricsCard";
 const CHART_COLORS = [
   "hsl(209, 100%, 45%)",
   "hsl(209, 69%, 55%)",
@@ -421,6 +422,7 @@ const AdminDashboard = () => {
       {/* Widgets - Pinned Right */}
       <div className="w-80 flex-shrink-0 hidden lg:block">
         <div className="sticky top-6 space-y-4">
+          <OfferMetricsCard />
           <PendingApprovalsWidget />
           <HotListWidget />
           <UpcomingSiteVisitsWidget />
