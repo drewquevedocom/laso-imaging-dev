@@ -13,10 +13,16 @@ interface CryogenicQuoteRequest {
   email: string;
   phone?: string;
   company?: string;
+  siteAddress: string;
+  city: string;
+  state: string;
+  customerPO?: string;
   serviceType: string;
   manufacturer: string;
   model: string;
   issueType?: string;
+  needsLN?: boolean;
+  needsNG?: boolean;
   isEmergency?: boolean;
   preferredDate?: string;
   message?: string;
@@ -31,6 +37,12 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const data: CryogenicQuoteRequest = await req.json();
     console.log("Received cryogenic quote request:", data);
+
+    // Build gas needs string
+    const gasNeeds = [];
+    if (data.needsLN) gasNeeds.push('Liquid Nitrogen (LN)');
+    if (data.needsNG) gasNeeds.push('Nitrogen Gas (NG)');
+    const gasNeedsStr = gasNeeds.length > 0 ? gasNeeds.join(', ') : 'None';
 
     const emergencyBadge = data.isEmergency 
       ? '<span style="background-color: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold;">🚨 EMERGENCY</span>' 
@@ -59,6 +71,13 @@ const handler = async (req: Request): Promise<Response> => {
             <tr><td style="padding: 8px 0; color: #64748b;">Company:</td><td style="padding: 8px 0;">${data.company || 'Not provided'}</td></tr>
           </table>
           
+          <h2 style="color: #0c4a6e; margin-top: 24px;">Service Location</h2>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr><td style="padding: 8px 0; color: #64748b;">Site Address:</td><td style="padding: 8px 0; font-weight: 600;">${data.siteAddress}</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">City, State:</td><td style="padding: 8px 0;">${data.city}, ${data.state}</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Customer PO #:</td><td style="padding: 8px 0;">${data.customerPO || 'N/A'}</td></tr>
+          </table>
+          
           <h2 style="color: #0c4a6e; margin-top: 24px;">Service Details</h2>
           <table style="width: 100%; border-collapse: collapse;">
             <tr><td style="padding: 8px 0; color: #64748b;">Service Type:</td><td style="padding: 8px 0; font-weight: 600; color: #3b82f6;">${data.serviceType}</td></tr>
@@ -66,6 +85,11 @@ const handler = async (req: Request): Promise<Response> => {
             <tr><td style="padding: 8px 0; color: #64748b;">Model:</td><td style="padding: 8px 0; font-weight: 600;">${data.model}</td></tr>
             <tr><td style="padding: 8px 0; color: #64748b;">Issue Type:</td><td style="padding: 8px 0;">${data.issueType || 'Not specified'}</td></tr>
             <tr><td style="padding: 8px 0; color: #64748b;">Preferred Date:</td><td style="padding: 8px 0;">${data.preferredDate || 'Flexible'}</td></tr>
+          </table>
+          
+          <h2 style="color: #0c4a6e; margin-top: 24px;">Additional Supplies</h2>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr><td style="padding: 8px 0; color: #64748b;">Cryogenic Supplies Needed:</td><td style="padding: 8px 0; font-weight: 500; color: #3b82f6;">${gasNeedsStr}</td></tr>
           </table>
           
           ${data.message ? `
@@ -108,6 +132,14 @@ const handler = async (req: Request): Promise<Response> => {
           
           <p>Thank you for contacting LASO Imaging Solutions regarding <strong>${data.serviceType}</strong> for your <strong>${data.manufacturer} ${data.model}</strong>.</p>
           
+          <div style="background: white; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0; margin: 16px 0;">
+            <p style="margin: 0; font-weight: 600; color: #0c4a6e;">Service Location</p>
+            <p style="margin: 8px 0 0 0; color: #64748b;">${data.siteAddress}</p>
+            <p style="margin: 4px 0 0 0; color: #64748b;">${data.city}, ${data.state}</p>
+            ${data.customerPO ? `<p style="margin: 8px 0 0 0; color: #64748b;">Your PO #: ${data.customerPO}</p>` : ''}
+            ${gasNeeds.length > 0 ? `<p style="margin: 12px 0 0 0; color: #3b82f6; font-weight: 500;">Additional Supplies: ${gasNeedsStr}</p>` : ''}
+          </div>
+          
           <p>We have received your request and our team will review it promptly. ${data.isEmergency ? '<strong style="color: #dc2626;">Since this is marked as an emergency, we will prioritize your request.</strong>' : 'You can expect to hear from us within 24 hours.'}</p>
           
           <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #3b82f6;">
@@ -142,7 +174,7 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "LASO Imaging <hello@noreply.lasoimaging.com>",
         to: ["info@lasoimaging.com"],
-        subject: `${data.isEmergency ? '🚨 EMERGENCY: ' : ''}${data.serviceType} Quote Request - ${data.manufacturer} ${data.model}`,
+        subject: `${data.isEmergency ? '🚨 EMERGENCY: ' : ''}${data.serviceType} Quote Request - ${data.manufacturer} ${data.model} (${data.city}, ${data.state})`,
         html: adminEmailHtml,
       }),
     });
