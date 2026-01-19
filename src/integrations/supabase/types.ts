@@ -1235,12 +1235,15 @@ export type Database = {
           customer_id: string | null
           customer_name: string
           expires_at: string | null
+          follow_up_count: number | null
+          follow_up_sent_at: string | null
           id: string
           inventory_id: string | null
           list_price: number | null
           margin_percentage: number | null
           offer_amount: number
           offer_type: string | null
+          purchase_completed: boolean | null
           reason: string | null
           requires_approval: boolean | null
           status: string | null
@@ -1260,12 +1263,15 @@ export type Database = {
           customer_id?: string | null
           customer_name: string
           expires_at?: string | null
+          follow_up_count?: number | null
+          follow_up_sent_at?: string | null
           id?: string
           inventory_id?: string | null
           list_price?: number | null
           margin_percentage?: number | null
           offer_amount: number
           offer_type?: string | null
+          purchase_completed?: boolean | null
           reason?: string | null
           requires_approval?: boolean | null
           status?: string | null
@@ -1285,12 +1291,15 @@ export type Database = {
           customer_id?: string | null
           customer_name?: string
           expires_at?: string | null
+          follow_up_count?: number | null
+          follow_up_sent_at?: string | null
           id?: string
           inventory_id?: string | null
           list_price?: number | null
           margin_percentage?: number | null
           offer_amount?: number
           offer_type?: string | null
+          purchase_completed?: boolean | null
           reason?: string | null
           requires_approval?: boolean | null
           status?: string | null

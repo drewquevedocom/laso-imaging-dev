@@ -191,6 +191,7 @@ export function useRejectOffer() {
           offer_amount,
           list_price,
           created_by_email,
+          offer_type,
           inventory:inventory_id (
             product_name,
             oem
@@ -212,14 +213,14 @@ export function useRejectOffer() {
 
       if (error) throw error;
 
+      const inventory = offer?.inventory as { product_name: string; oem: string } | null;
+      const listPrice = offer?.list_price || 0;
+      const discountPercent = listPrice > 0 
+        ? ((listPrice - (offer?.offer_amount || 0)) / listPrice) * 100 
+        : 0;
+
       // Send notification to sales rep
       if (offer?.created_by_email) {
-        const inventory = offer.inventory as { product_name: string; oem: string } | null;
-        const listPrice = offer.list_price || 0;
-        const discountPercent = listPrice > 0 
-          ? ((listPrice - offer.offer_amount) / listPrice) * 100 
-          : 0;
-
         try {
           await supabase.functions.invoke('send-offer-decision-notification', {
             body: {
@@ -240,6 +241,26 @@ export function useRejectOffer() {
           console.error("Failed to send rejection notification:", error);
         }
       }
+
+      // Send notification to customer (only for customer-submitted offers)
+      if (offer?.customer_email && offer?.offer_type === 'customer') {
+        try {
+          await supabase.functions.invoke('send-customer-offer-rejected', {
+            body: {
+              customerEmail: offer.customer_email,
+              customerName: offer.customer_name,
+              productName: inventory?.product_name || 'Unknown Product',
+              productOem: inventory?.oem || '',
+              offerAmount: offer.offer_amount,
+              listPrice,
+              rejectionReason: reason,
+              salesRepEmail: offer.created_by_email,
+            }
+          });
+        } catch (error) {
+          console.error("Failed to send customer rejection notification:", error);
+        }
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["pending-approvals"] });
@@ -252,6 +273,35 @@ export function useRejectOffer() {
     onError: (error) => {
       console.error("Error rejecting offer:", error);
       toast.error("Failed to reject offer");
+    },
+  });
+}
+
+export function useMarkPurchaseCompleted() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (offerId: string) => {
+      const { error } = await supabase
+        .from("product_offers")
+        .update({
+          purchase_completed: true,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", offerId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["pending-approvals"] });
+      queryClient.invalidateQueries({ queryKey: ["product-offers"] });
+      queryClient.invalidateQueries({ queryKey: ["all-offers"] });
+      queryClient.invalidateQueries({ queryKey: ["offer-metrics"] });
+      toast.success("Marked as purchased");
+    },
+    onError: (error) => {
+      console.error("Error marking purchase complete:", error);
+      toast.error("Failed to update offer");
     },
   });
 }

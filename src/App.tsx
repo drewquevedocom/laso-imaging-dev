@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "next-themes";
+import { PostHogProvider } from "@/components/analytics/PostHogProvider";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Contact from "./pages/Contact";
@@ -75,7 +76,8 @@ const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-        <TooltipProvider>
+        <PostHogProvider>
+          <TooltipProvider>
           <Toaster />
           <Sonner />
           <BrowserRouter>
@@ -183,7 +185,8 @@ const App = () => (
             <ChatbotWidget />
             <CookieConsent />
           </BrowserRouter>
-        </TooltipProvider>
+          </TooltipProvider>
+        </PostHogProvider>
       </ThemeProvider>
     </QueryClientProvider>
   </HelmetProvider>

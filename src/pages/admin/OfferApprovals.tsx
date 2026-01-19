@@ -16,7 +16,7 @@ import {
   Loader2
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useApproveOffer, useRejectOffer } from "@/hooks/useOfferApprovals";
+import { useApproveOffer, useRejectOffer, useMarkPurchaseCompleted } from "@/hooks/useOfferApprovals";
 import ApprovalActionModal from "@/components/admin/offers/ApprovalActionModal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -69,6 +69,7 @@ const OfferApprovals = () => {
   const queryClient = useQueryClient();
   const approveOffer = useApproveOffer();
   const rejectOffer = useRejectOffer();
+  const markPurchased = useMarkPurchaseCompleted();
 
   const { data: offers = [], isLoading } = useQuery({
     queryKey: ["all-offers", activeTab],
@@ -465,7 +466,7 @@ const OfferApprovals = () => {
                             {formatDistanceToNow(new Date(offer.created_at), { addSuffix: true })}
                           </TableCell>
                           <TableCell className="text-right">
-                            {offer.status === "pending" && offer.requires_approval && (
+                            {offer.status === "pending" && offer.requires_approval ? (
                               <div className="flex gap-1 justify-end" onClick={(e) => e.stopPropagation()}>
                                 <Button
                                   size="sm"
@@ -483,7 +484,20 @@ const OfferApprovals = () => {
                                   <Check className="h-3 w-3" />
                                 </Button>
                               </div>
-                            )}
+                            ) : offer.status === "approved" ? (
+                              <div className="flex gap-1 justify-end" onClick={(e) => e.stopPropagation()}>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="h-7"
+                                  onClick={() => markPurchased.mutate(offer.id)}
+                                  disabled={markPurchased.isPending}
+                                >
+                                  {markPurchased.isPending ? <Loader2 className="h-3 w-3 animate-spin" /> : <Check className="h-3 w-3 mr-1" />}
+                                  Purchased
+                                </Button>
+                              </div>
+                            ) : null}
                           </TableCell>
                         </TableRow>
                         <CollapsibleContent asChild>
