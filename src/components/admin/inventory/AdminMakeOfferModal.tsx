@@ -60,6 +60,9 @@ export function AdminMakeOfferModal({ isOpen, onClose, item }: AdminMakeOfferMod
   const handleSubmit = async () => {
     if (!selectedCustomer || !item) return;
     
+    // Get current user for tracking
+    const { data: { user } } = await supabase.auth.getUser();
+    
     const offerResult = await createOffer.mutateAsync({
       inventory_id: item.id,
       customer_id: selectedCustomer.id,
@@ -76,6 +79,8 @@ export function AdminMakeOfferModal({ isOpen, onClose, item }: AdminMakeOfferMod
       status: 'pending',
       margin_percentage: marginPercent,
       requires_approval: requiresApproval,
+      created_by: user?.id,
+      created_by_email: user?.email,
     });
     
     // Send approval notification if required

@@ -67,6 +67,7 @@ import EquipmentHub from "./pages/admin/EquipmentHub";
 import PricingRules from "./pages/admin/PricingRules";
 import TestingGuide from "./pages/admin/TestingGuide";
 import RentalRequest from "./pages/rentals/RentalRequest";
+import OfferApprovals from "./pages/admin/OfferApprovals";
 
 const queryClient = new QueryClient();
 
@@ -166,6 +167,7 @@ const App = () => (
                 <Route path="communication" element={<Communications />} />
                 <Route path="pricing-rules" element={<PricingRules />} />
                 <Route path="testing-guide" element={<TestingGuide />} />
+                <Route path="offer-approvals" element={<OfferApprovals />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
               

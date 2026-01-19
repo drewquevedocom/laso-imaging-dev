@@ -79,6 +79,24 @@ export function useApproveOffer() {
     mutationFn: async ({ offerId, notes }: { offerId: string; notes?: string }) => {
       const { data: { user } } = await supabase.auth.getUser();
       
+      // Get offer details before updating
+      const { data: offer } = await supabase
+        .from("product_offers")
+        .select(`
+          customer_name,
+          customer_company,
+          customer_email,
+          offer_amount,
+          list_price,
+          created_by_email,
+          inventory:inventory_id (
+            product_name,
+            oem
+          )
+        `)
+        .eq("id", offerId)
+        .single();
+
       const { error } = await supabase
         .from("product_offers")
         .update({
@@ -91,17 +109,32 @@ export function useApproveOffer() {
 
       if (error) throw error;
 
-      // Log approval activity if notes provided
-      if (notes) {
-        const { data: offer } = await supabase
-          .from("product_offers")
-          .select("customer_name, offer_amount")
-          .eq("id", offerId)
-          .single();
+      // Send notification to sales rep
+      if (offer?.created_by_email) {
+        const inventory = offer.inventory as { product_name: string; oem: string } | null;
+        const listPrice = offer.list_price || 0;
+        const discountPercent = listPrice > 0 
+          ? ((listPrice - offer.offer_amount) / listPrice) * 100 
+          : 0;
 
-        if (offer) {
-          // Could add to activities table if needed
-          console.log("Offer approved with notes:", notes);
+        try {
+          await supabase.functions.invoke('send-offer-decision-notification', {
+            body: {
+              offerId,
+              decision: 'approved',
+              salesRepEmail: offer.created_by_email,
+              managerNotes: notes,
+              productName: inventory?.product_name || 'Unknown Product',
+              productOem: inventory?.oem || '',
+              customerName: offer.customer_name,
+              customerCompany: offer.customer_company,
+              offerAmount: offer.offer_amount,
+              listPrice,
+              discountPercent,
+            }
+          });
+        } catch (error) {
+          console.error("Failed to send approval notification:", error);
         }
       }
     },
@@ -109,6 +142,7 @@ export function useApproveOffer() {
       queryClient.invalidateQueries({ queryKey: ["pending-approvals"] });
       queryClient.invalidateQueries({ queryKey: ["pending-approvals-count"] });
       queryClient.invalidateQueries({ queryKey: ["product-offers"] });
+      queryClient.invalidateQueries({ queryKey: ["all-offers"] });
       toast.success("Offer approved successfully");
     },
     onError: (error) => {
@@ -125,6 +159,24 @@ export function useRejectOffer() {
     mutationFn: async ({ offerId, reason }: { offerId: string; reason?: string }) => {
       const { data: { user } } = await supabase.auth.getUser();
 
+      // Get offer details before updating
+      const { data: offer } = await supabase
+        .from("product_offers")
+        .select(`
+          customer_name,
+          customer_company,
+          customer_email,
+          offer_amount,
+          list_price,
+          created_by_email,
+          inventory:inventory_id (
+            product_name,
+            oem
+          )
+        `)
+        .eq("id", offerId)
+        .single();
+
       const { error } = await supabase
         .from("product_offers")
         .update({
@@ -137,11 +189,41 @@ export function useRejectOffer() {
         .eq("id", offerId);
 
       if (error) throw error;
+
+      // Send notification to sales rep
+      if (offer?.created_by_email) {
+        const inventory = offer.inventory as { product_name: string; oem: string } | null;
+        const listPrice = offer.list_price || 0;
+        const discountPercent = listPrice > 0 
+          ? ((listPrice - offer.offer_amount) / listPrice) * 100 
+          : 0;
+
+        try {
+          await supabase.functions.invoke('send-offer-decision-notification', {
+            body: {
+              offerId,
+              decision: 'rejected',
+              salesRepEmail: offer.created_by_email,
+              rejectionReason: reason,
+              productName: inventory?.product_name || 'Unknown Product',
+              productOem: inventory?.oem || '',
+              customerName: offer.customer_name,
+              customerCompany: offer.customer_company,
+              offerAmount: offer.offer_amount,
+              listPrice,
+              discountPercent,
+            }
+          });
+        } catch (error) {
+          console.error("Failed to send rejection notification:", error);
+        }
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["pending-approvals"] });
       queryClient.invalidateQueries({ queryKey: ["pending-approvals-count"] });
       queryClient.invalidateQueries({ queryKey: ["product-offers"] });
+      queryClient.invalidateQueries({ queryKey: ["all-offers"] });
       toast.success("Offer rejected");
     },
     onError: (error) => {

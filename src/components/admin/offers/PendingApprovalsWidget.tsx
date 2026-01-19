@@ -200,7 +200,11 @@ const PendingApprovalsWidget = () => {
             })}
 
             {pendingOffers.length > 5 && (
-              <Button variant="ghost" className="w-full text-sm">
+              <Button 
+                variant="ghost" 
+                className="w-full text-sm"
+                onClick={() => window.location.href = '/admin/offer-approvals?status=pending'}
+              >
                 View all {pendingOffers.length} pending approvals
               </Button>
             )}

@@ -13,6 +13,7 @@ import {
   MailOpen,
   Calculator,
   ClipboardCheck,
+  ShieldCheck,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -55,6 +56,7 @@ const navGroups = [
     items: [
       { title: "Quotes", url: "/admin/quotes", icon: FileText },
       { title: "Quote Builder", url: "/admin/quote-builder", icon: FileEdit },
+      { title: "Offer Approvals", url: "/admin/offer-approvals", icon: ShieldCheck },
     ]
   },
   {
