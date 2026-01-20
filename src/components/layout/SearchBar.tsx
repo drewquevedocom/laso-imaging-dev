@@ -1,6 +1,30 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Globe, Search } from 'lucide-react';
 import { useChatStore } from '@/stores/chatStore';
+
+// Detection patterns for product searches
+const PRODUCT_PATTERNS = [
+  /\b(ge|siemens|philips|canon|toshiba|hitachi)\b/i,
+  /\b(mri|ct|scanner|coil|magnet|x-ray|xray|pet|petct)\b/i,
+  /\b(parts?|component|board|power supply|gradient|amplifier)\b/i,
+  /\b(1\.5t|1\.5 t|3t|3\.0t|3\.0 t|0\.35t)\b/i,
+  /\b(\d+[\-\s]?slice)\b/i,
+  /\b[A-Z0-9]{2,}-[A-Z0-9]{2,}/i,
+  /\b(mobile|system|machine|unit)\b/i,
+];
+
+const AI_CHAT_PATTERNS = [
+  /^(what|how|why|when|where|who|can you|could you|help|tell me)/i,
+  /\b(quote|pricing|service|install|repair|maintenance|support)\b/i,
+  /\b(question|help me|i need help|looking for help)\b/i,
+];
+
+const isProductSearch = (query: string): boolean => {
+  if (AI_CHAT_PATTERNS.some(p => p.test(query))) return false;
+  if (PRODUCT_PATTERNS.some(p => p.test(query))) return true;
+  return query.split(' ').length <= 2;
+};
 
 const placeholderTexts = [
   'Imaging Systems',
@@ -10,6 +34,7 @@ const placeholderTexts = [
 ];
 
 export const SearchBar = () => {
+  const navigate = useNavigate();
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -44,19 +69,29 @@ export const SearchBar = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputValue.trim()) {
-      setPendingQuery(inputValue.trim());
-      openChat();
+      if (isProductSearch(inputValue.trim())) {
+        navigate(`/products?query=${encodeURIComponent(inputValue.trim())}`);
+      } else {
+        setPendingQuery(inputValue.trim());
+        openChat();
+      }
       setInputValue('');
     }
   };
 
   const handleSearchClick = () => {
     if (inputValue.trim()) {
-      setPendingQuery(inputValue.trim());
-      openChat();
+      if (isProductSearch(inputValue.trim())) {
+        navigate(`/products?query=${encodeURIComponent(inputValue.trim())}`);
+      } else {
+        setPendingQuery(inputValue.trim());
+        openChat();
+      }
       setInputValue('');
     }
   };
+
+  const showModeIndicator = inputValue.trim().length > 0;
 
   return (
     <form 
@@ -103,6 +138,13 @@ export const SearchBar = () => {
           </div>
         )}
       </div>
+
+      {/* Mode Indicator */}
+      {showModeIndicator && (
+        <span className={`text-xs px-2 whitespace-nowrap ${isProductSearch(inputValue) ? 'text-green-600' : 'text-blue-600'}`}>
+          {isProductSearch(inputValue) ? '🔍 Products' : '💬 AI'}
+        </span>
+      )}
 
       {/* Search Button */}
       <button 
