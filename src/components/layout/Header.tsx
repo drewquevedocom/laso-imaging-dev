@@ -8,6 +8,7 @@ import { PartsMegaMenu } from './PartsMegaMenu';
 import { ServicesMegaMenu } from './ServicesMegaMenu';
 import { MobileNav } from './MobileNav';
 import { CartDrawer } from '@/components/cart/CartDrawer';
+import { ThemeToggleButton } from './ThemeToggleButton';
 import { trackPhoneCall } from '@/components/analytics/GoogleAnalytics';
 
 import logoLasoHome from '@/assets/logo-laso-home.png';
@@ -157,6 +158,9 @@ export const Header = () => {
                   Your Messages
                 </span>
               </Link>
+              
+              {/* Theme Toggle */}
+              <ThemeToggleButton />
               
               <CartDrawer />
 
