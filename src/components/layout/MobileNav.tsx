@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import logoLaso from '@/assets/logo-laso.png';
 import { trackPhoneCall } from '@/components/analytics/GoogleAnalytics';
+import { MobileSearchInput } from './MobileSearchInput';
+import { ThemeToggleButton } from './ThemeToggleButton';
 
 const equipmentItems = [
   { 
@@ -181,6 +183,11 @@ export const MobileNav = () => {
             </button>
           </div>
 
+          {/* Mobile Search */}
+          <div className="p-4 border-b border-border">
+            <MobileSearchInput onClose={handleClose} />
+          </div>
+
           {/* Navigation */}
           <nav className="flex-1 overflow-y-auto">
             <div className="py-2">
@@ -255,6 +262,12 @@ export const MobileNav = () => {
 
           {/* Footer */}
           <div className="p-4 border-t border-border bg-secondary/50">
+            {/* Theme Toggle */}
+            <div className="flex items-center justify-between mb-4 pb-4 border-b border-border">
+              <span className="text-sm text-muted-foreground">Dark Mode</span>
+              <ThemeToggleButton />
+            </div>
+            
             <div className="space-y-2 text-sm">
               <a 
                 href="tel:8189169503" 
