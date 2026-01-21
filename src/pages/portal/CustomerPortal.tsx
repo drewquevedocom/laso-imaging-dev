@@ -7,16 +7,22 @@ import {
   FileText, 
   Settings, 
   LogOut,
-  Menu
+  Menu,
+  Heart,
+  MessageSquare
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useCustomerAuth } from "@/hooks/useCustomerAuth";
+import { NotificationBell } from "@/components/portal/NotificationBell";
 import { Loader2 } from "lucide-react";
 
 const navItems = [
   { path: "/portal", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { path: "/portal/quotes", label: "My Quotes", icon: FileText },
   { path: "/portal/orders", label: "My Orders", icon: Package },
+  { path: "/portal/saved", label: "Saved Equipment", icon: Heart },
+  { path: "/portal/messages", label: "Messages", icon: MessageSquare },
   { path: "/portal/services", label: "Service History", icon: Wrench },
   { path: "/portal/documents", label: "Documents", icon: FileText },
   { path: "/portal/settings", label: "Settings", icon: Settings },
@@ -121,7 +127,8 @@ const CustomerPortal = () => {
             </Link>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <NotificationBell />
             <div className="text-right hidden sm:block">
               <p className="text-sm font-medium text-foreground">
                 {profile?.contact_name || user?.email}

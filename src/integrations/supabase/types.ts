@@ -77,8 +77,12 @@ export type Database = {
           created_at: string
           customer_id: string | null
           id: string
+          last_message_at: string | null
           session_id: string
           status: string
+          subject: string | null
+          type: string | null
+          unread_count: number | null
           updated_at: string
         }
         Insert: {
@@ -86,8 +90,12 @@ export type Database = {
           created_at?: string
           customer_id?: string | null
           id?: string
+          last_message_at?: string | null
           session_id: string
           status?: string
+          subject?: string | null
+          type?: string | null
+          unread_count?: number | null
           updated_at?: string
         }
         Update: {
@@ -95,8 +103,12 @@ export type Database = {
           created_at?: string
           customer_id?: string | null
           id?: string
+          last_message_at?: string | null
           session_id?: string
           status?: string
+          subject?: string | null
+          type?: string | null
+          unread_count?: number | null
           updated_at?: string
         }
         Relationships: [
@@ -116,6 +128,7 @@ export type Database = {
           created_at: string
           id: string
           metadata: Json | null
+          read_at: string | null
           sender_type: string
         }
         Insert: {
@@ -124,6 +137,7 @@ export type Database = {
           created_at?: string
           id?: string
           metadata?: Json | null
+          read_at?: string | null
           sender_type: string
         }
         Update: {
@@ -132,6 +146,7 @@ export type Database = {
           created_at?: string
           id?: string
           metadata?: Json | null
+          read_at?: string | null
           sender_type?: string
         }
         Relationships: [
@@ -251,6 +266,47 @@ export type Database = {
           },
         ]
       }
+      customer_notifications: {
+        Row: {
+          body: string
+          created_at: string | null
+          customer_id: string
+          data: Json | null
+          id: string
+          read: boolean | null
+          title: string
+          type: string
+        }
+        Insert: {
+          body: string
+          created_at?: string | null
+          customer_id: string
+          data?: Json | null
+          id?: string
+          read?: boolean | null
+          title: string
+          type: string
+        }
+        Update: {
+          body?: string
+          created_at?: string | null
+          customer_id?: string
+          data?: Json | null
+          id?: string
+          read?: boolean | null
+          title?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_notifications_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customer_profiles: {
         Row: {
           address_line_1: string | null
@@ -260,8 +316,11 @@ export type Database = {
           contact_name: string | null
           created_at: string
           customer_type: string | null
+          email_notifications_enabled: boolean | null
           id: string
+          notification_preferences: Json | null
           phone: string | null
+          push_notifications_enabled: boolean | null
           state: string | null
           updated_at: string
           user_id: string
@@ -275,8 +334,11 @@ export type Database = {
           contact_name?: string | null
           created_at?: string
           customer_type?: string | null
+          email_notifications_enabled?: boolean | null
           id?: string
+          notification_preferences?: Json | null
           phone?: string | null
+          push_notifications_enabled?: boolean | null
           state?: string | null
           updated_at?: string
           user_id: string
@@ -290,8 +352,11 @@ export type Database = {
           contact_name?: string | null
           created_at?: string
           customer_type?: string | null
+          email_notifications_enabled?: boolean | null
           id?: string
+          notification_preferences?: Json | null
           phone?: string | null
+          push_notifications_enabled?: boolean | null
           state?: string | null
           updated_at?: string
           user_id?: string
@@ -343,6 +408,54 @@ export type Database = {
           title?: string | null
         }
         Relationships: []
+      }
+      customer_saved_equipment: {
+        Row: {
+          created_at: string | null
+          customer_id: string
+          id: string
+          inventory_id: string | null
+          notes: string | null
+          product_data: Json | null
+          product_name: string
+          shopify_product_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          customer_id: string
+          id?: string
+          inventory_id?: string | null
+          notes?: string | null
+          product_data?: Json | null
+          product_name: string
+          shopify_product_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          customer_id?: string
+          id?: string
+          inventory_id?: string | null
+          notes?: string | null
+          product_data?: Json | null
+          product_name?: string
+          shopify_product_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_saved_equipment_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customer_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_saved_equipment_inventory_id_fkey"
+            columns: ["inventory_id"]
+            isOneToOne: false
+            referencedRelation: "inventory"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       customers: {
         Row: {
@@ -1364,6 +1477,7 @@ export type Database = {
           created_at: string
           customer_company: string | null
           customer_email: string
+          customer_id: string | null
           customer_name: string
           customer_phone: string | null
           discount: number | null
@@ -1389,6 +1503,7 @@ export type Database = {
           created_at?: string
           customer_company?: string | null
           customer_email: string
+          customer_id?: string | null
           customer_name: string
           customer_phone?: string | null
           discount?: number | null
@@ -1414,6 +1529,7 @@ export type Database = {
           created_at?: string
           customer_company?: string | null
           customer_email?: string
+          customer_id?: string | null
           customer_name?: string
           customer_phone?: string | null
           discount?: number | null
@@ -1434,6 +1550,13 @@ export type Database = {
           viewed_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "quotes_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customer_profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "quotes_lead_id_fkey"
             columns: ["lead_id"]

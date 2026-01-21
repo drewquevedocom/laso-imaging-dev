@@ -55,6 +55,10 @@ import PortalOrders from "./pages/portal/PortalOrders";
 import PortalServices from "./pages/portal/PortalServices";
 import PortalDocuments from "./pages/portal/PortalDocuments";
 import PortalSettings from "./pages/portal/PortalSettings";
+import PortalQuotes from "./pages/portal/PortalQuotes";
+import PortalSavedEquipment from "./pages/portal/PortalSavedEquipment";
+import PortalMessages from "./pages/portal/PortalMessages";
+import PortalNotifications from "./pages/portal/PortalNotifications";
 import CookieConsent from "./components/layout/CookieConsent";
 import ContractorTimecard from "./pages/internal/ContractorTimecard";
 import CustomerReview from "./pages/internal/CustomerReview";
@@ -142,7 +146,11 @@ const App = () => (
               <Route path="/auth/customer" element={<CustomerAuth />} />
               <Route path="/portal" element={<CustomerPortal />}>
                 <Route index element={<PortalDashboard />} />
+                <Route path="quotes" element={<PortalQuotes />} />
                 <Route path="orders" element={<PortalOrders />} />
+                <Route path="saved" element={<PortalSavedEquipment />} />
+                <Route path="messages" element={<PortalMessages />} />
+                <Route path="notifications" element={<PortalNotifications />} />
                 <Route path="services" element={<PortalServices />} />
                 <Route path="documents" element={<PortalDocuments />} />
                 <Route path="settings" element={<PortalSettings />} />
