@@ -73,6 +73,7 @@ import PricingRules from "./pages/admin/PricingRules";
 import TestingGuide from "./pages/admin/TestingGuide";
 import RentalRequest from "./pages/rentals/RentalRequest";
 import OfferApprovals from "./pages/admin/OfferApprovals";
+import ComingSoon from "./pages/ComingSoon";
 
 const queryClient = new QueryClient();
 
@@ -138,6 +139,9 @@ const App = () => (
               
               {/* Sitemap */}
               <Route path="/sitemap" element={<Sitemap />} />
+              
+              {/* Coming Soon */}
+              <Route path="/coming-soon" element={<ComingSoon />} />
               
               {/* Equipment Rental */}
               <Route path="/rentals" element={<RentalRequest />} />
