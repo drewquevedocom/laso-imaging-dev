@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronDown, Check, Phone, Mail } from 'lucide-react';
+import { ChevronDown, Check, Phone, Mail, Bot } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ProductSearchBar } from './ProductSearchBar';
@@ -10,6 +10,7 @@ import { MobileNav } from './MobileNav';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 import { ThemeToggleButton } from './ThemeToggleButton';
 import { trackPhoneCall } from '@/components/analytics/GoogleAnalytics';
+import { useChatStore } from '@/stores/chatStore';
 
 import logoLasoHome from '@/assets/logo-laso-home.png';
 import userIcon from '@/assets/icons/user.png';
@@ -41,6 +42,7 @@ const topNavLinks = [
 export const Header = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeNav, setActiveNav] = useState('equipment');
+  const { openChat } = useChatStore();
 
   const handleNavHover = (key: string, hasDropdown: boolean) => {
     if (hasDropdown) {
@@ -130,13 +132,24 @@ export const Header = () => {
               />
             </Link>
 
-            {/* Product Search Bar */}
-            <div className="flex-1 max-w-2xl hidden lg:block">
+            {/* Product Search Bar - flexible for tablet, hidden on mobile */}
+            <div className="hidden md:block flex-1 min-w-0 max-w-2xl">
               <ProductSearchBar />
             </div>
 
             {/* Account Actions */}
-            <div className="flex items-center gap-3 md:gap-6">
+            <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
+              {/* ASK LASO AI Button - visible on tablet and desktop */}
+              <button 
+                onClick={openChat}
+                className="hidden md:flex flex-col items-center gap-1 group"
+              >
+                <Bot className="w-6 h-6 text-accent opacity-70 group-hover:opacity-100 transition-opacity" />
+                <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors whitespace-nowrap">
+                  Ask LASO AI
+                </span>
+              </button>
+
               <Link to="/signup" className="hidden md:flex flex-col items-center gap-1 group">
                 <img 
                   src={userIcon} 
@@ -148,7 +161,7 @@ export const Header = () => {
                 </span>
               </Link>
               
-              <Link to="/contact" className="hidden md:flex flex-col items-center gap-1 group">
+              <Link to="/coming-soon" className="hidden md:flex flex-col items-center gap-1 group">
                 <img 
                   src={messageIcon} 
                   alt="Messages" 
@@ -165,6 +178,13 @@ export const Header = () => {
               <MobileNav />
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Search Row - visible only on mobile (under 768px) */}
+      <div className="md:hidden bg-background border-b border-border">
+        <div className="container mx-auto px-4 py-3">
+          <ProductSearchBar />
         </div>
       </div>
 

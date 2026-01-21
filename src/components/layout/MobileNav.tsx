@@ -244,7 +244,7 @@ export const MobileNav = () => {
                 <span className="text-sm font-medium">Your Account</span>
               </Link>
               <Link 
-                to="/contact" 
+                to="/coming-soon" 
                 className="flex items-center gap-3 text-foreground hover:text-accent transition-colors"
                 onClick={handleClose}
               >
