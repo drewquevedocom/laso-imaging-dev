@@ -6,18 +6,18 @@ import { useRecentSearches } from '@/hooks/useRecentSearches';
 
 const productCategories = [
   '1.5T MRI Systems',
+  '3.0T MRI Systems',
+  'Mobile MRI Systems',
   'RF Coils',
   'MRI Parts',
-  'CT Scanners',
+  'CT Parts',
   'Power Supplies',
+  'CT Scanners',
+  'Circuit Boards',
 ];
 
-interface MobileSearchInputProps {
-  onClose: () => void;
-}
-
-export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
-  const [query, setQuery] = useState('');
+export const ProductSearchBar = () => {
+  const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [previewProducts, setPreviewProducts] = useState<ShopifyProduct[]>([]);
@@ -27,6 +27,7 @@ export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
   const { recentSearches, addSearch, removeSearch } = useRecentSearches();
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Animate placeholder text
   useEffect(() => {
@@ -41,13 +42,13 @@ export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
     return () => clearInterval(interval);
   }, []);
 
-  // Debounced search for instant preview
+  // Debounced product search
   useEffect(() => {
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
 
-    if (query.trim().length < 2) {
+    if (inputValue.trim().length < 2) {
       setPreviewProducts([]);
       setIsLoading(false);
       return;
@@ -56,7 +57,7 @@ export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
     setIsLoading(true);
     debounceRef.current = setTimeout(async () => {
       try {
-        const products = await fetchShopifyProducts(6, query.trim());
+        const products = await fetchShopifyProducts(5, inputValue.trim());
         setPreviewProducts(products);
       } catch (error) {
         console.error('Search preview error:', error);
@@ -71,28 +72,46 @@ export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
         clearTimeout(debounceRef.current);
       }
     };
-  }, [query]);
+  }, [inputValue]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (query.trim()) {
-      addSearch(query.trim());
-      navigate(`/products?query=${encodeURIComponent(query.trim())}`);
-      onClose();
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsFocused(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const executeSearch = () => {
+    if (inputValue.trim()) {
+      addSearch(inputValue.trim());
+      navigate(`/products?query=${encodeURIComponent(inputValue.trim())}`);
+      setInputValue('');
+      setIsFocused(false);
     }
   };
 
   const handleProductClick = (handle: string) => {
-    addSearch(query.trim());
+    addSearch(inputValue.trim());
     navigate(`/product/${handle}`);
-    onClose();
+    setInputValue('');
+    setIsFocused(false);
   };
 
   const handleRecentClick = (search: string) => {
-    setQuery(search);
     addSearch(search);
     navigate(`/products?query=${encodeURIComponent(search)}`);
-    onClose();
+    setInputValue('');
+    setIsFocused(false);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    executeSearch();
   };
 
   const formatPrice = (amount: string) => {
@@ -100,29 +119,30 @@ export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
     return num > 0 ? `$${num.toLocaleString()}` : 'Contact for Price';
   };
 
-  const showDropdown = isFocused && (query.trim().length > 0 || recentSearches.length > 0);
+  const showDropdown = isFocused && (inputValue.trim().length > 0 || recentSearches.length > 0);
 
   return (
-    <div className="relative">
-      <form onSubmit={handleSubmit}>
-        <div className="flex items-center bg-secondary rounded-lg border border-border overflow-hidden">
-          <Search className="w-5 h-5 text-muted-foreground ml-3 flex-shrink-0" />
+    <div className="relative w-full" ref={dropdownRef}>
+      <form onSubmit={handleSubmit} className="relative">
+        <div className="flex items-center bg-secondary rounded-lg border border-border overflow-hidden transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary">
+          <div className="flex items-center pl-4">
+            <Search className="w-5 h-5 text-muted-foreground" />
+          </div>
+          
           <div className="relative flex-1">
             <input
               ref={inputRef}
               type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
               onFocus={() => setIsFocused(true)}
-              onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+              className="w-full py-3 px-3 bg-transparent text-foreground placeholder-transparent focus:outline-none"
               placeholder={productCategories[placeholderIndex]}
-              className="w-full py-3 px-3 bg-transparent text-sm text-foreground placeholder-transparent focus:outline-none min-w-0"
-              autoComplete="off"
             />
-            {!query && (
+            {!inputValue && (
               <div className="absolute inset-0 flex items-center px-3 pointer-events-none">
                 <span 
-                  className={`text-muted-foreground text-sm transition-all duration-200 ${
+                  className={`text-muted-foreground transition-all duration-200 ${
                     isAnimating ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'
                   }`}
                 >
@@ -131,21 +151,24 @@ export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
               </div>
             )}
           </div>
+
           {isLoading && (
             <Loader2 className="w-4 h-4 text-muted-foreground mr-2 animate-spin" />
           )}
-          {query && !isLoading && (
+          
+          {inputValue && !isLoading && (
             <button
               type="button"
-              onClick={() => setQuery('')}
-              className="p-2 mr-1 text-muted-foreground hover:text-foreground"
+              onClick={() => setInputValue('')}
+              className="p-2 mr-1 text-muted-foreground hover:text-foreground transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
           )}
+          
           <button
             type="submit"
-            className="flex items-center justify-center px-4 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+            className="flex items-center justify-center px-5 py-3 bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
           >
             Search
           </button>
@@ -154,22 +177,22 @@ export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
 
       {/* Dropdown */}
       {showDropdown && (
-        <div className="absolute left-0 right-0 top-full mt-1 bg-background border border-border rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
-          {/* Recent Searches (when no query) */}
-          {!query.trim() && recentSearches.length > 0 && (
+        <div className="absolute left-0 right-0 top-full mt-2 bg-background border border-border rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto animate-fade-in">
+          {/* Recent Searches */}
+          {!inputValue.trim() && recentSearches.length > 0 && (
             <div className="p-2">
-              <div className="px-2 py-1 text-xs font-medium text-muted-foreground uppercase">
+              <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 Recent Searches
               </div>
               {recentSearches.map((search) => (
                 <div
                   key={search}
-                  className="flex items-center justify-between px-2 py-2 hover:bg-secondary rounded cursor-pointer group"
+                  className="flex items-center justify-between px-3 py-2 hover:bg-secondary rounded-md cursor-pointer group transition-colors"
                 >
                   <button
                     type="button"
                     onClick={() => handleRecentClick(search)}
-                    className="flex items-center gap-2 flex-1 text-left"
+                    className="flex items-center gap-3 flex-1 text-left"
                   >
                     <Clock className="w-4 h-4 text-muted-foreground" />
                     <span className="text-sm text-foreground">{search}</span>
@@ -182,7 +205,7 @@ export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
                     }}
                     className="p-1 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity"
                   >
-                    <X className="w-3 h-3" />
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
               ))}
@@ -190,16 +213,16 @@ export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
           )}
 
           {/* Product Preview Results */}
-          {query.trim().length >= 2 && (
+          {inputValue.trim().length >= 2 && (
             <>
               {isLoading ? (
-                <div className="p-4 text-center text-sm text-muted-foreground">
-                  <Loader2 className="w-5 h-5 animate-spin mx-auto mb-2" />
-                  Searching...
+                <div className="p-6 text-center">
+                  <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-primary" />
+                  <span className="text-sm text-muted-foreground">Searching products...</span>
                 </div>
               ) : previewProducts.length > 0 ? (
                 <div className="p-2">
-                  <div className="px-2 py-1 text-xs font-medium text-muted-foreground uppercase">
+                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     Products
                   </div>
                   {previewProducts.map((product) => (
@@ -207,17 +230,17 @@ export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
                       key={product.node.id}
                       type="button"
                       onClick={() => handleProductClick(product.node.handle)}
-                      className="flex items-center gap-3 w-full px-2 py-2 hover:bg-secondary rounded text-left"
+                      className="flex items-center gap-3 w-full px-3 py-2 hover:bg-secondary rounded-md text-left transition-colors"
                     >
                       {product.node.images.edges[0]?.node.url ? (
                         <img
                           src={product.node.images.edges[0].node.url}
                           alt=""
-                          className="w-10 h-10 object-cover rounded bg-muted"
+                          className="w-12 h-12 object-cover rounded-md bg-muted"
                         />
                       ) : (
-                        <div className="w-10 h-10 bg-muted rounded flex items-center justify-center">
-                          <Search className="w-4 h-4 text-muted-foreground" />
+                        <div className="w-12 h-12 bg-muted rounded-md flex items-center justify-center">
+                          <Search className="w-5 h-5 text-muted-foreground" />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
@@ -232,15 +255,18 @@ export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
                   ))}
                   <button
                     type="button"
-                    onClick={handleSubmit}
-                    className="w-full mt-2 px-3 py-2 text-sm text-primary hover:bg-secondary rounded text-center"
+                    onClick={executeSearch}
+                    className="w-full mt-2 px-3 py-2.5 text-sm font-medium text-primary hover:bg-secondary rounded-md text-center transition-colors"
                   >
-                    View all results for "{query}"
+                    View all results for "{inputValue}"
                   </button>
                 </div>
               ) : (
-                <div className="p-4 text-center text-sm text-muted-foreground">
-                  No products found for "{query}"
+                <div className="p-6 text-center">
+                  <Search className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">
+                    No products found for "{inputValue}"
+                  </p>
                 </div>
               )}
             </>
@@ -251,4 +277,4 @@ export const MobileSearchInput = ({ onClose }: MobileSearchInputProps) => {
   );
 };
 
-export default MobileSearchInput;
+export default ProductSearchBar;
