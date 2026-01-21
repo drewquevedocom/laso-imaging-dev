@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ChevronDown, Check, Phone, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { SearchBar } from './SearchBar';
+import { ProductSearchBar } from './ProductSearchBar';
 import { MegaMenu } from './MegaMenu';
 import { PartsMegaMenu } from './PartsMegaMenu';
 import { ServicesMegaMenu } from './ServicesMegaMenu';
@@ -54,8 +54,8 @@ export const Header = () => {
 
   return (
     <header className="w-full relative z-50">
-      {/* Row 1: Trust Bar */}
-      <div className="bg-secondary border-b border-border">
+      {/* Row 1: Trust Bar - Hidden on mobile */}
+      <div className="bg-secondary border-b border-border hidden md:block">
         <div className="container mx-auto px-4 py-2">
           <div className="flex items-center justify-center gap-4 md:gap-10 flex-wrap">
             {trustBadges.map((badge) => (
@@ -130,9 +130,9 @@ export const Header = () => {
               />
             </Link>
 
-            {/* Search Bar */}
+            {/* Product Search Bar */}
             <div className="flex-1 max-w-2xl hidden lg:block">
-              <SearchBar />
+              <ProductSearchBar />
             </div>
 
             {/* Account Actions */}
@@ -158,9 +158,6 @@ export const Header = () => {
                   Your Messages
                 </span>
               </Link>
-              
-              {/* Theme Toggle */}
-              <ThemeToggleButton />
               
               <CartDrawer />
 
@@ -208,12 +205,15 @@ export const Header = () => {
               ))}
             </nav>
 
-            {/* CTA Button */}
-            <Link to="/quote">
-              <Button variant="cta" size="lg" className="my-2">
-                Get Quote Now
-              </Button>
-            </Link>
+            {/* Theme Toggle & CTA Button */}
+            <div className="flex items-center gap-3">
+              <ThemeToggleButton />
+              <Link to="/quote">
+                <Button variant="cta" size="lg" className="my-2">
+                  Get Quote Now
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
 
