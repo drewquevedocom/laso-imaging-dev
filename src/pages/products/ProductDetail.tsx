@@ -17,6 +17,9 @@ import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import MakeOfferModal from "@/components/offer/MakeOfferModal";
 import SaveEquipmentButton from "@/components/equipment/SaveEquipmentButton";
+import SEOHead from "@/components/seo/SEOHead";
+import ProductSchema from "@/components/seo/ProductSchema";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -64,6 +67,26 @@ const ProductDetail = () => {
     });
   };
 
+  // Extract brand from product title or vendor
+  const extractBrand = (title: string): string => {
+    const brands = ['GE', 'Siemens', 'Philips', 'Toshiba', 'Canon', 'Hitachi'];
+    for (const brand of brands) {
+      if (title.toLowerCase().includes(brand.toLowerCase())) {
+        return brand;
+      }
+    }
+    return 'LASO Imaging';
+  };
+
+  // Determine product category for schema
+  const getProductCategory = (title: string): string => {
+    if (title.toLowerCase().includes('mri')) return 'Medical Imaging Equipment > MRI Systems';
+    if (title.toLowerCase().includes('ct')) return 'Medical Imaging Equipment > CT Scanners';
+    if (title.toLowerCase().includes('x-ray')) return 'Medical Imaging Equipment > X-Ray';
+    if (title.toLowerCase().includes('coil')) return 'Medical Imaging Parts > MRI Coils';
+    return 'Medical Imaging Equipment';
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
@@ -106,9 +129,45 @@ const ProductDetail = () => {
   const variants = product.node.variants.edges;
   const selectedVariant = variants[selectedVariantIndex]?.node;
   const currentImage = images[selectedImageIndex]?.node;
+  const brand = extractBrand(product.node.title);
+  const category = getProductCategory(product.node.title);
+  const price = selectedVariant ? parseFloat(selectedVariant.price.amount) : 0;
+  const isInStock = selectedVariant?.availableForSale ?? true;
+
+  // Breadcrumb items for schema
+  const breadcrumbItems = [
+    { name: 'Home', url: '/' },
+    { name: 'Equipment', url: '/products' },
+    { name: product.node.title, url: `/product/${handle}` },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEOHead
+        title={product.node.title}
+        description={product.node.description?.slice(0, 155) || `Buy ${product.node.title} from LASO Imaging. Quality refurbished medical imaging equipment with warranty and nationwide support.`}
+        keywords={[product.node.title, brand, 'medical imaging equipment', 'refurbished MRI', 'used CT scanner']}
+        canonical={`/product/${handle}`}
+        type="product"
+        image={images[0]?.node.url}
+      />
+      
+      <ProductSchema
+        name={product.node.title}
+        description={product.node.description || `Quality refurbished ${product.node.title} available from LASO Imaging with comprehensive warranty and support.`}
+        image={images[0]?.node.url || '/placeholder.svg'}
+        brand={brand}
+        price={price}
+        priceCurrency={selectedVariant?.price.currencyCode || 'USD'}
+        availability={isInStock ? 'InStock' : 'OutOfStock'}
+        condition="RefurbishedCondition"
+        url={`https://lasoimaging.com/product/${handle}`}
+        sku={handle || ''}
+        category={category}
+      />
+      
+      <BreadcrumbSchema items={breadcrumbItems} />
+
       <Header />
 
       <main className="flex-1">
@@ -148,6 +207,9 @@ const ProductDetail = () => {
                     src={currentImage.url}
                     alt={currentImage.altText || product.node.title}
                     className="w-full h-full object-cover"
+                    width={800}
+                    height={800}
+                    loading="eager"
                   />
                 )}
               </div>
@@ -166,6 +228,9 @@ const ProductDetail = () => {
                         src={img.node.url}
                         alt={img.node.altText || `${product.node.title} ${index + 1}`}
                         className="w-full h-full object-cover"
+                        width={80}
+                        height={80}
+                        loading="lazy"
                       />
                     </button>
                   ))}
@@ -278,6 +343,29 @@ const ProductDetail = () => {
                   className="prose prose-sm max-w-none text-muted-foreground"
                   dangerouslySetInnerHTML={{ __html: (product.node as any).descriptionHtml || product.node.description }}
                 />
+              </div>
+
+              {/* Trust Signals */}
+              <div className="bg-muted/50 rounded-lg p-4 space-y-3">
+                <h3 className="font-semibold text-foreground">Why Buy from LASO Imaging?</h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-success flex-shrink-0" />
+                    FDA Registered Dealer
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-success flex-shrink-0" />
+                    Comprehensive Warranty Included
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-success flex-shrink-0" />
+                    Nationwide Installation & Support
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-success flex-shrink-0" />
+                    Flexible Financing Available
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

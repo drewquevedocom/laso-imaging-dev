@@ -6,8 +6,8 @@ const corsHeaders = {
   'Content-Type': 'application/xml',
 };
 
-// Site domain - update this to your production domain
-const SITE_DOMAIN = 'https://lasoimaging.lovable.app';
+// Site domain - production domain for LASO Imaging
+const SITE_DOMAIN = 'https://lasoimaging.com';
 
 // Shopify configuration
 const SHOPIFY_STORE_DOMAIN = '4nxsp2-kf.myshopify.com';
