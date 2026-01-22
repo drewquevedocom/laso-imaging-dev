@@ -20,6 +20,7 @@ import {
 import QuoteForm from '@/components/shared/QuoteForm';
 import HeliumQuoteForm from '@/components/helium/HeliumQuoteForm';
 import CryogenicServiceQuoteForm from '@/components/helium/CryogenicServiceQuoteForm';
+import FinancingQuoteForm from '@/components/financing/FinancingQuoteForm';
 
 const ServicePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -145,7 +146,14 @@ const ServicePage = () => {
                     1-800-MRI-LASO
                   </Button>
                 </a>
-                {slug === 'helium-refills' ? (
+                {slug === 'financing' ? (
+                  <a href="#financing-form">
+                    <Button size="lg" variant="cta" className="gap-2">
+                      Get Financing
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </a>
+                ) : slug === 'helium-refills' ? (
                   <a href="#helium-quote-form">
                     <Button size="lg" variant="cta" className="gap-2">
                       Get Helium Fill Quote
@@ -221,7 +229,13 @@ const ServicePage = () => {
                       </div>
                     </div>
                   </div>
-                  {slug === 'helium-refills' ? (
+                  {slug === 'financing' ? (
+                    <a href="#financing-form">
+                      <Button className="w-full" variant="cta" size="lg">
+                        Get Financing Options
+                      </Button>
+                    </a>
+                  ) : slug === 'helium-refills' ? (
                     <a href="#helium-quote-form">
                       <Button className="w-full" variant="cta" size="lg">
                         Get Helium Fill Quote
@@ -394,8 +408,10 @@ const ServicePage = () => {
                 </div>
               </div>
               
-              <div id="helium-quote-form" className="bg-card rounded-xl p-6 md:p-8 shadow-xl">
-                {slug === 'helium-refills' ? (
+              <div id="financing-form" className="bg-card rounded-xl p-6 md:p-8 shadow-xl">
+                {slug === 'financing' ? (
+                  <FinancingQuoteForm sourcePage={`Service: ${service.title}`} />
+                ) : slug === 'helium-refills' ? (
                   <div>
                     {/* Tab Buttons */}
                     <div className="flex gap-2 mb-6">
