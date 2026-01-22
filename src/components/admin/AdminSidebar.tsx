@@ -55,6 +55,7 @@ const navGroups = [
     label: "Quotes & Orders",
     items: [
       { title: "Quotes", url: "/admin/quotes", icon: FileText },
+      { title: "Orders", url: "/admin/orders", icon: Package },
       { title: "Quote Builder", url: "/admin/quote-builder", icon: FileEdit },
       { title: "Offer Approvals", url: "/admin/offer-approvals", icon: ShieldCheck },
     ]

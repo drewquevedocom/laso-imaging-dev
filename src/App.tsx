@@ -73,6 +73,7 @@ import PricingRules from "./pages/admin/PricingRules";
 import TestingGuide from "./pages/admin/TestingGuide";
 import RentalRequest from "./pages/rentals/RentalRequest";
 import OfferApprovals from "./pages/admin/OfferApprovals";
+import Orders from "./pages/admin/Orders";
 import ComingSoon from "./pages/ComingSoon";
 
 const queryClient = new QueryClient();
@@ -178,6 +179,7 @@ const App = () => (
                 <Route path="sell-requests" element={<Navigate to="/admin/equipment" replace />} />
                 <Route path="inventory" element={<Navigate to="/admin/equipment?tab=inventory" replace />} />
                 <Route path="quotes" element={<AdminQuotes />} />
+                <Route path="orders" element={<Orders />} />
                 <Route path="quote-builder" element={<QuoteBuilder />} />
                 <Route path="email-templates" element={<EmailTemplates />} />
                 <Route path="communication" element={<Communications />} />

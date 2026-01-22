@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Calculator, TrendingUp, AlertCircle } from 'lucide-react';
+import { trackTradeInCalculation, trackTradeInQuoteRequested } from '@/lib/posthog';
 
 interface TradeInData {
   equipmentType: string;
@@ -92,6 +93,7 @@ const TradeInCalculator = ({ onGetQuote }: TradeInCalculatorProps) => {
   const [condition, setCondition] = useState('');
   const [operatingStatus, setOperatingStatus] = useState('');
   const [hasServiceHistory, setHasServiceHistory] = useState(false);
+  const hasTrackedEstimate = useRef(false);
 
   const estimate = useMemo(() => {
     if (!equipmentType || !manufacturer || !year || !condition) {
@@ -120,6 +122,31 @@ const TradeInCalculator = ({ onGetQuote }: TradeInCalculatorProps) => {
     return { low, high };
   }, [equipmentType, manufacturer, year, condition, operatingStatus, hasServiceHistory]);
 
+  // Track when estimate is calculated (only once per unique calculation)
+  useEffect(() => {
+    if (estimate && equipmentType && manufacturer && !hasTrackedEstimate.current) {
+      const equipment = equipmentTypes.find(e => e.value === equipmentType);
+      const mfr = manufacturers.find(m => m.value === manufacturer);
+      const cond = conditions.find(c => c.value === condition);
+      
+      trackTradeInCalculation({
+        equipmentType: equipment?.label || equipmentType,
+        manufacturer: mfr?.label || manufacturer,
+        year,
+        condition: cond?.label || condition,
+        estimatedLow: estimate.low,
+        estimatedHigh: estimate.high,
+      });
+      
+      hasTrackedEstimate.current = true;
+    }
+  }, [estimate, equipmentType, manufacturer, year, condition]);
+  
+  // Reset tracking when form changes significantly
+  useEffect(() => {
+    hasTrackedEstimate.current = false;
+  }, [equipmentType, manufacturer, year, condition]);
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -135,6 +162,13 @@ const TradeInCalculator = ({ onGetQuote }: TradeInCalculatorProps) => {
     const mfr = manufacturers.find(m => m.value === manufacturer);
     const cond = conditions.find(c => c.value === condition);
     const status = operatingStatuses.find(s => s.value === operatingStatus);
+
+    // Track quote request
+    trackTradeInQuoteRequested({
+      equipmentType: equipment?.label || '',
+      manufacturer: mfr?.label || '',
+      estimatedValue: (estimate.low + estimate.high) / 2,
+    });
 
     onGetQuote?.({
       equipmentType: equipment?.label || '',

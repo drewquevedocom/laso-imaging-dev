@@ -24,6 +24,7 @@ import { fetchAllShopifyProducts, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import MakeOfferModal from "@/components/offer/MakeOfferModal";
+import SaveEquipmentButton from "@/components/equipment/SaveEquipmentButton";
 
 // Multi-type queries for categories that span multiple Shopify product types
 const categoryMap: Record<string, string> = {
@@ -344,8 +345,23 @@ const ProductListing = () => {
                 return (
                   <div
                     key={product.node.id}
-                    className="bg-card rounded-xl border border-border overflow-hidden hover:shadow-card transition-all group"
+                    className="bg-card rounded-xl border border-border overflow-hidden hover:shadow-card transition-all group relative"
                   >
+                    {/* Save Equipment Button */}
+                    <div className="absolute top-3 right-3 z-10">
+                      <SaveEquipmentButton
+                        productId={product.node.id}
+                        productName={product.node.title}
+                        productData={{
+                          image: image?.url,
+                          price: price ? parseFloat(price.amount) : undefined,
+                          handle: product.node.handle,
+                        }}
+                        variant="icon"
+                        className="bg-white/90 dark:bg-card/90 shadow-sm hover:bg-white dark:hover:bg-card"
+                      />
+                    </div>
+                    
                     <Link to={`/product/${product.node.handle}`}>
                       <div className="relative h-56 overflow-hidden bg-secondary">
                         {image && (
@@ -440,11 +456,24 @@ const ProductListing = () => {
 
                     <div className="flex-1 p-5 flex flex-col justify-between">
                       <div>
-                        <Link to={`/product/${product.node.handle}`}>
-                          <h3 className="text-lg font-bold text-foreground mb-1 hover:text-accent transition-colors">
-                            {product.node.title}
-                          </h3>
-                        </Link>
+                        <div className="flex items-start justify-between gap-2">
+                          <Link to={`/product/${product.node.handle}`}>
+                            <h3 className="text-lg font-bold text-foreground mb-1 hover:text-accent transition-colors">
+                              {product.node.title}
+                            </h3>
+                          </Link>
+                          <SaveEquipmentButton
+                            productId={product.node.id}
+                            productName={product.node.title}
+                            productData={{
+                              image: image?.url,
+                              price: price ? parseFloat(price.amount) : undefined,
+                              handle: product.node.handle,
+                            }}
+                            variant="icon"
+                            className="flex-shrink-0"
+                          />
+                        </div>
                         <p className="text-muted-foreground text-sm mb-2 line-clamp-2">
                           {product.node.description}
                         </p>
