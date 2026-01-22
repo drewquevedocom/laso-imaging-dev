@@ -346,6 +346,511 @@ LASO Imaging offers comprehensive CT solutions including installation, training,
     brands: ['GE', 'Siemens', 'Philips', 'Toshiba', 'Canon'],
     searchQuery: 'CT',
   },
+
+  'extremity-mri': {
+    slug: 'extremity-mri',
+    title: 'Extremity MRI Systems',
+    metaTitle: 'Used Extremity MRI Systems for Sale | Dedicated MSK MRI',
+    metaDescription: 'Buy refurbished extremity MRI systems for orthopedic practices. ONI, Esaote, and GE dedicated extremity MRI machines with installation and warranty.',
+    answerCapsule: 'Extremity MRI systems are compact, dedicated scanners designed specifically for imaging arms, legs, hands, feet, and joints. These specialized systems offer excellent musculoskeletal imaging in a smaller footprint ideal for orthopedic practices and sports medicine clinics.',
+    description: `## Dedicated Extremity MRI Systems
+
+Extremity MRI systems represent a specialized category of magnetic resonance imaging designed exclusively for musculoskeletal applications. These compact systems offer unique advantages for orthopedic practices, sports medicine clinics, and specialty imaging centers.
+
+### Advantages of Extremity MRI
+
+**Compact Footprint**: Extremity MRI systems require minimal space—often fitting in a standard exam room—without the extensive shielding and site preparation required for full-body MRI.
+
+**Lower Operating Costs**: With smaller magnets and simplified infrastructure, extremity MRI systems consume less power and require less maintenance than conventional MRI scanners.
+
+**Patient Comfort**: Patients sit or recline comfortably while only their extremity enters the magnet, eliminating claustrophobia concerns entirely.
+
+**Focused Clinical Application**: Purpose-built for MSK imaging, these systems excel at imaging shoulders, elbows, wrists, hands, knees, ankles, and feet.
+
+### Popular Extremity MRI Models
+
+**ONI Medical Systems**: OrthOne 1.0T - High-field dedicated extremity MRI
+**Esaote**: C-Scan, E-Scan, G-Scan, O-Scan - Range of MSK-focused systems
+**GE Healthcare**: Optima MR430s - 1.5T small-bore extremity system
+
+### Ideal Applications
+
+- Orthopedic surgery practices
+- Sports medicine clinics
+- Workers' compensation imaging
+- Physical therapy centers
+- Outpatient imaging centers
+
+LASO Imaging offers quality refurbished extremity MRI systems with complete installation and training.`,
+    faqs: [
+      {
+        question: 'How much does an extremity MRI cost?',
+        answer: 'Extremity MRI systems typically range from $75,000 to $350,000 depending on field strength and features. Lower-field systems start around $75,000, while high-field 1.0T+ systems range from $200,000-$350,000.',
+      },
+      {
+        question: 'What can extremity MRI scan?',
+        answer: 'Extremity MRI can image shoulders, elbows, wrists, hands, fingers, hips (some models), knees, ankles, and feet. These systems excel at detecting ligament tears, cartilage damage, stress fractures, and soft tissue injuries.',
+      },
+      {
+        question: 'Do I need special shielding for extremity MRI?',
+        answer: 'Most extremity MRI systems have integrated shielding and require minimal or no additional RF shielding. This dramatically reduces installation costs compared to full-body MRI.',
+      },
+      {
+        question: 'Can extremity MRI scan the spine?',
+        answer: 'No, extremity MRI systems cannot image the spine, brain, or torso. They are dedicated to peripheral musculoskeletal imaging only.',
+      },
+    ],
+    priceRanges: [
+      { type: 'ONI OrthOne 1.0T', low: 200000, high: 350000 },
+      { type: 'Esaote G-Scan Brio', low: 150000, high: 275000 },
+      { type: 'Esaote O-Scan', low: 100000, high: 175000 },
+      { type: 'GE Optima MR430s', low: 175000, high: 300000 },
+    ],
+    keywords: ['extremity MRI', 'MSK MRI', 'orthopedic MRI', 'dedicated extremity MRI', 'ONI MRI', 'Esaote MRI'],
+    brands: ['ONI', 'Esaote', 'GE', 'Siemens'],
+    searchQuery: 'Extremity',
+  },
+
+  'pet-ct-scanners': {
+    slug: 'pet-ct-scanners',
+    title: 'PET/CT Scanners for Sale',
+    metaTitle: 'Used PET/CT Scanners for Sale | Refurbished PET-CT Systems',
+    metaDescription: 'Buy refurbished PET/CT scanners from GE, Siemens, and Philips. Complete PET-CT systems with installation, hot lab design, and cyclotron consultation.',
+    answerCapsule: 'PET/CT scanners combine positron emission tomography with computed tomography to provide both metabolic and anatomical imaging in a single exam. LASO Imaging offers certified pre-owned PET/CT systems with comprehensive installation and regulatory compliance support.',
+    description: `## PET/CT Hybrid Imaging Systems
+
+PET/CT scanners represent the gold standard in oncological and neurological imaging, combining the metabolic sensitivity of PET with the anatomical precision of CT in a single powerful diagnostic tool.
+
+### Understanding PET/CT Technology
+
+**Metabolic Imaging**: PET detects radiotracer uptake to visualize cellular activity, making it invaluable for cancer detection, staging, and treatment monitoring.
+
+**Anatomical Correlation**: The integrated CT component provides precise anatomical localization of PET findings and enables attenuation correction for accurate quantification.
+
+**Clinical Applications**: Oncology (tumor detection, staging, restaging), cardiology (myocardial viability), and neurology (dementia, epilepsy localization).
+
+### PET/CT Scanner Configurations
+
+**Time-of-Flight (TOF) PET**: Modern systems with improved spatial resolution and signal-to-noise ratio
+**Digital PET Detectors**: Latest technology offering 2x sensitivity improvement over analog systems
+**CT Slice Count**: PET/CT systems typically include 16 to 128+ slice CT for diagnostic quality imaging
+
+### Leading PET/CT Models
+
+**GE Healthcare**: Discovery IQ, Discovery MI (digital), Discovery 710
+**Siemens Healthineers**: Biograph mCT, Biograph Vision (digital)
+**Philips Healthcare**: Gemini TF, Vereos (digital)
+
+### Site Requirements
+
+PET/CT installation requires:
+- Adequate floor loading capacity
+- Hot lab for radiopharmaceutical handling
+- Dedicated uptake rooms
+- Regulatory compliance (NRC or Agreement State license)
+- Staff with nuclear medicine credentials
+
+LASO Imaging provides turnkey PET/CT solutions including hot lab design and regulatory guidance.`,
+    faqs: [
+      {
+        question: 'How much does a used PET/CT scanner cost?',
+        answer: 'Used PET/CT systems range from $250,000 for older analog systems to $1,500,000+ for recent digital PET/CT scanners. Mid-range TOF PET/CT systems typically cost $400,000-$800,000.',
+      },
+      {
+        question: 'What license do I need for PET/CT?',
+        answer: 'PET/CT facilities require an NRC radioactive materials license or Agreement State equivalent. You also need radiation safety officers and qualified nuclear medicine technologists and physicians.',
+      },
+      {
+        question: 'Do I need a cyclotron for PET/CT?',
+        answer: 'No, most PET/CT facilities receive unit-dose FDG from regional radiopharmacies. Only high-volume facilities or research centers typically justify on-site cyclotron installation.',
+      },
+      {
+        question: 'What is the difference between PET/CT and CT?',
+        answer: 'CT shows anatomical structure while PET shows metabolic activity. PET/CT combines both, enabling detection of diseases based on cellular function (cancer cells consume more glucose) with precise anatomical localization.',
+      },
+    ],
+    priceRanges: [
+      { type: 'GE Discovery IQ PET/CT', low: 450000, high: 750000 },
+      { type: 'GE Discovery MI Digital PET/CT', low: 900000, high: 1500000 },
+      { type: 'Siemens Biograph mCT', low: 400000, high: 700000 },
+      { type: 'Philips Gemini TF', low: 300000, high: 550000 },
+    ],
+    keywords: ['PET/CT', 'PET CT scanner', 'used PET/CT', 'refurbished PET CT', 'PET scanner cost', 'nuclear medicine'],
+    brands: ['GE', 'Siemens', 'Philips'],
+    searchQuery: 'PET',
+  },
+
+  'refurbished': {
+    slug: 'refurbished',
+    title: 'Refurbished Medical Imaging Equipment',
+    metaTitle: 'Refurbished MRI & CT Scanners for Sale | Quality Pre-Owned Equipment',
+    metaDescription: 'Buy quality refurbished MRI and CT scanners from FDA registered dealer. Certified pre-owned medical imaging equipment with warranty and installation.',
+    answerCapsule: 'Refurbished medical imaging equipment undergoes comprehensive restoration to original manufacturer specifications, including cosmetic renewal, parts replacement, and rigorous testing. LASO Imaging offers fully refurbished MRI and CT systems with comprehensive warranties.',
+    description: `## Quality Refurbished Medical Imaging Equipment
+
+Refurbished medical imaging equipment offers healthcare facilities significant cost savings while maintaining clinical performance standards. Understanding the refurbishment process helps buyers make confident purchasing decisions.
+
+### What Does "Refurbished" Mean?
+
+True refurbishment goes beyond basic testing to include:
+
+**Complete Inspection**: Every system component is evaluated against manufacturer specifications
+**Parts Replacement**: Worn components are replaced with OEM or equivalent quality parts
+**Software Updates**: Systems receive latest compatible software versions
+**Cosmetic Restoration**: Covers, panels, and patient areas are restored to like-new condition
+**Performance Testing**: Rigorous QA protocols verify imaging performance
+
+### LASO Imaging Refurbishment Standards
+
+Our refurbishment process includes:
+- Component-level inspection and testing
+- Replacement of consumables and worn parts
+- Full system calibration
+- Image quality verification per ACR/manufacturer guidelines
+- Cosmetic restoration
+- Documentation of all work performed
+
+### Advantages of Refurbished Equipment
+
+**Cost Savings**: Typically 40-60% less than new equipment
+**Proven Technology**: Mature, reliable platforms with established track records
+**Faster Availability**: Shorter lead times than new equipment orders
+**Warranty Coverage**: Quality dealers provide comprehensive warranty protection
+**Service Support**: Parts availability for popular platforms remains excellent
+
+### What to Look for in a Refurbished System
+
+- Detailed refurbishment documentation
+- Warranty terms and coverage
+- Service and support availability
+- Dealer reputation and references
+- OEM parts usage
+- System age and scan count history
+
+Contact LASO Imaging for our current inventory of refurbished MRI and CT systems.`,
+    faqs: [
+      {
+        question: 'Is refurbished MRI equipment reliable?',
+        answer: 'Yes, properly refurbished MRI equipment from reputable dealers is highly reliable. Quality refurbishment includes comprehensive testing, parts replacement, and warranty coverage comparable to new equipment.',
+      },
+      {
+        question: 'What is the difference between used and refurbished equipment?',
+        answer: 'Used equipment is sold as-is after basic testing. Refurbished equipment undergoes comprehensive restoration including parts replacement, cosmetic work, calibration, and rigorous performance verification.',
+      },
+      {
+        question: 'How much do I save buying refurbished?',
+        answer: 'Refurbished medical imaging equipment typically costs 40-60% less than new. A $1.5M new MRI might cost $600,000-$900,000 refurbished with similar warranty coverage.',
+      },
+      {
+        question: 'What warranty comes with refurbished equipment?',
+        answer: 'LASO Imaging provides 12-month parts and labor warranty on refurbished systems. Extended warranty options are available for additional coverage.',
+      },
+    ],
+    priceRanges: [
+      { type: 'Refurbished 1.5T MRI', low: 150000, high: 450000 },
+      { type: 'Refurbished 3T MRI', low: 350000, high: 900000 },
+      { type: 'Refurbished 64-Slice CT', low: 75000, high: 200000 },
+      { type: 'Refurbished Open MRI', low: 100000, high: 350000 },
+    ],
+    keywords: ['refurbished MRI', 'refurbished CT', 'pre-owned medical equipment', 'used MRI', 'reconditioned CT', 'certified pre-owned'],
+    brands: ['GE', 'Siemens', 'Philips', 'Toshiba', 'Hitachi'],
+    searchQuery: 'MRI OR CT',
+  },
+
+  'used': {
+    slug: 'used',
+    title: 'Used Medical Imaging Equipment',
+    metaTitle: 'Used MRI & CT Scanners for Sale | Pre-Owned Medical Equipment',
+    metaDescription: 'Buy used MRI and CT scanners at competitive prices. Pre-owned medical imaging equipment from GE, Siemens, Philips with inspection and warranty options.',
+    answerCapsule: 'Used medical imaging equipment provides healthcare facilities with cost-effective imaging solutions. LASO Imaging offers inspected and tested pre-owned MRI and CT systems with flexible warranty options and professional installation services.',
+    description: `## Pre-Owned Medical Imaging Equipment
+
+Used medical imaging equipment offers budget-conscious healthcare facilities access to quality diagnostic imaging technology at significant cost savings over new equipment purchases.
+
+### Understanding Used Equipment Grades
+
+**As-Is Systems**: Sold without warranty; buyer assumes all risk
+**Inspected Systems**: Tested and verified functional; may include limited warranty
+**Certified Systems**: Comprehensive testing with enhanced warranty coverage
+
+### Evaluating Used Imaging Equipment
+
+When considering used equipment, evaluate:
+
+**System History**: Review scan counts, service records, and previous operating environment
+**Age and Model Year**: Newer systems typically offer better parts availability and support
+**Software Version**: Ensure software is current enough for your clinical needs
+**Cosmetic Condition**: Exterior condition often reflects overall system care
+**Magnet Health** (MRI): Helium levels, cold head condition, and magnet homogeneity
+
+### Benefits of Buying Used
+
+**Maximum Cost Savings**: Used equipment can cost 50-70% less than new
+**Budget Flexibility**: Lower acquisition cost frees capital for other investments
+**Immediate Availability**: Many used systems available for quick shipment
+**Proven Performance**: Track record of reliable clinical operation
+
+### LASO Imaging Used Equipment Process
+
+We help buyers evaluate used equipment through:
+- Comprehensive pre-purchase inspections
+- Transparent system history documentation
+- Honest condition assessments
+- Flexible warranty options
+- Professional installation and training
+
+Browse our inventory of used MRI and CT systems or contact us for specific equipment needs.`,
+    faqs: [
+      {
+        question: 'How old is too old for used MRI equipment?',
+        answer: 'MRI systems 10-15 years old can still provide excellent clinical service if properly maintained. Key factors include magnet condition, parts availability, and service support rather than age alone.',
+      },
+      {
+        question: 'Should I buy used or refurbished equipment?',
+        answer: 'Used equipment offers lower cost but more risk. Refurbished equipment costs more but includes comprehensive restoration and warranty. Choose based on your budget, risk tolerance, and technical capabilities.',
+      },
+      {
+        question: 'Can I get financing for used equipment?',
+        answer: 'Yes, LASO Imaging offers financing options for used medical imaging equipment. Terms and rates may differ from new equipment financing but multiple options are available.',
+      },
+      {
+        question: 'What if used equipment breaks down?',
+        answer: 'LASO Imaging offers service contracts and repair support for equipment we sell. We recommend warranty coverage for used purchases to protect against unexpected repair costs.',
+      },
+    ],
+    priceRanges: [
+      { type: 'Used 1.5T MRI (As-Is)', low: 75000, high: 250000 },
+      { type: 'Used 3T MRI (Inspected)', low: 250000, high: 600000 },
+      { type: 'Used 16-Slice CT', low: 25000, high: 75000 },
+      { type: 'Used 64-Slice CT', low: 50000, high: 150000 },
+    ],
+    keywords: ['used MRI', 'used CT scanner', 'pre-owned MRI', 'second-hand CT', 'used medical equipment', 'cheap MRI'],
+    brands: ['GE', 'Siemens', 'Philips', 'Toshiba', 'Hitachi', 'Canon'],
+    searchQuery: 'MRI OR CT',
+  },
+
+  'certified-pre-owned': {
+    slug: 'certified-pre-owned',
+    title: 'Certified Pre-Owned Imaging Equipment',
+    metaTitle: 'Certified Pre-Owned MRI & CT | CPO Medical Equipment',
+    metaDescription: 'Buy certified pre-owned MRI and CT equipment with extended warranty. CPO medical imaging systems with rigorous certification and comprehensive support.',
+    answerCapsule: 'Certified Pre-Owned (CPO) imaging equipment meets rigorous quality standards with extended warranty coverage and comprehensive documentation. LASO Imaging CPO systems offer near-new performance at significant savings.',
+    description: `## Certified Pre-Owned Medical Imaging Equipment
+
+Certified Pre-Owned (CPO) imaging equipment represents the highest standard of refurbished medical equipment, combining rigorous certification processes with extended warranty protection.
+
+### What Makes Equipment "Certified Pre-Owned"?
+
+CPO certification indicates:
+
+**Multi-Point Inspection**: Comprehensive evaluation against manufacturer specifications
+**Verified Performance**: Imaging quality verified through standardized protocols
+**Complete Restoration**: All systems restored to optimal operating condition
+**Extended Warranty**: Enhanced warranty coverage beyond standard used equipment
+**Documentation Package**: Complete history, certification records, and test results
+
+### LASO Imaging CPO Standards
+
+Our Certified Pre-Owned program includes:
+- 150+ point inspection checklist
+- OEM or premium equivalent parts
+- Complete cosmetic restoration
+- Full software update to supported version
+- ACR phantom testing and documentation
+- 18-month comprehensive warranty
+- Priority technical support
+
+### CPO vs. Other Equipment Categories
+
+| Feature | As-Is | Refurbished | CPO |
+|---------|-------|-------------|-----|
+| Inspection | Basic | Comprehensive | Exhaustive |
+| Parts Replaced | None | As needed | Preventive |
+| Warranty | None/Limited | 12 months | 18 months |
+| Documentation | Minimal | Standard | Complete |
+| Support Priority | Standard | Standard | Enhanced |
+
+### Ideal CPO Candidates
+
+Certified Pre-Owned is ideal for:
+- Facilities needing near-new quality at lower cost
+- Risk-averse buyers wanting maximum protection
+- Long-term equipment investments
+- Buyers without in-house technical expertise
+
+Explore our Certified Pre-Owned inventory or contact us to discuss your requirements.`,
+    faqs: [
+      {
+        question: 'What does certified pre-owned mean for MRI?',
+        answer: 'Certified Pre-Owned MRI equipment has passed rigorous inspection, received comprehensive refurbishment with new parts, and includes extended warranty coverage. CPO systems meet strict quality standards.',
+      },
+      {
+        question: 'How much more does CPO cost than refurbished?',
+        answer: 'CPO equipment typically costs 10-20% more than standard refurbished but includes enhanced warranty, more comprehensive restoration, and complete documentation.',
+      },
+      {
+        question: 'Is CPO equipment as good as new?',
+        answer: 'CPO equipment performs comparably to new for clinical imaging. While cosmetics may show minor wear, image quality and reliability match new equipment standards.',
+      },
+      {
+        question: 'What warranty comes with CPO equipment?',
+        answer: 'LASO Imaging CPO equipment includes 18-month comprehensive warranty covering parts and labor. Extended warranty options are available for additional protection.',
+      },
+    ],
+    priceRanges: [
+      { type: 'CPO 1.5T MRI', low: 225000, high: 500000 },
+      { type: 'CPO 3T MRI', low: 450000, high: 1000000 },
+      { type: 'CPO 64-Slice CT', low: 125000, high: 250000 },
+      { type: 'CPO 128-Slice CT', low: 250000, high: 450000 },
+    ],
+    keywords: ['certified pre-owned MRI', 'CPO CT scanner', 'certified MRI', 'warranty MRI', 'premium refurbished'],
+    brands: ['GE', 'Siemens', 'Philips', 'Toshiba'],
+    searchQuery: 'MRI OR CT',
+  },
+
+  'x-ray-systems': {
+    slug: 'x-ray-systems',
+    title: 'X-Ray Systems for Sale',
+    metaTitle: 'Used X-Ray Equipment for Sale | Refurbished X-Ray Machines',
+    metaDescription: 'Buy refurbished X-ray systems including digital radiography, fluoroscopy, and portable X-ray units. Quality pre-owned X-ray equipment with installation.',
+    answerCapsule: 'X-ray systems provide fundamental diagnostic imaging using ionizing radiation to visualize bones, organs, and tissues. LASO Imaging offers digital radiography, fluoroscopy, and portable X-ray units from leading manufacturers with professional installation.',
+    description: `## X-Ray Imaging Systems
+
+X-ray technology remains the foundation of diagnostic imaging, providing rapid, cost-effective visualization of skeletal structures, chest pathology, and more.
+
+### Types of X-Ray Equipment
+
+**Digital Radiography (DR)**: Direct digital capture with immediate image display
+**Computed Radiography (CR)**: Cassette-based digital imaging with reader processing
+**Fluoroscopy**: Real-time X-ray imaging for dynamic studies and interventional procedures
+**Portable/Mobile X-Ray**: Compact units for bedside and field imaging
+
+### Digital Radiography Advantages
+
+Modern DR systems offer:
+- Immediate image preview (2-5 seconds)
+- Lower radiation dose than film
+- Enhanced image processing capabilities
+- PACS integration for workflow efficiency
+- No cassettes or processing chemicals
+
+### Popular X-Ray Platforms
+
+**GE Healthcare**: Optima XR220/240, Definium series, OEC C-arms
+**Siemens Healthineers**: Ysio, Multix, AXIOM series
+**Philips Healthcare**: DigitalDiagnost, FlexiDiagnost
+**Canon Medical**: CXDI series
+**Carestream**: DRX series
+
+### X-Ray Room Configurations
+
+**Single-Detector Room**: Wall bucky + table for standard radiography
+**Dual-Detector Room**: Wall and table detectors for increased efficiency
+**Rad/Fluoro Room**: Combined radiography and fluoroscopy capability
+**Mobile/Portable**: Battery-powered units for bedside imaging
+
+LASO Imaging offers complete X-ray room solutions including installation and training.`,
+    faqs: [
+      {
+        question: 'How much does a digital X-ray machine cost?',
+        answer: 'Digital X-ray (DR) systems range from $50,000 for basic portable units to $300,000+ for full room installations. Retrofit DR panels for existing X-ray rooms cost $40,000-$80,000.',
+      },
+      {
+        question: 'Should I buy DR or CR X-ray?',
+        answer: 'DR is strongly preferred for new installations due to faster workflow, better image quality, and lower lifetime costs. CR may be suitable only for very low-volume applications.',
+      },
+      {
+        question: 'What shielding does an X-ray room need?',
+        answer: 'X-ray room shielding requirements depend on workload and adjacent spaces. A qualified medical physicist must perform shielding calculations based on your specific installation.',
+      },
+      {
+        question: 'How long do X-ray tubes last?',
+        answer: 'X-ray tubes typically last 5-10 years depending on workload. Portable unit tubes may last 100,000+ exposures while high-output fluoroscopy tubes have shorter lifespans.',
+      },
+    ],
+    priceRanges: [
+      { type: 'GE Optima XR220 DR Room', low: 150000, high: 275000 },
+      { type: 'Siemens Ysio DR Room', low: 175000, high: 300000 },
+      { type: 'Portable DR Unit', low: 50000, high: 125000 },
+      { type: 'OEC C-Arm Fluoroscopy', low: 40000, high: 150000 },
+    ],
+    keywords: ['X-ray machine', 'digital X-ray', 'DR system', 'fluoroscopy', 'portable X-ray', 'C-arm'],
+    brands: ['GE', 'Siemens', 'Philips', 'Canon', 'Carestream'],
+    searchQuery: 'X-ray OR DR OR Fluoroscopy',
+  },
+
+  'new': {
+    slug: 'new',
+    title: 'New Medical Imaging Equipment',
+    metaTitle: 'New MRI & CT Systems | Factory-Fresh Medical Equipment',
+    metaDescription: 'Buy new MRI and CT systems from authorized dealer partners. Factory-fresh medical imaging equipment with OEM warranty and manufacturer support.',
+    answerCapsule: 'New medical imaging equipment offers the latest technology, full manufacturer warranty, and direct OEM support. LASO Imaging works with authorized dealer partners to provide new MRI, CT, and other imaging systems with competitive pricing.',
+    description: `## New Medical Imaging Equipment
+
+For facilities requiring the latest technology and full manufacturer support, new medical imaging equipment provides cutting-edge capabilities with comprehensive OEM warranty coverage.
+
+### Advantages of New Equipment
+
+**Latest Technology**: Access to newest software features, AI capabilities, and imaging innovations
+**Full OEM Warranty**: Comprehensive manufacturer warranty typically 12-24 months
+**Direct Support**: Access to OEM training, applications specialists, and technical support
+**Customization**: Configure system to exact specifications for your clinical needs
+**Longest Useful Life**: Maximum years of productive service ahead
+
+### When to Choose New Equipment
+
+New equipment is ideal when:
+- Latest technology features are clinically essential
+- OEM support relationship is important
+- Budget accommodates higher initial investment
+- Facility lifecycle planning favors long-term ownership
+- Regulatory requirements mandate current technology
+
+### Considerations for New Equipment
+
+**Lead Time**: New equipment typically requires 3-6 months from order to installation
+**Cost**: New equipment costs 40-100% more than refurbished equivalents
+**Depreciation**: Fastest value decline in first 2-3 years
+**Site Requirements**: May need updated infrastructure for latest systems
+
+### LASO Imaging New Equipment Services
+
+We assist new equipment purchases through:
+- Authorized dealer partnerships
+- Competitive bid management
+- Trade-in of existing equipment
+- Installation coordination
+- Financing arrangements
+
+Contact LASO Imaging to discuss new equipment options for your facility.`,
+    faqs: [
+      {
+        question: 'How much does a new MRI machine cost?',
+        answer: 'New MRI systems range from $1,000,000 for basic 1.5T scanners to $3,000,000+ for advanced 3T systems with all options. Wide-bore and specialized configurations command premium pricing.',
+      },
+      {
+        question: 'How long is the warranty on new equipment?',
+        answer: 'New medical imaging equipment typically includes 12-24 month OEM warranty. Extended warranty and service contracts are available for ongoing coverage.',
+      },
+      {
+        question: 'Should I buy new or refurbished equipment?',
+        answer: 'The choice depends on budget, technology requirements, and risk tolerance. Refurbished saves 40-60% for similar clinical capability; new provides latest features and OEM relationship.',
+      },
+      {
+        question: 'How long does it take to get new equipment?',
+        answer: 'New equipment lead times typically range from 3-6 months from order to installation, depending on manufacturer backlog and system configuration.',
+      },
+    ],
+    priceRanges: [
+      { type: 'New 1.5T MRI System', low: 1000000, high: 1750000 },
+      { type: 'New 3T MRI System', low: 1800000, high: 3500000 },
+      { type: 'New 64-Slice CT', low: 400000, high: 750000 },
+      { type: 'New 128-Slice CT', low: 650000, high: 1200000 },
+    ],
+    keywords: ['new MRI', 'new CT scanner', 'new medical equipment', 'OEM MRI', 'factory MRI', 'buy new CT'],
+    brands: ['GE', 'Siemens', 'Philips', 'Canon', 'United Imaging'],
+    searchQuery: 'MRI OR CT',
+  },
 };
 
 // Get content for a specific category
