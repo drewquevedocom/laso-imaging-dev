@@ -3,13 +3,17 @@ import geLogo from "@/assets/brands/ge.jpg";
 import philipsLogo from "@/assets/brands/philips.jpg";
 import toshibaLogo from "@/assets/brands/toshiba.jpg";
 import siemensLogo from "@/assets/brands/siemens.jpg";
+import canonLogo from "@/assets/brands/canon.png";
+import haskrisLogo from "@/assets/brands/haskris.png";
 
 const BrandLogos = () => {
   const brands = [
     { name: "GE Healthcare", logo: geLogo, slug: "ge" },
     { name: "Philips Healthcare", logo: philipsLogo, slug: "philips" },
-    { name: "Toshiba / Canon Medical", logo: toshibaLogo, slug: "toshiba" },
     { name: "Siemens Healthineers", logo: siemensLogo, slug: "siemens" },
+    { name: "Canon Medical", logo: canonLogo, slug: "canon" },
+    { name: "Toshiba Medical", logo: toshibaLogo, slug: "toshiba" },
+    { name: "Haskris", logo: haskrisLogo, slug: "haskris" },
   ];
 
   return (
@@ -18,7 +22,7 @@ const BrandLogos = () => {
         <p className="text-center text-sm text-muted-foreground mb-8 font-medium tracking-wide">
           TRUSTED BRANDS WE SERVICE & SELL
         </p>
-        <div className="flex items-center justify-center gap-16 md:gap-32 flex-wrap">
+        <div className="flex items-center justify-center gap-8 md:gap-16 lg:gap-24 flex-wrap">
           {brands.map((brand) => (
             <Link 
               key={brand.name}

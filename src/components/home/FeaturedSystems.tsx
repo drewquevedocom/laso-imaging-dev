@@ -106,7 +106,7 @@ const FeaturedSystems = () => {
               Hand-selected equipment from our inventory, featuring certified pre-owned systems with warranty coverage.
             </p>
           </div>
-          <Link to="/products?category=mri-systems">
+          <Link to="/products?category=imaging-systems">
             <Button variant="outline" className="group">
               View All Systems
               <Eye className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
