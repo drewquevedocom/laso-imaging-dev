@@ -112,6 +112,39 @@ export const trackInventoryAdded = (productId: string, productName: string, moda
   });
 };
 
+// ============= Trade-In Calculator Events =============
+
+export const trackTradeInCalculation = (data: {
+  equipmentType: string;
+  manufacturer: string;
+  year: string;
+  condition: string;
+  estimatedLow: number;
+  estimatedHigh: number;
+}) => {
+  posthog.capture('trade_in_calculated', {
+    equipment_type: data.equipmentType,
+    manufacturer: data.manufacturer,
+    year: data.year,
+    condition: data.condition,
+    estimated_low: data.estimatedLow,
+    estimated_high: data.estimatedHigh,
+    estimated_midpoint: (data.estimatedLow + data.estimatedHigh) / 2,
+  });
+};
+
+export const trackTradeInQuoteRequested = (data: {
+  equipmentType: string;
+  manufacturer: string;
+  estimatedValue: number;
+}) => {
+  posthog.capture('trade_in_quote_requested', {
+    equipment_type: data.equipmentType,
+    manufacturer: data.manufacturer,
+    estimated_value: data.estimatedValue,
+  });
+};
+
 // ============= User Identification =============
 
 export const identifyUser = (userId: string, properties?: Record<string, unknown>) => {

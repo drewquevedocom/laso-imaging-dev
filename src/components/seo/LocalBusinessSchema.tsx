@@ -2,12 +2,16 @@ import { Helmet } from 'react-helmet-async';
 
 interface LocalBusinessSchemaProps {
   pageType?: 'LocalBusiness' | 'MedicalBusiness';
+  includeOrganization?: boolean;
+  includeWebSite?: boolean;
 }
 
-const LocalBusinessSchema = ({ pageType = 'LocalBusiness' }: LocalBusinessSchemaProps) => {
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': pageType,
+const LocalBusinessSchema = ({ 
+  pageType = 'LocalBusiness',
+  includeOrganization = false,
+  includeWebSite = false,
+}: LocalBusinessSchemaProps) => {
+  const baseBusinessInfo = {
     name: 'LASO Imaging Solutions',
     description: 'FDA registered dealer of refurbished MRI, CT, and X-Ray medical imaging equipment. Sales, service, parts, and rentals nationwide.',
     url: 'https://lasoimaging.com',
@@ -45,9 +49,57 @@ const LocalBusinessSchema = ({ pageType = 'LocalBusiness' }: LocalBusinessSchema
     ],
   };
 
+  const localBusinessSchema = {
+    '@context': 'https://schema.org',
+    '@type': pageType,
+    ...baseBusinessInfo,
+  };
+
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'LASO Imaging Solutions',
+    url: 'https://lasoimaging.com',
+    logo: 'https://lasoimaging.com/logo-laso.png',
+    description: 'FDA registered dealer of refurbished MRI, CT, and X-Ray medical imaging equipment.',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+1-818-916-9503',
+      contactType: 'sales',
+      areaServed: 'US',
+      availableLanguage: ['English', 'Spanish'],
+    },
+    address: baseBusinessInfo.address,
+    sameAs: baseBusinessInfo.sameAs,
+  };
+
+  const webSiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'LASO Imaging Solutions',
+    url: 'https://lasoimaging.com',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://lasoimaging.com/products?query={search_term_string}',
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const schemas: any[] = [localBusinessSchema];
+  if (includeOrganization) schemas.push(organizationSchema);
+  if (includeWebSite) schemas.push(webSiteSchema);
+
   return (
     <Helmet>
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
+      {schemas.map((schema, index) => (
+        <script key={index} type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      ))}
     </Helmet>
   );
 };
