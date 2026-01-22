@@ -16,6 +16,7 @@ import { fetchShopifyProductByHandle, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import MakeOfferModal from "@/components/offer/MakeOfferModal";
+import SaveEquipmentButton from "@/components/equipment/SaveEquipmentButton";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -174,13 +175,26 @@ const ProductDetail = () => {
 
             {/* Product Info */}
             <div className="space-y-6">
-              <div>
-                <h1 className="text-3xl font-bold text-foreground mb-2">{product.node.title}</h1>
-                {selectedVariant && (
-                  <p className="text-3xl font-bold text-accent">
-                    {selectedVariant.price.currencyCode} {parseFloat(selectedVariant.price.amount).toLocaleString()}
-                  </p>
-                )}
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h1 className="text-3xl font-bold text-foreground mb-2">{product.node.title}</h1>
+                  {selectedVariant && (
+                    <p className="text-3xl font-bold text-accent">
+                      {selectedVariant.price.currencyCode} {parseFloat(selectedVariant.price.amount).toLocaleString()}
+                    </p>
+                  )}
+                </div>
+                <SaveEquipmentButton
+                  productId={product.node.id}
+                  productName={product.node.title}
+                  productData={{
+                    image: images[0]?.node.url,
+                    price: selectedVariant ? parseFloat(selectedVariant.price.amount) : undefined,
+                    handle: handle,
+                  }}
+                  variant="icon"
+                  className="h-12 w-12 flex-shrink-0"
+                />
               </div>
 
               {selectedVariant?.availableForSale && (

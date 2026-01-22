@@ -80,3 +80,6 @@ verify_jwt = false
 
 [functions.send-offer-followup-reminder]
 verify_jwt = false
+
+[functions.send-order-notification]
+verify_jwt = false

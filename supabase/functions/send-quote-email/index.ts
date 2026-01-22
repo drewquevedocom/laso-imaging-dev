@@ -236,6 +236,27 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
+    // Create customer notification if quote has customer_id
+    if (quote.customer_id) {
+      const { error: notifError } = await supabase.from("customer_notifications").insert({
+        customer_id: quote.customer_id,
+        type: "quote_sent",
+        title: "New Quote Received",
+        body: `Quote ${quote.quote_number} for ${formatCurrency(quote.total_amount)} has been sent to you.`,
+        data: {
+          quote_id: quote.id,
+          quote_number: quote.quote_number,
+          total_amount: quote.total_amount,
+        },
+      });
+      
+      if (notifError) {
+        console.error("Error creating customer notification:", notifError);
+      } else {
+        console.log("Customer notification created for quote:", quote.quote_number);
+      }
+    }
+
     return new Response(
       JSON.stringify({
         success: true,
