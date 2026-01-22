@@ -1,6 +1,10 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import Guides from "./pages/guides/Guides";
+import MRIMachineCost from "./pages/guides/MRIMachineCost";
+import CTScannerCost from "./pages/guides/CTScannerCost";
+import MobileRentalRates from "./pages/guides/MobileRentalRates";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
