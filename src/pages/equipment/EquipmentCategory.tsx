@@ -3,88 +3,33 @@ import { useParams, Link } from 'react-router-dom';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SEOHead from '@/components/seo/SEOHead';
+import FAQSchema from '@/components/seo/FAQSchema';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import MarkdownContent from '@/components/shared/MarkdownContent';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { searchProductsByType, ShopifyProduct } from '@/lib/shopify';
-import { Loader2, FileText, Eye, CheckCircle2 } from 'lucide-react';
-
-const equipmentData: Record<string, { title: string; description: string; metaDescription: string; keywords: string[]; searchQuery: string }> = {
-  '1-5t-mri-systems': {
-    title: '1.5T MRI Systems for Sale',
-    description: 'Browse our selection of certified pre-owned 1.5T MRI systems from leading manufacturers.',
-    metaDescription: 'Buy 1.5T MRI systems from GE, Siemens, and Philips. FDA registered dealer with certified pre-owned equipment and nationwide delivery.',
-    keywords: ['1.5T MRI', '1.5 Tesla MRI', 'refurbished MRI', 'MRI for sale'],
-    searchQuery: '1.5T'
-  },
-  '3t-mri-systems': {
-    title: '3.0T MRI Systems for Sale',
-    description: 'High-field 3T MRI systems for advanced clinical and research applications.',
-    metaDescription: 'Buy 3T MRI systems. High-field imaging from GE, Siemens, and Philips with comprehensive warranty.',
-    keywords: ['3T MRI', '3 Tesla MRI', 'high-field MRI', 'research MRI'],
-    searchQuery: '3T'
-  },
-  'open-mri-systems': {
-    title: 'Open MRI Systems for Sale',
-    description: 'Patient-friendly open MRI systems for claustrophobic and bariatric patients.',
-    metaDescription: 'Open MRI systems for sale. Patient-friendly imaging solutions from Hitachi, Siemens, and Philips.',
-    keywords: ['open MRI', 'open bore MRI', 'claustrophobic MRI', 'bariatric MRI'],
-    searchQuery: 'Open MRI'
-  },
-  'extremity-mri': {
-    title: 'Extremity MRI Systems',
-    description: 'Dedicated extremity MRI systems for orthopedic imaging.',
-    metaDescription: 'Extremity MRI systems for orthopedic practices. Dedicated imaging for hands, wrists, knees, and feet.',
-    keywords: ['extremity MRI', 'orthopedic MRI', 'dedicated MRI', 'ONI MSK'],
-    searchQuery: 'Extremity'
-  },
-  'mobile-mri-systems': {
-    title: 'Mobile MRI Systems for Sale',
-    description: 'Mobile MRI trailers and systems for temporary or permanent installations.',
-    metaDescription: 'Mobile MRI systems and trailers for sale. Complete mobile imaging solutions with installation support.',
-    keywords: ['mobile MRI', 'MRI trailer', 'portable MRI', 'mobile imaging'],
-    searchQuery: 'Mobile'
-  },
-  'refurbished': {
-    title: 'Refurbished MRI Equipment',
-    description: 'Quality refurbished MRI systems with comprehensive warranty and support.',
-    metaDescription: 'Refurbished MRI systems from FDA registered dealer. Quality pre-owned equipment at competitive prices.',
-    keywords: ['refurbished MRI', 'used MRI', 'pre-owned MRI', 'reconditioned MRI'],
-    searchQuery: 'MRI'
-  },
-  'used': {
-    title: 'Used MRI Systems',
-    description: 'Pre-owned MRI systems inspected and tested for reliable performance.',
-    metaDescription: 'Used MRI systems for sale. Inspected and tested equipment from trusted manufacturers.',
-    keywords: ['used MRI', 'pre-owned MRI', 'second-hand MRI', 'MRI equipment'],
-    searchQuery: 'MRI'
-  },
-  'certified-pre-owned': {
-    title: 'Certified Pre-Owned MRI',
-    description: 'Certified pre-owned MRI systems with extended warranty coverage.',
-    metaDescription: 'Certified pre-owned MRI systems with warranty. Thoroughly inspected and certified by our engineers.',
-    keywords: ['certified pre-owned MRI', 'CPO MRI', 'warranty MRI', 'certified MRI'],
-    searchQuery: 'MRI'
-  },
-  'new': {
-    title: 'New MRI Equipment',
-    description: 'New MRI systems from authorized dealer partners.',
-    metaDescription: 'New MRI systems from GE, Siemens, and Philips. Authorized dealer with factory support.',
-    keywords: ['new MRI', 'new MRI system', 'MRI purchase', 'buy MRI'],
-    searchQuery: 'MRI'
-  },
-};
+import { getEquipmentContent, EquipmentCategoryContent } from '@/data/equipmentContent';
+import { Loader2, FileText, Eye, Phone, MessageCircle } from 'lucide-react';
 
 const EquipmentCategory = () => {
   const { category } = useParams<{ category: string }>();
-  const equipment = category ? equipmentData[category] : null;
+  const content = category ? getEquipmentContent(category) : null;
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadProducts = async () => {
-      if (!equipment) return;
+      if (!content) return;
       
       try {
-        const shopifyProducts = await searchProductsByType(equipment.searchQuery, 20);
+        const shopifyProducts = await searchProductsByType(content.searchQuery, 20);
         setProducts(shopifyProducts);
       } catch (error) {
         console.error('Error loading products:', error);
@@ -94,7 +39,7 @@ const EquipmentCategory = () => {
     };
 
     loadProducts();
-  }, [equipment]);
+  }, [content]);
 
   const formatPrice = (amount: string, currencyCode: string) => {
     const numAmount = parseFloat(amount);
@@ -107,7 +52,18 @@ const EquipmentCategory = () => {
     }).format(numAmount);
   };
 
-  if (!equipment) {
+  const formatPriceRange = (low: number, high: number) => {
+    return `$${low.toLocaleString()} - $${high.toLocaleString()}`;
+  };
+
+  // Breadcrumb items for schema
+  const breadcrumbItems = content ? [
+    { name: 'Home', url: 'https://lasoimaging.com/' },
+    { name: 'Equipment', url: 'https://lasoimaging.com/products' },
+    { name: content.title, url: `https://lasoimaging.com/equipment/${category}` },
+  ] : [];
+
+  if (!content) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
@@ -127,29 +83,69 @@ const EquipmentCategory = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title={equipment.title}
-        description={equipment.metaDescription}
-        keywords={equipment.keywords}
+        title={content.metaTitle}
+        description={content.metaDescription}
+        keywords={content.keywords}
         canonical={`/equipment/${category}`}
         type="product"
       />
+      <FAQSchema faqs={content.faqs} />
+      <BreadcrumbSchema items={breadcrumbItems} />
       <Header />
       
       <main>
-        {/* Hero Section */}
-        <section className="bg-primary py-16 md:py-24">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-4">
-              {equipment.title}
+        {/* Breadcrumb Navigation */}
+        <nav className="container mx-auto px-4 py-4" aria-label="Breadcrumb">
+          <ol className="flex items-center space-x-2 text-sm text-muted-foreground">
+            <li><Link to="/" className="hover:text-accent">Home</Link></li>
+            <li><span className="mx-2">/</span></li>
+            <li><Link to="/products" className="hover:text-accent">Equipment</Link></li>
+            <li><span className="mx-2">/</span></li>
+            <li className="text-foreground font-medium">{content.title}</li>
+          </ol>
+        </nav>
+
+        {/* Hero Section with Answer Capsule */}
+        <section className="bg-primary py-12 md:py-16">
+          <div className="container mx-auto px-4">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-6">
+              {content.title}
             </h1>
-            <p className="text-lg text-primary-foreground/80 max-w-2xl mx-auto">
-              {equipment.description}
+            {/* Answer Capsule - 40-60 word summary for AI search */}
+            <p className="text-lg md:text-xl text-primary-foreground/90 max-w-4xl leading-relaxed">
+              {content.answerCapsule}
             </p>
           </div>
         </section>
 
+        {/* Brand Filters */}
+        {content.brands.length > 0 && (
+          <section className="border-b border-border bg-secondary/30">
+            <div className="container mx-auto px-4 py-4">
+              <div className="flex flex-wrap gap-2 items-center">
+                <span className="text-sm text-muted-foreground mr-2">Filter by Brand:</span>
+                <Link to={`/products?query=${encodeURIComponent(content.searchQuery)}`}>
+                  <Button variant="outline" size="sm" className="text-xs">
+                    All Brands
+                  </Button>
+                </Link>
+                {content.brands.map((brand) => (
+                  <Link 
+                    key={brand} 
+                    to={`/products?vendor=${encodeURIComponent(brand)}&query=${encodeURIComponent(content.searchQuery)}`}
+                  >
+                    <Button variant="outline" size="sm" className="text-xs">
+                      {brand}
+                    </Button>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Products Grid */}
-        <section className="py-16 md:py-24">
+        <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
             {loading ? (
               <div className="flex items-center justify-center py-12">
@@ -157,12 +153,22 @@ const EquipmentCategory = () => {
               </div>
             ) : products.length > 0 ? (
               <>
-                <p className="text-muted-foreground mb-8">{products.length} systems available</p>
+                <div className="flex justify-between items-center mb-8">
+                  <p className="text-muted-foreground">
+                    {products.length} systems available
+                  </p>
+                  <Link to="/quote">
+                    <Button variant="default" size="sm">
+                      <MessageCircle className="w-4 h-4 mr-2" />
+                      Request Quote
+                    </Button>
+                  </Link>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {products.map((product) => (
-                    <div
+                    <Card
                       key={product.node.id}
-                      className="bg-card rounded-xl border border-border overflow-hidden hover:shadow-card transition-all group"
+                      className="overflow-hidden hover:shadow-lg transition-all group"
                     >
                       <div className="relative h-48 overflow-hidden">
                         <img
@@ -172,8 +178,10 @@ const EquipmentCategory = () => {
                         />
                       </div>
 
-                      <div className="p-4">
-                        <h3 className="text-md font-bold text-foreground mb-1 line-clamp-2">{product.node.title}</h3>
+                      <CardContent className="p-4">
+                        <h3 className="text-md font-bold text-foreground mb-1 line-clamp-2">
+                          {product.node.title}
+                        </h3>
                         <p className="text-accent font-bold text-lg mb-2">
                           {formatPrice(
                             product.node.priceRange.minVariantPrice.amount,
@@ -198,29 +206,155 @@ const EquipmentCategory = () => {
                             </Button>
                           </Link>
                         </div>
-                      </div>
-                    </div>
+                      </CardContent>
+                    </Card>
                   ))}
                 </div>
               </>
             ) : (
-              <div className="max-w-3xl mx-auto text-center">
+              <div className="max-w-3xl mx-auto text-center py-12">
                 <div className="bg-secondary rounded-lg p-12 mb-8">
-                  <h2 className="text-2xl font-semibold text-foreground mb-4">No Products Found</h2>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">
+                    Contact Us for Availability
+                  </h2>
                   <p className="text-muted-foreground mb-6">
-                    We're updating our {equipment.title.toLowerCase()} listings. Contact us for current availability.
+                    We're updating our {content.title.toLowerCase()} listings. Contact us for current availability and pricing.
                   </p>
-                  <Link to="/quote?interest=Equipment">
+                  <Link to={`/quote?interest=${encodeURIComponent(content.title)}`}>
                     <Button variant="default" size="lg">
                       Request Equipment Quote
                     </Button>
                   </Link>
                 </div>
-                <Link to="/products" className="text-accent hover:underline">
-                  ← Back to All Equipment
-                </Link>
               </div>
             )}
+          </div>
+        </section>
+
+        {/* CTA Banner */}
+        <section className="bg-accent/10 py-8">
+          <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 className="text-xl font-bold text-foreground">Ready to find your next system?</h3>
+              <p className="text-muted-foreground">Our experts are here to help you find the perfect equipment.</p>
+            </div>
+            <div className="flex gap-4">
+              <Link to={`/quote?interest=${encodeURIComponent(content.title)}`}>
+                <Button variant="default" size="lg">
+                  Request a Quote
+                </Button>
+              </Link>
+              <a href="tel:+18189169503">
+                <Button variant="outline" size="lg">
+                  <Phone className="w-4 h-4 mr-2" />
+                  (818) 916-9503
+                </Button>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* Extended Description Section - 500+ words */}
+        <section className="py-12 md:py-16 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl">
+              <MarkdownContent content={content.description} />
+            </div>
+          </div>
+        </section>
+
+        {/* Price Ranges Table */}
+        {content.priceRanges.length > 0 && (
+          <section className="py-12 md:py-16 bg-secondary/30">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl">
+                <h2 className="text-2xl font-bold text-foreground mb-6">
+                  {content.title} Pricing Guide
+                </h2>
+                <p className="text-muted-foreground mb-8">
+                  Prices for {content.title.toLowerCase()} vary based on model year, condition, features, and market conditions. 
+                  Below are typical price ranges for popular models. Contact us for current pricing on specific systems.
+                </p>
+                <div className="bg-card rounded-lg border border-border overflow-hidden">
+                  <table className="w-full">
+                    <thead className="bg-muted">
+                      <tr>
+                        <th className="text-left px-6 py-4 font-semibold text-foreground">Model</th>
+                        <th className="text-left px-6 py-4 font-semibold text-foreground">Price Range</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {content.priceRanges.map((range, index) => (
+                        <tr 
+                          key={range.type} 
+                          className={index % 2 === 0 ? 'bg-card' : 'bg-muted/30'}
+                        >
+                          <td className="px-6 py-4 text-foreground">{range.type}</td>
+                          <td className="px-6 py-4 text-accent font-semibold">
+                            {formatPriceRange(range.low, range.high)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="text-sm text-muted-foreground mt-4">
+                  * Prices are estimates and subject to change. Actual pricing depends on system condition, 
+                  configuration, and market availability. Contact us for a personalized quote.
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* FAQ Section */}
+        {content.faqs.length > 0 && (
+          <section className="py-12 md:py-16 bg-background">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl">
+                <h2 className="text-2xl font-bold text-foreground mb-8">
+                  Frequently Asked Questions
+                </h2>
+                <Accordion type="single" collapsible className="w-full">
+                  {content.faqs.map((faq, index) => (
+                    <AccordionItem key={index} value={`faq-${index}`}>
+                      <AccordionTrigger className="text-left text-foreground hover:text-accent">
+                        {faq.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Final CTA Section */}
+        <section className="py-16 bg-primary">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold text-primary-foreground mb-4">
+              Ready to Find Your {content.title.split(' ')[0]} System?
+            </h2>
+            <p className="text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
+              Our team of experts is ready to help you find the perfect equipment for your facility. 
+              Get a personalized quote or speak with a specialist today.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to={`/quote?interest=${encodeURIComponent(content.title)}`}>
+                <Button size="lg" variant="secondary" className="w-full sm:w-auto">
+                  Request a Quote
+                </Button>
+              </Link>
+              <a href="tel:+18189169503">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+                  <Phone className="w-4 h-4 mr-2" />
+                  Call (818) 916-9503
+                </Button>
+              </a>
+            </div>
           </div>
         </section>
       </main>
