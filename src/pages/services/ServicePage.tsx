@@ -21,6 +21,7 @@ import QuoteForm from '@/components/shared/QuoteForm';
 import HeliumQuoteForm from '@/components/helium/HeliumQuoteForm';
 import CryogenicServiceQuoteForm from '@/components/helium/CryogenicServiceQuoteForm';
 import FinancingQuoteForm from '@/components/financing/FinancingQuoteForm';
+import TradeInCalculator from '@/components/financing/TradeInCalculator';
 
 const ServicePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -408,9 +409,13 @@ const ServicePage = () => {
                 </div>
               </div>
               
-              <div id="financing-form" className="bg-card rounded-xl p-6 md:p-8 shadow-xl">
-                {slug === 'financing' ? (
-                  <FinancingQuoteForm sourcePage={`Service: ${service.title}`} />
+              <div className="space-y-6">
+                {slug === 'financing' && (
+                  <TradeInCalculator />
+                )}
+                <div id="financing-form" className="bg-card rounded-xl p-6 md:p-8 shadow-xl">
+                  {slug === 'financing' ? (
+                    <FinancingQuoteForm sourcePage={`Service: ${service.title}`} />
                 ) : slug === 'helium-refills' ? (
                   <div>
                     {/* Tab Buttons */}
@@ -454,7 +459,8 @@ const ServicePage = () => {
                     title="Request a Free Quote"
                     subtitle="Get a response within 24 hours"
                   />
-                )}
+                  )}
+                </div>
               </div>
             </div>
           </div>
