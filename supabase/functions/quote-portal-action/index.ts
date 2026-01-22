@@ -177,6 +177,33 @@ const handler = async (req: Request): Promise<Response> => {
             },
           });
         }
+
+        // Create customer notification for accept/reject confirmation
+        if (quote.customer_id && (action === "accept" || action === "reject")) {
+          const notifType = action === "accept" ? "quote_accepted" : "quote_rejected";
+          const notifTitle = action === "accept" ? "Quote Accepted" : "Quote Declined";
+          const notifBody = action === "accept"
+            ? `Your acceptance of Quote ${quote.quote_number} has been confirmed. Our team will be in touch shortly.`
+            : `Quote ${quote.quote_number} has been declined. Feel free to contact us if you have questions.`;
+
+          const { error: notifError } = await supabase.from("customer_notifications").insert({
+            customer_id: quote.customer_id,
+            type: notifType,
+            title: notifTitle,
+            body: notifBody,
+            data: {
+              quote_id: quote.id,
+              quote_number: quote.quote_number,
+              action: action,
+            },
+          });
+
+          if (notifError) {
+            console.error("Error creating customer notification:", notifError);
+          } else {
+            console.log("Customer notification created for quote action:", action);
+          }
+        }
       }
 
       return new Response(
