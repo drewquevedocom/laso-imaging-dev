@@ -1,8 +1,13 @@
+# LASO Imaging Solutions - robots.txt
+# https://lasoimaging.com
+
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 2
 
 User-agent: Twitterbot
 Allow: /
@@ -13,4 +18,16 @@ Allow: /
 User-agent: *
 Allow: /
 
+# Disallow admin and internal pages
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /internal/
+Disallow: /auth/
+
+# Disallow search result pages with parameters
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+
+# Sitemaps
 Sitemap: https://aybapkhmgoeogjjgvjlb.supabase.co/functions/v1/sitemap
+Sitemap: https://lasoimaging.com/sitemap.xml

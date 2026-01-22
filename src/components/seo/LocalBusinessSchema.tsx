@@ -6,16 +6,16 @@ interface LocalBusinessSchemaProps {
   includeWebSite?: boolean;
 }
 
-const LocalBusinessSchema = ({ 
+const LocalBusinessSchema = ({
   pageType = 'LocalBusiness',
   includeOrganization = false,
   includeWebSite = false,
 }: LocalBusinessSchemaProps) => {
   const baseBusinessInfo = {
     name: 'LASO Imaging Solutions',
-    description: 'FDA registered dealer of refurbished MRI, CT, and X-Ray medical imaging equipment. Sales, service, parts, and rentals nationwide.',
+    description: 'Leading supplier of used and refurbished MRI, CT, and medical imaging equipment with nationwide service, parts, and support.',
     url: 'https://lasoimaging.com',
-    telephone: ['+1-818-916-9503', '+1-800-674-5276'],
+    telephone: '+1-818-916-9503',
     email: 'info@lasoimaging.com',
     address: {
       '@type': 'PostalAddress',
@@ -30,10 +30,6 @@ const LocalBusinessSchema = ({
       latitude: 34.1547,
       longitude: -118.4485,
     },
-    areaServed: [
-      { '@type': 'Country', name: 'United States' },
-      { '@type': 'State', name: 'California' },
-    ],
     priceRange: '$$$',
     openingHoursSpecification: [
       {
@@ -52,40 +48,109 @@ const LocalBusinessSchema = ({
   const localBusinessSchema = {
     '@context': 'https://schema.org',
     '@type': pageType,
+    '@id': 'https://lasoimaging.com/#local-business',
     ...baseBusinessInfo,
+    image: 'https://lasoimaging.com/og-image.jpg',
+    logo: 'https://lasoimaging.com/logo-laso.png',
+    areaServed: {
+      '@type': 'Country',
+      name: 'United States',
+    },
+    knowsAbout: [
+      'MRI systems',
+      'CT scanners', 
+      'Medical imaging equipment',
+      'Refurbished medical equipment',
+      'MRI parts and coils',
+      'Helium refills',
+      'Equipment installation'
+    ],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Medical Imaging Equipment',
+      itemListElement: [
+        {
+          '@type': 'OfferCatalog',
+          name: 'MRI Systems',
+          itemListElement: ['1.5T MRI', '3.0T MRI', 'Open MRI', 'Mobile MRI'],
+        },
+        {
+          '@type': 'OfferCatalog',
+          name: 'CT Scanners',
+          itemListElement: ['64-Slice CT', '128-Slice CT', 'Mobile CT'],
+        },
+        {
+          '@type': 'OfferCatalog',
+          name: 'Parts & Components',
+          itemListElement: ['MRI Coils', 'Gradient Amplifiers', 'Cold Heads', 'Compressors'],
+        },
+      ],
+    },
   };
 
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': 'https://lasoimaging.com/#organization',
     name: 'LASO Imaging Solutions',
+    alternateName: 'LASO Imaging',
     url: 'https://lasoimaging.com',
-    logo: 'https://lasoimaging.com/logo-laso.png',
-    description: 'FDA registered dealer of refurbished MRI, CT, and X-Ray medical imaging equipment.',
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: '+1-818-916-9503',
-      contactType: 'sales',
-      areaServed: 'US',
-      availableLanguage: ['English', 'Spanish'],
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://lasoimaging.com/logo-laso.png',
+      width: 300,
+      height: 60,
     },
+    image: 'https://lasoimaging.com/og-image.jpg',
+    description: baseBusinessInfo.description,
+    telephone: baseBusinessInfo.telephone,
+    email: baseBusinessInfo.email,
     address: baseBusinessInfo.address,
+    foundingDate: '2015',
+    numberOfEmployees: {
+      '@type': 'QuantitativeValue',
+      minValue: 10,
+      maxValue: 50,
+    },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        telephone: '+1-818-916-9503',
+        contactType: 'sales',
+        areaServed: 'US',
+        availableLanguage: ['English', 'Spanish'],
+      },
+      {
+        '@type': 'ContactPoint',
+        telephone: '+1-800-674-5276',
+        contactType: 'customer service',
+        areaServed: 'US',
+        availableLanguage: 'English',
+      },
+    ],
     sameAs: baseBusinessInfo.sameAs,
   };
 
   const webSiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': 'https://lasoimaging.com/#website',
     name: 'LASO Imaging Solutions',
+    alternateName: 'LASO Imaging',
     url: 'https://lasoimaging.com',
+    description: 'Your trusted partner for used and refurbished MRI, CT, and medical imaging equipment.',
+    publisher: {
+      '@id': 'https://lasoimaging.com/#organization',
+    },
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://lasoimaging.com/products?query={search_term_string}',
+        urlTemplate: 'https://lasoimaging.com/products?search={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
     },
+    inLanguage: 'en-US',
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

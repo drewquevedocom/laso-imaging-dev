@@ -35,10 +35,10 @@ const SEOHead = ({
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
 
       {/* Geographic Meta Tags */}
-      <meta name="geo.region" content="US-TX" />
-      <meta name="geo.placename" content="Houston" />
-      <meta name="geo.position" content="29.7604;-95.3698" />
-      <meta name="ICBM" content="29.7604, -95.3698" />
+      <meta name="geo.region" content="US-CA" />
+      <meta name="geo.placename" content="Sherman Oaks" />
+      <meta name="geo.position" content="34.1547;-118.4485" />
+      <meta name="ICBM" content="34.1547, -118.4485" />
 
       {/* Canonical URL */}
       {fullCanonical && <link rel="canonical" href={fullCanonical} />}
