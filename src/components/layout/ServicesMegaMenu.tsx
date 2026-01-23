@@ -98,6 +98,9 @@ export const ServicesMegaMenu = ({ isOpen }: ServicesMegaMenuProps) => {
               <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
             </Link>
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
+              <Link to="/resources/safety" className="text-foreground hover:text-accent transition-colors font-medium">
+                Safety Resources
+              </Link>
               <span>Need a custom service plan?</span>
               <Link to="/quote?interest=Service" className="text-accent hover:text-primary font-semibold">
                 Request Service Quote

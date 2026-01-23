@@ -87,6 +87,8 @@ const staticPages = [
   { url: '/support/documentation', priority: '0.6', changefreq: 'monthly' },
   { url: '/support/warranty', priority: '0.6', changefreq: 'monthly' },
   { url: '/support/service-request', priority: '0.6', changefreq: 'monthly' },
+  // Resources
+  { url: '/resources/safety', priority: '0.8', changefreq: 'monthly' },
   // Pricing Guides
   { url: '/guides', priority: '0.8', changefreq: 'monthly' },
   { url: '/guides/mri-machine-cost', priority: '0.9', changefreq: 'monthly' },

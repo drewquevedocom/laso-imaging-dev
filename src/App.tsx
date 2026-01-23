@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Guides from "./pages/guides/Guides";
+import SafetyHub from "./pages/resources/SafetyHub";
 import MRIMachineCost from "./pages/guides/MRIMachineCost";
 import CTScannerCost from "./pages/guides/CTScannerCost";
 import MobileRentalRates from "./pages/guides/MobileRentalRates";
@@ -166,6 +167,9 @@ const App = () => (
               <Route path="/guides/mri-machine-cost" element={<MRIMachineCost />} />
               <Route path="/guides/ct-scanner-cost" element={<CTScannerCost />} />
               <Route path="/guides/mobile-rental-rates" element={<MobileRentalRates />} />
+              
+              {/* Resources */}
+              <Route path="/resources/safety" element={<SafetyHub />} />
               
               {/* Mobile Rentals */}
               <Route path="/mobile-rentals" element={<MobileRentals />} />

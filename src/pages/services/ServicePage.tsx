@@ -15,7 +15,8 @@ import {
   Award,
   MapPin,
   Thermometer,
-  Settings
+  Settings,
+  ExternalLink
 } from 'lucide-react';
 import QuoteForm from '@/components/shared/QuoteForm';
 import HeliumQuoteForm from '@/components/helium/HeliumQuoteForm';
@@ -319,6 +320,69 @@ const ServicePage = () => {
             </div>
           </div>
         </section>
+
+        {/* Safety Resources Section - PM Page Only */}
+        {slug === 'preventive-maintenance' && service.safetyResources && (
+          <section className="py-16 md:py-20 bg-muted/30">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center gap-2 bg-destructive/10 text-destructive px-4 py-2 rounded-full text-sm font-medium mb-4">
+                  <Shield className="w-4 h-4" />
+                  Safety First
+                </div>
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+                  Safety Resources
+                </h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Proper maintenance is essential for equipment safety. Explore our comprehensive safety guidelines and official resources.
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                {service.safetyResources.map((resource, index) => (
+                  resource.external ? (
+                    <a 
+                      key={index}
+                      href={resource.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group bg-card border border-border rounded-xl p-6 hover:border-accent hover:shadow-lg transition-all"
+                    >
+                      <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors mb-2 flex items-center gap-2">
+                        {resource.title}
+                        <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                      </h3>
+                      <p className="text-sm text-muted-foreground">{resource.description}</p>
+                    </a>
+                  ) : (
+                    <Link 
+                      key={index}
+                      to={resource.href}
+                      className="group bg-card border border-border rounded-xl p-6 hover:border-accent hover:shadow-lg transition-all"
+                    >
+                      <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors mb-2">
+                        {resource.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">{resource.description}</p>
+                      <span className="text-accent text-sm font-medium inline-flex items-center gap-1 mt-3">
+                        Read Guide <ArrowRight className="w-3.5 h-3.5" />
+                      </span>
+                    </Link>
+                  )
+                ))}
+              </div>
+              
+              <div className="text-center mt-8">
+                <Link to="/resources/safety">
+                  <Button variant="outline" className="gap-2">
+                    View All Safety Resources
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* FAQ Section */}
         <section className="py-16 md:py-20 bg-secondary/30">
