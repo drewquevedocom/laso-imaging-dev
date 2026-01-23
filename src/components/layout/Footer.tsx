@@ -59,7 +59,7 @@ const Footer = () => {
                 <a href="mailto:info@lasoimaging.com" className="block hover:text-primary-foreground transition-colors">
                   info@lasoimaging.com
                 </a>
-                <p className="pt-2">14900 Magnolia Blvd #5442<br />Sherman Oaks, CA 91413</p>
+                <p className="pt-2">Mailing Address<br />14900 Magnolia Blvd #56323<br />Sherman Oaks, CA 91413</p>
                 <p className="text-xs pt-1">Mon-Fri: 8AM-6PM PST | 24/7 Emergency</p>
               </div>
             </div>

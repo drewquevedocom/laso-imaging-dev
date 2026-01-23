@@ -98,7 +98,7 @@ const generateConfirmationEmail = (data: SiteVisitConfirmationRequest): string =
       
       <p style="color: #6b7280; font-size: 12px; margin: 0; text-align: center;">
         LASO Imaging Solutions<br/>
-        14900 Magnolia Blvd #5442<br/>
+        Mailing Address: 14900 Magnolia Blvd #56323<br/>
         Sherman Oaks, CA 91413<br/>
         <a href="mailto:acquisitions@lasoimaging.com" style="color: #3b82f6;">acquisitions@lasoimaging.com</a>
       </p>

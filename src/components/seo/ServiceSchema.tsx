@@ -35,7 +35,7 @@ const ServiceSchema = ({
       email: 'info@lasoimaging.com',
       address: {
         '@type': 'PostalAddress',
-        streetAddress: '14900 Magnolia Blvd #5442',
+        streetAddress: '14900 Magnolia Blvd #56323',
         addressLocality: 'Sherman Oaks',
         addressRegion: 'CA',
         postalCode: '91413',

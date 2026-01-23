@@ -181,7 +181,7 @@ const handler = async (req: Request): Promise<Response> => {
         
         <p style="text-align: center; color: #666; font-size: 12px; margin-top: 20px;">
           © ${new Date().getFullYear()} LASO Imaging Solutions. All rights reserved.<br>
-          14900 Magnolia Blvd #5442, Sherman Oaks, CA 91413
+          Mailing Address: 14900 Magnolia Blvd #56323, Sherman Oaks, CA 91413
         </p>
       </body>
       </html>

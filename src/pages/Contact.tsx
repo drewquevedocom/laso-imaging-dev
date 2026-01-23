@@ -300,7 +300,7 @@ const Contact = () => {
                           Mailing Address
                         </h3>
                         <p className="text-muted-foreground">
-                          14900 Magnolia Blvd #5442
+                          14900 Magnolia Blvd #56323
                           <br />
                           Sherman Oaks, CA 91413
                         </p>

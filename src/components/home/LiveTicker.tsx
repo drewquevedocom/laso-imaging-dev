@@ -1,15 +1,21 @@
+import { Link } from 'react-router-dom';
+
 const LiveTicker = () => {
   const items = [
-    { label: "LIVE:", value: "127 Imaging Systems Available Now", highlight: true },
-    { label: "Newest:", value: "Siemens Skyra 3T", extra: "(Added 2 hrs ago)" },
-    { label: "Lowest Price:", value: "$125K", extra: "(GE Signa 1.5T)", isPrice: true },
-    { label: "Most Popular:", value: "Philips Ingenia", extra: "(12 views today)" },
+    { label: "LIVE:", value: "127 Imaging Systems Available Now", highlight: true, href: "/products" },
+    { label: "Newest:", value: "Siemens Skyra 3T", extra: "(Added 2 hrs ago)", href: "/products?search=siemens+skyra" },
+    { label: "Lowest Price:", value: "$125K", extra: "(GE Signa 1.5T)", isPrice: true, href: "/products?search=ge+signa+1.5t" },
+    { label: "Most Popular:", value: "Philips Ingenia", extra: "(12 views today)", href: "/products?search=philips+ingenia" },
   ];
 
   const TickerContent = () => (
     <div className="flex items-center gap-8 px-4">
       {items.map((item, index) => (
-        <div key={index} className="flex items-center gap-2 text-sm whitespace-nowrap">
+        <Link 
+          key={index} 
+          to={item.href}
+          className="flex items-center gap-2 text-sm whitespace-nowrap hover:text-accent transition-colors"
+        >
           {item.highlight && (
             <span className="w-2 h-2 bg-success rounded-full animate-pulse-dot" />
           )}
@@ -21,7 +27,7 @@ const LiveTicker = () => {
             <span className="text-muted-foreground">{item.extra}</span>
           )}
           <span className="text-border ml-6">|</span>
-        </div>
+        </Link>
       ))}
     </div>
   );

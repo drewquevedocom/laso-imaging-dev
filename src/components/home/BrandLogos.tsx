@@ -33,7 +33,8 @@ const BrandLogos = () => {
               <img 
                 src={brand.logo} 
                 alt={`${brand.name} - Medical Imaging Equipment`}
-                className="h-full w-auto object-contain"
+                className="h-full w-auto object-contain select-none pointer-events-none"
+                draggable="false"
               />
             </Link>
           ))}
