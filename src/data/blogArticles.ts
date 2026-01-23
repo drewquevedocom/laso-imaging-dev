@@ -13,6 +13,239 @@ export interface BlogArticle {
 
 export const blogArticles: BlogArticle[] = [
   {
+    slug: 'mri-safety-guidelines-complete-guide',
+    title: 'MRI Safety Guidelines: A Complete Guide for Healthcare Facilities',
+    excerpt: 'Essential MRI safety protocols including the ACR 4-Zone model, projectile hazards, RF burns, and cryogen quench procedures to protect patients and staff.',
+    content: `
+Magnetic Resonance Imaging has revolutionized diagnostic medicine, but the powerful magnetic fields that enable stunning soft tissue visualization also create unique safety challenges. Unlike CT or X-ray, MRI doesn't use ionizing radiation—yet it demands perhaps the most rigorous safety protocols of any imaging modality.
+
+A single safety lapse can be catastrophic. In documented incidents, ferromagnetic objects have become deadly projectiles, patients have suffered severe RF burns, and oxygen displacement during magnet quenches has endangered lives. Understanding and implementing proper MRI safety isn't optional—it's foundational to responsible imaging operations.
+
+## The ACR 4-Zone Safety Model
+
+The American College of Radiology established a four-zone framework that remains the gold standard for MRI suite design and access control.
+
+**Zone 1: Public Access** - This includes waiting rooms and general hospital corridors. No special restrictions apply, but signage should clearly direct traffic toward screening checkpoints.
+
+**Zone 2: Screening Checkpoint** - Staff verify that everyone entering controlled areas has been properly screened. This is where patients complete MRI safety questionnaires and remove prohibited items.
+
+**Zone 3: Restricted Control Room** - Only screened individuals may enter. This area houses the operator console and provides direct line-of-sight to the magnet room. Staff here must be MR Personnel or supervised MR Patients.
+
+**Zone 4: The Magnet Room** - The highest-restriction area containing the MRI scanner itself. Everyone entering must be fully screened for ferromagnetic materials. The 5 Gauss line typically falls within this zone, marking where cardiac pacemaker function may be affected.
+
+## Critical MRI Hazards
+
+**Projectile Effect** - The superconducting magnet creates a powerful attractive force on ferromagnetic materials. Objects from oxygen tanks to floor buffers to scissors have become projectiles in real incidents. The force increases exponentially as objects approach the bore—by the time someone realizes an object is being pulled, it's often too late to stop it.
+
+**Radiofrequency Burns** - Conductive materials—including some tattoos, medication patches, and improperly positioned cables—can heat rapidly during scanning. Looped cables, patient skin touching bore walls, and metallic implants all create burn risks that proper positioning and monitoring prevent.
+
+**Cryogen Quench Risks** - MRI magnets contain approximately 1,700 liters of liquid helium at -269°C. During a quench, this helium rapidly vaporizes, expanding 757 times in volume. This oxygen-displacing gas can fill a room in minutes, creating asphyxiation hazards. Emergency ventilation systems and quench pipes are critical safety infrastructure.
+
+**Implants and Devices** - Cardiac pacemakers, cochlear implants, insulin pumps, and countless other medical devices may malfunction or become dangerous in magnetic fields. Modern "MR Conditional" devices can be safely scanned under specific conditions, but verification is essential.
+
+## Safe Materials and Screening
+
+Not all metals are magnetic. These materials are generally MRI-safe:
+- Aluminum and titanium
+- Brass and bronze  
+- Most stainless steels (though some are ferromagnetic)
+- Plastics and carbon fiber
+
+Ferromagnetic detection systems (FMDS) provide an additional safety layer, alerting staff when ferromagnetic materials enter controlled zones. However, these systems supplement—never replace—thorough verbal and written screening.
+
+Every patient must complete a comprehensive screening questionnaire covering:
+- Previous surgeries and implants
+- Metallic foreign bodies (especially orbital)
+- Occupational exposure to metal work
+- Pregnancy status
+- Claustrophobia and anxiety concerns
+
+## Staff Training Requirements
+
+MRI safety isn't intuitive. Even experienced healthcare professionals may not understand magnetic field hazards until properly trained. Effective programs include:
+
+- Initial MRI safety certification before unsupervised Zone 3/4 access
+- Annual refresher training with competency verification
+- Emergency procedure drills including quench response
+- Clear designation of MR Personnel vs. MR Technologists vs. MR Medical Directors
+
+The ACR categorizes personnel to ensure appropriate supervision levels throughout the MRI suite.
+
+## The Maintenance Connection
+
+Safety systems require regular verification. Quench pipes must remain unobstructed. Emergency ventilation needs testing. Ferromagnetic detectors require calibration. And the cryogenic system—the heart of magnet safety—demands constant monitoring.
+
+**LASO recommends daily cryogenic checks and quarterly comprehensive PM visits** to ensure safety interlocks, RF shielding integrity, and emergency systems function properly. A well-maintained MRI isn't just more reliable—it's fundamentally safer.
+
+For more information on comprehensive maintenance programs, visit our [Preventive Maintenance Services](/services/preventive-maintenance).
+
+## External Resources
+
+- [Kryptonite MRI Safety Guidelines](https://kryptonite.global/blogs/mri-safety-guidelines/)
+- [ACR Radiology Safety Resources](https://www.acr.org/clinical-resources/clinical-tools-and-reference/radiology-safety/radiation-safety)
+
+Investing in MRI safety is investing in patient trust, staff protection, and operational excellence. The protocols may seem extensive, but each element exists because of real incidents that proper safeguards could have prevented.
+    `,
+    category: 'maintenance',
+    author: 'LASO Safety Team',
+    publishDate: '2025-01-24',
+    readTime: '8 min read',
+    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80',
+    keywords: ['MRI safety', 'MRI safety zones', 'MRI projectile hazard', 'MRI screening', 'magnetic field safety', 'ACR safety guidelines']
+  },
+  {
+    slug: 'ct-radiation-safety-alara-principles',
+    title: 'CT Radiation Safety: ALARA Principles and Dose Optimization',
+    excerpt: 'Understanding ALARA principles, diagnostic reference levels, and best practices for minimizing radiation exposure in CT imaging while maintaining diagnostic quality.',
+    content: `
+Computed Tomography delivers extraordinary diagnostic information—but that capability comes with responsibility. CT accounts for approximately 24% of all medical imaging procedures yet contributes around 70% of medical radiation exposure. This disparity makes dose optimization not just good practice, but an ethical imperative.
+
+The good news: modern CT technology and thoughtful protocols can dramatically reduce radiation exposure without sacrificing image quality. The key is understanding the principles and implementing them systematically.
+
+## The ALARA Principle
+
+ALARA—As Low As Reasonably Achievable—isn't just an acronym. It's a philosophy that should guide every CT examination. The principle rests on three pillars:
+
+**Time** - Minimize the duration of radiation exposure. In CT, this translates to scanning only the anatomy necessary to answer the clinical question. A chest CT for pulmonary nodule follow-up doesn't need to include the entire abdomen.
+
+**Distance** - While less directly applicable to the patient being scanned, distance matters for operators. Control room positioning, proper shielding, and minimizing time near active scanners protect staff over their careers.
+
+**Shielding** - Lead aprons, thyroid shields, and bismuth eye shields can reduce dose to sensitive organs during CT examinations. The evidence on routine bismuth shielding is mixed, but for high-dose protocols, the protection can be meaningful.
+
+## Dose Optimization Strategies
+
+**Diagnostic Reference Levels (DRLs)** - These benchmarks, established by organizations like the ACR, help facilities understand where their doses stand relative to peers. A facility consistently exceeding DRLs should investigate protocol optimization opportunities.
+
+**Automatic Exposure Control (AEC)** - Modern CT scanners adjust mA based on patient attenuation in real-time. Properly configured AEC prevents over-radiation of smaller patients and ensures adequate penetration for larger ones. The key is setting appropriate noise index targets for each protocol.
+
+**Iterative Reconstruction** - Traditional filtered back projection required higher radiation doses to achieve acceptable image noise. Iterative reconstruction algorithms allow 30-50% dose reductions while maintaining or improving image quality. If your scanner supports IR and you're not using it, you're over-radiating patients.
+
+**Protocol Optimization** - One-size-fits-all protocols waste dose. A 50kg patient doesn't need the same mA as a 120kg patient. Pediatric protocols should differ fundamentally from adult protocols—not just scaled versions of the same thing.
+
+## Special Population Considerations
+
+**Pediatric Imaging** - Children are more radiosensitive than adults and have longer remaining lifespans for radiation effects to manifest. The Image Gently campaign has driven industry-wide adoption of weight-based protocols and CT alternatives where appropriate. If MRI or ultrasound can answer the clinical question, they should be considered first.
+
+**Pregnant Patients** - When CT is medically necessary during pregnancy, the benefit typically outweighs fetal radiation risk. However, protocols should be optimized, shielding should be used when practical, and informed consent should address radiation exposure. The ACR-SPR guidelines provide specific parameters.
+
+**Repeat Examinations** - Patients requiring frequent CT monitoring (oncology follow-up, transplant evaluation, trauma) accumulate significant lifetime dose. Tracking cumulative exposure and considering dose-reducing alternatives becomes increasingly important.
+
+## Regulatory and Compliance Requirements
+
+**Annual Physicist Reviews** - Medical physicists should evaluate scanner performance, protocol optimization, and dose metrics at least annually. These reviews identify drift in equipment performance and opportunities for protocol improvement.
+
+**Dose Tracking and Reporting** - Many states now require CT dose documentation. Beyond compliance, dose tracking enables meaningful quality improvement and early identification of protocol issues.
+
+**Staff Dosimetry** - Personnel working near CT scanners should be monitored. While operator doses are typically low, documentation protects both staff and facility.
+
+## Equipment Maintenance and Dose
+
+Here's what many facilities overlook: **equipment condition directly affects radiation dose**. 
+
+A miscalibrated tube may require higher mA to achieve adequate image quality. Degraded detector elements create noise that protocols compensate for with increased dose. Inaccurate AEC calibration defeats the purpose of automatic optimization.
+
+**Quarterly PM visits ensure tube performance, detector calibration accuracy, and AEC systems function as designed.** This isn't just about preventing downtime—it's about preventing unnecessary patient exposure.
+
+LASO's comprehensive PM programs include dose verification testing as a standard component. [Learn more about our Preventive Maintenance Services](/services/preventive-maintenance).
+
+## External Resources
+
+- [ACR Radiation Safety Resources](https://www.acr.org/clinical-resources/clinical-tools-and-reference/radiology-safety/radiation-safety)
+- [RadiologyInfo: Radiation Safety in Medical Imaging](https://www.radiologyinfo.org/en/info/safety-radiation)
+- [ACR Practice Parameter Guidelines](https://cs.acr.org/Clinical-Resources/Radiology-Safety/Radiation-Safety)
+
+The goal isn't zero radiation—it's optimal radiation. Every CT examination should deliver the diagnostic information needed for patient care using the lowest dose capable of providing that information. This balance requires ongoing attention to protocols, equipment, and emerging best practices.
+    `,
+    category: 'maintenance',
+    author: 'LASO Safety Team',
+    publishDate: '2025-01-23',
+    readTime: '7 min read',
+    image: 'https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800&q=80',
+    keywords: ['CT radiation safety', 'ALARA principle', 'radiation dose optimization', 'CT dose reduction', 'diagnostic reference levels', 'Image Gently']
+  },
+  {
+    slug: 'xray-safety-best-practices-facilities',
+    title: 'X-Ray Safety Best Practices for Imaging Facilities',
+    excerpt: 'Comprehensive guide to X-ray radiation protection including time-distance-shielding principles, operator safety, patient protection, and quality control essentials.',
+    content: `
+X-ray technology—discovered over 125 years ago—remains the workhorse of diagnostic imaging. From simple chest radiographs to complex fluoroscopic procedures, X-ray-based imaging accounts for the majority of medical imaging studies performed worldwide. This ubiquity makes radiation safety not just important, but foundational to responsible healthcare delivery.
+
+The principles haven't changed dramatically since Roentgen's discovery: ionizing radiation requires respect. What has evolved is our understanding of risk, our technology for minimizing exposure, and our protocols for protecting patients and staff alike.
+
+## Fundamental Radiation Protection Principles
+
+The time-distance-shielding triad forms the bedrock of radiation safety:
+
+**Time** - The less time spent in a radiation field, the lower the dose. For operators, this means positioning patients efficiently before exposure, using shortest appropriate exposure times, and minimizing fluoroscopy "beam-on" time. Every unnecessary second of exposure adds to cumulative dose.
+
+**Distance** - Radiation intensity decreases with the square of distance. Doubling your distance from the source reduces exposure to one-quarter. Operators should maximize distance during exposures, using remote triggers when possible and never remaining in the room during radiographic exposures.
+
+**Shielding** - Lead-equivalent barriers block radiation effectively. Control booth walls, mobile shields for fluoroscopy, and personal protective equipment all create barriers between radiation sources and people.
+
+**Collimation** - Often overlooked but critically important: collimate to the area of clinical interest. Radiation outside the diagnostic field provides zero benefit while adding to patient dose and contributing to scatter that affects image quality.
+
+## Operator Safety Requirements
+
+Healthcare workers in radiology accumulate occupational exposure over decades. Protecting staff requires systematic attention to:
+
+**Personal Protective Equipment (PPE)** - Lead aprons (0.25-0.5mm lead equivalence), thyroid shields, and leaded eyewear are essential for fluoroscopic procedures. PPE must be inspected regularly—a cracked lead apron provides false security.
+
+**Dosimetry Monitoring** - All radiologic personnel should wear dosimeters. Collar badges capture thyroid dose during fluoroscopy; waist badges under aprons track effective dose. Ring dosimeters may be appropriate for interventional procedures. Monthly readings below threshold don't mean protection isn't working—they confirm it is.
+
+**Control Booth Positioning** - Operators should remain behind shielded barriers during radiographic exposures. The few seconds saved by staying in the room aren't worth the cumulative exposure.
+
+**Fluoroscopy-Specific Precautions** - Interventional procedures present elevated risks. Minimize beam-on time, use last-image-hold features, employ pulsed fluoroscopy at lowest acceptable frame rates, and position image intensifiers as close to patients as practical (reducing scatter).
+
+## Patient Protection Measures
+
+**Gonadal Shielding** - Current guidance has evolved. The AAPM now recommends against routine gonadal shielding in many situations, as it can obscure anatomy, trigger repeat exposures, and provides minimal dose reduction with modern collimation. However, policies vary by state, and clear institutional protocols should guide practice.
+
+**Pediatric Considerations** - Children are more radiosensitive than adults. Image Gently campaign principles apply: child-size techniques, appropriate kVp and mAs reduction, and consideration of imaging alternatives when diagnostic quality won't suffer.
+
+**Pregnancy Screening** - Every facility needs a consistent process for identifying pregnancy before radiographic exposure. Standard questionnaires, clear signage, and documentation protocols protect both patients and facilities.
+
+**Communication and Consent** - Patients increasingly ask about radiation risks. Honest, proportionate communication—acknowledging that medical radiation carries small risks outweighed by diagnostic benefits—builds trust without creating unnecessary anxiety.
+
+## Quality Control Essentials
+
+Consistent radiation safety depends on consistent equipment performance:
+
+**Daily Equipment Checks** - Operators should note any unusual equipment behavior, verify exposure indicators are functioning, and report concerns immediately. Catching problems early prevents both unsafe exposures and equipment damage.
+
+**Image Quality Phantoms** - Regular phantom imaging verifies that equipment produces expected results. Degraded image quality may prompt increased technique factors, unnecessarily raising patient dose.
+
+**Annual Physics Surveys** - Medical physicists evaluate comprehensive equipment performance: output accuracy, timer accuracy, beam quality, automatic exposure control function, and more. These surveys identify drift before it becomes clinically significant.
+
+**kVp and mAs Accuracy** - The radiation dose patients receive depends on these parameters being accurate. A generator producing 80 kVp when set to 70 kVp delivers significantly different exposure than intended.
+
+## Maintenance for Safety
+
+X-ray equipment requires regular calibration to ensure accurate radiation output and optimal image quality. Deferred maintenance doesn't just risk downtime—it risks patient safety.
+
+**LASO's PM programs include:**
+- Generator output and accuracy testing
+- Collimator alignment verification  
+- Automatic exposure control calibration
+- Image receptor performance evaluation
+- Comprehensive safety interlock testing
+
+Equipment operating within specifications protects patients and provides consistent diagnostic quality. [Learn more about our Preventive Maintenance Services](/services/preventive-maintenance).
+
+## External Resources
+
+- [ACR Radiology Safety Resources](https://cs.acr.org/Clinical-Resources/Radiology-Safety/Radiation-Safety)
+- [RadiologyInfo: Safety in X-ray and Medical Imaging](https://www.radiologyinfo.org/en/info/safety-radiation)
+
+Radiation safety in X-ray imaging isn't complicated—it's consistent application of well-established principles. The facilities that excel at safety have embedded these practices into daily workflow, making protection automatic rather than an afterthought.
+    `,
+    category: 'maintenance',
+    author: 'LASO Safety Team',
+    publishDate: '2025-01-22',
+    readTime: '7 min read',
+    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80',
+    keywords: ['X-ray safety', 'radiography safety', 'radiation protection', 'X-ray shielding', 'fluoroscopy safety', 'ALARA']
+  },
+  {
     slug: 'complete-guide-buying-refurbished-mri-equipment',
     title: 'Complete Guide to Buying Refurbished MRI Equipment',
     excerpt: 'Everything you need to know about purchasing pre-owned MRI systems, from evaluating quality to understanding warranties.',
