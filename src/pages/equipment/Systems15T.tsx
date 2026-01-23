@@ -46,6 +46,9 @@ const Systems15T = () => {
 
   const formatPrice = (amount: string) => {
     const num = parseFloat(amount);
+    if (num === 0) {
+      return "Call for Price";
+    }
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',

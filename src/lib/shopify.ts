@@ -10,6 +10,7 @@ export interface ShopifyProduct {
   node: {
     id: string;
     title: string;
+    productType: string;
     description: string;
     handle: string;
     priceRange: {
@@ -49,6 +50,26 @@ export interface ShopifyProduct {
     }>;
   };
 }
+
+// Product types that are imaging systems (not parts) - for "Call for Price" logic
+const IMAGING_SYSTEM_TYPES = [
+  "1.5T MRI Systems",
+  "3.0T MRI Systems",
+  "Mobile MRI Systems",
+  "4-Slice CT",
+  "8-Slice CT",
+  "16-Slice CT",
+  "32-Slice CT",
+  "40-Slice CT",
+  "64-Slice CT",
+  "128-Slice CT",
+  "Mobile CT",
+  "Chillers", // Haskris cooling systems
+];
+
+export const isImagingSystem = (productType: string): boolean => {
+  return IMAGING_SYSTEM_TYPES.includes(productType);
+};
 
 // Storefront API helper function
 export async function storefrontApiRequest(query: string, variables: Record<string, unknown> = {}) {
@@ -92,6 +113,7 @@ const PRODUCTS_QUERY = `
         node {
           id
           title
+          productType
           description
           handle
           priceRange {
@@ -147,6 +169,7 @@ const PAGINATED_PRODUCTS_QUERY = `
         node {
           id
           title
+          productType
           description
           handle
           priceRange {
@@ -257,6 +280,7 @@ const PRODUCT_BY_HANDLE_QUERY = `
     productByHandle(handle: $handle) {
       id
       title
+      productType
       description
       descriptionHtml
       handle

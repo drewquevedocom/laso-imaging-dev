@@ -20,7 +20,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { fetchAllShopifyProducts, ShopifyProduct } from "@/lib/shopify";
+import { fetchAllShopifyProducts, ShopifyProduct, isImagingSystem } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import MakeOfferModal from "@/components/offer/MakeOfferModal";
@@ -382,7 +382,9 @@ const ProductListing = () => {
                       </Link>
                       {price && (
                         <p className="text-accent font-bold text-xl mb-3">
-                          {price.currencyCode} {parseFloat(price.amount).toLocaleString()}
+                          {parseFloat(price.amount) === 0 && isImagingSystem(product.node.productType)
+                            ? "Call for Price"
+                            : `${price.currencyCode} ${parseFloat(price.amount).toLocaleString()}`}
                         </p>
                       )}
                       <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
@@ -488,7 +490,9 @@ const ProductListing = () => {
                       <div className="flex items-center justify-between mt-4">
                         {price && (
                           <p className="text-accent font-bold text-xl">
-                            {price.currencyCode} {parseFloat(price.amount).toLocaleString()}
+                            {parseFloat(price.amount) === 0 && isImagingSystem(product.node.productType)
+                              ? "Call for Price"
+                              : `${price.currencyCode} ${parseFloat(price.amount).toLocaleString()}`}
                           </p>
                         )}
                         <div className="flex gap-2">

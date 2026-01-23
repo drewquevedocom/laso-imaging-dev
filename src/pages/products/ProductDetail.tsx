@@ -12,7 +12,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { fetchShopifyProductByHandle, ShopifyProduct } from "@/lib/shopify";
+import { fetchShopifyProductByHandle, ShopifyProduct, isImagingSystem } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import MakeOfferModal from "@/components/offer/MakeOfferModal";
@@ -245,7 +245,9 @@ const ProductDetail = () => {
                   <h1 className="text-3xl font-bold text-foreground mb-2">{product.node.title}</h1>
                   {selectedVariant && (
                     <p className="text-3xl font-bold text-accent">
-                      {selectedVariant.price.currencyCode} {parseFloat(selectedVariant.price.amount).toLocaleString()}
+                      {parseFloat(selectedVariant.price.amount) === 0 && isImagingSystem(product.node.productType)
+                        ? "Call for Price"
+                        : `${selectedVariant.price.currencyCode} ${parseFloat(selectedVariant.price.amount).toLocaleString()}`}
                     </p>
                   )}
                 </div>
