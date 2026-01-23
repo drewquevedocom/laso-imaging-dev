@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Bell, LogOut, User, Settings, FileText, Users, Package, UserPlus, FilePlus, ScanLine } from "lucide-react";
+import { Search, Bell, LogOut, User, Settings, FileText, Users, Package, UserPlus, FilePlus, ScanLine, Wrench } from "lucide-react";
+import AdminServiceRequestModal from "./AdminServiceRequestModal";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -41,6 +42,7 @@ const AdminTopBar = () => {
   
   // Quick action dialogs
   const [newCustomerOpen, setNewCustomerOpen] = useState(false);
+  const [newServiceRequestOpen, setNewServiceRequestOpen] = useState(false);
   const [customerForm, setCustomerForm] = useState({ name: "", email: "", company: "", phone: "", notes: "" });
   
   const createCustomer = useCreateCustomer();
@@ -219,6 +221,17 @@ const AdminTopBar = () => {
             </Tooltip>
           </TooltipProvider>
           
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={() => setNewServiceRequestOpen(true)}>
+                  <Wrench className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>New Service Request</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
           <div className="w-px h-6 bg-border mx-1" />
           
           {/* Theme Toggle */}
@@ -340,6 +353,12 @@ const AdminTopBar = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      
+      {/* New Service Request Modal */}
+      <AdminServiceRequestModal 
+        open={newServiceRequestOpen} 
+        onOpenChange={setNewServiceRequestOpen} 
+      />
     </header>
   );
 };
