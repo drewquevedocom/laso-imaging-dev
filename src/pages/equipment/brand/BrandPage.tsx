@@ -47,12 +47,26 @@ const brandData: Record<string, BrandInfo> = {
     description: "Canon Medical Systems (formerly Toshiba Medical) delivers innovative imaging solutions with technologies like Pianissimo for ultra-quiet MRI scanning.",
     color: "from-red-600 to-red-800",
   },
+  toshiba: {
+    name: "Toshiba",
+    fullName: "Toshiba Medical (Now Canon)",
+    vendorName: "Canon",
+    description: "Toshiba Medical Systems pioneered technologies like Pianissimo ultra-quiet MRI scanning. Now part of Canon Medical Systems, their legacy continues with innovative imaging solutions.",
+    color: "from-red-500 to-rose-700",
+  },
   hitachi: {
     name: "Hitachi",
     fullName: "Hitachi Healthcare",
     vendorName: "Hitachi",
     description: "Hitachi Healthcare specializes in open MRI systems that provide exceptional patient comfort while maintaining high image quality for diagnostic excellence.",
     color: "from-gray-700 to-gray-900",
+  },
+  haskris: {
+    name: "Haskris",
+    fullName: "Haskris Company",
+    vendorName: "Haskris",
+    description: "Haskris is the industry leader in MRI cooling solutions. Their outdoor process chillers and heat exchangers are engineered for mission-critical thermal management of medical imaging systems.",
+    color: "from-sky-600 to-cyan-800",
   },
 };
 
@@ -97,6 +111,9 @@ const BrandPage = () => {
 
   const formatPrice = (amount: string) => {
     const num = parseFloat(amount);
+    if (num === 0) {
+      return "Call for Price";
+    }
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
