@@ -87,6 +87,21 @@ const staticPages = [
   { url: '/support/documentation', priority: '0.6', changefreq: 'monthly' },
   { url: '/support/warranty', priority: '0.6', changefreq: 'monthly' },
   { url: '/support/service-request', priority: '0.6', changefreq: 'monthly' },
+  // Pricing Guides
+  { url: '/guides', priority: '0.8', changefreq: 'monthly' },
+  { url: '/guides/mri-machine-cost', priority: '0.9', changefreq: 'monthly' },
+  { url: '/guides/ct-scanner-cost', priority: '0.9', changefreq: 'monthly' },
+  { url: '/guides/mobile-rental-rates', priority: '0.8', changefreq: 'monthly' },
+  // Mobile Rentals
+  { url: '/mobile-rentals', priority: '0.8', changefreq: 'weekly' },
+  { url: '/mobile-rentals/mri', priority: '0.9', changefreq: 'weekly' },
+  { url: '/mobile-rentals/ct', priority: '0.8', changefreq: 'weekly' },
+  { url: '/mobile-rentals/pet-ct', priority: '0.8', changefreq: 'weekly' },
+  // Service Areas
+  { url: '/service-areas', priority: '0.7', changefreq: 'monthly' },
+  { url: '/service-areas/california', priority: '0.8', changefreq: 'monthly' },
+  { url: '/service-areas/west-coast', priority: '0.8', changefreq: 'monthly' },
+  { url: '/service-areas/nationwide', priority: '0.7', changefreq: 'monthly' },
 ];
 
 // Fetch all products from Shopify
