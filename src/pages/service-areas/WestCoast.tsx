@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
-import { Phone, ArrowLeft, CheckCircle, MapPin, Quote } from 'lucide-react';
+import { Phone, CheckCircle, MapPin, Quote } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import FAQSchema from '@/components/seo/FAQSchema';
 import LocalBusinessSchema from '@/components/seo/LocalBusinessSchema';
+import PageBreadcrumb from '@/components/shared/PageBreadcrumb';
 import MarkdownContent from '@/components/shared/MarkdownContent';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -38,17 +39,11 @@ const WestCoast = () => {
       <Header />
       
       <main className="min-h-screen">
-        {/* Breadcrumb Navigation */}
-        <div className="bg-muted/30 border-b">
-          <div className="container mx-auto px-4 py-3">
-            <nav className="flex items-center gap-2 text-sm">
-              <Link to="/service-areas" className="text-muted-foreground hover:text-foreground flex items-center gap-1">
-                <ArrowLeft className="h-4 w-4" />
-                Back to Service Areas
-              </Link>
-            </nav>
-          </div>
-        </div>
+        <PageBreadcrumb items={[
+          { label: 'Home', href: '/' },
+          { label: 'Service Areas', href: '/service-areas' },
+          { label: 'West Coast' },
+        ]} />
 
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-primary via-primary to-primary/90 text-primary-foreground py-16">

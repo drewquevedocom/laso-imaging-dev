@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
-import { Phone, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Phone, CheckCircle } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import FAQSchema from '@/components/seo/FAQSchema';
+import LocalBusinessSchema from '@/components/seo/LocalBusinessSchema';
+import PageBreadcrumb from '@/components/shared/PageBreadcrumb';
 import MarkdownContent from '@/components/shared/MarkdownContent';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -33,21 +35,16 @@ const MobileCT = () => {
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema faqs={rental.faqs} />
+      <LocalBusinessSchema pageType="MedicalBusiness" />
       
       <Header />
       
       <main className="min-h-screen">
-        {/* Breadcrumb Navigation */}
-        <div className="bg-muted/30 border-b">
-          <div className="container mx-auto px-4 py-3">
-            <nav className="flex items-center gap-2 text-sm">
-              <Link to="/mobile-rentals" className="text-muted-foreground hover:text-foreground flex items-center gap-1">
-                <ArrowLeft className="h-4 w-4" />
-                Back to Mobile Rentals
-              </Link>
-            </nav>
-          </div>
-        </div>
+        <PageBreadcrumb items={[
+          { label: 'Home', href: '/' },
+          { label: 'Mobile Rentals', href: '/mobile-rentals' },
+          { label: 'Mobile CT' },
+        ]} />
 
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-primary via-primary to-primary/90 text-primary-foreground py-16">
