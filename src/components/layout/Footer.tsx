@@ -95,6 +95,9 @@ const Footer = () => {
                 <li><Link to="/about" className="hover:text-primary-foreground transition-colors">About Us</Link></li>
                 <li><Link to="/case-studies" className="hover:text-primary-foreground transition-colors">Case Studies</Link></li>
                 <li><Link to="/blog" className="hover:text-primary-foreground transition-colors">Resources & Blog</Link></li>
+                <li><Link to="/guides" className="hover:text-primary-foreground transition-colors">Pricing Guides</Link></li>
+                <li><Link to="/mobile-rentals" className="hover:text-primary-foreground transition-colors">Mobile Rentals</Link></li>
+                <li><Link to="/service-areas" className="hover:text-primary-foreground transition-colors">Service Areas</Link></li>
                 <li><Link to="/contact" className="hover:text-primary-foreground transition-colors">Contact</Link></li>
                 <li><Link to="/faqs" className="hover:text-primary-foreground transition-colors">FAQs</Link></li>
               </ul>

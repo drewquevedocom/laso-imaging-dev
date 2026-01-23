@@ -79,6 +79,16 @@ import RentalRequest from "./pages/rentals/RentalRequest";
 import OfferApprovals from "./pages/admin/OfferApprovals";
 import Orders from "./pages/admin/Orders";
 import ComingSoon from "./pages/ComingSoon";
+// Mobile Rentals
+import MobileRentals from "./pages/mobile-rentals/MobileRentals";
+import MobileMRI from "./pages/mobile-rentals/MobileMRI";
+import MobileCT from "./pages/mobile-rentals/MobileCT";
+import MobilePETCT from "./pages/mobile-rentals/MobilePETCT";
+// Service Areas
+import ServiceAreas from "./pages/service-areas/ServiceAreas";
+import California from "./pages/service-areas/California";
+import WestCoast from "./pages/service-areas/WestCoast";
+import Nationwide from "./pages/service-areas/Nationwide";
 
 const queryClient = new QueryClient();
 
@@ -150,6 +160,24 @@ const App = () => (
               
               {/* Equipment Rental */}
               <Route path="/rentals" element={<RentalRequest />} />
+              
+              {/* Pricing Guides */}
+              <Route path="/guides" element={<Guides />} />
+              <Route path="/guides/mri-machine-cost" element={<MRIMachineCost />} />
+              <Route path="/guides/ct-scanner-cost" element={<CTScannerCost />} />
+              <Route path="/guides/mobile-rental-rates" element={<MobileRentalRates />} />
+              
+              {/* Mobile Rentals */}
+              <Route path="/mobile-rentals" element={<MobileRentals />} />
+              <Route path="/mobile-rentals/mri" element={<MobileMRI />} />
+              <Route path="/mobile-rentals/ct" element={<MobileCT />} />
+              <Route path="/mobile-rentals/pet-ct" element={<MobilePETCT />} />
+              
+              {/* Service Areas */}
+              <Route path="/service-areas" element={<ServiceAreas />} />
+              <Route path="/service-areas/california" element={<California />} />
+              <Route path="/service-areas/west-coast" element={<WestCoast />} />
+              <Route path="/service-areas/nationwide" element={<Nationwide />} />
               
               {/* Customer Portal Routes */}
               <Route path="/auth/customer" element={<CustomerAuth />} />
