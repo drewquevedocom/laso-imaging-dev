@@ -12,7 +12,8 @@ import {
   Calendar,
   BarChart3,
   ShieldCheck,
-  Loader2
+  Loader2,
+  Wrench
 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -105,6 +106,21 @@ const TestingGuide = () => {
         { id: "m2", text: "Create a new template with variables", checked: false },
         { id: "m3", text: "Test sending an email using a template", checked: false },
         { id: "m4", text: "Verify email tracking shows opens/clicks", checked: false },
+      ]
+    },
+    {
+      title: "Service Requests",
+      icon: <Wrench className="h-5 w-5" />,
+      description: "Emergency and standard service request intake and processing.",
+      checklist: [
+        { id: "sr1", text: "Submit a Normal priority service request", checked: false },
+        { id: "sr2", text: "Submit an Urgent priority service request", checked: false },
+        { id: "sr3", text: "Submit an Emergency request and verify hot lead badge", checked: false },
+        { id: "sr4", text: "Verify admin receives email notification with urgency styling", checked: false },
+        { id: "sr5", text: "Verify customer receives confirmation email", checked: false },
+        { id: "sr6", text: "Check lead appears in triage board with correct urgency", checked: false },
+        { id: "sr7", text: "Verify Emergency requests trigger SMS notification (if opted in)", checked: false },
+        { id: "sr8", text: "Confirm activity log entry created for service request", checked: false },
       ]
     },
   ]);
@@ -334,7 +350,7 @@ const TestingGuide = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <div className="p-4 bg-muted/30 rounded-lg">
                 <h4 className="font-semibold mb-2">Lead → Quote → Sale</h4>
                 <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
@@ -363,6 +379,20 @@ const TestingGuide = () => {
                   <li>Schedule site visit</li>
                   <li>Add to inventory</li>
                   <li>List for sale</li>
+                </ol>
+              </div>
+              <div className="p-4 bg-muted/30 rounded-lg border-2 border-primary/20">
+                <h4 className="font-semibold mb-2 flex items-center gap-2">
+                  <Wrench className="h-4 w-4 text-primary" />
+                  Service Request Flow
+                </h4>
+                <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
+                  <li>Customer submits service request</li>
+                  <li>Lead created with urgency scoring</li>
+                  <li>Admin notified (instant for Emergency)</li>
+                  <li>Customer receives confirmation</li>
+                  <li>Lead appears with priority badge</li>
+                  <li>Admin assigns & schedules service</li>
                 </ol>
               </div>
             </div>

@@ -104,8 +104,8 @@ const ServiceRequestForm = ({
         `\nIssue/Details:\n${data.issueDescription}`,
       ].filter(Boolean).join('\n');
 
-      // Insert lead into database
-      const { error: insertError } = await supabase
+      // Insert lead into database and get the ID
+      const { data: insertedLead, error: insertError } = await supabase
         .from("leads")
         .insert({
           name: data.name,
@@ -120,22 +120,49 @@ const ServiceRequestForm = ({
           urgency: data.urgency === "emergency" ? "Emergency" : data.urgency === "urgent" ? "Urgent" : "Normal",
           lead_score: leadScore,
           is_hot: isHot,
-        });
+        })
+        .select("id")
+        .single();
 
       if (insertError) throw insertError;
 
-      // Send email notification (non-blocking)
-      supabase.functions.invoke('send-quote-notification', {
+      // Log activity for the service request
+      if (insertedLead?.id) {
+        await supabase.from("activities").insert({
+          lead_id: insertedLead.id,
+          activity_type: "note",
+          content: `Service request submitted: ${data.urgency.toUpperCase()} - ${data.equipmentType}${data.manufacturer ? ` (${data.manufacturer})` : ""}`,
+          direction: "inbound",
+          subject: `${serviceType} Request`,
+          metadata: {
+            urgency: data.urgency,
+            equipment_type: data.equipmentType,
+            manufacturer: data.manufacturer,
+            model: data.model,
+            preferred_date: data.preferredDate,
+          },
+        });
+      }
+
+      // Send service request notification (non-blocking)
+      supabase.functions.invoke('send-service-request-notification', {
         body: {
           name: data.name,
           email: data.email,
           phone: data.phone || '',
           company: data.company || '',
-          interest: `${serviceType} - Service Request`,
-          message: message,
-          source_page: `Service Request: ${sourcePage}`,
+          serviceType,
+          equipmentType: data.equipmentType,
+          manufacturer: data.manufacturer || '',
+          model: data.model || '',
+          urgency: data.urgency,
+          preferredDate: data.preferredDate || '',
+          issueDescription: data.issueDescription,
+          sourcePage,
+          smsOptIn: data.smsOptIn,
+          leadId: insertedLead?.id,
         }
-      }).catch(err => console.error('Email notification failed:', err));
+      }).catch(err => console.error('Service request notification failed:', err));
 
       setIsSubmitted(true);
       toast({

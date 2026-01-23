@@ -83,3 +83,6 @@ verify_jwt = false
 
 [functions.send-order-notification]
 verify_jwt = false
+
+[functions.send-service-request-notification]
+verify_jwt = false
