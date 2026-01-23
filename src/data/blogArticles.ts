@@ -899,6 +899,293 @@ The choice between open and closed bore depends on your patient population, clin
     readTime: '7 min read',
     image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&q=80',
     keywords: ['open bore MRI', 'closed bore MRI', 'wide bore MRI', 'MRI patient comfort', 'MRI claustrophobia', 'MRI comparison']
+  },
+  {
+    slug: 'how-much-does-mri-cost-2025',
+    title: 'How Much Does an MRI Machine Cost in 2025?',
+    excerpt: 'Complete breakdown of MRI machine costs for 2025, including refurbished vs new pricing, installation costs, and total cost of ownership analysis.',
+    content: `
+The question "how much does an MRI machine cost?" lands on imaging directors' desks constantly—and the answer is rarely simple. In 2025, MRI pricing spans from under $150,000 for a quality refurbished open system to well over $3 million for a cutting-edge new 3T scanner. Understanding where your facility fits in that range requires examining multiple factors.
+
+Let's cut through the marketing noise and provide the real numbers based on actual transactions in the current market.
+
+**Current MRI Machine Price Ranges (2025)**
+
+The MRI market segments primarily by field strength, with each category serving different clinical needs:
+
+**Open MRI Systems: $75,000 - $350,000**
+Open MRI machines offer the lowest entry point for imaging capabilities. Refurbished Hitachi and Siemens open systems in good condition typically sell between $75,000 and $150,000. Higher-field open units (0.7T-1.2T) command prices from $200,000 to $350,000.
+
+**1.5T MRI Systems: $150,000 - $500,000**
+The 1.5T category dominates the refurbished market because these systems handle 80% of clinical imaging needs effectively. A well-maintained GE Signa HDxt might sell for $175,000 to $275,000, while premium systems like the Siemens MAGNETOM Aera range from $350,000 to $500,000 depending on software and coil packages.
+
+**3T MRI Systems: $400,000 - $1,200,000**
+Three-Tesla systems deliver the imaging quality that neurology and musculoskeletal practices demand. Refurbished pricing starts around $400,000 for older systems like the GE Signa Excite 3T and extends to $1.2 million for recent-vintage Siemens Vida or Philips Ingenia units.
+
+**Beyond Equipment: The Full Cost Picture**
+
+Equipment cost represents roughly 60-70% of your total MRI investment. The remaining costs break down as follows:
+
+**Site Preparation: $75,000 - $200,000**
+Your site needs structural modifications to support magnet weight (typically 10,000-15,000 pounds), RF shielding to prevent signal interference, and potentially a dedicated electrical service upgrade. Rural facilities often face lower costs due to simpler construction requirements and less expensive contractors.
+
+**Installation: $50,000 - $150,000**
+Professional installation includes rigging and placement, shimming for optimal homogeneity, gradient calibration, and applications training. Superconducting magnets require additional cold head installation and helium fill services.
+
+**First-Year Operating Costs: $80,000 - $180,000**
+Plan for service contracts (if purchased), helium top-offs for superconducting systems, utilities (power consumption averages $15,000-30,000 annually), and physics support for accreditation.
+
+**Why Refurbished Makes Financial Sense**
+
+The refurbished MRI market has matured significantly. Today's reputable dealers provide systems that:
+
+- Perform to original OEM specifications
+- Include current software versions
+- Come with comprehensive warranties
+- Feature cosmetically restored components
+
+A facility purchasing a $275,000 refurbished 1.5T instead of a $1.5 million new system saves over $1.2 million in capital while maintaining diagnostic quality. That savings can fund site improvements, additional coils, or even a second imaging modality.
+
+**Making the Right Decision**
+
+Before requesting quotes, clarify these factors:
+
+1. **Clinical Requirements**: What exams will you perform most frequently?
+2. **Volume Projections**: How many patients per day/week?
+3. **Site Constraints**: What space and power are available?
+4. **Budget Reality**: What can you actually spend?
+5. **Timeline**: When do you need to be operational?
+
+Armed with answers to these questions, you can request targeted quotes that address your specific situation rather than generic pricing that may not apply.
+
+**Getting Accurate Pricing**
+
+For specific pricing on equipment matching your requirements, we recommend requesting quotes from established dealers who specialize in your target modality. Expect the quoting process to include site assessment discussions, as installation costs vary significantly based on facility characteristics.
+
+Ready to explore your options? [Request a personalized MRI quote](/quote) from our team, or call 1-800-MRI-LASO to discuss your requirements.
+    `,
+    category: 'buying-guide',
+    author: 'LASO Technical Team',
+    publishDate: '2025-01-20',
+    readTime: '7 min read',
+    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80',
+    keywords: ['MRI machine cost', 'MRI price 2025', 'how much does MRI cost', 'MRI machine price', 'refurbished MRI cost', 'used MRI price', 'MRI total cost of ownership']
+  },
+  {
+    slug: 'ct-scanner-pricing-guide',
+    title: 'CT Scanner Pricing: Complete Buyer\'s Guide for 2025',
+    excerpt: 'Everything you need to know about CT scanner pricing in 2025. From 16-slice to 256-slice systems, understand what drives costs and how to budget effectively.',
+    content: `
+CT scanner acquisition is typically more straightforward than MRI purchasing—but that doesn't mean the decisions are simple. In 2025, the CT market offers options ranging from $40,000 for basic refurbished 16-slice units to over $2 million for premium new 256-slice systems. Here's what you need to know to navigate the market effectively.
+
+**Understanding CT Scanner Pricing by Slice Count**
+
+Slice count remains the primary differentiator in CT pricing, though it's not the only factor affecting clinical capability.
+
+**16-Slice CT: $40,000 - $150,000**
+Entry-level 16-slice systems handle routine body imaging, basic cardiac screening, and emergency department trauma protocols. Refurbished GE BrightSpeed and Siemens Emotion systems in this category typically sell for $50,000-$100,000, making them accessible for imaging centers testing market demand or facilities with lower volume requirements.
+
+**64-Slice CT: $100,000 - $300,000**
+The 64-slice segment represents the current sweet spot for most clinical applications. These systems deliver excellent cardiac imaging, detailed angiography, and rapid trauma assessment. A refurbished GE Discovery CT750 HD or Siemens SOMATOM Definition AS might sell between $150,000 and $250,000 depending on software packages and detector condition.
+
+**128+ Slice CT: $200,000 - $500,000**
+High-end systems offer dual-source technology, spectral imaging, and sub-second acquisition times. Refurbished 128-slice units start around $200,000, while 256-slice systems command $350,000 and up. These investments make sense for high-volume trauma centers, dedicated cardiac imaging programs, and facilities differentiating on imaging quality.
+
+**Beyond Slice Count: What Else Affects Price?**
+
+Several factors can add $25,000 to $100,000 or more to your CT investment:
+
+**Detector Technology**
+Newer detector arrays with smaller elements deliver higher resolution but cost more. Wide-detector systems (40mm+ coverage) enable single-rotation organ imaging and command premium pricing.
+
+**Software Packages**
+Cardiac analysis, virtual colonoscopy, and advanced visualization software can add $20,000-$50,000 to system cost. Evaluate which packages align with your clinical program before purchasing.
+
+**Tube Hours**
+X-ray tubes have defined lifespans. A system with a new or low-hour tube is worth $30,000-$60,000 more than one approaching replacement.
+
+**Installation: The Hidden Cost Factor**
+
+CT installation is generally simpler than MRI because there's no cryogenic system or extreme magnetic field considerations. Still, plan for:
+
+**Site Preparation: $30,000 - $75,000**
+Requirements include floor reinforcement (CT gantries weigh 2,000-4,000 pounds), radiation shielding, HVAC modifications for heat dissipation, and electrical upgrades.
+
+**Installation Services: $25,000 - $50,000**
+Professional installation covers rigging, calibration, dosimetry testing, and applications training.
+
+**Regulatory Compliance: $5,000 - $15,000**
+State radiation surveys, ACR accreditation preparation, and initial physics testing add to first-year costs.
+
+**Operating Costs: Planning for Reality**
+
+Annual CT operating costs typically run $50,000-$100,000, including:
+
+- Service coverage (if purchased): $25,000-$60,000
+- Tube replacement reserve: $10,000-$20,000
+- Utilities: $8,000-$15,000
+- Contrast and supplies: $15,000-$30,000
+
+**New vs. Refurbished: The Real Trade-offs**
+
+The decision between new and refurbished CT isn't purely financial. Consider:
+
+**Reasons to Buy New**
+- Latest detector technology
+- Full manufacturer warranty (typically 1 year)
+- Latest software with upgrade path
+- Marketing advantage ("newest technology")
+
+**Reasons to Buy Refurbished**
+- 40-60% cost savings
+- Proven reliability (known issues already addressed)
+- Often includes clinical software valued at $50K+
+- Faster ROI and better cash flow
+
+Many successful imaging operations run refurbished CT scanners for 5-10 years with excellent uptime, then replace them with the next generation of refurbished equipment—maintaining technology currency while avoiding the depreciation hit of new equipment.
+
+**Getting the Right System**
+
+Before requesting quotes, define:
+
+1. Your primary clinical applications (routine, cardiac, trauma, etc.)
+2. Expected patient volumes
+3. Site constraints and available space
+4. Budget limits
+5. Timeline requirements
+
+With this information, dealers can provide accurate quotes for systems that match your needs rather than overselling features you won't use.
+
+**Ready to Explore Your Options?**
+
+Get accurate pricing for CT scanners matching your specific requirements. [Request a quote](/quote) or call 1-800-MRI-LASO to discuss your facility's needs with our CT specialists.
+    `,
+    category: 'buying-guide',
+    author: 'LASO Technical Team',
+    publishDate: '2025-01-18',
+    readTime: '8 min read',
+    image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&q=80',
+    keywords: ['CT scanner cost', 'CT scanner price', 'CT machine pricing', 'how much does CT scanner cost', '64 slice CT price', 'refurbished CT cost', 'CT scanner buying guide']
+  },
+  {
+    slug: 'mobile-mri-rental-cost-guide',
+    title: 'Mobile MRI Rental Costs: What to Expect in 2025',
+    excerpt: 'Detailed breakdown of mobile MRI rental rates for 2025. Learn about daily, weekly, and monthly pricing, what\'s included, and how to budget for temporary imaging solutions.',
+    content: `
+When your permanent MRI goes down or patient volumes spike unexpectedly, mobile MRI rental becomes essential for maintaining imaging services. But what does mobile MRI rental actually cost? In 2025, pricing ranges from $2,500 per day to $65,000 per month, with significant variation based on equipment type, rental duration, and included services.
+
+Let's break down the real costs and what factors influence pricing.
+
+**Mobile MRI Rental Rate Overview (2025)**
+
+Mobile MRI rental follows a predictable pattern: longer commitments equal lower daily rates. Here's what the current market looks like:
+
+**Daily Rates: $2,500 - $4,500**
+Short-term daily rentals serve emergency situations—equipment failures, unexpected volume spikes, or gap coverage during transitions. At $3,000-$4,500 per day for a 1.5T system, daily rates reflect the significant logistics of mobilizing, deploying, and demobilizing equipment for brief periods.
+
+**Weekly Rates: $12,000 - $25,000**
+Weekly rentals offer better economics when you need coverage beyond 3-4 days. A quality 1.5T mobile unit typically rents for $15,000-$20,000 per week, representing 40-50% savings versus daily rates.
+
+**Monthly Rates: $35,000 - $65,000**
+Extended rentals provide the best per-day economics. Monthly rates for 1.5T systems range from $40,000-$55,000, while 3T mobile units command $55,000-$65,000 per month. At these rates, your cost per scan day drops to $1,300-$2,000—often competitive with fixed equipment when considering all costs.
+
+**Long-Term Contracts: Negotiable**
+Multi-month commitments (3-12 months) unlock additional discounts, typically 10-25% off standard monthly rates. Facilities planning renovations or awaiting permanent equipment often negotiate long-term arrangements.
+
+**What's Included in Mobile MRI Rental?**
+
+Standard rental packages typically include:
+
+**Equipment and Trailer**
+- Self-contained mobile MRI unit
+- Climate control systems
+- Patient comfort features
+- Basic RF coil package
+
+**Delivery and Setup**
+- Transportation to your site
+- Pad/parking preparation assistance
+- Utility connections
+- System calibration and testing
+
+**Technical Support**
+- 24/7 phone support
+- Remote diagnostics
+- On-site response for critical issues
+
+**Services That May Cost Extra**
+
+Some items often fall outside base rental rates:
+
+**Enhanced Coil Packages: $2,000 - $8,000/month**
+Specialty coils (neurovascular, extremity, breast) may require additional rental fees.
+
+**Helium and Cryogenic Services: $3,000 - $8,000/month**
+For superconducting systems, helium monitoring and top-off services are sometimes billed separately.
+
+**Applications Training: $2,000 - $5,000**
+If your staff isn't familiar with the specific system, training sessions add to initial costs.
+
+**Extended Hours Coverage: Variable**
+24/7 technical support may carry premium charges beyond standard business hours coverage.
+
+**Factors That Affect Your Rate**
+
+Several variables influence the final price you'll pay:
+
+**Equipment Type**
+1.5T systems rent for less than 3T units. Open MRI mobiles cost less than closed-bore options but may have longer wait times due to limited fleet availability.
+
+**Geographic Location**
+Deployment distance from the mobile fleet's home base affects delivery costs. Remote locations may carry surcharges.
+
+**Seasonal Demand**
+Peak seasons (summer for renovations, Q4 for year-end budget utilization) may see higher rates and longer lead times.
+
+**Rental Duration**
+Longer commitments always improve per-day economics. A 12-month contract might reduce monthly rates by 20-25% versus month-to-month rental.
+
+**Site Readiness**
+Facilities with existing pad infrastructure, power connections, and network cabling avoid setup charges that can add $5,000-$15,000 to first-month costs.
+
+**Calculating Your True Cost**
+
+To budget accurately, consider total deployment cost:
+
+**Example: 6-Month 1.5T Rental**
+- Monthly rental (negotiated): $42,000 × 6 = $252,000
+- Delivery and setup: $8,000
+- Enhanced coil package: $4,000 × 6 = $24,000
+- Helium services: $5,000 × 6 = $30,000
+- Site preparation: $12,000
+
+**Total 6-Month Cost: $326,000**
+**Per-Scan-Day Cost: $2,050** (assuming 5 days/week operation)
+
+Compare this to lost revenue from imaging downtime—at $3,000-$5,000 per MRI scan day in revenue, the math often favors mobile deployment.
+
+**Maximizing Your Rental Investment**
+
+To get the best value from mobile MRI rental:
+
+1. **Book early** - Lead times of 2-4 weeks are common for quality equipment
+2. **Negotiate multi-month terms** - Even a 3-month commitment improves rates
+3. **Prepare your site** - Having infrastructure ready reduces setup costs
+4. **Plan utilization** - Higher scan volumes improve per-exam economics
+5. **Consider off-peak timing** - January-February often offers better availability
+
+**Getting Accurate Quotes**
+
+Mobile MRI rental pricing varies significantly by provider, equipment, and circumstances. For accurate pricing tailored to your situation, [request a mobile rental quote](/rentals/request) or call 1-800-MRI-LASO to discuss your specific needs with our mobile imaging specialists.
+
+We deploy mobile MRI units nationwide with typical lead times of 48-72 hours for emergency situations and 2-4 weeks for planned deployments.
+    `,
+    category: 'buying-guide',
+    author: 'LASO Mobile Services Team',
+    publishDate: '2025-01-16',
+    readTime: '8 min read',
+    image: 'https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800&q=80',
+    keywords: ['mobile MRI rental cost', 'mobile MRI rates', 'mobile MRI rental pricing', 'how much does mobile MRI cost', 'temporary MRI rental', 'mobile imaging rental rates']
   }
 ];
 

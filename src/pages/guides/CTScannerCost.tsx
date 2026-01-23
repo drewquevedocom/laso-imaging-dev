@@ -5,6 +5,8 @@ import Footer from '@/components/layout/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import FAQSchema from '@/components/seo/FAQSchema';
+import ArticleSchema from '@/components/seo/ArticleSchema';
+import PageBreadcrumb from '@/components/shared/PageBreadcrumb';
 import MarkdownContent from '@/components/shared/MarkdownContent';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,22 +42,23 @@ const CTScannerCost = () => {
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <FAQSchema faqs={guide.faqs} />
+      <ArticleSchema
+        headline={guide.title}
+        description={guide.metaDescription}
+        datePublished="2025-01-15"
+        dateModified="2025-01-20"
+        url="https://lasoimaging.com/guides/ct-scanner-cost"
+        keywords={guide.keywords}
+      />
       
       <Header />
       
       <main className="min-h-screen bg-background">
-        {/* Breadcrumb */}
-        <div className="bg-muted/50 border-b">
-          <div className="container mx-auto px-4 py-3">
-            <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Link to="/" className="hover:text-foreground">Home</Link>
-              <span>/</span>
-              <Link to="/guides" className="hover:text-foreground">Guides</Link>
-              <span>/</span>
-              <span className="text-foreground">CT Scanner Cost</span>
-            </nav>
-          </div>
-        </div>
+        <PageBreadcrumb items={[
+          { label: 'Home', href: '/' },
+          { label: 'Guides', href: '/guides' },
+          { label: 'CT Scanner Cost' },
+        ]} />
 
         {/* Hero Section */}
         <section className="bg-primary text-primary-foreground py-12 md:py-16">

@@ -4,6 +4,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import PageBreadcrumb from '@/components/shared/PageBreadcrumb';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { getAllMobileRentals } from '@/data/mobileRentals';
@@ -71,6 +72,11 @@ const MobileRentals = () => {
       <Header />
       
       <main className="min-h-screen">
+        <PageBreadcrumb items={[
+          { label: 'Home', href: '/' },
+          { label: 'Mobile Rentals' },
+        ]} />
+
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-primary via-primary to-primary/90 text-primary-foreground py-16 md:py-24">
           <div className="container mx-auto px-4">

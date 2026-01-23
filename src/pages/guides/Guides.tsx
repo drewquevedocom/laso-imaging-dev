@@ -4,6 +4,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import PageBreadcrumb from '@/components/shared/PageBreadcrumb';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { getAllPricingGuides } from '@/data/pricingGuides';
@@ -55,6 +56,11 @@ const Guides = () => {
       <Header />
       
       <main className="min-h-screen bg-background">
+        <PageBreadcrumb items={[
+          { label: 'Home', href: '/' },
+          { label: 'Pricing Guides' },
+        ]} />
+
         {/* Hero Section */}
         <section className="bg-primary text-primary-foreground py-16 md:py-24">
           <div className="container mx-auto px-4">
