@@ -27,14 +27,14 @@ const menuColumns = [
     viewAll: { label: 'View All CT', href: '/products?query=product_type:"8-Slice CT" OR product_type:"16-Slice CT" OR product_type:"64-Slice CT"' }
   },
   {
-    title: 'MOBILE SOLUTIONS',
+    title: 'MOBILE RENTALS',
     items: [
-      { label: 'Mobile MRI Rental', href: '/services/mobile-mri-rental' },
+      { label: 'Mobile MRI Rental', href: '/mobile-rentals/mri' },
+      { label: 'Mobile CT Rental', href: '/mobile-rentals/ct' },
+      { label: 'Mobile PET/CT Rental', href: '/mobile-rentals/pet-ct' },
       { label: 'Mobile MRI Systems', href: '/products?query=product_type:"Mobile MRI Systems"' },
-      { label: 'Interim Projects', href: '/services/interim-projects' },
-      { label: 'Nationwide Coverage', href: '/services/nationwide-coverage' },
     ],
-    viewAll: { label: 'View All Mobile', href: '/products?query=product_type:"Mobile MRI Systems"' }
+    viewAll: { label: 'View All Rentals', href: '/mobile-rentals' }
   },
   {
     title: 'BY BRAND',

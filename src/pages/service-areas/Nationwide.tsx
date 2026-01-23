@@ -132,6 +132,31 @@ const Nationwide = () => {
                     ))}
                   </div>
                 </div>
+
+                {/* Mobile Rentals Callout */}
+                <div className="mt-12 bg-accent/10 rounded-xl p-6 border border-accent/20">
+                  <h2 className="text-2xl font-bold mb-4">Mobile Imaging Solutions Nationwide</h2>
+                  <p className="text-muted-foreground mb-6">
+                    Need temporary imaging capacity anywhere in the US? Our mobile rental fleet deploys to all 50 states with rapid turnaround.
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <Link to="/mobile-rentals/mri" className="bg-card border rounded-lg p-4 hover:border-accent transition-colors">
+                      <h3 className="font-semibold">Mobile MRI</h3>
+                      <p className="text-sm text-muted-foreground">1.5T & 3T systems</p>
+                    </Link>
+                    <Link to="/mobile-rentals/ct" className="bg-card border rounded-lg p-4 hover:border-accent transition-colors">
+                      <h3 className="font-semibold">Mobile CT</h3>
+                      <p className="text-sm text-muted-foreground">16-128 slice options</p>
+                    </Link>
+                    <Link to="/mobile-rentals/pet-ct" className="bg-card border rounded-lg p-4 hover:border-accent transition-colors">
+                      <h3 className="font-semibold">Mobile PET/CT</h3>
+                      <p className="text-sm text-muted-foreground">Oncology imaging</p>
+                    </Link>
+                  </div>
+                  <Link to="/mobile-rentals" className="inline-flex items-center gap-2 mt-4 text-accent hover:text-primary font-semibold">
+                    View All Mobile Rentals →
+                  </Link>
+                </div>
               </div>
 
               {/* Sidebar */}

@@ -88,19 +88,29 @@ export const ServicesMegaMenu = ({ isOpen }: ServicesMegaMenuProps) => {
         </div>
 
         {/* Footer */}
-        <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
-          <Link 
-            to="/services"
-            className="inline-flex items-center gap-2 text-primary hover:text-accent font-bold transition-colors group"
-          >
-            Explore All Services
-            <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
-          </Link>
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <span>Need a custom service plan?</span>
-            <Link to="/quote?interest=Service" className="text-accent hover:text-primary font-semibold">
-              Request Service Quote
+        <div className="mt-8 pt-6 border-t border-border flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <Link 
+              to="/services"
+              className="inline-flex items-center gap-2 text-primary hover:text-accent font-bold transition-colors group"
+            >
+              Explore All Services
+              <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
             </Link>
+            <div className="flex items-center gap-6 text-sm text-muted-foreground">
+              <span>Need a custom service plan?</span>
+              <Link to="/quote?interest=Service" className="text-accent hover:text-primary font-semibold">
+                Request Service Quote
+              </Link>
+            </div>
+          </div>
+          {/* Service Areas */}
+          <div className="flex items-center gap-4 text-sm">
+            <span className="text-muted-foreground font-medium">Service Areas:</span>
+            <Link to="/service-areas/california" className="text-foreground hover:text-accent transition-colors">California</Link>
+            <Link to="/service-areas/west-coast" className="text-foreground hover:text-accent transition-colors">West Coast</Link>
+            <Link to="/service-areas/nationwide" className="text-foreground hover:text-accent transition-colors">Nationwide</Link>
+            <Link to="/service-areas" className="text-accent hover:text-primary font-medium">View All →</Link>
           </div>
         </div>
       </div>
