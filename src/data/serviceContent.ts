@@ -1,3 +1,10 @@
+export interface SafetyResource {
+  title: string;
+  description: string;
+  href: string;
+  external: boolean;
+}
+
 export interface ServiceContent {
   slug: string;
   title: string;
@@ -12,6 +19,7 @@ export interface ServiceContent {
   relatedServices: { slug: string; title: string }[];
   keywords: string[];
   geoKeywords: string[];
+  safetyResources?: SafetyResource[];
 }
 
 export const serviceContent: Record<string, ServiceContent> = {
@@ -223,7 +231,39 @@ We offer flexible PM programs tailored to your budget and operational needs, fro
       { slug: 'remote-diagnostics', title: 'Remote Diagnostics' }
     ],
     keywords: ['MRI preventive maintenance', 'MRI PM program', 'medical equipment maintenance', 'MRI service contract'],
-    geoKeywords: ['MRI maintenance California', 'MRI service Los Angeles', 'MRI maintenance Sherman Oaks']
+    geoKeywords: ['MRI maintenance California', 'MRI service Los Angeles', 'MRI maintenance Sherman Oaks'],
+    safetyResources: [
+      {
+        title: 'MRI Safety Guidelines',
+        description: 'Complete guide to ACR 4-Zone model, projectile hazards, RF burns, and cryogen quench procedures.',
+        href: '/blog/mri-safety-guidelines-complete-guide',
+        external: false
+      },
+      {
+        title: 'CT Radiation Safety (ALARA)',
+        description: 'ALARA principles, dose optimization, and patient protection protocols.',
+        href: '/blog/ct-radiation-safety-alara-principles',
+        external: false
+      },
+      {
+        title: 'X-Ray Safety Best Practices',
+        description: 'Time-distance-shielding, operator safety, and quality control essentials.',
+        href: '/blog/xray-safety-best-practices-facilities',
+        external: false
+      },
+      {
+        title: 'ACR Radiation Safety Guidelines',
+        description: 'Official American College of Radiology radiation safety resources.',
+        href: 'https://www.acr.org/clinical-resources/clinical-tools-and-reference/radiology-safety/radiation-safety',
+        external: true
+      },
+      {
+        title: 'RadiologyInfo.org Patient Safety',
+        description: 'Patient-focused radiation safety information from RSNA and ACR.',
+        href: 'https://www.radiologyinfo.org/en/info/safety-radiation',
+        external: true
+      }
+    ]
   },
 
   'emergency-repairs': {
