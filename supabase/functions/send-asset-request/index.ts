@@ -117,7 +117,7 @@ const generateAssetRequestEmail = (request: SellRequest): string => {
           <div style="background: #1f2937; padding: 24px; text-align: center;">
             <p style="color: #9ca3af; margin: 0 0 8px 0;">LASO Imaging Solutions</p>
             <p style="color: #6b7280; margin: 0; font-size: 14px;">acquisitions@lasoimaging.com | (818) 555-1234</p>
-            <p style="color: #6b7280; margin: 8px 0 0 0; font-size: 12px;">14900 Magnolia Blvd #5442, Sherman Oaks, CA 91413</p>
+            <p style="color: #6b7280; margin: 8px 0 0 0; font-size: 12px;">Mailing Address: 14900 Magnolia Blvd #56323, Sherman Oaks, CA 91413</p>
           </div>
         </div>
       </div>

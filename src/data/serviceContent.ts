@@ -212,7 +212,7 @@ We offer flexible PM programs tailored to your budget and operational needs, fro
     ],
     equipmentBrands: ['GE Healthcare', 'Siemens Healthineers', 'Philips Healthcare', 'Canon Medical', 'Hitachi'],
     faqs: [
-      { question: 'How often should PM be performed?', answer: 'We recommend quarterly PM visits for most systems, with monthly checks on critical components like cryogenics.' },
+      { question: 'How often should PM be performed?', answer: 'We recommend quarterly PM visits for most systems, with daily checks on critical components like cryogenics.' },
       { question: 'What is included in a typical PM visit?', answer: 'Each visit includes system testing, calibration verification, cryogenic checks, cleaning, and a detailed condition report.' },
       { question: 'Do you offer PM for older systems?', answer: 'Yes, we support systems regardless of age and can often extend the life of older equipment through proper maintenance.' },
       { question: 'How does PM affect my warranty?', answer: 'Our PM programs are designed to maintain warranty compliance. We document all work to manufacturer standards.' }
