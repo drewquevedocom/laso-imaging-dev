@@ -104,6 +104,30 @@ const servicesItems = [
   }
 ];
 
+const mobileRentalsItems = [
+  {
+    title: 'RENTAL OPTIONS',
+    items: [
+      { label: 'Mobile MRI Rental', href: '/mobile-rentals/mri' },
+      { label: 'Mobile CT Rental', href: '/mobile-rentals/ct' },
+      { label: 'Mobile PET/CT Rental', href: '/mobile-rentals/pet-ct' },
+      { label: 'All Mobile Rentals', href: '/mobile-rentals' },
+    ]
+  }
+];
+
+const serviceAreasItems = [
+  {
+    title: 'REGIONS',
+    items: [
+      { label: 'California', href: '/service-areas/california' },
+      { label: 'West Coast', href: '/service-areas/west-coast' },
+      { label: 'Nationwide', href: '/service-areas/nationwide' },
+      { label: 'All Service Areas', href: '/service-areas' },
+    ]
+  }
+];
+
 interface NavItem {
   label: string;
   href: string;
@@ -194,13 +218,15 @@ export const MobileNav = () => {
               <NavSection title="EQUIPMENT" items={equipmentItems} onClose={handleClose} />
               <NavSection title="PARTS" items={partsItems} onClose={handleClose} />
               <NavSection title="SERVICES" items={servicesItems} onClose={handleClose} />
+              <NavSection title="MOBILE RENTALS" items={mobileRentalsItems} onClose={handleClose} />
+              <NavSection title="SERVICE AREAS" items={serviceAreasItems} onClose={handleClose} />
               
               <Link 
-                to="/rentals" 
+                to="/guides" 
                 className="flex items-center py-3 px-4 text-foreground font-semibold hover:bg-secondary transition-colors"
                 onClick={handleClose}
               >
-                RENTALS
+                PRICING GUIDES
               </Link>
               <Link 
                 to="/blog" 
