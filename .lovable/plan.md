@@ -1,12 +1,21 @@
 
 
-# Plan: Fix Timecard Email Sender Domain
+# Plan: Fix Timecard Email - Match Working Sender Format
 
 ## The Issue
-The `send-timecard-notification` edge function is using `hello@noreply.lasoimaging.com` as the sender, but the subdomain `noreply.lasoimaging.com` is not verified in Resend. This is causing the 500 error when trying to send your timecard.
+The `send-timecard-notification` edge function is failing despite the domain being verified. However, the `enroll-customer-drip` function successfully sent an email using the same domain.
+
+### Key Difference Found:
+- **Working (enroll-customer-drip)**: `updates@updates.lasoimaging.com`
+- **Failing (send-timecard-notification)**: `timecards@updates.lasoimaging.com`
+
+While Resend should accept any prefix on a verified domain, there may be a configuration issue or the function may be using a cached version.
+
+---
 
 ## Solution
-Update the edge function to use the verified `lasoimaging.com` domain instead of the unverified `noreply.lasoimaging.com` subdomain.
+
+Update the timecard function to use the exact same sender email format that works in the drip campaign function.
 
 ---
 
@@ -16,21 +25,24 @@ Update the edge function to use the verified `lasoimaging.com` domain instead of
 
 **Line 207** - Change sender from:
 ```typescript
-from: "LASO Imaging <hello@noreply.lasoimaging.com>",
+from: "LASO Imaging <timecards@updates.lasoimaging.com>",
 ```
 
 To:
 ```typescript
-from: "LASO Imaging <timecards@lasoimaging.com>",
+from: "LASO Imaging <updates@updates.lasoimaging.com>",
 ```
 
 ---
 
 ## After Implementation
-Once deployed, I'll immediately re-trigger the email to send your timecard (Jan 23-29, 7.5 hours, $187.50) to marketing@lasoimaging.com.
+1. Deploy the updated function
+2. Re-trigger the timecard email for Andrew Quevedo (Jan 23-29, 7.5 hours, $187.50) to marketing@lasoimaging.com
 
 ---
 
-## Note
-Several other edge functions also use the unverified `noreply.lasoimaging.com` subdomain. You may want to verify that subdomain in Resend, or update all functions to use the main `lasoimaging.com` domain in a future update.
+## Alternative Investigation
+If this still fails, there may be an issue with the RESEND_API_KEY secret not being properly accessible to this specific edge function. In that case, we would need to:
+1. Re-save the RESEND_API_KEY secret
+2. Verify the secret is properly propagated to all edge functions
 
