@@ -101,9 +101,38 @@ export const useCustomerAuth = () => {
       return { error };
     }
 
+    // Trigger drip campaign enrollment after successful signup
+    // The profile is created by a database trigger, so we wait briefly then enroll
+    if (data?.user) {
+      setTimeout(async () => {
+        try {
+          // Fetch the profile that was created by the trigger
+          const { data: profile } = await supabase
+            .from("customer_profiles")
+            .select("id")
+            .eq("user_id", data.user!.id)
+            .single();
+
+          if (profile) {
+            // Enroll in drip campaign
+            await supabase.functions.invoke("enroll-customer-drip", {
+              body: {
+                customer_profile_id: profile.id,
+                email: email,
+                name: fullName,
+              },
+            });
+            console.log("Customer enrolled in drip campaign");
+          }
+        } catch (err) {
+          console.error("Error enrolling in drip campaign:", err);
+        }
+      }, 1000);
+    }
+
     toast({
       title: "Account Created!",
-      description: "Please check your email to verify your account.",
+      description: "Welcome to LASO Imaging! Check your email for your 10% discount.",
     });
     
     return { data };
