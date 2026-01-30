@@ -204,7 +204,7 @@ const handler = async (req: Request): Promise<Response> => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "LASO Imaging <hello@noreply.lasoimaging.com>",
+        from: "LASO Imaging <timecards@lasoimaging.com>",
         to: [data.sendToEmail],
         subject: `Timecard Submission: ${data.payeeName} - ${formatDate(data.payPeriodStart)} to ${formatDate(data.payPeriodEnd)}`,
         html: emailHtml,
