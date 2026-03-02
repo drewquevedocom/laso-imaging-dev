@@ -65,13 +65,13 @@ const PrivacyPolicy = () => {
 
               <h2 className="text-2xl font-semibold text-foreground mb-4">7. Contact Us</h2>
               <p className="text-muted-foreground mb-6">
-                Phone: 1-800-MRI-LASO (674-5276)
+                Phone: (844) 511-5276
               </p>
               <div className="bg-secondary rounded-lg p-6 mb-6">
                 <p className="text-foreground font-medium">LASO Imaging Solutions</p>
                 <p className="text-muted-foreground">Los Angeles, CA </p>
                 <p className="text-muted-foreground">Email: info@lasoimaging.com</p>
-                <p className="text-muted-foreground">Phone: (713) 357-2749</p>
+                <p className="text-muted-foreground">Phone: (844) 511-5276</p>
               </div>
             </div>
           </div>

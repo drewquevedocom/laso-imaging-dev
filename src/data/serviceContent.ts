@@ -270,13 +270,13 @@ We offer flexible PM programs tailored to your budget and operational needs, fro
     slug: 'emergency-repairs',
     title: '24/7 Emergency MRI Repair Services',
     metaTitle: '24/7 Emergency MRI Repair Services | Fast Response | LASO Imaging',
-    metaDescription: 'Emergency MRI repair services with 2-4 hour response time. Our certified engineers are available 24/7 to get your system back online. Call 1-800-MRI-LASO.',
+    metaDescription: 'Emergency MRI repair services with 2-4 hour response time. Our certified engineers are available 24/7 to get your system back online. Call (844) 511-5276.',
     heroDescription: 'When your MRI goes down, every minute counts. Our emergency team responds in 2-4 hours to get you back online fast.',
     overview: `MRI downtime costs facilities $5,000-$10,000 per day in lost revenue and rescheduled patients. LASO's emergency repair service minimizes that impact with rapid response from experienced engineers who arrive with the parts and expertise to fix problems fast.
 
 Our 24/7 emergency hotline connects you directly with our dispatch team, not an answering service. We maintain extensive parts inventory and strategic locations nationwide to ensure the fastest possible response.`,
     processSteps: [
-      { step: 'Call Our Hotline', description: 'Call 1-800-MRI-LASO and speak directly with our emergency dispatch team.' },
+      { step: 'Call Our Hotline', description: 'Call (844) 511-5276 and speak directly with our emergency dispatch team.' },
       { step: 'Remote Diagnostics', description: 'Our engineers connect remotely to diagnose the problem within 15 minutes when possible.' },
       { step: 'Engineer Dispatch', description: 'A certified engineer is dispatched with the parts most likely needed for the repair.' },
       { step: 'On-site Arrival', description: 'Engineer arrives on-site within 2-4 hours for most US locations.' },

@@ -122,7 +122,7 @@ const generateEmailHtml = (
           <!-- Footer -->
           <div style="background: #1f2937; padding: 24px; text-align: center;">
             <p style="color: #9ca3af; margin: 0 0 8px 0;">LASO Imaging Solutions</p>
-            <p style="color: #6b7280; margin: 0; font-size: 14px;">info@lasoimaging.com | (818) 555-1234</p>
+            <p style="color: #6b7280; margin: 0; font-size: 14px;">info@lasoimaging.com | (844) 511-5276</p>
           </div>
         </div>
       </div>

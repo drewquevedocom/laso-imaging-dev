@@ -102,12 +102,12 @@ export const Header = () => {
             {/* Right - Contact Info */}
             <div className="hidden lg:flex items-center gap-4">
               <a 
-                href="tel:18006745276" 
+                href="tel:18445115276" 
                 className="flex items-center gap-1.5 hover:text-accent transition-colors"
                 onClick={trackPhoneCall}
               >
                 <Phone className="w-3.5 h-3.5" />
-                <span>1-800-MRI-LASO</span>
+                <span>(844) 511-5276</span>
               </a>
               <span className="text-primary-foreground/40">|</span>
               <a href="mailto:info@lasoimaging.com" className="flex items-center gap-1.5 hover:text-accent transition-colors">

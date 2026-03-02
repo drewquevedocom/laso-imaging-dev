@@ -157,9 +157,9 @@ const Guides = () => {
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
-                <a href="tel:18006745276">
+                <a href="tel:18445115276">
                   <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                    Call 1-800-MRI-LASO
+                    Call (844) 511-5276
                   </Button>
                 </a>
               </div>

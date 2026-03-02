@@ -39,9 +39,9 @@ const ComingSoon = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center text-sm text-muted-foreground">
-              <a href="tel:18006745276" className="flex items-center gap-2 hover:text-foreground transition-colors">
+              <a href="tel:18445115276" className="flex items-center gap-2 hover:text-foreground transition-colors">
                 <Phone className="w-4 h-4" />
-                1-800-MRI-LASO
+                (844) 511-5276
               </a>
               <a href="mailto:info@lasoimaging.com" className="flex items-center gap-2 hover:text-foreground transition-colors">
                 <Mail className="w-4 h-4" />

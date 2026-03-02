@@ -116,7 +116,7 @@ export const MegaMenu = ({ isOpen }: MegaMenuProps) => {
           </Link>
           
           <div className="flex items-center gap-6 text-xs text-muted-foreground">
-            <span>Need Help? Call <strong className="text-foreground">1-800-MRI-LASO</strong></span>
+            <span>Need Help? Call <strong className="text-foreground">(844) 511-5276</strong></span>
             <span>•</span>
             <Link to="/quote" className="hover:text-accent transition-colors">Request a Quote</Link>
           </div>

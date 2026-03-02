@@ -71,8 +71,8 @@ const Quote = () => {
               <div className="mt-8 text-center text-muted-foreground">
                 <p className="text-sm">
                   Have questions? Call us at{" "}
-                  <a href="tel:+18006745276" className="text-accent hover:underline font-medium">
-                    1-800-MRI-LASO
+                  <a href="tel:18445115276" className="text-accent hover:underline font-medium">
+                    (844) 511-5276
                   </a>{" "}
                   or email{" "}
                   <a href="mailto:info@lasoimaging.com" className="text-accent hover:underline font-medium">

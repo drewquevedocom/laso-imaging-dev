@@ -169,7 +169,7 @@ const handler = async (req: Request): Promise<Response> => {
 
             <p><strong>Questions?</strong></p>
             <p>
-              📞 Call: <a href="tel:18006745276" style="color: #0077b6;">1-800-MRI-LASO (674-5276)</a><br>
+              📞 Call: <a href="tel:18445115276" style="color: #0077b6;">(844) 511-5276</a><br>
               📧 Email: <a href="mailto:info@lasoimaging.com" style="color: #0077b6;">info@lasoimaging.com</a>
             </p>
           </div>

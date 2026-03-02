@@ -1195,7 +1195,7 @@ Armed with answers to these questions, you can request targeted quotes that addr
 
 For specific pricing on equipment matching your requirements, we recommend requesting quotes from established dealers who specialize in your target modality. Expect the quoting process to include site assessment discussions, as installation costs vary significantly based on facility characteristics.
 
-Ready to explore your options? [Request a personalized MRI quote](/quote) from our team, or call 1-800-MRI-LASO to discuss your requirements.
+Ready to explore your options? [Request a personalized MRI quote](/quote) from our team, or call (844) 511-5276 to discuss your requirements.
     `,
     category: 'buying-guide',
     author: 'LASO Technical Team',
@@ -1291,7 +1291,7 @@ With this information, dealers can provide accurate quotes for systems that matc
 
 **Ready to Explore Your Options?**
 
-Get accurate pricing for CT scanners matching your specific requirements. [Request a quote](/quote) or call 1-800-MRI-LASO to discuss your facility's needs with our CT specialists.
+Get accurate pricing for CT scanners matching your specific requirements. [Request a quote](/quote) or call (844) 511-5276 to discuss your facility's needs with our CT specialists.
     `,
     category: 'buying-guide',
     author: 'LASO Technical Team',
@@ -1409,7 +1409,7 @@ To get the best value from mobile MRI rental:
 
 **Getting Accurate Quotes**
 
-Mobile MRI rental pricing varies significantly by provider, equipment, and circumstances. For accurate pricing tailored to your situation, [request a mobile rental quote](/rentals/request) or call 1-800-MRI-LASO to discuss your specific needs with our mobile imaging specialists.
+Mobile MRI rental pricing varies significantly by provider, equipment, and circumstances. For accurate pricing tailored to your situation, [request a mobile rental quote](/rentals/request) or call (844) 511-5276 to discuss your specific needs with our mobile imaging specialists.
 
 We deploy mobile MRI units nationwide with typical lead times of 48-72 hours for emergency situations and 2-4 weeks for planned deployments.
     `,

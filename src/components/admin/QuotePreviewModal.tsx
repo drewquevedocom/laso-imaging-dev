@@ -144,7 +144,7 @@ const QuotePreviewModal = ({ open, onOpenChange, data }: QuotePreviewModalProps)
               <p className="text-sm text-gray-600">
                 1234 Medical Equipment Dr.<br />
                 Houston, TX 77001<br />
-                1-800-MRI-LASO
+                (844) 511-5276
               </p>
             </div>
             <div className="text-right">

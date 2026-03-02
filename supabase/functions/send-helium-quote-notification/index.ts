@@ -110,7 +110,7 @@ const handler = async (req: Request): Promise<Response> => {
         </div>
         
         <div style="background: #0c4a6e; padding: 16px; border-radius: 0 0 8px 8px; text-align: center;">
-          <p style="color: white; margin: 0; font-size: 14px;">LASO Imaging Solutions | 1-800-MRI-LASO</p>
+          <p style="color: white; margin: 0; font-size: 14px;">LASO Imaging Solutions | (844) 511-5276</p>
         </div>
       </body>
       </html>
@@ -148,8 +148,8 @@ const handler = async (req: Request): Promise<Response> => {
           <p style="color: #64748b;">If you need immediate assistance, please call us at:</p>
           
           <div style="text-align: center; margin: 24px 0;">
-            <a href="tel:18006745276" style="display: inline-block; background: #0284c7; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">
-              1-800-MRI-LASO (1-800-674-5276)
+             <a href="tel:18445115276" style="display: inline-block; background: #0284c7; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+              (844) 511-5276
             </a>
           </div>
           

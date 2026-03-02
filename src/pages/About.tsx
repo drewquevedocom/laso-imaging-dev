@@ -377,10 +377,10 @@ const About = () => {
                   Request a Quote
                 </Button>
               </Link>
-              <a href="tel:+18006745276">
+              <a href="tel:18445115276">
                 <Button variant="heroOutline" size="lg">
                   <Phone className="h-4 w-4 mr-2" />
-                  Call 1-800-MRI-LASO
+                  Call (844) 511-5276
                 </Button>
               </a>
             </div>

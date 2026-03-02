@@ -31,7 +31,7 @@ const ServiceSchema = ({
       '@type': 'Organization',
       name: 'LASO Imaging Solutions',
       url: 'https://lasoimaging.com',
-      telephone: ['+1-818-916-9503', '+1-800-674-5276'],
+      telephone: '+1-844-511-5276',
       email: 'info@lasoimaging.com',
       address: {
         '@type': 'PostalAddress',

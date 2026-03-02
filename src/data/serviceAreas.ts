@@ -156,7 +156,7 @@ We serve healthcare facilities throughout California, including major metropolit
     ],
     states: ['California'],
     geoCoordinates: { latitude: 34.1547, longitude: -118.4485 },
-    phoneNumber: '1-800-674-5276',
+    phoneNumber: '1-844-511-5276',
   },
   'west-coast': {
     slug: 'west-coast',
@@ -282,7 +282,7 @@ From equipment selection to ongoing support:
     ],
     states: ['California', 'Oregon', 'Washington', 'Nevada', 'Arizona'],
     geoCoordinates: { latitude: 37.7749, longitude: -122.4194 },
-    phoneNumber: '1-800-674-5276',
+    phoneNumber: '1-844-511-5276',
   },
   'nationwide': {
     slug: 'nationwide',
@@ -414,7 +414,7 @@ Our mobile fleet serves the entire continental United States:
       'All 50 states and U.S. territories',
     ],
     geoCoordinates: { latitude: 39.8283, longitude: -98.5795 },
-    phoneNumber: '1-800-674-5276',
+    phoneNumber: '1-844-511-5276',
   },
 };
 

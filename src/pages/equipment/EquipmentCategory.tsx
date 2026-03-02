@@ -244,10 +244,10 @@ const EquipmentCategory = () => {
                   Request a Quote
                 </Button>
               </Link>
-              <a href="tel:+18189169503">
+              <a href="tel:18445115276">
                 <Button variant="outline" size="lg">
                   <Phone className="w-4 h-4 mr-2" />
-                  (818) 916-9503
+                  (844) 511-5276
                 </Button>
               </a>
             </div>
@@ -348,10 +348,10 @@ const EquipmentCategory = () => {
                   Request a Quote
                 </Button>
               </Link>
-              <a href="tel:+18189169503">
+              <a href="tel:18445115276">
                 <Button size="lg" variant="outline" className="w-full sm:w-auto border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
                   <Phone className="w-4 h-4 mr-2" />
-                  Call (818) 916-9503
+                  Call (844) 511-5276
                 </Button>
               </a>
             </div>
