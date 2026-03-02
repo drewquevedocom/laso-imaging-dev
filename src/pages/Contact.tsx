@@ -316,11 +316,8 @@ const Contact = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-foreground">Phone</h3>
-                        <a href="tel:8189169503" className="text-muted-foreground hover:text-accent transition-colors block">
-                          (818) 916-9503
-                        </a>
-                        <a href="tel:18006745276" className="text-muted-foreground hover:text-accent transition-colors block">
-                          1-800-MRI-LASO (674-5276)
+                        <a href="tel:18445115276" className="text-muted-foreground hover:text-accent transition-colors block">
+                          (844) 511-5276
                         </a>
                         <p className="text-sm text-accent font-medium mt-1">
                           24/7 Emergency Support

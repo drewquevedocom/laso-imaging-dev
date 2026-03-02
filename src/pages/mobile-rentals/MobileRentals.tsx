@@ -92,9 +92,9 @@ const MobileRentals = () => {
                   <Link to="/quote">Request a Quote</Link>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="text-lg px-8 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
-                  <a href="tel:18006745276">
+                <a href="tel:18445115276">
                     <Phone className="mr-2 h-5 w-5" />
-                    1-800-MRI-LASO
+                    (844) 511-5276
                   </a>
                 </Button>
               </div>
@@ -246,9 +246,9 @@ const MobileRentals = () => {
                 <Link to="/quote">Request a Quote</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="text-lg px-8 border-accent-foreground/30 hover:bg-accent-foreground/10">
-                <a href="tel:18006745276">
+                <a href="tel:18445115276">
                   <Phone className="mr-2 h-5 w-5" />
-                  Call 1-800-MRI-LASO
+                  Call (844) 511-5276
                 </a>
               </Button>
             </div>

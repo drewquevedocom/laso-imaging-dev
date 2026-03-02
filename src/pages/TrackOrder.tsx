@@ -56,7 +56,7 @@ const TrackOrder = () => {
                 
                 <div className="grid md:grid-cols-2 gap-6">
                   <a 
-                    href="tel:+17133572749" 
+                    href="tel:18445115276" 
                     className="flex items-center gap-4 p-4 bg-secondary rounded-lg hover:bg-secondary/80 transition-colors"
                   >
                     <div className="bg-accent/10 p-3 rounded-full">
@@ -64,7 +64,7 @@ const TrackOrder = () => {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Call Us</p>
-                      <p className="text-lg font-semibold text-foreground">(713) 357-2749</p>
+                      <p className="text-lg font-semibold text-foreground">(844) 511-5276</p>
                     </div>
                   </a>
                   

@@ -72,7 +72,7 @@ const ServicePage = () => {
     "provider": {
       "@type": "Organization",
       "name": "LASO Imaging Solutions",
-      "telephone": "1-800-674-5276",
+      "telephone": "+1-844-511-5276",
       "email": "info@lasoimaging.com",
       "address": {
         "@type": "PostalAddress",
@@ -144,10 +144,10 @@ const ServicePage = () => {
               </p>
               
               <div className="flex flex-wrap gap-4">
-                <a href="tel:18006745276">
+                <a href="tel:18445115276">
                   <Button size="lg" variant="secondary" className="gap-2">
                     <Phone className="w-4 h-4" />
-                    1-800-MRI-LASO
+                    (844) 511-5276
                   </Button>
                 </a>
                 {slug === 'financing' ? (
@@ -228,8 +228,8 @@ const ServicePage = () => {
                       <Phone className="w-5 h-5 text-accent" />
                       <div>
                         <p className="text-sm text-muted-foreground">Call Us 24/7</p>
-                        <a href="tel:18006745276" className="font-semibold text-foreground hover:text-accent transition-colors">
-                          1-800-MRI-LASO
+                        <a href="tel:18445115276" className="font-semibold text-foreground hover:text-accent transition-colors">
+                          (844) 511-5276
                         </a>
                       </div>
                     </div>
@@ -530,7 +530,7 @@ const ServicePage = () => {
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 text-primary-foreground">
                     <Phone className="w-5 h-5" />
-                    <span className="font-semibold">1-800-MRI-LASO (1-800-674-5276)</span>
+                    <span className="font-semibold">(844) 511-5276</span>
                   </div>
                   <div className="flex items-center gap-3 text-primary-foreground">
                     <MapPin className="w-5 h-5" />

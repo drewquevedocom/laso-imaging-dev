@@ -198,7 +198,7 @@ const handler = async (req: Request): Promise<Response> => {
               </p>
               <p style="color: #9ca3af; font-size: 12px; margin: 0;">
                 Your Trusted Partner in Medical Imaging Equipment<br>
-                <a href="tel:8189169503" style="color: #0F766E;">(818) 916-9503</a> • 
+                <a href="tel:18445115276" style="color: #0F766E;">(844) 511-5276</a> • 
                 <a href="mailto:sales@lasoimaging.com" style="color: #0F766E;">sales@lasoimaging.com</a>
               </p>
             </td>

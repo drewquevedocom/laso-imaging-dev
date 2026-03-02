@@ -245,8 +245,8 @@ const CustomerAuth = () => {
 
           <p className="text-center text-sm text-muted-foreground mt-6">
             Need help? Contact us at{" "}
-            <a href="tel:+18006745276" className="text-accent hover:underline">
-              1-800-MRI-LASO
+            <a href="tel:18445115276" className="text-accent hover:underline">
+              (844) 511-5276
             </a>
           </p>
         </div>

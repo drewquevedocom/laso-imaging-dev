@@ -173,7 +173,7 @@ const handler = async (req: Request): Promise<Response> => {
           <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; text-align: center;">
             <p style="margin: 0 0 10px; font-weight: bold;">Have questions?</p>
             <p style="margin: 0;">
-              Call us at <a href="tel:1-800-674-5276" style="color: #0052A5; font-weight: bold;">1-800-MRI-LASO</a><br>
+              Call us at <a href="tel:18445115276" style="color: #0052A5; font-weight: bold;">(844) 511-5276</a><br>
               or email <a href="mailto:info@lasoimaging.com" style="color: #0052A5;">info@lasoimaging.com</a>
             </p>
           </div>

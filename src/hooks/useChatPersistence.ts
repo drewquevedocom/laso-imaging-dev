@@ -157,7 +157,7 @@ export const useChatPersistence = () => {
 
       addMessage({
         role: 'assistant',
-        content: "I've notified our team that you'd like to speak with a human agent. Someone will reach out to you shortly. In the meantime, feel free to call us at 1-800-MRI-LASO (1-800-674-5276).",
+        content: "I've notified our team that you'd like to speak with a human agent. Someone will reach out to you shortly. In the meantime, feel free to call us at (844) 511-5276.",
       });
     } catch (error) {
       console.error('Error requesting handoff:', error);

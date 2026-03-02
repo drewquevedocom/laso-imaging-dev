@@ -68,8 +68,8 @@ const NotFound = () => {
           {/* Support Contact */}
           <p className="text-muted-foreground text-sm">
             Need immediate assistance? Call us at{" "}
-            <a href="tel:1-800-674-5276" className="text-primary hover:underline font-medium">
-              1-800-MRI-LASO
+            <a href="tel:18445115276" className="text-primary hover:underline font-medium">
+              (844) 511-5276
             </a>
           </p>
         </div>

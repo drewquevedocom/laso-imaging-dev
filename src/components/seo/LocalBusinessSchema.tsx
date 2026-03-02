@@ -15,7 +15,7 @@ const LocalBusinessSchema = ({
     name: 'LASO Imaging Solutions',
     description: 'Leading supplier of used and refurbished MRI, CT, and medical imaging equipment with nationwide service, parts, and support.',
     url: 'https://lasoimaging.com',
-    telephone: '+1-818-916-9503',
+    telephone: '+1-844-511-5276',
     email: 'info@lasoimaging.com',
     address: {
       '@type': 'PostalAddress',
@@ -115,14 +115,14 @@ const LocalBusinessSchema = ({
     contactPoint: [
       {
         '@type': 'ContactPoint',
-        telephone: '+1-818-916-9503',
+        telephone: '+1-844-511-5276',
         contactType: 'sales',
         areaServed: 'US',
         availableLanguage: ['English', 'Spanish'],
       },
       {
         '@type': 'ContactPoint',
-        telephone: '+1-800-674-5276',
+        telephone: '+1-844-511-5276',
         contactType: 'customer service',
         areaServed: 'US',
         availableLanguage: 'English',

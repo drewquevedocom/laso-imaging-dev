@@ -145,7 +145,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           <div style="background: #e8f4f8; padding: 15px; border-radius: 8px; margin: 20px 0;">
             <p style="margin: 0; font-size: 14px;"><strong>Need immediate assistance?</strong></p>
-            <p style="margin: 5px 0 0 0; font-size: 14px;">📞 Call: 1-800-MRI-LASO | ✉️ Email: rentals@lasoimaging.com</p>
+            <p style="margin: 5px 0 0 0; font-size: 14px;">📞 Call: (844) 511-5276 | ✉️ Email: rentals@lasoimaging.com</p>
           </div>
         </div>
         
@@ -165,7 +165,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send SMS confirmation if opted in and phone provided
     if (data.sms_opt_in && data.phone) {
-      const smsMessage = `LASO Imaging: Thanks for your rental request for ${data.equipment_type}! We'll contact you within 4 hours with availability & pricing. Questions? Call 1-800-MRI-LASO`;
+      const smsMessage = `LASO Imaging: Thanks for your rental request for ${data.equipment_type}! We'll contact you within 4 hours with availability & pricing. Questions? Call (844) 511-5276`;
       await sendSMS(data.phone, smsMessage);
     }
 

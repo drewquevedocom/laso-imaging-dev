@@ -36,7 +36,7 @@ const CTASection = () => {
               </Button>
               <Button variant="hero" size="xl" className="bg-accent hover:bg-accent/90">
                 <Phone className="h-5 w-5 mr-2" />
-                Call 1-800-MRI-LASO
+                Call (844) 511-5276
               </Button>
             </div>
           </div>

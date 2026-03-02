@@ -272,7 +272,7 @@ const handler = async (req: Request): Promise<Response> => {
                   <td style="padding: 16px; text-align: center;">
                     <p style="margin: 0 0 4px; color: #dc2626; font-weight: 600; font-size: 14px;">Need Immediate Assistance?</p>
                     <p style="margin: 0; color: #374151; font-size: 20px; font-weight: bold;">
-                      <a href="tel:1-800-674-5276" style="color: #dc2626; text-decoration: none;">1-800-674-5276</a>
+                      <a href="tel:18445115276" style="color: #dc2626; text-decoration: none;">(844) 511-5276</a>
                     </p>
                   </td>
                 </tr>
@@ -373,7 +373,7 @@ const handler = async (req: Request): Promise<Response> => {
         await supabase.functions.invoke("send-sms", {
           body: {
             to: phone,
-            message: `LASO Service: We received your EMERGENCY request for ${equipmentType}. Our team is being notified immediately. Call 1-800-674-5276 for faster response.`,
+            message: `LASO Service: We received your EMERGENCY request for ${equipmentType}. Our team is being notified immediately. Call (844) 511-5276 for faster response.`,
             leadId,
           },
         });

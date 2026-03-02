@@ -343,8 +343,8 @@ const BuySell = () => {
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="text-lg bg-transparent border-white text-white hover:bg-white/10">
-                <a href="tel:1-800-MRI-LASO">
-                  <Phone className="mr-2 h-5 w-5" /> Call 1-800-MRI-LASO
+                <a href="tel:18445115276">
+                  <Phone className="mr-2 h-5 w-5" /> Call (844) 511-5276
                 </a>
               </Button>
             </div>

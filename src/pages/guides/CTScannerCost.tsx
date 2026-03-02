@@ -112,9 +112,9 @@ const CTScannerCost = () => {
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
-                <a href="tel:18006745276" className="flex items-center gap-2 hover:underline">
+                <a href="tel:18445115276" className="flex items-center gap-2 hover:underline">
                   <Phone className="w-4 h-4" />
-                  1-800-MRI-LASO
+                  (844) 511-5276
                 </a>
               </div>
             </div>
@@ -261,10 +261,10 @@ const CTScannerCost = () => {
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
-              <a href="tel:18006745276">
+              <a href="tel:18445115276">
                 <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
                   <Phone className="w-4 h-4 mr-2" />
-                  1-800-MRI-LASO
+                  (844) 511-5276
                 </Button>
               </a>
             </div>

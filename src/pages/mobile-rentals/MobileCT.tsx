@@ -87,9 +87,9 @@ const MobileCT = () => {
                   <Link to="/quote">Get a Quote</Link>
                 </Button>
                 <Button asChild variant="outline" className="border-accent-foreground/30 hover:bg-accent-foreground/10">
-                  <a href="tel:18006745276">
+                  <a href="tel:18445115276">
                     <Phone className="mr-2 h-4 w-4" />
-                    1-800-MRI-LASO
+                    (844) 511-5276
                   </a>
                 </Button>
               </div>
@@ -185,8 +185,8 @@ const MobileCT = () => {
                       <Link to="/quote">Request Quote</Link>
                     </Button>
                     <div className="text-center mt-4">
-                      <a href="tel:18006745276" className="text-sm hover:underline">
-                        or call 1-800-MRI-LASO
+                      <a href="tel:18445115276" className="text-sm hover:underline">
+                        or call (844) 511-5276
                       </a>
                     </div>
                   </CardContent>
@@ -229,9 +229,9 @@ const MobileCT = () => {
                 <Link to="/quote">Request a Quote</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-primary-foreground/30 hover:bg-primary-foreground/10">
-                <a href="tel:18006745276">
+                <a href="tel:18445115276">
                   <Phone className="mr-2 h-5 w-5" />
-                  1-800-MRI-LASO
+                  (844) 511-5276
                 </a>
               </Button>
             </div>
