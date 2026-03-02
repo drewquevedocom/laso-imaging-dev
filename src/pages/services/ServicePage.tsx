@@ -31,6 +31,11 @@ const ServicePage = () => {
   const service = slug ? getServiceContent(slug) : null;
   const [activeQuoteForm, setActiveQuoteForm] = useState<'helium' | 'cryogenic'>('helium');
 
+  // These 3 service pages use a different CTA phone number
+  const useAltPhone = slug === 'preventive-maintenance' || slug === 'helium-refills' || slug === 'operator-training';
+  const ctaPhone = useAltPhone ? '(818) 916-9503' : '(844) 511-5276';
+  const ctaTel = useAltPhone ? 'tel:8189169503' : 'tel:18445115276';
+
   if (!service) {
     return (
       <div className="min-h-screen bg-background">
@@ -144,10 +149,10 @@ const ServicePage = () => {
               </p>
               
               <div className="flex flex-wrap gap-4">
-                <a href="tel:18445115276">
+              <a href={ctaTel}>
                   <Button size="lg" variant="secondary" className="gap-2">
                     <Phone className="w-4 h-4" />
-                    (844) 511-5276
+                    {ctaPhone}
                   </Button>
                 </a>
                 {slug === 'financing' ? (
@@ -228,8 +233,8 @@ const ServicePage = () => {
                       <Phone className="w-5 h-5 text-accent" />
                       <div>
                         <p className="text-sm text-muted-foreground">Call Us 24/7</p>
-                        <a href="tel:18445115276" className="font-semibold text-foreground hover:text-accent transition-colors">
-                          (844) 511-5276
+                      <a href={ctaTel} className="font-semibold text-foreground hover:text-accent transition-colors">
+                          {ctaPhone}
                         </a>
                       </div>
                     </div>
@@ -530,7 +535,7 @@ const ServicePage = () => {
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 text-primary-foreground">
                     <Phone className="w-5 h-5" />
-                    <span className="font-semibold">(844) 511-5276</span>
+                    <span className="font-semibold">{ctaPhone}</span>
                   </div>
                   <div className="flex items-center gap-3 text-primary-foreground">
                     <MapPin className="w-5 h-5" />
