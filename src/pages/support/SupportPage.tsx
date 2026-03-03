@@ -81,9 +81,9 @@ const SupportPage = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <div className="bg-secondary rounded-lg p-12 mb-8">
-                <h2 className="text-2xl font-semibold text-foreground mb-4">Coming Soon</h2>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">Get Support</h2>
                 <p className="text-muted-foreground mb-6">
-                  Detailed information about {support.title.toLowerCase()} is being prepared.
+                  Need help with {support.title.toLowerCase()}? Our team is ready to assist you.
                 </p>
                 <Link to="/contact">
                   <Button variant="default" size="lg">

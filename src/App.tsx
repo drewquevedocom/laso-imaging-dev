@@ -79,7 +79,7 @@ import TestingGuide from "./pages/admin/TestingGuide";
 import RentalRequest from "./pages/rentals/RentalRequest";
 import OfferApprovals from "./pages/admin/OfferApprovals";
 import Orders from "./pages/admin/Orders";
-import ComingSoon from "./pages/ComingSoon";
+
 import ResetPassword from "./pages/auth/ResetPassword";
 // Mobile Rentals
 import MobileRentals from "./pages/mobile-rentals/MobileRentals";
@@ -157,8 +157,6 @@ const App = () => (
               {/* Sitemap */}
               <Route path="/sitemap" element={<Sitemap />} />
               
-              {/* Coming Soon */}
-              <Route path="/coming-soon" element={<ComingSoon />} />
               
               {/* Equipment Rental */}
               <Route path="/rentals" element={<RentalRequest />} />
