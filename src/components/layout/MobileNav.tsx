@@ -51,28 +51,28 @@ const partsItems = [
   { 
     title: 'BY CATEGORY', 
     items: [
-      { label: 'MRI Coils', href: '/parts/mri-coils' },
-      { label: 'Gradient Amplifiers', href: '/parts/gradient-amplifiers' },
-      { label: 'RF Amplifiers', href: '/parts/rf-amplifiers' },
-      { label: 'Cold Heads', href: '/parts/cold-heads' },
+      { label: 'MRI Coils', href: '/products?query=MRI+Coils' },
+      { label: 'Gradient Amplifiers', href: '/products?query=Gradient+Amplifier' },
+      { label: 'RF Amplifiers', href: '/products?query=RF+Amplifier' },
+      { label: 'Cold Heads', href: '/products?query=Cold+Head' },
     ]
   },
   { 
     title: 'BY MANUFACTURER', 
     items: [
-      { label: 'GE Healthcare', href: '/parts/brand/ge' },
-      { label: 'Siemens', href: '/parts/brand/siemens' },
-      { label: 'Philips', href: '/parts/brand/philips' },
-      { label: 'Toshiba/Canon', href: '/parts/brand/canon' },
+      { label: 'GE Healthcare', href: '/products?query=GE+parts' },
+      { label: 'Siemens', href: '/products?query=Siemens+parts' },
+      { label: 'Philips', href: '/products?query=Philips+parts' },
+      { label: 'Toshiba/Canon', href: '/products?query=Canon+parts' },
     ]
   },
   { 
     title: 'COILS', 
     items: [
-      { label: 'Head Coils', href: '/parts/head-coils' },
-      { label: 'Body Coils', href: '/parts/body-coils' },
-      { label: 'Knee Coils', href: '/parts/knee-coils' },
-      { label: 'Spine Coils', href: '/parts/spine-coils' },
+      { label: 'Head Coils', href: '/products?query=Head+Coil' },
+      { label: 'Body Coils', href: '/products?query=Body+Coil' },
+      { label: 'Knee Coils', href: '/products?query=Knee+Coil' },
+      { label: 'Spine Coils', href: '/products?query=Spine+Coil' },
     ]
   }
 ];
