@@ -1,5 +1,5 @@
-import { useEffect, useCallback, useRef } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { useEffect, useCallback, useRef, useMemo } from 'react';
+import { createClient } from '@supabase/supabase-js';
 import { useChatStore, ChatMessage } from '@/stores/chatStore';
 
 const SESSION_KEY = 'laso_chat_session_id';
@@ -17,6 +17,24 @@ const getOrCreateSessionId = (): string => {
   return sessionId;
 };
 
+// Create a supabase client with x-session-id header for chat RLS policies
+const createChatClient = (sessionId: string) => {
+  return createClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+    {
+      global: {
+        headers: { 'x-session-id': sessionId },
+      },
+      auth: {
+        storage: localStorage,
+        persistSession: true,
+        autoRefreshToken: true,
+      },
+    }
+  );
+};
+
 export const useChatPersistence = () => {
   const { 
     messages, 
@@ -29,6 +47,9 @@ export const useChatPersistence = () => {
   const isInitialized = useRef(false);
   const lastSavedMessageCount = useRef(0);
   const sessionId = getOrCreateSessionId();
+  
+  // Chat-specific client with x-session-id header for RLS
+  const chatClient = useMemo(() => createChatClient(sessionId), [sessionId]);
 
   // Initialize or restore conversation
   const initializeConversation = useCallback(async () => {
@@ -37,7 +58,7 @@ export const useChatPersistence = () => {
 
     try {
       // Try to find existing conversation
-      const { data: existingConv, error: findError } = await supabase
+      const { data: existingConv, error: findError } = await chatClient
         .from('chat_conversations')
         .select('id')
         .eq('session_id', sessionId)
@@ -56,7 +77,7 @@ export const useChatPersistence = () => {
         setConversationId(existingConv.id);
 
         // Load messages
-        const { data: savedMessages, error: msgError } = await supabase
+        const { data: savedMessages, error: msgError } = await chatClient
           .from('chat_messages')
           .select('*')
           .eq('conversation_id', existingConv.id)
@@ -78,7 +99,7 @@ export const useChatPersistence = () => {
         }
       } else {
         // Create new conversation
-        const { data: newConv, error: createError } = await supabase
+        const { data: newConv, error: createError } = await chatClient
           .from('chat_conversations')
           .insert({ session_id: sessionId, status: 'active' })
           .select('id')
@@ -96,14 +117,14 @@ export const useChatPersistence = () => {
     } catch (error) {
       console.error('Error initializing conversation:', error);
     }
-  }, [sessionId, setConversationId, setMessages, supabase]);
+  }, [sessionId, setConversationId, setMessages, chatClient]);
 
   // Save new messages to database
   const saveMessage = useCallback(async (message: ChatMessage) => {
     if (!conversationId) return;
 
     try {
-      await supabase.from('chat_messages').insert({
+      await chatClient.from('chat_messages').insert({
         conversation_id: conversationId,
         sender_type: message.role,
         content: message.content,
@@ -111,7 +132,7 @@ export const useChatPersistence = () => {
     } catch (error) {
       console.error('Error saving message:', error);
     }
-  }, [conversationId, supabase]);
+  }, [conversationId, chatClient]);
 
   // Watch for new messages and save them
   useEffect(() => {
@@ -127,7 +148,7 @@ export const useChatPersistence = () => {
     if (!conversationId) return;
 
     try {
-      await supabase
+      await chatClient
         .from('chat_conversations')
         .update({ status: 'waiting_human' })
         .eq('id', conversationId);
@@ -139,7 +160,7 @@ export const useChatPersistence = () => {
     } catch (error) {
       console.error('Error requesting handoff:', error);
     }
-  }, [conversationId, addMessage, supabase]);
+  }, [conversationId, addMessage, chatClient]);
 
   // Initialize on mount
   useEffect(() => {

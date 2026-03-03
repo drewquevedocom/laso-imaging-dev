@@ -282,6 +282,7 @@ const PromoCard = ({ image, label, title, link }: { image: string; label: string
     <img 
       src={image} 
       alt={title} 
+      loading="lazy"
       className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
     />
     {/* Stronger gradient overlay for better text readability */}

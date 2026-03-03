@@ -98,6 +98,7 @@ const CategoryCard = ({ name, count, image, link }: { name: string; count: numbe
       <img 
         src={image} 
         alt={name}
+        loading="lazy"
         className="w-full h-full object-cover group-hover:scale-105 transition-transform"
       />
     </div>
