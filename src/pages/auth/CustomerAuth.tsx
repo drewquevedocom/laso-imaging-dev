@@ -11,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Header } from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useCustomerAuth } from "@/hooks/useCustomerAuth";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const signInSchema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -33,8 +35,10 @@ type SignUpData = z.infer<typeof signUpSchema>;
 const CustomerAuth = () => {
   const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
   const [isLoading, setIsLoading] = useState(false);
+  const [isForgotLoading, setIsForgotLoading] = useState(false);
   const { signIn, signUp, isAuthenticated, loading } = useCustomerAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const signInForm = useForm<SignInData>({
     resolver: zodResolver(signInSchema),
@@ -68,6 +72,38 @@ const CustomerAuth = () => {
     if (!result.error) {
       setActiveTab("signin");
     }
+  };
+
+  const handleForgotPassword = async () => {
+    const email = signInForm.getValues("email");
+    if (!email) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email address first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsForgotLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setIsForgotLoading(false);
+
+    if (error) {
+      toast({
+        title: "Reset Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Reset Link Sent",
+      description: "Check your email for a password reset link.",
+    });
   };
 
   if (loading) {
@@ -138,17 +174,30 @@ const CustomerAuth = () => {
                     )}
                   </div>
 
-                  <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Signing In...
-                      </>
-                    ) : (
-                      "Sign In"
-                    )}
-                  </Button>
-                </form>
+                   <div className="flex items-center justify-between">
+                     <Button type="submit" className="w-full" disabled={isLoading}>
+                       {isLoading ? (
+                         <>
+                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                           Signing In...
+                         </>
+                       ) : (
+                         "Sign In"
+                       )}
+                     </Button>
+                   </div>
+                   
+                   <div className="text-center">
+                     <button
+                       type="button"
+                       onClick={handleForgotPassword}
+                       disabled={isForgotLoading}
+                       className="text-sm text-accent hover:underline disabled:opacity-50"
+                     >
+                       {isForgotLoading ? "Sending reset link..." : "Forgot your password?"}
+                     </button>
+                   </div>
+                 </form>
               </TabsContent>
 
               <TabsContent value="signup">

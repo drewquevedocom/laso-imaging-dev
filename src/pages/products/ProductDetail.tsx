@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import DOMPurify from "dompurify";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, CheckCircle2, ShoppingCart, FileText, Minus, Plus, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -343,7 +344,7 @@ const ProductDetail = () => {
                 <h2 className="text-xl font-bold text-foreground mb-4">Description</h2>
                 <div
                   className="prose prose-sm max-w-none text-muted-foreground"
-                  dangerouslySetInnerHTML={{ __html: (product.node as any).descriptionHtml || product.node.description }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize((product.node as any).descriptionHtml || product.node.description || '') }}
                 />
               </div>
 

@@ -1,7 +1,6 @@
 import { useEffect, useCallback, useRef } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
 import { useChatStore, ChatMessage } from '@/stores/chatStore';
-import type { Database } from '@/integrations/supabase/types';
 
 const SESSION_KEY = 'laso_chat_session_id';
 
@@ -18,25 +17,6 @@ const getOrCreateSessionId = (): string => {
   return sessionId;
 };
 
-// Create a supabase client with session ID in headers for RLS policy validation
-const createSessionClient = (sessionId: string) => {
-  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-  const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
-  
-  return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-    auth: {
-      storage: localStorage,
-      persistSession: true,
-      autoRefreshToken: true,
-    },
-    global: {
-      headers: {
-        'x-session-id': sessionId
-      }
-    }
-  });
-};
-
 export const useChatPersistence = () => {
   const { 
     messages, 
@@ -49,9 +29,6 @@ export const useChatPersistence = () => {
   const isInitialized = useRef(false);
   const lastSavedMessageCount = useRef(0);
   const sessionId = getOrCreateSessionId();
-  
-  // Create a session-specific client for RLS
-  const supabase = createSessionClient(sessionId);
 
   // Initialize or restore conversation
   const initializeConversation = useCallback(async () => {
