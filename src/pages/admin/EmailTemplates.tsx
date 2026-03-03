@@ -270,6 +270,22 @@ const EmailTemplates = () => {
                       <p className="text-sm text-muted-foreground truncate">
                         Subject: {template.subject}
                       </p>
+                      <div className="flex items-center gap-3 text-xs text-muted-foreground mt-1">
+                        {(template.total_sent ?? 0) > 0 && (
+                          <span title="Total sent">📤 {template.total_sent} sent</span>
+                        )}
+                        {(template.total_opened ?? 0) > 0 && (
+                          <span title="Total opened">👁 {template.total_opened} opened</span>
+                        )}
+                        {(template.total_clicked ?? 0) > 0 && (
+                          <span title="Total clicked">🔗 {template.total_clicked} clicked</span>
+                        )}
+                        {(template.total_sent ?? 0) > 0 && (template.total_opened ?? 0) > 0 && (
+                          <span className="text-accent font-medium" title="Open rate">
+                            {Math.round(((template.total_opened ?? 0) / (template.total_sent ?? 1)) * 100)}% open rate
+                          </span>
+                        )}
+                      </div>
                       {template.variables && template.variables.length > 0 && (
                         <div className="flex items-center gap-1 text-xs text-muted-foreground">
                           <Variable className="h-3 w-3" />
