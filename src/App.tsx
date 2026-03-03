@@ -80,6 +80,7 @@ import RentalRequest from "./pages/rentals/RentalRequest";
 import OfferApprovals from "./pages/admin/OfferApprovals";
 import Orders from "./pages/admin/Orders";
 import ComingSoon from "./pages/ComingSoon";
+import ResetPassword from "./pages/auth/ResetPassword";
 // Mobile Rentals
 import MobileRentals from "./pages/mobile-rentals/MobileRentals";
 import MobileMRI from "./pages/mobile-rentals/MobileMRI";
@@ -185,6 +186,7 @@ const App = () => (
               
               {/* Customer Portal Routes */}
               <Route path="/auth/customer" element={<CustomerAuth />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/portal" element={<CustomerPortal />}>
                 <Route index element={<PortalDashboard />} />
                 <Route path="quotes" element={<PortalQuotes />} />

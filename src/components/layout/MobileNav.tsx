@@ -270,7 +270,7 @@ export const MobileNav = () => {
                 <span className="text-sm font-medium">Your Account</span>
               </Link>
               <Link 
-                to="/coming-soon" 
+                to="/portal/messages" 
                 className="flex items-center gap-3 text-foreground hover:text-accent transition-colors"
                 onClick={handleClose}
               >
@@ -281,7 +281,7 @@ export const MobileNav = () => {
                 className="flex items-center gap-3 text-foreground hover:text-accent transition-colors"
                 onClick={handleClose}
               >
-                <span className="text-sm font-medium">Your Cart</span>
+                <span className="text-sm font-medium">Browse Equipment</span>
               </Link>
             </div>
           </nav>

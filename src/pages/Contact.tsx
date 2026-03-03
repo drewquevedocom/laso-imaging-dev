@@ -380,17 +380,18 @@ const Contact = () => {
                   </ul>
                 </div>
 
-                {/* Map Placeholder */}
-                <div className="bg-muted border border-border rounded-xl h-64 flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="w-12 h-12 text-muted-foreground/50 mx-auto mb-2" />
-                    <p className="text-muted-foreground">
-                      Interactive map coming soon
-                    </p>
-                    <p className="text-xs text-muted-foreground/70 mt-1">
-                      Requires Mapbox API key
-                    </p>
-                  </div>
+                {/* Map */}
+                <div className="rounded-xl overflow-hidden h-64 border border-border">
+                  <iframe
+                    title="LASO Imaging Location"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.7!2d-118.25!3d34.05!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDAzJzAwLjAiTiAxMTjCsDE1JzAwLjAiVw!5e0!3m2!1sen!2sus!4v1700000000000"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
                 </div>
               </div>
             </div>

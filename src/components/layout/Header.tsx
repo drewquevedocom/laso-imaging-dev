@@ -161,7 +161,7 @@ export const Header = () => {
                 </span>
               </Link>
               
-              <Link to="/coming-soon" className="hidden md:flex flex-col items-center gap-1 group">
+              <Link to="/portal/messages" className="hidden md:flex flex-col items-center gap-1 group">
                 <img 
                   src={messageIcon} 
                   alt="Messages" 
