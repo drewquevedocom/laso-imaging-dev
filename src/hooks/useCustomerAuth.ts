@@ -78,7 +78,7 @@ export const useCustomerAuth = () => {
     }
   };
 
-  const signUp = async (email: string, password: string, fullName: string) => {
+  const signUp = async (email: string, password: string, fullName: string, customerType?: string, phone?: string) => {
     const redirectUrl = `${window.location.origin}/portal`;
     
     const { data, error } = await supabase.auth.signUp({
@@ -88,6 +88,8 @@ export const useCustomerAuth = () => {
         emailRedirectTo: redirectUrl,
         data: {
           full_name: fullName,
+          customer_type: customerType || 'general',
+          phone: phone || undefined,
         },
       },
     });
