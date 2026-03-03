@@ -126,6 +126,7 @@ const FeaturedSystems = () => {
                 <img 
                   src={system.image} 
                   alt={system.title}
+                  loading="lazy"
                   className="w-full h-full object-contain bg-muted/30 group-hover:scale-105 transition-transform duration-500"
                 />
                 {/* Badges */}
