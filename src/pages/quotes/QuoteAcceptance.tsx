@@ -70,13 +70,6 @@ const QuoteAcceptance = () => {
 
     setIsLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("quote-portal-action", {
-        method: "GET",
-        body: null,
-        headers: {},
-      });
-
-      // Use fetch directly for GET request with query params
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/quote-portal-action?token=${urlToken}`,
         {
