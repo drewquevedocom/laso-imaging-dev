@@ -55,7 +55,14 @@ export const Header = () => {
   };
 
   return (
-    <header className="w-full relative z-50">
+    <header className="w-full relative z-50" role="banner">
+      {/* Skip to main content link for accessibility */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:rounded-md focus:outline-none"
+      >
+        Skip to main content
+      </a>
       {/* Row 1: Trust Bar - Hidden on mobile */}
       <div className="bg-secondary border-b border-border hidden md:block">
         <div className="container mx-auto px-4 py-2">
@@ -77,7 +84,7 @@ export const Header = () => {
         <div className="container mx-auto px-4 py-2">
           <div className="flex items-center justify-between text-xs md:text-sm">
             {/* Left Links */}
-            <nav className="hidden lg:flex items-center gap-4">
+            <nav className="hidden lg:flex items-center gap-4" aria-label="Secondary navigation">
               {topNavLinks.map((link) => (
                 <Link 
                   key={link.label} 
@@ -196,7 +203,7 @@ export const Header = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             {/* Navigation Items */}
-            <nav className="flex items-center">
+            <nav className="flex items-center" aria-label="Main navigation">
               {navItems.map((item) => (
                 <Link
                   key={item.key}

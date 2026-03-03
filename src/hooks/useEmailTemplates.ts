@@ -14,6 +14,9 @@ export interface EmailTemplate {
   created_by: string | null;
   created_at: string;
   updated_at: string;
+  total_sent: number | null;
+  total_opened: number | null;
+  total_clicked: number | null;
 }
 
 export function useEmailTemplates(category?: string) {
@@ -59,7 +62,7 @@ export function useCreateEmailTemplate() {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: async (template: Omit<EmailTemplate, "id" | "created_at" | "updated_at" | "created_by">) => {
+    mutationFn: async (template: Omit<EmailTemplate, "id" | "created_at" | "updated_at" | "created_by" | "total_sent" | "total_opened" | "total_clicked">) => {
       const { data, error } = await supabase
         .from("email_templates")
         .insert(template)

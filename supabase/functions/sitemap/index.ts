@@ -4,6 +4,7 @@ const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
   'Content-Type': 'application/xml',
+  'Cache-Control': 'public, max-age=3600, s-maxage=86400',
 };
 
 // Site domain - production domain for LASO Imaging
@@ -181,7 +182,8 @@ function generateSitemap(productHandles: string[]): string {
   const today = new Date().toISOString().split('T')[0];
   
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 `;
 
   // Add static pages
