@@ -30,6 +30,8 @@ export interface RecentLead {
   lead_score: number;
   is_hot: boolean;
   created_at: string;
+  interest: string;
+  urgency: string | null;
 }
 
 export interface ServiceTicket {
