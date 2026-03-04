@@ -592,6 +592,17 @@ const ProductListing = () => {
         productPrice={offerProduct?.price}
       />
 
+      {/* Sticky Mobile Quote CTA */}
+      <Link
+        to="/quote"
+        className="fixed bottom-4 right-4 z-40 lg:hidden"
+      >
+        <Button variant="cta" size="lg" className="rounded-full shadow-xl gap-2">
+          <FileText className="w-5 h-5" />
+          Get Quote
+        </Button>
+      </Link>
+
       <Footer />
     </div>
   );
