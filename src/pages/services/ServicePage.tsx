@@ -153,7 +153,7 @@ const ServicePage = () => {
               <a href={ctaTel}>
                   <Button size="lg" variant="secondary" className="gap-2">
                     <Phone className="w-4 h-4" />
-                    {ctaPhone}
+                    {useAltPhone ? `EMERGENCY NUMBER ${ctaPhone}` : ctaPhone}
                   </Button>
                 </a>
                 {slug === 'financing' ? (
