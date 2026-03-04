@@ -541,7 +541,9 @@ const ServicePage = () => {
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 text-primary-foreground">
                     <Phone className="w-5 h-5" />
-                    <span className="font-semibold">{ctaPhone}</span>
+                    <a href={ctaTel} className="font-semibold hover:underline">
+                      {useAltPhone ? `EMERGENCY NUMBER ${ctaPhone}` : ctaPhone}
+                    </a>
                   </div>
                   <div className="flex items-center gap-3 text-primary-foreground">
                     <MapPin className="w-5 h-5" />
