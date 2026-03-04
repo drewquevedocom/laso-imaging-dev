@@ -556,7 +556,7 @@ const ServicePage = () => {
                 {slug === 'financing' && (
                   <TradeInCalculator />
                 )}
-                <div id="financing-form" className="bg-card rounded-xl p-6 md:p-8 shadow-xl">
+                <div id="financing-form" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20">
                   {slug === 'financing' ? (
                     <FinancingQuoteForm sourcePage={`Service: ${service.title}`} />
                 ) : slug === 'helium-refills' ? (
