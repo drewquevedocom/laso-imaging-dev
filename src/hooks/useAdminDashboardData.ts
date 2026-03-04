@@ -165,7 +165,7 @@ export function useRecentLeads() {
     queryFn: async (): Promise<RecentLead[]> => {
       const { data, error } = await supabase
         .from("leads")
-        .select("id, name, company, email, status, lead_score, is_hot, created_at")
+        .select("id, name, company, email, status, lead_score, is_hot, created_at, interest, urgency")
         .order("created_at", { ascending: false })
         .limit(5);
       
