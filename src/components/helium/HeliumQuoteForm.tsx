@@ -160,9 +160,10 @@ Notes: ${data.message || 'None'}
         email: data.email,
         phone: data.phone || null,
         company: data.company || null,
-        interest: 'Helium Fill Quote',
+        interest: data.isEmergency ? 'Helium Emergency' : 'Helium Fill Quote',
         message: equipmentDetails,
         source_page: sourcePage,
+        urgency: data.isEmergency ? 'Emergency' : 'Normal',
         email_opt_in: data.emailOptIn,
         sms_opt_in: data.smsOptIn,
       });

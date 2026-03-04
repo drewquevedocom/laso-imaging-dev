@@ -332,7 +332,7 @@ const AdminDashboard = () => {
                     </TableRow>
                   ) : (
                     recentLeads.map((lead) => (
-                      <TableRow key={lead.id} className="cursor-pointer hover:bg-muted/50">
+                      <TableRow key={lead.id} className={`cursor-pointer hover:bg-muted/50 ${lead.interest === 'Helium Emergency' || lead.urgency === 'Emergency' ? 'animate-emergency-pulse border-l-4 border-l-destructive' : ''}`}>
                         <TableCell className="font-medium">
                           <Link 
                             to={`/admin/notifications?lead=${lead.id}`}

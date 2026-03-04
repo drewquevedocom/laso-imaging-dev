@@ -30,6 +30,8 @@ export interface RecentLead {
   lead_score: number;
   is_hot: boolean;
   created_at: string;
+  interest: string;
+  urgency: string | null;
 }
 
 export interface ServiceTicket {
@@ -163,7 +165,7 @@ export function useRecentLeads() {
     queryFn: async (): Promise<RecentLead[]> => {
       const { data, error } = await supabase
         .from("leads")
-        .select("id, name, company, email, status, lead_score, is_hot, created_at")
+        .select("id, name, company, email, status, lead_score, is_hot, created_at, interest, urgency")
         .order("created_at", { ascending: false })
         .limit(5);
       

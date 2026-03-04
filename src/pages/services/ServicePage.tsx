@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '@/components/layout/Header';
@@ -152,7 +153,7 @@ const ServicePage = () => {
               <a href={ctaTel}>
                   <Button size="lg" variant="secondary" className="gap-2">
                     <Phone className="w-4 h-4" />
-                    {ctaPhone}
+                    {useAltPhone ? `EMERGENCY NUMBER ${ctaPhone}` : ctaPhone}
                   </Button>
                 </a>
                 {slug === 'financing' ? (
@@ -163,12 +164,17 @@ const ServicePage = () => {
                     </Button>
                   </a>
                 ) : slug === 'helium-refills' ? (
-                  <a href="#helium-quote-form">
-                    <Button size="lg" variant="cta" className="gap-2">
-                      Get Helium Fill Quote
-                      <ArrowRight className="w-4 h-4" />
-                    </Button>
-                  </a>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button size="lg" variant="cta" className="gap-2">
+                        Get Helium Fill Quote
+                        <ArrowRight className="w-4 h-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                      <HeliumQuoteForm sourcePage={`Service: Helium Fill & Cryogenic Services`} />
+                    </DialogContent>
+                  </Dialog>
                 ) : (
                   <>
                     <Link to={`/quote?interest=${encodeURIComponent(service.title)}`}>
@@ -253,11 +259,16 @@ const ServicePage = () => {
                       </Button>
                     </a>
                   ) : slug === 'helium-refills' ? (
-                    <a href="#helium-quote-form">
-                      <Button className="w-full" variant="cta" size="lg">
-                        Get Helium Fill Quote
-                      </Button>
-                    </a>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button className="w-full" variant="cta" size="lg">
+                          Get Helium Fill Quote
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <HeliumQuoteForm sourcePage={`Service: Helium Fill & Cryogenic Services`} />
+                      </DialogContent>
+                    </Dialog>
                   ) : (
                     <Link to={`/quote?interest=${encodeURIComponent(service.title)}`}>
                       <Button className="w-full" variant="cta" size="lg">
@@ -535,7 +546,9 @@ const ServicePage = () => {
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 text-primary-foreground">
                     <Phone className="w-5 h-5" />
-                    <span className="font-semibold">{ctaPhone}</span>
+                    <a href={ctaTel} className="font-semibold hover:underline">
+                      {useAltPhone ? `EMERGENCY NUMBER ${ctaPhone}` : ctaPhone}
+                    </a>
                   </div>
                   <div className="flex items-center gap-3 text-primary-foreground">
                     <MapPin className="w-5 h-5" />
@@ -548,7 +561,7 @@ const ServicePage = () => {
                 {slug === 'financing' && (
                   <TradeInCalculator />
                 )}
-                <div id="financing-form" className="bg-card rounded-xl p-6 md:p-8 shadow-xl">
+                <div id="financing-form" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20">
                   {slug === 'financing' ? (
                     <FinancingQuoteForm sourcePage={`Service: ${service.title}`} />
                 ) : slug === 'helium-refills' ? (
