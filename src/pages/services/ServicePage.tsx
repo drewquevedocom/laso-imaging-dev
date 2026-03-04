@@ -259,11 +259,16 @@ const ServicePage = () => {
                       </Button>
                     </a>
                   ) : slug === 'helium-refills' ? (
-                    <a href="#helium-quote-form">
-                      <Button className="w-full" variant="cta" size="lg">
-                        Get Helium Fill Quote
-                      </Button>
-                    </a>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button className="w-full" variant="cta" size="lg">
+                          Get Helium Fill Quote
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <HeliumQuoteForm sourcePage={`Service: Helium Fill & Cryogenic Services`} />
+                      </DialogContent>
+                    </Dialog>
                   ) : (
                     <Link to={`/quote?interest=${encodeURIComponent(service.title)}`}>
                       <Button className="w-full" variant="cta" size="lg">
