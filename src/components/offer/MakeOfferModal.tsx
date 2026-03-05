@@ -87,8 +87,8 @@ const MakeOfferModal = ({ isOpen, onClose, productName, productPrice }: MakeOffe
         // Continue with email notification even if lead save fails
       }
 
-      // Send email notification
-      const { error } = await supabase.functions.invoke("send-offer-notification", {
+      // Send email notification (non-blocking)
+      supabase.functions.invoke("send-offer-notification", {
         body: {
           productName,
           productPrice,
@@ -98,9 +98,7 @@ const MakeOfferModal = ({ isOpen, onClose, productName, productPrice }: MakeOffe
           offerAmount: data.offerAmount,
           message: data.message,
         },
-      });
-
-      if (error) throw error;
+      }).catch(err => console.error('Offer notification email failed:', err));
 
       setIsSuccess(true);
       toast.success("Your offer has been submitted!");
