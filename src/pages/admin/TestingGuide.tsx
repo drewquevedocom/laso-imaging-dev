@@ -13,7 +13,15 @@ import {
   BarChart3,
   ShieldCheck,
   Loader2,
-  Wrench
+  Wrench,
+  Search,
+  ShoppingCart,
+  ThumbsUp,
+  MessageSquare,
+  UserCircle,
+  Flame,
+  Smartphone,
+  Bot
 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -48,6 +56,8 @@ const TestingGuide = () => {
         { id: "d2", text: "Confirm Lead Triage board displays and allows drag-and-drop", checked: false },
         { id: "d3", text: "Check Leads Over Time chart renders properly", checked: false },
         { id: "d4", text: "Verify Hot List widget shows current hot leads", checked: false },
+        { id: "d5", text: "Confirm Offer Metrics and Pending Approvals widgets render", checked: false },
+        { id: "d6", text: "Verify Upcoming Site Visits widget displays scheduled visits", checked: false },
       ]
     },
     {
@@ -63,6 +73,18 @@ const TestingGuide = () => {
       ]
     },
     {
+      title: "Customers (CRM)",
+      icon: <UserCircle className="h-5 w-5" />,
+      description: "Customer relationship management with search, profiles, and history.",
+      checklist: [
+        { id: "c1", text: "Navigate to Customers page and verify list loads", checked: false },
+        { id: "c2", text: "Search customers by name, email, or company", checked: false },
+        { id: "c3", text: "Click a customer to view profile details", checked: false },
+        { id: "c4", text: "Verify customer notes and contact info display correctly", checked: false },
+        { id: "c5", text: "Add a new customer record via the CRM", checked: false },
+      ]
+    },
+    {
       title: "Equipment Hub",
       icon: <Package className="h-5 w-5" />,
       description: "Unified view for acquisitions, inventory, rentals, and analytics.",
@@ -72,6 +94,18 @@ const TestingGuide = () => {
         { id: "e3", text: "In Inventory: Test Quick Quote and Make Offer buttons", checked: false },
         { id: "e4", text: "In Rentals: Check rental calendar displays bookings", checked: false },
         { id: "e5", text: "In Analytics: Verify charts render with equipment data", checked: false },
+      ]
+    },
+    {
+      title: "Product Search",
+      icon: <Search className="h-5 w-5" />,
+      description: "Shopify-integrated product catalog search for sales reps.",
+      checklist: [
+        { id: "ps1", text: "Navigate to Product Search and verify catalog loads", checked: false },
+        { id: "ps2", text: "Search for a specific product by name or keyword", checked: false },
+        { id: "ps3", text: "Filter results by modality, manufacturer, or price range", checked: false },
+        { id: "ps4", text: "Click a product to view full details and images", checked: false },
+        { id: "ps5", text: "Verify Quick Quote and Make Offer actions work from search results", checked: false },
       ]
     },
     {
@@ -87,6 +121,30 @@ const TestingGuide = () => {
       ]
     },
     {
+      title: "Orders",
+      icon: <ShoppingCart className="h-5 w-5" />,
+      description: "Order tracking, status management, and fulfillment.",
+      checklist: [
+        { id: "o1", text: "Navigate to Orders page and verify list loads", checked: false },
+        { id: "o2", text: "View order details including equipment, tracking, and status", checked: false },
+        { id: "o3", text: "Update order status (Pending → Processing → Shipped → Delivered)", checked: false },
+        { id: "o4", text: "Add tracking number and verify it saves", checked: false },
+        { id: "o5", text: "Verify customer portal shows order updates in real-time", checked: false },
+      ]
+    },
+    {
+      title: "Offer Approvals",
+      icon: <ThumbsUp className="h-5 w-5" />,
+      description: "Pricing rule enforcement with approve/reject workflows for offers.",
+      checklist: [
+        { id: "oa1", text: "Navigate to Offer Approvals page", checked: false },
+        { id: "oa2", text: "Verify pending offers display with margin and pricing info", checked: false },
+        { id: "oa3", text: "Approve an offer and confirm status updates", checked: false },
+        { id: "oa4", text: "Reject an offer with a reason and verify notification sent", checked: false },
+        { id: "oa5", text: "Test that offers below minimum margin auto-flag for approval", checked: false },
+      ]
+    },
+    {
       title: "Pricing Rules",
       icon: <DollarSign className="h-5 w-5" />,
       description: "Configure margin thresholds and approval workflows.",
@@ -98,14 +156,27 @@ const TestingGuide = () => {
       ]
     },
     {
+      title: "Communication Hub",
+      icon: <MessageSquare className="h-5 w-5" />,
+      description: "Unified messaging center for all customer communications.",
+      checklist: [
+        { id: "ch1", text: "Navigate to Communication Hub and verify conversations load", checked: false },
+        { id: "ch2", text: "View a conversation thread with message history", checked: false },
+        { id: "ch3", text: "Send a reply message from the admin side", checked: false },
+        { id: "ch4", text: "Verify unread message counts update correctly", checked: false },
+        { id: "ch5", text: "Test assigning a conversation to an admin user", checked: false },
+      ]
+    },
+    {
       title: "Email Templates",
       icon: <Mail className="h-5 w-5" />,
       description: "Manage reusable email templates for lead communication.",
       checklist: [
-        { id: "m1", text: "View existing email templates", checked: false },
-        { id: "m2", text: "Create a new template with variables", checked: false },
-        { id: "m3", text: "Test sending an email using a template", checked: false },
+        { id: "m1", text: "View existing email templates (Follow-Up, Pricing, Shipping, etc.)", checked: false },
+        { id: "m2", text: "Create a new template with variables ({{name}}, {{equipment_type}})", checked: false },
+        { id: "m3", text: "Test sending an email using a template from Lead Detail", checked: false },
         { id: "m4", text: "Verify email tracking shows opens/clicks", checked: false },
+        { id: "m5", text: "Edit an existing template and verify changes save", checked: false },
       ]
     },
     {
@@ -121,6 +192,58 @@ const TestingGuide = () => {
         { id: "sr6", text: "Check lead appears in triage board with correct urgency", checked: false },
         { id: "sr7", text: "Verify Emergency requests trigger SMS notification (if opted in)", checked: false },
         { id: "sr8", text: "Confirm activity log entry created for service request", checked: false },
+      ]
+    },
+    {
+      title: "Helium Emergency Modal",
+      icon: <Flame className="h-5 w-5" />,
+      description: "Dedicated helium refill request modal with emergency flagging.",
+      checklist: [
+        { id: "he1", text: "Navigate to /services/helium-refills and click CTA button", checked: false },
+        { id: "he2", text: "Verify modal opens with helium-specific form fields", checked: false },
+        { id: "he3", text: "Submit a standard helium refill request", checked: false },
+        { id: "he4", text: "Check the Emergency checkbox and submit", checked: false },
+        { id: "he5", text: "Verify emergency lead appears in admin dashboard with pulsating red border", checked: false },
+        { id: "he6", text: "Confirm lead interest is set to 'Helium Emergency' and urgency to 'Emergency'", checked: false },
+      ]
+    },
+    {
+      title: "Customer Portal",
+      icon: <UserCircle className="h-5 w-5" />,
+      description: "End-to-end self-service portal for customers.",
+      checklist: [
+        { id: "cp1", text: "Sign up as a new customer via /auth/customer", checked: false },
+        { id: "cp2", text: "Log in and verify portal dashboard loads at /portal", checked: false },
+        { id: "cp3", text: "View quotes assigned to your account", checked: false },
+        { id: "cp4", text: "View and track orders", checked: false },
+        { id: "cp5", text: "Send a message to admin via portal messaging", checked: false },
+        { id: "cp6", text: "Save equipment to favorites and verify in Saved Equipment", checked: false },
+        { id: "cp7", text: "Update profile settings and notification preferences", checked: false },
+        { id: "cp8", text: "Verify notification bell shows real-time updates", checked: false },
+      ]
+    },
+    {
+      title: "Mobile Navigation",
+      icon: <Smartphone className="h-5 w-5" />,
+      description: "Verify mobile responsive navigation mirrors desktop functionality.",
+      checklist: [
+        { id: "mn1", text: "Open site on mobile viewport (< 768px)", checked: false },
+        { id: "mn2", text: "Verify hamburger menu opens and closes", checked: false },
+        { id: "mn3", text: "Test all mega menu categories expand correctly", checked: false },
+        { id: "mn4", text: "Verify service links route to correct pages (PM, Helium, Training, etc.)", checked: false },
+        { id: "mn5", text: "Confirm cart, user, and search icons are accessible on mobile", checked: false },
+      ]
+    },
+    {
+      title: "AI Chatbot (Ask LASO)",
+      icon: <Bot className="h-5 w-5" />,
+      description: "AI-powered chatbot widget for customer inquiries.",
+      checklist: [
+        { id: "ai1", text: "Click the chat bubble icon in bottom-right corner", checked: false },
+        { id: "ai2", text: "Send a message and verify AI response is received", checked: false },
+        { id: "ai3", text: "Test equipment-related questions (pricing, availability)", checked: false },
+        { id: "ai4", text: "Verify chat persists across page navigation", checked: false },
+        { id: "ai5", text: "Test the 'Talk to a Human' escalation path", checked: false },
       ]
     },
   ]);
@@ -181,7 +304,7 @@ const TestingGuide = () => {
       
       doc.setFontSize(10);
       doc.setFont("helvetica", "normal");
-      const summary = "This guide covers all features of the LASO Admin Platform, including lead management, equipment inventory, quotes, rentals, and analytics. Use the checklist to verify each feature works correctly.";
+      const summary = "This guide covers all features of the LASO Admin Platform, including lead management, equipment inventory, quotes, rentals, customer portal, communications, and analytics. Use the checklist to verify each feature works correctly.";
       const summaryLines = doc.splitTextToSize(summary, contentWidth);
       doc.text(summaryLines, margin, yPos);
       yPos += summaryLines.length * 5 + 10;
@@ -217,8 +340,9 @@ const TestingGuide = () => {
           }
           
           const checkbox = item.checked ? "[✓]" : "[ ]";
-          doc.text(`${checkbox} ${item.text}`, margin + 5, yPos);
-          yPos += lineHeight;
+          const lines = doc.splitTextToSize(`${checkbox} ${item.text}`, contentWidth - 5);
+          doc.text(lines, margin + 5, yPos);
+          yPos += lineHeight * lines.length;
         });
         
         yPos += 5;
@@ -252,6 +376,8 @@ const TestingGuide = () => {
       doc.text("Admin Dashboard: https://laso-ver1.lovable.app/admin/dashboard", margin, yPos);
       yPos += 5;
       doc.text("Customer Portal: https://laso-ver1.lovable.app/portal", margin, yPos);
+      yPos += 5;
+      doc.text("Helium Services: https://laso-ver1.lovable.app/services/helium-refills", margin, yPos);
       
       doc.save("laso-testing-guide.pdf");
       toast.success("PDF exported successfully!");
@@ -350,7 +476,7 @@ const TestingGuide = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <div className="p-4 bg-muted/30 rounded-lg">
                 <h4 className="font-semibold mb-2">Lead → Quote → Sale</h4>
                 <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
@@ -395,6 +521,34 @@ const TestingGuide = () => {
                   <li>Admin assigns & schedules service</li>
                 </ol>
               </div>
+              <div className="p-4 bg-muted/30 rounded-lg border-2 border-destructive/20">
+                <h4 className="font-semibold mb-2 flex items-center gap-2">
+                  <Flame className="h-4 w-4 text-destructive" />
+                  Helium Emergency Flow
+                </h4>
+                <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
+                  <li>Navigate to /services/helium-refills</li>
+                  <li>Click CTA to open helium modal</li>
+                  <li>Check "Emergency" and submit</li>
+                  <li>Lead created with "Helium Emergency" interest</li>
+                  <li>Admin dashboard shows pulsating red border</li>
+                  <li>Emergency urgency triggers SMS alert</li>
+                </ol>
+              </div>
+              <div className="p-4 bg-muted/30 rounded-lg border-2 border-primary/20">
+                <h4 className="font-semibold mb-2 flex items-center gap-2">
+                  <UserCircle className="h-4 w-4 text-primary" />
+                  Customer Portal Flow
+                </h4>
+                <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
+                  <li>Customer signs up at /auth/customer</li>
+                  <li>Verifies email and logs in</li>
+                  <li>Views dashboard with quotes & orders</li>
+                  <li>Sends message to admin</li>
+                  <li>Saves equipment to favorites</li>
+                  <li>Updates notification preferences</li>
+                </ol>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -408,7 +562,7 @@ const TestingGuide = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-3">
               <div>
                 <h4 className="font-semibold mb-2">Admin Dashboard</h4>
                 <code className="text-sm bg-muted px-2 py-1 rounded">
@@ -419,11 +573,21 @@ const TestingGuide = () => {
                 </p>
               </div>
               <div>
+                <h4 className="font-semibold mb-2">Customer Portal</h4>
+                <code className="text-sm bg-muted px-2 py-1 rounded">
+                  /portal
+                </code>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Requires customer sign-up & login
+                </p>
+              </div>
+              <div>
                 <h4 className="font-semibold mb-2">Customer-Facing Forms</h4>
                 <div className="space-y-1">
                   <code className="text-sm bg-muted px-2 py-1 rounded block w-fit">/quote</code>
                   <code className="text-sm bg-muted px-2 py-1 rounded block w-fit">/buy-sell</code>
                   <code className="text-sm bg-muted px-2 py-1 rounded block w-fit">/rentals</code>
+                  <code className="text-sm bg-muted px-2 py-1 rounded block w-fit">/services/helium-refills</code>
                 </div>
               </div>
             </div>
