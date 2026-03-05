@@ -1,51 +1,59 @@
 
 
-# Plan: Fix Dashboard KPI Cards, Restore Email Templates, Update Testing Guide
+## Expert Assessment -- Mobile Navigation Audit
 
-## 1. Dashboard KPI Cards -- Equal Sizing
+As someone who's spent decades optimizing medical equipment e-commerce for engineers and resellers, here's the blunt truth: **your mobile nav is currently losing you sales.** Engineers searching on tablets between service calls and resellers browsing on phones need the same precision filtering as desktop users. Right now, the mobile menu uses vague search queries (`query=MRI+Coils`) while desktop uses exact Shopify product_type filters -- meaning mobile users get worse results.
 
-The screenshot shows the 6 KPI cards have inconsistent heights because the title text wraps differently ("Available Equipment" is 2 lines vs others at 1 line, "Quote Pipeline" label wraps too). 
+### Critical Gaps Found
 
-**Fix in `src/pages/admin/Dashboard.tsx`:**
-- Add `h-full` to each Card and a `min-h-[140px]` to standardize card height
-- Add `min-h-[40px]` to the CardTitle area so single-line and double-line titles occupy the same vertical space
-- This ensures all 6 cards in the grid render at identical height regardless of text wrapping
+| Area | Desktop (Mega Menu) | Mobile Nav | Impact |
+|------|---------------------|------------|--------|
+| Equipment | 1.5T, 3.0T, Mobile MRI, 8/16/64-Slice CT, C-Arms with `product_type` filters | Generic `/equipment/...` links with no CT scanners at all | Engineers can't find CT on mobile |
+| Parts | MRI Parts, RF Coils, Power Supplies with `product_type` + vendor filters | Generic `query=MRI+Coils` text search | Resellers get imprecise results |
+| Parts Coils | Head, Body, Shoulder, Spine, CTL with `product_type:"RF Coils"` filter | Head, Body, Knee, Spine with generic query | Wrong coil types listed |
+| Parts Support | Parts Request, Technical Support, Warranty, Returns | Missing entirely | No mobile path to support |
+| Services | 4 columns: Install, Maintenance, Cryo, Training + Service Areas footer | 3 columns missing De-install, Remote Diagnostics, Compressor Service, Training | Incomplete service offering |
+| Service Areas | Footer links: California, West Coast, Nationwide | Separate section but no connection to Services | Disjointed experience |
+| Quick Actions | "Browse All Parts", "Request Quick Quote" footers | No equivalent CTAs within sections | No urgency drivers |
 
-## 2. Restore Email Templates
+### Plan: Mirror Desktop Navigation in Mobile
 
-The database wipe cleared `email_templates`. Insert the standard starter templates via a migration:
+**1. Rewrite EQUIPMENT section** to match MegaMenu exactly:
+- BY FIELD STRENGTH: 1.5T MRI, 3.0T MRI, Mobile MRI, All MRI (using `product_type:` queries)
+- CT SCANNERS: 8-Slice, 16-Slice, 64-Slice, Portable C-Arms (using `product_type:` queries)
+- MOBILE RENTALS: MRI, CT, PET/CT rental pages + Mobile MRI Systems
+- BY BRAND: GE, Siemens, Philips, Canon with vendor-filtered queries
+- Footer link: "Browse All Imaging Systems" -> `/products?category=imaging-systems`
 
-**Database migration -- INSERT 6 templates:**
-1. **First Contact Follow-Up** (follow_up) -- "Following up on your {{equipment_type}} inquiry"
-2. **Pricing Proposal** (pricing) -- "{{equipment_type}} Pricing for {{company}}"
-3. **Shipping Confirmation** (shipping) -- "Your {{equipment_type}} is on its way"
-4. **Site Visit Confirmation** (site_visit) -- "Site Visit Scheduled - {{date}}"
-5. **Asset Request** (asset_request) -- "Photos & Documentation for {{equipment_type}}"
-6. **General Outreach** (general) -- "LASO Medical Imaging - {{equipment_type}}"
+**2. Rewrite PARTS section** to match PartsMegaMenu exactly:
+- BY CATEGORY: MRI Parts, RF Coils, Power Supplies, Cold Heads, Compressors
+- BY MANUFACTURER: GE, Siemens, Philips, Canon/Toshiba (vendor-filtered)
+- COILS & ACCESSORIES: Head, Body, Shoulder, Spine, CTL
+- SUPPORT: Parts Request, Technical Support, Warranty, Returns, Documentation
+- Footer link: "Browse All Parts" + "Request Quick Quote"
 
-Each template will have professional body HTML with the LASO brand voice, correct variable placeholders, and `is_active = true`.
+**3. Rewrite SERVICES section** to match ServicesMegaMenu exactly:
+- INSTALLATION: New System Install, Relocation, Site Planning, De-installation
+- MAINTENANCE: Preventive Maintenance, Emergency Repairs, Software Updates, Remote Diagnostics
+- CRYOGENIC: Helium Refills, Cold Head Service, Compressor Service, System Recovery
+- TRAINING & MOBILE: Operator Training, Safety Certification, Mobile MRI Rental, Nationwide Coverage
+- Footer: Service Areas links (California, West Coast, Nationwide)
 
-## 3. Update Testing Guide -- Add Missing Sections
+**4. Add "Ask LASO AI" button** to mobile nav (currently only on desktop/tablet header).
 
-The current Testing Guide covers 7 sections but is missing several admin features visible in the sidebar. Add these sections to the checklist in `src/pages/admin/TestingGuide.tsx`:
+**5. Add quick-action CTAs** inside each collapsible section footer matching the desktop mega menu footers.
 
-**New sections to add:**
-- **Customers** -- CRM customer list, search, profile view
-- **Product Search** -- Shopify-integrated product search for sales reps  
-- **Orders** -- Order tracking and management
-- **Offer Approvals** -- Pricing rule enforcement, approve/reject offers
-- **Communication Hub** -- Unified messaging center
-- **Customer Portal** -- End-to-end portal for customers (quotes, orders, messages, saved equipment)
-- **Helium Emergency Modal** -- New helium refill modal with emergency flag
-- **Mobile Navigation** -- Verify mobile mega menu mirrors desktop links
-- **AI Chatbot (Ask LASO)** -- Chatbot widget functionality
+### Pro Tips from 50 Years in Medical Equipment Web Marketing
 
-Also add corresponding workflow cards for:
-- **Helium Emergency Flow** -- Customer submits emergency helium request, admin sees pulsating alert
-- **Customer Portal Flow** -- Customer signs up, views quotes, messages admin
+1. **Engineers search by part number and product type, not brand first.** The category-first structure (BY CATEGORY before BY MANUFACTURER) is correct. Keep it.
+2. **Resellers need vendor-filtered views** to compare inventory across OEMs. The vendor+product_type combo queries are essential.
+3. **"Cold Heads" and "Compressors" are high-margin, high-search items.** They deserve top-level visibility, not buried under Power Supplies.
+4. **The Support column in Parts is a conversion driver.** "Parts Request" and "Warranty Info" are trust signals that reduce friction. Missing them on mobile is leaving money on the table.
+5. **Service Areas in the Services section footer** tell mobile users "we're local" -- critical for emergency repair inquiries which are almost always made on phones.
 
-**Files to edit:**
-1. `src/pages/admin/Dashboard.tsx` -- KPI card sizing
-2. `src/pages/admin/TestingGuide.tsx` -- Add 9 missing feature sections + 2 workflow cards
-3. Database migration -- INSERT 6 email templates
+### Files to Edit
+
+- `src/components/layout/MobileNav.tsx` -- Complete rewrite of all navigation data arrays to mirror the three desktop mega menus exactly, plus add section footer CTAs and Ask LASO AI button.
+
+Single file change, all data-driven.
 

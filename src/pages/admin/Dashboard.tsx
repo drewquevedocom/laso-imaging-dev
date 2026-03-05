@@ -179,9 +179,9 @@ const AdminDashboard = () => {
         <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
           {kpiCards.map((card) => (
             <Link key={card.title} to={card.link}>
-              <Card className="relative overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
+              <Card className="relative overflow-hidden hover:shadow-lg transition-shadow cursor-pointer h-full min-h-[140px]">
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                  <CardTitle className="text-sm font-medium text-muted-foreground min-h-[36px] flex items-center">
                     {card.title}
                   </CardTitle>
                   <div className={`p-2 rounded-lg ${card.bgColor}`}>
