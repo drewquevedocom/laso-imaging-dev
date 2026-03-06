@@ -80,6 +80,7 @@ import TestingGuide from "./pages/admin/TestingGuide";
 import RentalRequest from "./pages/rentals/RentalRequest";
 import OfferApprovals from "./pages/admin/OfferApprovals";
 import Orders from "./pages/admin/Orders";
+import AdminTimecards from "./pages/admin/AdminTimecards";
 
 import ResetPassword from "./pages/auth/ResetPassword";
 // Mobile Rentals
