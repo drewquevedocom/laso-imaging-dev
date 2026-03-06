@@ -32,6 +32,8 @@ const ServicePage = () => {
   const service = slug ? getServiceContent(slug) : null;
   const [activeQuoteForm, setActiveQuoteForm] = useState<'helium' | 'cryogenic'>('helium');
 
+  const isCryoPage = slug === 'cold-head-service' || slug === 'compressor-service';
+
   // These 3 service pages use a different CTA phone number
   const useAltPhone = slug === 'preventive-maintenance' || slug === 'helium-refills' || slug === 'operator-training';
   const ctaPhone = useAltPhone ? '(818) 916-9503' : '(844) 511-5276';
