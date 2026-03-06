@@ -667,6 +667,17 @@ const StaffTimecard = () => {
                           <TableCell className="text-slate-400 text-sm hidden md:table-cell max-w-[200px] truncate">
                             {entry.notes || "—"}
                           </TableCell>
+                          <TableCell className="py-1">
+                            {entry.clock_out && !entry.week_submitted && !entry.locked_by_admin && entry.id !== activeEntry?.id && (
+                              <button
+                                onClick={() => openEditDialog(entry)}
+                                className="p-1.5 rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors"
+                                title="Edit entry"
+                              >
+                                <Pencil className="h-3.5 w-3.5" />
+                              </button>
+                            )}
+                          </TableCell>
                         </TableRow>
                       );
                     })
