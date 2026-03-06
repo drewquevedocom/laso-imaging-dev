@@ -621,6 +621,7 @@ const StaffTimecard = () => {
                     <TableHead className="text-slate-400">Break</TableHead>
                     <TableHead className="text-slate-400 text-right">Hours</TableHead>
                     <TableHead className="text-slate-400 hidden md:table-cell">Notes</TableHead>
+                    <TableHead className="text-slate-400 w-10"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
