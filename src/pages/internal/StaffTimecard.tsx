@@ -721,14 +721,32 @@ const StaffTimecard = () => {
                             {entry.notes || "—"}
                           </TableCell>
                           <TableCell className="py-1">
-                            {entry.clock_out && !entry.week_submitted && !entry.locked_by_admin && entry.id !== activeEntry?.id && (
-                              <button
-                                onClick={() => openEditDialog(entry)}
-                                className="p-1.5 rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors"
-                                title="Edit entry"
-                              >
-                                <Pencil className="h-3.5 w-3.5" />
-                              </button>
+                            {!entry.week_submitted && !entry.locked_by_admin && entry.id !== activeEntry?.id && (
+                              <div className="flex items-center gap-0.5">
+                                {entry.clock_out && (
+                                  <button
+                                    onClick={() => openEditDialog(entry)}
+                                    className="p-1.5 rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors"
+                                    title="Edit times"
+                                  >
+                                    <Pencil className="h-3.5 w-3.5" />
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => openNotesDialog(entry)}
+                                  className="p-1.5 rounded-md text-slate-500 hover:text-blue-400 hover:bg-white/10 transition-colors"
+                                  title="Edit notes"
+                                >
+                                  <MessageSquare className="h-3.5 w-3.5" />
+                                </button>
+                                <button
+                                  onClick={() => openDeleteDialog(entry)}
+                                  className="p-1.5 rounded-md text-slate-500 hover:text-red-400 hover:bg-white/10 transition-colors"
+                                  title="Delete entry"
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
                             )}
                           </TableCell>
                         </TableRow>
