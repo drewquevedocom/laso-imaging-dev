@@ -913,6 +913,43 @@ const StaffTimecard = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Edit Entry Dialog */}
+      <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+        <DialogContent className="bg-[#1E293B] border-slate-700 text-white sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <Pencil className="h-5 w-5 text-primary" />Edit Time Entry
+            </DialogTitle>
+            <DialogDescription className="text-slate-400">
+              {editEntry && <>Adjust times for {format(parseISO(editEntry.clock_in), "EEEE, MMM d")}.</>}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div>
+              <label className="text-sm text-slate-400 mb-1 block">Clock In Time</label>
+              <Input type="time" value={editClockIn} onChange={(e) => setEditClockIn(e.target.value)}
+                className="bg-white/5 border-slate-600 text-white" />
+            </div>
+            <div>
+              <label className="text-sm text-slate-400 mb-1 block">Clock Out Time</label>
+              <Input type="time" value={editClockOut} onChange={(e) => setEditClockOut(e.target.value)}
+                className="bg-white/5 border-slate-600 text-white" />
+            </div>
+            <div>
+              <label className="text-sm text-slate-400 mb-1 block">Reason for edit (required)</label>
+              <Input value={editReason} onChange={(e) => setEditReason(e.target.value)}
+                placeholder="e.g. Incorrect clock-in time" className="bg-white/5 border-slate-600 text-white placeholder:text-slate-500" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setShowEditDialog(false)}
+              className="text-slate-400 hover:text-white hover:bg-slate-700">Cancel</Button>
+            <Button onClick={handleEditEntry} disabled={!editReason || actionLoading}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground">Save Changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </TimecardFloatingPanel>
   );
 };
