@@ -1,70 +1,59 @@
 
 
-# Staff Timecard System — Full Enhancement Plan
+## Expert Assessment -- Mobile Navigation Audit
 
-This is a large multi-part implementation covering database schema changes, new Edge Functions, a new admin page, and significant UI upgrades to the existing StaffTimecard page.
+As someone who's spent decades optimizing medical equipment e-commerce for engineers and resellers, here's the blunt truth: **your mobile nav is currently losing you sales.** Engineers searching on tablets between service calls and resellers browsing on phones need the same precision filtering as desktop users. Right now, the mobile menu uses vague search queries (`query=MRI+Coils`) while desktop uses exact Shopify product_type filters -- meaning mobile users get worse results.
 
-## Database Changes (Single Migration)
+### Critical Gaps Found
 
-### Alter `timecard_entries`:
-- Add `break_minutes` (integer, default 0)
-- Add `entry_type` (text, default 'clock' — values: clock, pto, sick, holiday)
-- Add `locked_by_admin` (boolean, default false)
-- Add `unlocked_at` (timestamptz, nullable)
+| Area | Desktop (Mega Menu) | Mobile Nav | Impact |
+|------|---------------------|------------|--------|
+| Equipment | 1.5T, 3.0T, Mobile MRI, 8/16/64-Slice CT, C-Arms with `product_type` filters | Generic `/equipment/...` links with no CT scanners at all | Engineers can't find CT on mobile |
+| Parts | MRI Parts, RF Coils, Power Supplies with `product_type` + vendor filters | Generic `query=MRI+Coils` text search | Resellers get imprecise results |
+| Parts Coils | Head, Body, Shoulder, Spine, CTL with `product_type:"RF Coils"` filter | Head, Body, Knee, Spine with generic query | Wrong coil types listed |
+| Parts Support | Parts Request, Technical Support, Warranty, Returns | Missing entirely | No mobile path to support |
+| Services | 4 columns: Install, Maintenance, Cryo, Training + Service Areas footer | 3 columns missing De-install, Remote Diagnostics, Compressor Service, Training | Incomplete service offering |
+| Service Areas | Footer links: California, West Coast, Nationwide | Separate section but no connection to Services | Disjointed experience |
+| Quick Actions | "Browse All Parts", "Request Quick Quote" footers | No equivalent CTAs within sections | No urgency drivers |
 
-### Create `timecard_weeks` table:
-- `id` (uuid PK), `user_id` (uuid, not null), `week_start` (date), `week_end` (date), `total_hours` (numeric), `submitted` (boolean, default false), `submitted_at` (timestamptz), `locked` (boolean, default false)
-- RLS: users can manage own rows, admins can manage all
+### Plan: Mirror Desktop Navigation in Mobile
 
-### Create `timecard_audit_log` table:
-- `id` (uuid PK), `timecard_entry_id` (uuid), `user_id` (uuid), `action` (text — clock_in/clock_out/edit/break_start/break_end/submitted/unlocked), `old_value` (text), `new_value` (text), `edit_reason` (text), `performed_at` (timestamptz, default now())
-- RLS: users can view own logs, admins can manage all
+**1. Rewrite EQUIPMENT section** to match MegaMenu exactly:
+- BY FIELD STRENGTH: 1.5T MRI, 3.0T MRI, Mobile MRI, All MRI (using `product_type:` queries)
+- CT SCANNERS: 8-Slice, 16-Slice, 64-Slice, Portable C-Arms (using `product_type:` queries)
+- MOBILE RENTALS: MRI, CT, PET/CT rental pages + Mobile MRI Systems
+- BY BRAND: GE, Siemens, Philips, Canon with vendor-filtered queries
+- Footer link: "Browse All Imaging Systems" -> `/products?category=imaging-systems`
 
-### Create `timecard_breaks` table:
-- `id` (uuid PK), `entry_id` (uuid, references timecard_entries), `user_id` (uuid), `break_start` (timestamptz), `break_end` (timestamptz, nullable), `created_at` (timestamptz)
-- RLS: users manage own, admins manage all
+**2. Rewrite PARTS section** to match PartsMegaMenu exactly:
+- BY CATEGORY: MRI Parts, RF Coils, Power Supplies, Cold Heads, Compressors
+- BY MANUFACTURER: GE, Siemens, Philips, Canon/Toshiba (vendor-filtered)
+- COILS & ACCESSORIES: Head, Body, Shoulder, Spine, CTL
+- SUPPORT: Parts Request, Technical Support, Warranty, Returns, Documentation
+- Footer link: "Browse All Parts" + "Request Quick Quote"
 
-## Edge Functions
+**3. Rewrite SERVICES section** to match ServicesMegaMenu exactly:
+- INSTALLATION: New System Install, Relocation, Site Planning, De-installation
+- MAINTENANCE: Preventive Maintenance, Emergency Repairs, Software Updates, Remote Diagnostics
+- CRYOGENIC: Helium Refills, Cold Head Service, Compressor Service, System Recovery
+- TRAINING & MOBILE: Operator Training, Safety Certification, Mobile MRI Rental, Nationwide Coverage
+- Footer: Service Areas links (California, West Coast, Nationwide)
 
-### 1. `timecard-clock` (new)
-Server-side tamper-proof clock in/out/break operations. Accepts `action` (clock_in, clock_out, break_start, break_end), `entry_id` (for clock_out/breaks), `notes` (optional). Sets timestamps via `now()` server-side. Writes to `timecard_audit_log`.
+**4. Add "Ask LASO AI" button** to mobile nav (currently only on desktop/tablet header).
 
-### 2. `generate-timecard-pdf` (new)
-Accepts week data, generates a PDF (using jsPDF pattern from existing `generate-quote-pdf`). Returns PDF as base64. Called on submission.
+**5. Add quick-action CTAs** inside each collapsible section footer matching the desktop mega menu footers.
 
-### 3. Update `send-staff-timecard` 
-Accept optional PDF attachment (base64) and include break/tag columns in the HTML email.
+### Pro Tips from 50 Years in Medical Equipment Web Marketing
 
-## Frontend Changes
+1. **Engineers search by part number and product type, not brand first.** The category-first structure (BY CATEGORY before BY MANUFACTURER) is correct. Keep it.
+2. **Resellers need vendor-filtered views** to compare inventory across OEMs. The vendor+product_type combo queries are essential.
+3. **"Cold Heads" and "Compressors" are high-margin, high-search items.** They deserve top-level visibility, not buried under Power Supplies.
+4. **The Support column in Parts is a conversion driver.** "Parts Request" and "Warranty Info" are trust signals that reduce friction. Missing them on mobile is leaving money on the table.
+5. **Service Areas in the Services section footer** tell mobile users "we're local" -- critical for emergency repair inquiries which are almost always made on phones.
 
-### `src/pages/internal/StaffTimecard.tsx` — Major Rewrite
-1. **Overtime Detection**: Amber row highlight for days >8h, red weekly total for >40h, warning icon badges
-2. **Break Tracking**: "Start Break"/"End Break" buttons visible while clocked in; live break timer; break column in weekly table; breaks fetched from `timecard_breaks`
-3. **PTO/Sick/Holiday Tags**: Button row when not clocked in — creates 8h entry with `entry_type` tag; shown as label in table instead of clock times
-4. **Progress Bar**: Below header — green fill to 40h, amber/orange beyond 40h, updates with live timer
-5. **Browser Notification**: Request permission on mount; at 6PM local, fire notification if clocked in; localStorage guard for once-per-day
-6. **Locking**: When `weekSubmitted`, all buttons disabled, green badge shown. Clock in/out calls go through `timecard-clock` Edge Function (tamper-proof)
-7. **Historical Archive**: Collapsible "Past Timecards" section below weekly summary; queries last 12 submitted weeks from `timecard_weeks`; expandable read-only breakdown; "Download PDF" per week
-8. **PDF on Submit**: Call `generate-timecard-pdf`, pass result to `send-staff-timecard` with attachment
+### Files to Edit
 
-### `src/pages/admin/AdminTimecards.tsx` — New Page
-- Week selector (defaults to current week)
-- Table: Staff Name | Total Hours | Status (Submitted/In Progress) | View Details | Unlock
-- "View Details" opens modal with full daily breakdown + audit trail (collapsible)
-- "Unlock Timecard" sets `locked_by_admin=false`, `unlocked_at=now()`, logs to audit
-- CSV export button for all timecards in selected week
-- Queries `timecard_weeks` joined with entries
+- `src/components/layout/MobileNav.tsx` -- Complete rewrite of all navigation data arrays to mirror the three desktop mega menus exactly, plus add section footer CTAs and Ask LASO AI button.
 
-### Routing & Navigation
-- Add route `/admin/timecards` → `AdminTimecards` inside admin layout
-- Add "Timecards" with Clock icon to AdminSidebar under Configuration group
-
-## Implementation Order
-1. Database migration (all tables + columns)
-2. `timecard-clock` Edge Function (server-side timestamps + audit logging)
-3. `generate-timecard-pdf` Edge Function
-4. Update `send-staff-timecard` for PDF attachment
-5. Rewrite `StaffTimecard.tsx` with all UI enhancements
-6. Create `AdminTimecards.tsx` page
-7. Update `App.tsx` routes and `AdminSidebar.tsx` navigation
+Single file change, all data-driven.
 

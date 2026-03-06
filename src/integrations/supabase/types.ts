@@ -1700,33 +1700,157 @@ export type Database = {
           },
         ]
       }
+      timecard_audit_log: {
+        Row: {
+          action: string
+          edit_reason: string | null
+          id: string
+          new_value: string | null
+          old_value: string | null
+          performed_at: string
+          timecard_entry_id: string | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          edit_reason?: string | null
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          performed_at?: string
+          timecard_entry_id?: string | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          edit_reason?: string | null
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          performed_at?: string
+          timecard_entry_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "timecard_audit_log_timecard_entry_id_fkey"
+            columns: ["timecard_entry_id"]
+            isOneToOne: false
+            referencedRelation: "timecard_entries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      timecard_breaks: {
+        Row: {
+          break_end: string | null
+          break_start: string
+          created_at: string
+          entry_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          break_end?: string | null
+          break_start?: string
+          created_at?: string
+          entry_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          break_end?: string | null
+          break_start?: string
+          created_at?: string
+          entry_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "timecard_breaks_entry_id_fkey"
+            columns: ["entry_id"]
+            isOneToOne: false
+            referencedRelation: "timecard_entries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       timecard_entries: {
         Row: {
+          break_minutes: number
           clock_in: string
           clock_out: string | null
           created_at: string
+          entry_type: string
           id: string
+          locked_by_admin: boolean
           notes: string | null
+          unlocked_at: string | null
           user_id: string
           week_submitted: boolean
         }
         Insert: {
+          break_minutes?: number
           clock_in?: string
           clock_out?: string | null
           created_at?: string
+          entry_type?: string
           id?: string
+          locked_by_admin?: boolean
           notes?: string | null
+          unlocked_at?: string | null
           user_id: string
           week_submitted?: boolean
         }
         Update: {
+          break_minutes?: number
           clock_in?: string
           clock_out?: string | null
           created_at?: string
+          entry_type?: string
           id?: string
+          locked_by_admin?: boolean
           notes?: string | null
+          unlocked_at?: string | null
           user_id?: string
           week_submitted?: boolean
+        }
+        Relationships: []
+      }
+      timecard_weeks: {
+        Row: {
+          created_at: string
+          id: string
+          locked: boolean
+          submitted: boolean
+          submitted_at: string | null
+          total_hours: number
+          user_id: string
+          week_end: string
+          week_start: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          locked?: boolean
+          submitted?: boolean
+          submitted_at?: string | null
+          total_hours?: number
+          user_id: string
+          week_end: string
+          week_start: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          locked?: boolean
+          submitted?: boolean
+          submitted_at?: string | null
+          total_hours?: number
+          user_id?: string
+          week_end?: string
+          week_start?: string
         }
         Relationships: []
       }
