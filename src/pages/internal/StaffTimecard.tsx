@@ -23,8 +23,9 @@ import {
 import { toast } from "sonner";
 import {
   Clock, LogIn, LogOut, Send, AlertTriangle, Timer, Coffee, CoffeeIcon,
-  Palmtree, Heart, CalendarDays, ChevronDown, Download, FileText, AlertCircle, Pencil,
+  Palmtree, Heart, CalendarDays, ChevronDown, Download, FileText, AlertCircle, Pencil, Trash2, MessageSquare,
 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import {
   format, startOfWeek, endOfWeek, differenceInSeconds, parseISO, isBefore,
   startOfDay, isToday, subWeeks,
