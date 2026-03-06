@@ -329,6 +329,40 @@ const StaffTimecard = () => {
     }
   };
 
+  const openEditDialog = (entry: TimecardEntry) => {
+    setEditEntry(entry);
+    setEditClockIn(format(parseISO(entry.clock_in), "HH:mm"));
+    setEditClockOut(entry.clock_out ? format(parseISO(entry.clock_out), "HH:mm") : "");
+    setEditReason("");
+    setShowEditDialog(true);
+  };
+
+  const handleEditEntry = async () => {
+    if (!editEntry || !editReason || !user) return;
+    try {
+      const dateStr = format(parseISO(editEntry.clock_in), "yyyy-MM-dd");
+      const newClockIn = new Date(`${dateStr}T${editClockIn}`).toISOString();
+      const newClockOut = editClockOut ? new Date(`${dateStr}T${editClockOut}`).toISOString() : undefined;
+      if (newClockOut && new Date(newClockOut) <= new Date(newClockIn)) {
+        toast.error("Clock out must be after clock in");
+        return;
+      }
+      await invokeClockAction({
+        action: "edit_entry",
+        entry_id: editEntry.id,
+        new_clock_in: newClockIn,
+        new_clock_out: newClockOut,
+        edit_reason: editReason,
+      });
+      toast.success("Entry updated!");
+      setShowEditDialog(false);
+      setEditEntry(null);
+      fetchEntries(user.id);
+    } catch (e: any) {
+      toast.error("Failed to update: " + e.message);
+    }
+  };
+
   const handleSubmitTimecard = async () => {
     if (!user) return;
     setSubmitting(true);
