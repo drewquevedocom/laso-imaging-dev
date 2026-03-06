@@ -627,7 +627,7 @@ const StaffTimecard = () => {
                 <TableBody>
                   {entries.length === 0 ? (
                     <TableRow className="border-slate-700/50">
-                      <TableCell colSpan={6} className="text-center text-slate-500 py-8">
+                      <TableCell colSpan={7} className="text-center text-slate-500 py-8">
                         No entries this week. Clock in to get started!
                       </TableCell>
                     </TableRow>
