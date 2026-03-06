@@ -370,6 +370,52 @@ const StaffTimecard = () => {
     }
   };
 
+  const openNotesDialog = (entry: TimecardEntry) => {
+    setNotesEntry(entry);
+    setNotesText(entry.notes || "");
+    setShowNotesDialog(true);
+  };
+
+  const handleUpdateNotes = async () => {
+    if (!notesEntry || !user) return;
+    try {
+      await invokeClockAction({
+        action: "update_notes",
+        entry_id: notesEntry.id,
+        notes: notesText,
+      });
+      toast.success("Notes updated!");
+      setShowNotesDialog(false);
+      setNotesEntry(null);
+      fetchEntries(user.id);
+    } catch (e: any) {
+      toast.error("Failed to update notes: " + e.message);
+    }
+  };
+
+  const openDeleteDialog = (entry: TimecardEntry) => {
+    setDeleteEntry(entry);
+    setDeleteReason("");
+    setShowDeleteDialog(true);
+  };
+
+  const handleDeleteEntry = async () => {
+    if (!deleteEntry || !deleteReason || !user) return;
+    try {
+      await invokeClockAction({
+        action: "delete_entry",
+        entry_id: deleteEntry.id,
+        delete_reason: deleteReason,
+      });
+      toast.success("Entry deleted!");
+      setShowDeleteDialog(false);
+      setDeleteEntry(null);
+      fetchEntries(user.id);
+    } catch (e: any) {
+      toast.error("Failed to delete: " + e.message);
+    }
+  };
+
   const handleSubmitTimecard = async () => {
     if (!user) return;
     setSubmitting(true);
