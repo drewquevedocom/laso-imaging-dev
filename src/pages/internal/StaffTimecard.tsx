@@ -23,7 +23,7 @@ import {
 import { toast } from "sonner";
 import {
   Clock, LogIn, LogOut, Send, AlertTriangle, Timer, Coffee, CoffeeIcon,
-  Palmtree, Heart, CalendarDays, ChevronDown, Download, FileText, AlertCircle,
+  Palmtree, Heart, CalendarDays, ChevronDown, Download, FileText, AlertCircle, Pencil,
 } from "lucide-react";
 import {
   format, startOfWeek, endOfWeek, differenceInSeconds, parseISO, isBefore,
