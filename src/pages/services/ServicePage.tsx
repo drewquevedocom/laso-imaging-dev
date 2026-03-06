@@ -165,7 +165,7 @@ const ServicePage = () => {
                       <ArrowRight className="w-4 h-4" />
                     </Button>
                   </a>
-                ) : slug === 'helium-refills' ? (
+                 ) : slug === 'helium-refills' ? (
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button size="lg" variant="cta" className="gap-2">
@@ -177,6 +177,26 @@ const ServicePage = () => {
                       <HeliumQuoteForm sourcePage={`Service: Helium Fill & Cryogenic Services`} />
                     </DialogContent>
                   </Dialog>
+                ) : isCryoPage ? (
+                  <>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button size="lg" variant="cta" className="gap-2">
+                          Request a Quote
+                          <ArrowRight className="w-4 h-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <CryogenicServiceQuoteForm sourcePage={`Service: ${service.title}`} />
+                      </DialogContent>
+                    </Dialog>
+                    <a href="#service-request">
+                      <Button size="lg" variant="outline" className="gap-2 border-white/30 text-white hover:bg-white/10">
+                        <Wrench className="w-4 h-4" />
+                        Request Service
+                      </Button>
+                    </a>
+                  </>
                 ) : (
                   <>
                     <Link to={`/quote?interest=${encodeURIComponent(service.title)}`}>
