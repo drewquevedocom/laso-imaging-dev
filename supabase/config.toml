@@ -86,3 +86,12 @@ verify_jwt = false
 
 [functions.send-service-request-notification]
 verify_jwt = false
+
+[functions.timecard-clock]
+verify_jwt = false
+
+[functions.generate-timecard-pdf]
+verify_jwt = false
+
+[functions.send-staff-timecard]
+verify_jwt = false
