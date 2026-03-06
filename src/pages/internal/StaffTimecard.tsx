@@ -23,7 +23,7 @@ import {
 import { toast } from "sonner";
 import {
   Clock, LogIn, LogOut, Send, AlertTriangle, Timer, Coffee, CoffeeIcon,
-  Palmtree, Heart, CalendarDays, ChevronDown, Download, FileText, AlertCircle,
+  Palmtree, Heart, CalendarDays, ChevronDown, Download, FileText, AlertCircle, Pencil,
 } from "lucide-react";
 import {
   format, startOfWeek, endOfWeek, differenceInSeconds, parseISO, isBefore,
@@ -86,6 +86,11 @@ const StaffTimecard = () => {
   const [pastEntries, setPastEntries] = useState<Record<string, TimecardEntry[]>>({});
   const [actionLoading, setActionLoading] = useState(false);
   const notifiedRef = useRef(false);
+  const [editEntry, setEditEntry] = useState<TimecardEntry | null>(null);
+  const [editClockIn, setEditClockIn] = useState("");
+  const [editClockOut, setEditClockOut] = useState("");
+  const [editReason, setEditReason] = useState("");
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   const weekStart = useMemo(() => startOfWeek(new Date(), { weekStartsOn: 1 }), []);
   const weekEnd = useMemo(() => endOfWeek(new Date(), { weekStartsOn: 1 }), []);
@@ -318,6 +323,40 @@ const StaffTimecard = () => {
       setMissedEntry(null);
       setMissedClockOut("");
       setMissedReason("");
+      fetchEntries(user.id);
+    } catch (e: any) {
+      toast.error("Failed to update: " + e.message);
+    }
+  };
+
+  const openEditDialog = (entry: TimecardEntry) => {
+    setEditEntry(entry);
+    setEditClockIn(format(parseISO(entry.clock_in), "HH:mm"));
+    setEditClockOut(entry.clock_out ? format(parseISO(entry.clock_out), "HH:mm") : "");
+    setEditReason("");
+    setShowEditDialog(true);
+  };
+
+  const handleEditEntry = async () => {
+    if (!editEntry || !editReason || !user) return;
+    try {
+      const dateStr = format(parseISO(editEntry.clock_in), "yyyy-MM-dd");
+      const newClockIn = new Date(`${dateStr}T${editClockIn}`).toISOString();
+      const newClockOut = editClockOut ? new Date(`${dateStr}T${editClockOut}`).toISOString() : undefined;
+      if (newClockOut && new Date(newClockOut) <= new Date(newClockIn)) {
+        toast.error("Clock out must be after clock in");
+        return;
+      }
+      await invokeClockAction({
+        action: "edit_entry",
+        entry_id: editEntry.id,
+        new_clock_in: newClockIn,
+        new_clock_out: newClockOut,
+        edit_reason: editReason,
+      });
+      toast.success("Entry updated!");
+      setShowEditDialog(false);
+      setEditEntry(null);
       fetchEntries(user.id);
     } catch (e: any) {
       toast.error("Failed to update: " + e.message);
@@ -582,12 +621,13 @@ const StaffTimecard = () => {
                     <TableHead className="text-slate-400">Break</TableHead>
                     <TableHead className="text-slate-400 text-right">Hours</TableHead>
                     <TableHead className="text-slate-400 hidden md:table-cell">Notes</TableHead>
+                    <TableHead className="text-slate-400 w-10"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {entries.length === 0 ? (
                     <TableRow className="border-slate-700/50">
-                      <TableCell colSpan={6} className="text-center text-slate-500 py-8">
+                      <TableCell colSpan={7} className="text-center text-slate-500 py-8">
                         No entries this week. Clock in to get started!
                       </TableCell>
                     </TableRow>
@@ -626,6 +666,17 @@ const StaffTimecard = () => {
                           </TableCell>
                           <TableCell className="text-slate-400 text-sm hidden md:table-cell max-w-[200px] truncate">
                             {entry.notes || "—"}
+                          </TableCell>
+                          <TableCell className="py-1">
+                            {entry.clock_out && !entry.week_submitted && !entry.locked_by_admin && entry.id !== activeEntry?.id && (
+                              <button
+                                onClick={() => openEditDialog(entry)}
+                                className="p-1.5 rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors"
+                                title="Edit entry"
+                              >
+                                <Pencil className="h-3.5 w-3.5" />
+                              </button>
+                            )}
                           </TableCell>
                         </TableRow>
                       );
@@ -862,6 +913,43 @@ const StaffTimecard = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Edit Entry Dialog */}
+      <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+        <DialogContent className="bg-[#1E293B] border-slate-700 text-white sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <Pencil className="h-5 w-5 text-primary" />Edit Time Entry
+            </DialogTitle>
+            <DialogDescription className="text-slate-400">
+              {editEntry && <>Adjust times for {format(parseISO(editEntry.clock_in), "EEEE, MMM d")}.</>}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div>
+              <label className="text-sm text-slate-400 mb-1 block">Clock In Time</label>
+              <Input type="time" value={editClockIn} onChange={(e) => setEditClockIn(e.target.value)}
+                className="bg-white/5 border-slate-600 text-white" />
+            </div>
+            <div>
+              <label className="text-sm text-slate-400 mb-1 block">Clock Out Time</label>
+              <Input type="time" value={editClockOut} onChange={(e) => setEditClockOut(e.target.value)}
+                className="bg-white/5 border-slate-600 text-white" />
+            </div>
+            <div>
+              <label className="text-sm text-slate-400 mb-1 block">Reason for edit (required)</label>
+              <Input value={editReason} onChange={(e) => setEditReason(e.target.value)}
+                placeholder="e.g. Incorrect clock-in time" className="bg-white/5 border-slate-600 text-white placeholder:text-slate-500" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setShowEditDialog(false)}
+              className="text-slate-400 hover:text-white hover:bg-slate-700">Cancel</Button>
+            <Button onClick={handleEditEntry} disabled={!editReason || actionLoading}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground">Save Changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </TimecardFloatingPanel>
   );
 };

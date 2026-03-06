@@ -149,6 +149,46 @@ serve(async (req: Request) => {
         break;
       }
 
+      case "edit_entry": {
+        if (!body.entry_id) throw new Error("entry_id required");
+        if (!body.edit_reason) throw new Error("edit_reason required for edits");
+        // Fetch existing entry and validate ownership + not submitted/locked
+        const { data: existing, error: fetchErr } = await admin.from("timecard_entries")
+          .select("*").eq("id", body.entry_id).eq("user_id", user.id).single();
+        if (fetchErr || !existing) throw new Error("Entry not found");
+        if (existing.week_submitted) throw new Error("Cannot edit submitted entries");
+        if (existing.locked_by_admin) throw new Error("Entry is locked by admin");
+
+        const updates: any = {};
+        const oldValues: string[] = [];
+        const newValues: string[] = [];
+
+        if (body.new_clock_in) {
+          oldValues.push(`clock_in: ${existing.clock_in}`);
+          newValues.push(`clock_in: ${body.new_clock_in}`);
+          updates.clock_in = body.new_clock_in;
+        }
+        if (body.new_clock_out) {
+          oldValues.push(`clock_out: ${existing.clock_out || "null"}`);
+          newValues.push(`clock_out: ${body.new_clock_out}`);
+          updates.clock_out = body.new_clock_out;
+        }
+
+        if (Object.keys(updates).length === 0) throw new Error("No changes provided");
+
+        const { data: updated, error: updateErr } = await admin.from("timecard_entries")
+          .update(updates).eq("id", body.entry_id).eq("user_id", user.id).select().single();
+        if (updateErr) throw updateErr;
+        result = updated;
+
+        await admin.from("timecard_audit_log").insert({
+          timecard_entry_id: body.entry_id, user_id: user.id, action: "edit",
+          old_value: oldValues.join("; "), new_value: newValues.join("; "),
+          edit_reason: body.edit_reason,
+        });
+        break;
+      }
+
       case "submit_week": {
         const { entry_ids, week_start, week_end, total_hours } = body;
         const { error: updateError } = await admin.from("timecard_entries")

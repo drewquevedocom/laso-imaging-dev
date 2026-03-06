@@ -1,35 +1,59 @@
 
 
-# Plan: Add Time Adjustment for Staff Entries + Testing
+## Expert Assessment -- Mobile Navigation Audit
 
-## Current State
+As someone who's spent decades optimizing medical equipment e-commerce for engineers and resellers, here's the blunt truth: **your mobile nav is currently losing you sales.** Engineers searching on tablets between service calls and resellers browsing on phones need the same precision filtering as desktop users. Right now, the mobile menu uses vague search queries (`query=MRI+Coils`) while desktop uses exact Shopify product_type filters -- meaning mobile users get worse results.
 
-Staff can only fix **missed clock-outs** (entries from previous days with no clock-out). There is **no way** to edit clock-in time, clock-out time, or break minutes on completed entries from the current week. The edge function already supports a `fix_missed` action that updates `clock_out` with an audit trail — we can extend this pattern.
+### Critical Gaps Found
 
-## Changes
+| Area | Desktop (Mega Menu) | Mobile Nav | Impact |
+|------|---------------------|------------|--------|
+| Equipment | 1.5T, 3.0T, Mobile MRI, 8/16/64-Slice CT, C-Arms with `product_type` filters | Generic `/equipment/...` links with no CT scanners at all | Engineers can't find CT on mobile |
+| Parts | MRI Parts, RF Coils, Power Supplies with `product_type` + vendor filters | Generic `query=MRI+Coils` text search | Resellers get imprecise results |
+| Parts Coils | Head, Body, Shoulder, Spine, CTL with `product_type:"RF Coils"` filter | Head, Body, Knee, Spine with generic query | Wrong coil types listed |
+| Parts Support | Parts Request, Technical Support, Warranty, Returns | Missing entirely | No mobile path to support |
+| Services | 4 columns: Install, Maintenance, Cryo, Training + Service Areas footer | 3 columns missing De-install, Remote Diagnostics, Compressor Service, Training | Incomplete service offering |
+| Service Areas | Footer links: California, West Coast, Nationwide | Separate section but no connection to Services | Disjointed experience |
+| Quick Actions | "Browse All Parts", "Request Quick Quote" footers | No equivalent CTAs within sections | No urgency drivers |
 
-### 1. Extend the `timecard-clock` Edge Function
+### Plan: Mirror Desktop Navigation in Mobile
 
-Add a new `edit_entry` action that allows updating both `clock_in` and `clock_out` on non-submitted entries, with a required `edit_reason` for the audit log. Guard against editing submitted/locked entries.
+**1. Rewrite EQUIPMENT section** to match MegaMenu exactly:
+- BY FIELD STRENGTH: 1.5T MRI, 3.0T MRI, Mobile MRI, All MRI (using `product_type:` queries)
+- CT SCANNERS: 8-Slice, 16-Slice, 64-Slice, Portable C-Arms (using `product_type:` queries)
+- MOBILE RENTALS: MRI, CT, PET/CT rental pages + Mobile MRI Systems
+- BY BRAND: GE, Siemens, Philips, Canon with vendor-filtered queries
+- Footer link: "Browse All Imaging Systems" -> `/products?category=imaging-systems`
 
-**File:** `supabase/functions/timecard-clock/index.ts`
-- Add `case "edit_entry"` that accepts `entry_id`, `new_clock_in`, `new_clock_out`, and `edit_reason`
-- Validates the entry belongs to the user, is not submitted, and not locked
-- Updates both fields, logs old/new values to `timecard_audit_log`
+**2. Rewrite PARTS section** to match PartsMegaMenu exactly:
+- BY CATEGORY: MRI Parts, RF Coils, Power Supplies, Cold Heads, Compressors
+- BY MANUFACTURER: GE, Siemens, Philips, Canon/Toshiba (vendor-filtered)
+- COILS & ACCESSORIES: Head, Body, Shoulder, Spine, CTL
+- SUPPORT: Parts Request, Technical Support, Warranty, Returns, Documentation
+- Footer link: "Browse All Parts" + "Request Quick Quote"
 
-### 2. Add Edit Entry UI to StaffTimecard
+**3. Rewrite SERVICES section** to match ServicesMegaMenu exactly:
+- INSTALLATION: New System Install, Relocation, Site Planning, De-installation
+- MAINTENANCE: Preventive Maintenance, Emergency Repairs, Software Updates, Remote Diagnostics
+- CRYOGENIC: Helium Refills, Cold Head Service, Compressor Service, System Recovery
+- TRAINING & MOBILE: Operator Training, Safety Certification, Mobile MRI Rental, Nationwide Coverage
+- Footer: Service Areas links (California, West Coast, Nationwide)
 
-**File:** `src/pages/internal/StaffTimecard.tsx`
+**4. Add "Ask LASO AI" button** to mobile nav (currently only on desktop/tablet header).
 
-- Add state: `editEntry`, `editClockIn`, `editClockOut`, `editReason`, `showEditDialog`
-- Add a pencil/edit icon button on each completed (non-active, non-submitted) entry row in the weekly summary table
-- Add a new `Dialog` for editing an entry with fields for clock-in time, clock-out time, and reason (required)
-- Add `handleEditEntry` handler that calls `invokeClockAction({ action: "edit_entry", ... })` and refreshes entries
+**5. Add quick-action CTAs** inside each collapsible section footer matching the desktop mega menu footers.
 
-### Summary of UI Flow
+### Pro Tips from 50 Years in Medical Equipment Web Marketing
 
-1. Staff sees a small edit icon on each row (only for completed, non-submitted entries)
-2. Clicking opens a dialog pre-filled with current clock-in/out times
-3. Staff adjusts times, provides a reason, and saves
-4. Entry updates with full audit trail
+1. **Engineers search by part number and product type, not brand first.** The category-first structure (BY CATEGORY before BY MANUFACTURER) is correct. Keep it.
+2. **Resellers need vendor-filtered views** to compare inventory across OEMs. The vendor+product_type combo queries are essential.
+3. **"Cold Heads" and "Compressors" are high-margin, high-search items.** They deserve top-level visibility, not buried under Power Supplies.
+4. **The Support column in Parts is a conversion driver.** "Parts Request" and "Warranty Info" are trust signals that reduce friction. Missing them on mobile is leaving money on the table.
+5. **Service Areas in the Services section footer** tell mobile users "we're local" -- critical for emergency repair inquiries which are almost always made on phones.
+
+### Files to Edit
+
+- `src/components/layout/MobileNav.tsx` -- Complete rewrite of all navigation data arrays to mirror the three desktop mega menus exactly, plus add section footer CTAs and Ask LASO AI button.
+
+Single file change, all data-driven.
 
