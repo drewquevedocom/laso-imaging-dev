@@ -23,8 +23,9 @@ import {
 import { toast } from "sonner";
 import {
   Clock, LogIn, LogOut, Send, AlertTriangle, Timer, Coffee, CoffeeIcon,
-  Palmtree, Heart, CalendarDays, ChevronDown, Download, FileText, AlertCircle, Pencil,
+  Palmtree, Heart, CalendarDays, ChevronDown, Download, FileText, AlertCircle, Pencil, Trash2, MessageSquare,
 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import {
   format, startOfWeek, endOfWeek, differenceInSeconds, parseISO, isBefore,
   startOfDay, isToday, subWeeks,
@@ -91,6 +92,12 @@ const StaffTimecard = () => {
   const [editClockOut, setEditClockOut] = useState("");
   const [editReason, setEditReason] = useState("");
   const [showEditDialog, setShowEditDialog] = useState(false);
+  const [notesEntry, setNotesEntry] = useState<TimecardEntry | null>(null);
+  const [notesText, setNotesText] = useState("");
+  const [showNotesDialog, setShowNotesDialog] = useState(false);
+  const [deleteEntry, setDeleteEntry] = useState<TimecardEntry | null>(null);
+  const [deleteReason, setDeleteReason] = useState("");
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const weekStart = useMemo(() => startOfWeek(new Date(), { weekStartsOn: 1 }), []);
   const weekEnd = useMemo(() => endOfWeek(new Date(), { weekStartsOn: 1 }), []);
@@ -360,6 +367,52 @@ const StaffTimecard = () => {
       fetchEntries(user.id);
     } catch (e: any) {
       toast.error("Failed to update: " + e.message);
+    }
+  };
+
+  const openNotesDialog = (entry: TimecardEntry) => {
+    setNotesEntry(entry);
+    setNotesText(entry.notes || "");
+    setShowNotesDialog(true);
+  };
+
+  const handleUpdateNotes = async () => {
+    if (!notesEntry || !user) return;
+    try {
+      await invokeClockAction({
+        action: "update_notes",
+        entry_id: notesEntry.id,
+        notes: notesText,
+      });
+      toast.success("Notes updated!");
+      setShowNotesDialog(false);
+      setNotesEntry(null);
+      fetchEntries(user.id);
+    } catch (e: any) {
+      toast.error("Failed to update notes: " + e.message);
+    }
+  };
+
+  const openDeleteDialog = (entry: TimecardEntry) => {
+    setDeleteEntry(entry);
+    setDeleteReason("");
+    setShowDeleteDialog(true);
+  };
+
+  const handleDeleteEntry = async () => {
+    if (!deleteEntry || !deleteReason || !user) return;
+    try {
+      await invokeClockAction({
+        action: "delete_entry",
+        entry_id: deleteEntry.id,
+        delete_reason: deleteReason,
+      });
+      toast.success("Entry deleted!");
+      setShowDeleteDialog(false);
+      setDeleteEntry(null);
+      fetchEntries(user.id);
+    } catch (e: any) {
+      toast.error("Failed to delete: " + e.message);
     }
   };
 
@@ -668,14 +721,32 @@ const StaffTimecard = () => {
                             {entry.notes || "—"}
                           </TableCell>
                           <TableCell className="py-1">
-                            {entry.clock_out && !entry.week_submitted && !entry.locked_by_admin && entry.id !== activeEntry?.id && (
-                              <button
-                                onClick={() => openEditDialog(entry)}
-                                className="p-1.5 rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors"
-                                title="Edit entry"
-                              >
-                                <Pencil className="h-3.5 w-3.5" />
-                              </button>
+                            {!entry.week_submitted && !entry.locked_by_admin && entry.id !== activeEntry?.id && (
+                              <div className="flex items-center gap-0.5">
+                                {entry.clock_out && (
+                                  <button
+                                    onClick={() => openEditDialog(entry)}
+                                    className="p-1.5 rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors"
+                                    title="Edit times"
+                                  >
+                                    <Pencil className="h-3.5 w-3.5" />
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => openNotesDialog(entry)}
+                                  className="p-1.5 rounded-md text-slate-500 hover:text-blue-400 hover:bg-white/10 transition-colors"
+                                  title="Edit notes"
+                                >
+                                  <MessageSquare className="h-3.5 w-3.5" />
+                                </button>
+                                <button
+                                  onClick={() => openDeleteDialog(entry)}
+                                  className="p-1.5 rounded-md text-slate-500 hover:text-red-400 hover:bg-white/10 transition-colors"
+                                  title="Delete entry"
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                </button>
+                              </div>
                             )}
                           </TableCell>
                         </TableRow>
@@ -950,6 +1021,57 @@ const StaffTimecard = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Edit Notes Dialog */}
+      <Dialog open={showNotesDialog} onOpenChange={setShowNotesDialog}>
+        <DialogContent className="bg-[#1E293B] border-slate-700 text-white sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <MessageSquare className="h-5 w-5 text-blue-400" />Edit Notes
+            </DialogTitle>
+            <DialogDescription className="text-slate-400">
+              {notesEntry && <>Notes for {format(parseISO(notesEntry.clock_in), "EEEE, MMM d")}.</>}
+            </DialogDescription>
+          </DialogHeader>
+          <Textarea
+            value={notesText}
+            onChange={(e) => setNotesText(e.target.value)}
+            placeholder="Add notes about your shift..."
+            className="bg-white/5 border-slate-600 text-white placeholder:text-slate-500 min-h-[100px]"
+          />
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setShowNotesDialog(false)}
+              className="text-slate-400 hover:text-white hover:bg-slate-700">Cancel</Button>
+            <Button onClick={handleUpdateNotes} disabled={actionLoading}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground">Save Notes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Entry Dialog */}
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent className="bg-[#1E293B] border-slate-700 text-white max-w-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-xl flex items-center gap-2">
+              <Trash2 className="h-5 w-5 text-red-400" />Delete Entry?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-slate-400">
+              {deleteEntry && <>This will permanently delete your {deleteEntry.entry_type === "clock" ? "time" : deleteEntry.entry_type.toUpperCase()} entry for {format(parseISO(deleteEntry.clock_in), "EEEE, MMM d")}. This action is logged and cannot be undone.</>}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div>
+            <label className="text-sm text-slate-400 mb-1 block">Reason for deletion (required)</label>
+            <Input value={deleteReason} onChange={(e) => setDeleteReason(e.target.value)}
+              placeholder="e.g. Accidentally created duplicate entry"
+              className="bg-white/5 border-slate-600 text-white placeholder:text-slate-500" />
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="bg-transparent border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteEntry} disabled={!deleteReason || actionLoading}
+              className="bg-red-600 hover:bg-red-700 text-white">Delete Entry</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </TimecardFloatingPanel>
   );
 };

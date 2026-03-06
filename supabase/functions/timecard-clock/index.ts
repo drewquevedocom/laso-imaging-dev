@@ -152,7 +152,6 @@ serve(async (req: Request) => {
       case "edit_entry": {
         if (!body.entry_id) throw new Error("entry_id required");
         if (!body.edit_reason) throw new Error("edit_reason required for edits");
-        // Fetch existing entry and validate ownership + not submitted/locked
         const { data: existing, error: fetchErr } = await admin.from("timecard_entries")
           .select("*").eq("id", body.entry_id).eq("user_id", user.id).single();
         if (fetchErr || !existing) throw new Error("Entry not found");
@@ -186,6 +185,55 @@ serve(async (req: Request) => {
           old_value: oldValues.join("; "), new_value: newValues.join("; "),
           edit_reason: body.edit_reason,
         });
+        break;
+      }
+
+      case "update_notes": {
+        if (!body.entry_id) throw new Error("entry_id required");
+        const { data: entry, error: entryErr } = await admin.from("timecard_entries")
+          .select("*").eq("id", body.entry_id).eq("user_id", user.id).single();
+        if (entryErr || !entry) throw new Error("Entry not found");
+        if (entry.week_submitted) throw new Error("Cannot edit submitted entries");
+        if (entry.locked_by_admin) throw new Error("Entry is locked by admin");
+
+        const oldNotes = entry.notes || "";
+        const newNotes = body.notes ?? "";
+        const { data, error } = await admin.from("timecard_entries")
+          .update({ notes: newNotes }).eq("id", body.entry_id).eq("user_id", user.id).select().single();
+        if (error) throw error;
+        result = data;
+
+        await admin.from("timecard_audit_log").insert({
+          timecard_entry_id: body.entry_id, user_id: user.id, action: "edit",
+          old_value: `notes: ${oldNotes}`, new_value: `notes: ${newNotes}`,
+          edit_reason: "Notes updated",
+        });
+        break;
+      }
+
+      case "delete_entry": {
+        if (!body.entry_id) throw new Error("entry_id required");
+        if (!body.delete_reason) throw new Error("delete_reason required");
+        const { data: entry, error: entryErr } = await admin.from("timecard_entries")
+          .select("*").eq("id", body.entry_id).eq("user_id", user.id).single();
+        if (entryErr || !entry) throw new Error("Entry not found");
+        if (entry.week_submitted) throw new Error("Cannot delete submitted entries");
+        if (entry.locked_by_admin) throw new Error("Entry is locked by admin");
+
+        // Delete associated breaks first
+        await admin.from("timecard_breaks").delete().eq("entry_id", body.entry_id);
+
+        const { error } = await admin.from("timecard_entries")
+          .delete().eq("id", body.entry_id).eq("user_id", user.id);
+        if (error) throw error;
+
+        await admin.from("timecard_audit_log").insert({
+          user_id: user.id, action: "deleted",
+          old_value: `Entry ${body.entry_id}: ${entry.entry_type} on ${entry.clock_in}`,
+          new_value: null,
+          edit_reason: body.delete_reason,
+        });
+        result = { success: true };
         break;
       }
 
