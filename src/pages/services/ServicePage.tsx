@@ -632,6 +632,8 @@ const ServicePage = () => {
                       <CryogenicServiceQuoteForm sourcePage={`Service: ${service.title}`} />
                     )}
                   </div>
+                ) : isCryoPage ? (
+                  <CryogenicServiceQuoteForm sourcePage={`Service: ${service.title}`} />
                 ) : (
                   <QuoteForm 
                     sourcePage={`Service: ${service.title}`}
