@@ -859,7 +859,7 @@ const StaffTimecard = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </TimecardFloatingPanel>
   );
 };
 
