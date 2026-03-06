@@ -86,6 +86,11 @@ const StaffTimecard = () => {
   const [pastEntries, setPastEntries] = useState<Record<string, TimecardEntry[]>>({});
   const [actionLoading, setActionLoading] = useState(false);
   const notifiedRef = useRef(false);
+  const [editEntry, setEditEntry] = useState<TimecardEntry | null>(null);
+  const [editClockIn, setEditClockIn] = useState("");
+  const [editClockOut, setEditClockOut] = useState("");
+  const [editReason, setEditReason] = useState("");
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   const weekStart = useMemo(() => startOfWeek(new Date(), { weekStartsOn: 1 }), []);
   const weekEnd = useMemo(() => endOfWeek(new Date(), { weekStartsOn: 1 }), []);
