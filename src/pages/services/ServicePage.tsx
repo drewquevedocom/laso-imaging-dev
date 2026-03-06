@@ -291,6 +291,17 @@ const ServicePage = () => {
                         <HeliumQuoteForm sourcePage={`Service: Helium Fill & Cryogenic Services`} />
                       </DialogContent>
                     </Dialog>
+                  ) : isCryoPage ? (
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button className="w-full" variant="cta" size="lg">
+                          Request a Quote
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <CryogenicServiceQuoteForm sourcePage={`Service: ${service.title}`} />
+                      </DialogContent>
+                    </Dialog>
                   ) : (
                     <Link to={`/quote?interest=${encodeURIComponent(service.title)}`}>
                       <Button className="w-full" variant="cta" size="lg">
