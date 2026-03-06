@@ -32,6 +32,8 @@ const ServicePage = () => {
   const service = slug ? getServiceContent(slug) : null;
   const [activeQuoteForm, setActiveQuoteForm] = useState<'helium' | 'cryogenic'>('helium');
 
+  const isCryoPage = slug === 'cold-head-service' || slug === 'compressor-service';
+
   // These 3 service pages use a different CTA phone number
   const useAltPhone = slug === 'preventive-maintenance' || slug === 'helium-refills' || slug === 'operator-training';
   const ctaPhone = useAltPhone ? '(818) 916-9503' : '(844) 511-5276';
@@ -163,7 +165,7 @@ const ServicePage = () => {
                       <ArrowRight className="w-4 h-4" />
                     </Button>
                   </a>
-                ) : slug === 'helium-refills' ? (
+                 ) : slug === 'helium-refills' ? (
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button size="lg" variant="cta" className="gap-2">
@@ -175,6 +177,26 @@ const ServicePage = () => {
                       <HeliumQuoteForm sourcePage={`Service: Helium Fill & Cryogenic Services`} />
                     </DialogContent>
                   </Dialog>
+                ) : isCryoPage ? (
+                  <>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button size="lg" variant="cta" className="gap-2">
+                          Request a Quote
+                          <ArrowRight className="w-4 h-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <CryogenicServiceQuoteForm sourcePage={`Service: ${service.title}`} />
+                      </DialogContent>
+                    </Dialog>
+                    <a href="#service-request">
+                      <Button size="lg" variant="outline" className="gap-2 border-white/30 text-white hover:bg-white/10">
+                        <Wrench className="w-4 h-4" />
+                        Request Service
+                      </Button>
+                    </a>
+                  </>
                 ) : (
                   <>
                     <Link to={`/quote?interest=${encodeURIComponent(service.title)}`}>
@@ -267,6 +289,17 @@ const ServicePage = () => {
                       </DialogTrigger>
                       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                         <HeliumQuoteForm sourcePage={`Service: Helium Fill & Cryogenic Services`} />
+                      </DialogContent>
+                    </Dialog>
+                  ) : isCryoPage ? (
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button className="w-full" variant="cta" size="lg">
+                          Request a Quote
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <CryogenicServiceQuoteForm sourcePage={`Service: ${service.title}`} />
                       </DialogContent>
                     </Dialog>
                   ) : (
@@ -561,7 +594,7 @@ const ServicePage = () => {
                 {slug === 'financing' && (
                   <TradeInCalculator />
                 )}
-                <div id="financing-form" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20">
+                <div id="financing-form" className={`rounded-xl p-6 md:p-8 border ${isCryoPage ? 'bg-card border-border' : 'bg-white/10 backdrop-blur-sm border-white/20'}`}>
                   {slug === 'financing' ? (
                     <FinancingQuoteForm sourcePage={`Service: ${service.title}`} />
                 ) : slug === 'helium-refills' ? (
@@ -599,6 +632,8 @@ const ServicePage = () => {
                       <CryogenicServiceQuoteForm sourcePage={`Service: ${service.title}`} />
                     )}
                   </div>
+                ) : isCryoPage ? (
+                  <CryogenicServiceQuoteForm sourcePage={`Service: ${service.title}`} />
                 ) : (
                   <QuoteForm 
                     sourcePage={`Service: ${service.title}`}
