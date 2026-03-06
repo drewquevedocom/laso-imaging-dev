@@ -72,6 +72,7 @@ const navGroups = [
     label: "Configuration",
     items: [
       { title: "Pricing Rules", url: "/admin/pricing-rules", icon: Calculator },
+      { title: "Staff Timecard", url: "/internal/staff-timecard", icon: Clock },
       { title: "Testing Guide", url: "/admin/testing-guide", icon: ClipboardCheck },
     ]
   }

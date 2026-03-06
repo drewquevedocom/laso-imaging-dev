@@ -228,6 +228,7 @@ const App = () => (
               
               {/* Internal Tools (hidden, no navigation links) */}
               <Route path="/internal/timecard" element={<ContractorTimecard />} />
+              <Route path="/internal/staff-timecard" element={<StaffTimecard />} />
               <Route path="/review" element={<CustomerReview />} />
               
               {/* Quote Acceptance Portal (public) */}
