@@ -149,38 +149,31 @@ const ContractorTimecard = () => {
 
       if (dbError) throw dbError;
 
-      // Send email notification
-      const { error: emailError } = await supabase.functions.invoke(
-        "send-timecard-notification",
-        {
-          body: {
-            payeeName: data.payeeName,
-            payeeEmail: data.payeeEmail,
-            payPeriodStart: format(data.payPeriodStart, "yyyy-MM-dd"),
-            payPeriodEnd: format(data.payPeriodEnd, "yyyy-MM-dd"),
-            timeEntries: formattedEntries,
-            totalHours,
-            ratePerHour: data.ratePerHour,
-            totalPay,
-            deductions: data.deductions,
-            expenseReimb: data.expenseReimb,
-            netPay,
-            paymentMethod: data.paymentMethod,
-            paymentDate: data.paymentDate ? format(data.paymentDate, "yyyy-MM-dd") : null,
-            sendToEmail: data.sendToEmail,
-            notes: data.notes,
-          },
-        }
-      );
-
-      if (emailError) {
-        console.error("Email error:", emailError);
-        toast.warning("Timecard saved but email could not be sent");
-      } else {
-        toast.success("Timecard submitted and email sent successfully!");
-      }
-
+      toast.success("Timecard submitted successfully!");
       form.reset();
+
+      // Fire-and-forget email notification
+      supabase.functions.invoke("send-timecard-notification", {
+        body: {
+          payeeName: data.payeeName,
+          payeeEmail: data.payeeEmail,
+          payPeriodStart: format(data.payPeriodStart, "yyyy-MM-dd"),
+          payPeriodEnd: format(data.payPeriodEnd, "yyyy-MM-dd"),
+          timeEntries: formattedEntries,
+          totalHours,
+          ratePerHour: data.ratePerHour,
+          totalPay,
+          deductions: data.deductions,
+          expenseReimb: data.expenseReimb,
+          netPay,
+          paymentMethod: data.paymentMethod,
+          paymentDate: data.paymentDate ? format(data.paymentDate, "yyyy-MM-dd") : null,
+          sendToEmail: data.sendToEmail,
+          notes: data.notes,
+        },
+      }).then(({ error }) => {
+        if (error) console.error("Email notification error:", error);
+      }).catch(err => console.error("Timecard notification failed:", err));
     } catch (error: any) {
       console.error("Submission error:", error);
       toast.error(error.message || "Failed to submit timecard");
