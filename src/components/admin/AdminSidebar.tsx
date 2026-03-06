@@ -14,6 +14,7 @@ import {
   Calculator,
   ClipboardCheck,
   ShieldCheck,
+  Clock,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
