@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import TimecardFloatingPanel from "@/components/timecard/TimecardFloatingPanel";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -385,9 +386,34 @@ const StaffTimecard = () => {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 
+  const minimizedView = (
+    <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center gap-2">
+        {activeEntry ? (
+          <>
+            <div className={`h-2.5 w-2.5 rounded-full ${activeBreak ? "bg-amber-400" : "bg-emerald-400"} animate-pulse`} />
+            <span className="text-white font-mono text-lg font-bold">
+              {formatDuration(activeBreak ? breakElapsed : elapsedSeconds)}
+            </span>
+            <span className="text-slate-400 text-xs">
+              {activeBreak ? "On Break" : "Clocked In"}
+            </span>
+          </>
+        ) : (
+          <span className="text-slate-400 text-sm">Not clocked in</span>
+        )}
+      </div>
+      <span className="text-slate-500 text-xs">{totalWeeklyHours.toFixed(1)}h / 40h</span>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-[#0F172A] text-white p-4 md:p-8">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <TimecardFloatingPanel
+      minimizedContent={minimizedView}
+      onClose={() => navigate(-1)}
+    >
+    <div className="bg-[#0F172A] text-white p-4 md:p-6">
+      <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -730,6 +756,7 @@ const StaffTimecard = () => {
           </Collapsible>
         )}
       </div>
+    </div>
 
       {/* Clock-In Prompt Dialog */}
       <Dialog open={showClockInPrompt && !activeEntry && !weekSubmitted} onOpenChange={setShowClockInPrompt}>
@@ -835,7 +862,7 @@ const StaffTimecard = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </TimecardFloatingPanel>
   );
 };
 
