@@ -66,6 +66,7 @@ import PortalMessages from "./pages/portal/PortalMessages";
 import PortalNotifications from "./pages/portal/PortalNotifications";
 import CookieConsent from "./components/layout/CookieConsent";
 import ContractorTimecard from "./pages/internal/ContractorTimecard";
+import StaffTimecard from "./pages/internal/StaffTimecard";
 import CustomerReview from "./pages/internal/CustomerReview";
 import QuoteAcceptance from "./pages/quotes/QuoteAcceptance";
 import Communications from "./pages/admin/Communications";
@@ -227,6 +228,7 @@ const App = () => (
               
               {/* Internal Tools (hidden, no navigation links) */}
               <Route path="/internal/timecard" element={<ContractorTimecard />} />
+              <Route path="/internal/staff-timecard" element={<StaffTimecard />} />
               <Route path="/review" element={<CustomerReview />} />
               
               {/* Quote Acceptance Portal (public) */}

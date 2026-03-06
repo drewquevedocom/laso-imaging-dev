@@ -1700,6 +1700,36 @@ export type Database = {
           },
         ]
       }
+      timecard_entries: {
+        Row: {
+          clock_in: string
+          clock_out: string | null
+          created_at: string
+          id: string
+          notes: string | null
+          user_id: string
+          week_submitted: boolean
+        }
+        Insert: {
+          clock_in?: string
+          clock_out?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          user_id: string
+          week_submitted?: boolean
+        }
+        Update: {
+          clock_in?: string
+          clock_out?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          user_id?: string
+          week_submitted?: boolean
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
