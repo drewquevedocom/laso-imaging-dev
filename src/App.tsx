@@ -80,6 +80,7 @@ import TestingGuide from "./pages/admin/TestingGuide";
 import RentalRequest from "./pages/rentals/RentalRequest";
 import OfferApprovals from "./pages/admin/OfferApprovals";
 import Orders from "./pages/admin/Orders";
+import AdminTimecards from "./pages/admin/AdminTimecards";
 
 import ResetPassword from "./pages/auth/ResetPassword";
 // Mobile Rentals
@@ -223,6 +224,7 @@ const App = () => (
                 <Route path="pricing-rules" element={<PricingRules />} />
                 <Route path="testing-guide" element={<TestingGuide />} />
                 <Route path="offer-approvals" element={<OfferApprovals />} />
+                <Route path="timecards" element={<AdminTimecards />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
               
