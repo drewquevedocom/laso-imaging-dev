@@ -411,7 +411,8 @@ const StaffTimecard = () => {
     <TimecardFloatingPanel
       minimizedContent={minimizedView}
       onClose={() => navigate(-1)}
-    >
+    <div className="bg-[#0F172A] text-white p-4 md:p-6">
+      <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
