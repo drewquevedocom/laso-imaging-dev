@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -86,8 +86,8 @@ const StaffTimecard = () => {
   const [actionLoading, setActionLoading] = useState(false);
   const notifiedRef = useRef(false);
 
-  const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 });
-  const weekEnd = endOfWeek(new Date(), { weekStartsOn: 1 });
+  const weekStart = useMemo(() => startOfWeek(new Date(), { weekStartsOn: 1 }), []);
+  const weekEnd = useMemo(() => endOfWeek(new Date(), { weekStartsOn: 1 }), []);
 
   const invokeClockAction = async (actionBody: any) => {
     setActionLoading(true);
@@ -137,7 +137,7 @@ const StaffTimecard = () => {
 
     const missed = typedData.find((e) => !e.clock_out && !isToday(parseISO(e.clock_in)) && e.entry_type === "clock");
     if (missed) { setMissedEntry(missed); setShowMissedDialog(true); }
-  }, [weekStart, weekEnd]);
+  }, []);
 
   const fetchPastWeeks = useCallback(async (userId: string) => {
     const { data } = await supabase
