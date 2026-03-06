@@ -1021,6 +1021,57 @@ const StaffTimecard = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Edit Notes Dialog */}
+      <Dialog open={showNotesDialog} onOpenChange={setShowNotesDialog}>
+        <DialogContent className="bg-[#1E293B] border-slate-700 text-white sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <MessageSquare className="h-5 w-5 text-blue-400" />Edit Notes
+            </DialogTitle>
+            <DialogDescription className="text-slate-400">
+              {notesEntry && <>Notes for {format(parseISO(notesEntry.clock_in), "EEEE, MMM d")}.</>}
+            </DialogDescription>
+          </DialogHeader>
+          <Textarea
+            value={notesText}
+            onChange={(e) => setNotesText(e.target.value)}
+            placeholder="Add notes about your shift..."
+            className="bg-white/5 border-slate-600 text-white placeholder:text-slate-500 min-h-[100px]"
+          />
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setShowNotesDialog(false)}
+              className="text-slate-400 hover:text-white hover:bg-slate-700">Cancel</Button>
+            <Button onClick={handleUpdateNotes} disabled={actionLoading}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground">Save Notes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Entry Dialog */}
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent className="bg-[#1E293B] border-slate-700 text-white max-w-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-xl flex items-center gap-2">
+              <Trash2 className="h-5 w-5 text-red-400" />Delete Entry?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-slate-400">
+              {deleteEntry && <>This will permanently delete your {deleteEntry.entry_type === "clock" ? "time" : deleteEntry.entry_type.toUpperCase()} entry for {format(parseISO(deleteEntry.clock_in), "EEEE, MMM d")}. This action is logged and cannot be undone.</>}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div>
+            <label className="text-sm text-slate-400 mb-1 block">Reason for deletion (required)</label>
+            <Input value={deleteReason} onChange={(e) => setDeleteReason(e.target.value)}
+              placeholder="e.g. Accidentally created duplicate entry"
+              className="bg-white/5 border-slate-600 text-white placeholder:text-slate-500" />
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="bg-transparent border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteEntry} disabled={!deleteReason || actionLoading}
+              className="bg-red-600 hover:bg-red-700 text-white">Delete Entry</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </TimecardFloatingPanel>
   );
 };
