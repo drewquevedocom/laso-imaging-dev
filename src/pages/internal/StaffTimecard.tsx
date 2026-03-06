@@ -137,7 +137,7 @@ const StaffTimecard = () => {
 
     const missed = typedData.find((e) => !e.clock_out && !isToday(parseISO(e.clock_in)) && e.entry_type === "clock");
     if (missed) { setMissedEntry(missed); setShowMissedDialog(true); }
-  }, [weekStart, weekEnd]);
+  }, []);
 
   const fetchPastWeeks = useCallback(async (userId: string) => {
     const { data } = await supabase
