@@ -86,8 +86,8 @@ const StaffTimecard = () => {
   const [actionLoading, setActionLoading] = useState(false);
   const notifiedRef = useRef(false);
 
-  const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 });
-  const weekEnd = endOfWeek(new Date(), { weekStartsOn: 1 });
+  const weekStart = useMemo(() => startOfWeek(new Date(), { weekStartsOn: 1 }), []);
+  const weekEnd = useMemo(() => endOfWeek(new Date(), { weekStartsOn: 1 }), []);
 
   const invokeClockAction = async (actionBody: any) => {
     setActionLoading(true);
