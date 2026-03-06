@@ -594,7 +594,7 @@ const ServicePage = () => {
                 {slug === 'financing' && (
                   <TradeInCalculator />
                 )}
-                <div id="financing-form" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-white/20">
+                <div id="financing-form" className={`rounded-xl p-6 md:p-8 border ${isCryoPage ? 'bg-card border-border' : 'bg-white/10 backdrop-blur-sm border-white/20'}`}>
                   {slug === 'financing' ? (
                     <FinancingQuoteForm sourcePage={`Service: ${service.title}`} />
                 ) : slug === 'helium-refills' ? (
