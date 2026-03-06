@@ -92,6 +92,12 @@ const StaffTimecard = () => {
   const [editClockOut, setEditClockOut] = useState("");
   const [editReason, setEditReason] = useState("");
   const [showEditDialog, setShowEditDialog] = useState(false);
+  const [notesEntry, setNotesEntry] = useState<TimecardEntry | null>(null);
+  const [notesText, setNotesText] = useState("");
+  const [showNotesDialog, setShowNotesDialog] = useState(false);
+  const [deleteEntry, setDeleteEntry] = useState<TimecardEntry | null>(null);
+  const [deleteReason, setDeleteReason] = useState("");
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const weekStart = useMemo(() => startOfWeek(new Date(), { weekStartsOn: 1 }), []);
   const weekEnd = useMemo(() => endOfWeek(new Date(), { weekStartsOn: 1 }), []);
