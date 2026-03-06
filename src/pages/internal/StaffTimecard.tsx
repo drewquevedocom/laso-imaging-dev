@@ -756,6 +756,7 @@ const StaffTimecard = () => {
           </Collapsible>
         )}
       </div>
+    </div>
 
       {/* Clock-In Prompt Dialog */}
       <Dialog open={showClockInPrompt && !activeEntry && !weekSubmitted} onOpenChange={setShowClockInPrompt}>
