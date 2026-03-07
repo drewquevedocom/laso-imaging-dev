@@ -125,7 +125,7 @@ const handler = async (req: Request): Promise<Response> => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "LASO Medical <hello@noreply.lasoimaging.com>",
+        from: "LASO Medical <updates@updates.lasoimaging.com>",
         to: ["info@lasoimaging.com"],
         reply_to: data.email,
         subject: `New Quote Request: ${data.equipmentType} from ${data.name}`,
@@ -219,7 +219,7 @@ const handler = async (req: Request): Promise<Response> => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "LASO Medical <hello@noreply.lasoimaging.com>",
+        from: "LASO Medical <updates@updates.lasoimaging.com>",
         to: [data.email],
         subject: `Thank You for Your Quote Request - LASO Imaging`,
         html: customerEmailHtml,
