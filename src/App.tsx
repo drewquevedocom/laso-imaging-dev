@@ -81,6 +81,7 @@ import RentalRequest from "./pages/rentals/RentalRequest";
 import OfferApprovals from "./pages/admin/OfferApprovals";
 import Orders from "./pages/admin/Orders";
 import AdminTimecards from "./pages/admin/AdminTimecards";
+import KnowledgeBase from "./pages/admin/KnowledgeBase";
 
 import ResetPassword from "./pages/auth/ResetPassword";
 // Mobile Rentals
