@@ -233,6 +233,14 @@ ${formData.notes ? `- Additional Notes: ${formData.notes}` : ""}
               <CardDescription>
                 Tell us about your equipment needs and we'll provide a custom quote
               </CardDescription>
+              {selectedEquipmentName && (
+                <div className="mt-3 p-3 bg-primary/10 rounded-lg border border-primary/20">
+                  <p className="text-sm font-medium text-primary">
+                    ✅ Selected: {formData.specific_model} — Starting {formData.start_date ? format(new Date(formData.start_date + "T12:00:00"), "MMMM d, yyyy") : ""}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">Fill out your details below to complete the request</p>
+                </div>
+              )}
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-8">
