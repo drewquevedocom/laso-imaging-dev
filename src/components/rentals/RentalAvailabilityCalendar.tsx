@@ -290,9 +290,15 @@ export const RentalAvailabilityCalendar = ({ onEquipmentSelect }: RentalCalendar
             </CardHeader>
             <CardContent>
               {!selectedDate ? (
-                <p className="text-muted-foreground text-sm">
-                  Click on a date to see equipment availability
-                </p>
+                <div className="text-center py-8">
+                  <CalendarIcon className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
+                  <p className="text-muted-foreground text-sm font-medium">
+                    Select a date on the calendar
+                  </p>
+                  <p className="text-muted-foreground/70 text-xs mt-1">
+                    Click any future date to see available mobile units
+                  </p>
+                </div>
               ) : selectedDateAvailability.length === 0 ? (
                 <p className="text-muted-foreground text-sm">
                   No rentable equipment found
