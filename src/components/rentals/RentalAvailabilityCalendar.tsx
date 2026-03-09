@@ -375,9 +375,9 @@ export const RentalAvailabilityCalendar = ({ onEquipmentSelect }: RentalCalendar
                     })}
                   </div>
 
-                  {availableCount > 0 && (
+                  {availableCount > 0 && !onEquipmentSelect && (
                     <Button className="w-full" asChild>
-                      <a href="/rentals">Request Rental</a>
+                      <a href="#rental-form">Request Rental</a>
                     </Button>
                   )}
                 </div>
