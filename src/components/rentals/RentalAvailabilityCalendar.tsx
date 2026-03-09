@@ -36,7 +36,11 @@ interface EquipmentAvailability {
   };
 }
 
-export const RentalAvailabilityCalendar = () => {
+interface RentalCalendarProps {
+  onEquipmentSelect?: (equipment: { id: string; name: string; modality: string; oem: string }, date: Date) => void;
+}
+
+export const RentalAvailabilityCalendar = ({ onEquipmentSelect }: RentalCalendarProps = {}) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [modalityFilter, setModalityFilter] = useState<string>("all");
