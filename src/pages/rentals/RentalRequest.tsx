@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { CalendarCheck, CheckCircle2, Loader2, ArrowRight } from "lucide-react";
+import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -53,8 +54,10 @@ const FACILITY_TYPES = [
 
 const RentalRequest = () => {
   const navigate = useNavigate();
+  const formRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [selectedEquipmentName, setSelectedEquipmentName] = useState("");
 
   const [formData, setFormData] = useState({
     equipment_type: "",
@@ -197,16 +200,47 @@ ${formData.notes ? `- Additional Notes: ${formData.notes}` : ""}
 
           {/* Availability Calendar Section */}
           <div className="mb-12">
-            <RentalAvailabilityCalendar />
+            <RentalAvailabilityCalendar
+              onEquipmentSelect={(equipment, date) => {
+                // Map modality to equipment type
+                const modalityMap: Record<string, string> = {
+                  MRI: "Mobile MRI",
+                  CT: "Mobile CT",
+                  "PET/CT": "Mobile PET/CT",
+                  "X-Ray": "X-Ray System",
+                  Ultrasound: "Ultrasound",
+                };
+                const equipmentType = modalityMap[equipment.modality] || "Other";
+                setSelectedEquipmentName(equipment.name);
+                setFormData((prev) => ({
+                  ...prev,
+                  equipment_type: equipmentType,
+                  specific_model: `${equipment.oem} ${equipment.name}`,
+                  start_date: format(date, "yyyy-MM-dd"),
+                }));
+                // Scroll to form
+                setTimeout(() => {
+                  formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 100);
+              }}
+            />
           </div>
 
           {/* Form Card */}
-          <Card id="rental-form">
+          <Card id="rental-form" ref={formRef}>
             <CardHeader>
               <CardTitle>Request a Rental</CardTitle>
               <CardDescription>
                 Tell us about your equipment needs and we'll provide a custom quote
               </CardDescription>
+              {selectedEquipmentName && (
+                <div className="mt-3 p-3 bg-primary/10 rounded-lg border border-primary/20">
+                  <p className="text-sm font-medium text-primary">
+                    ✅ Selected: {formData.specific_model} — Starting {formData.start_date ? format(new Date(formData.start_date + "T12:00:00"), "MMMM d, yyyy") : ""}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">Fill out your details below to complete the request</p>
+                </div>
+              )}
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-8">

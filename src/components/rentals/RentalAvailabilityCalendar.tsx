@@ -36,7 +36,11 @@ interface EquipmentAvailability {
   };
 }
 
-export const RentalAvailabilityCalendar = () => {
+interface RentalCalendarProps {
+  onEquipmentSelect?: (equipment: { id: string; name: string; modality: string; oem: string }, date: Date) => void;
+}
+
+export const RentalAvailabilityCalendar = ({ onEquipmentSelect }: RentalCalendarProps = {}) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [modalityFilter, setModalityFilter] = useState<string>("all");
@@ -327,12 +331,25 @@ export const RentalAvailabilityCalendar = () => {
                                 <span className="text-xs text-muted-foreground">{equipment.oem}</span>
                               </div>
                             </div>
-                            <Badge
-                              variant={equipment.isAvailable ? "default" : "secondary"}
-                              className={equipment.isAvailable ? "bg-green-600" : "bg-red-600 text-white"}
-                            >
-                              {equipment.isAvailable ? "Available" : "Rented"}
-                            </Badge>
+                            {equipment.isAvailable && onEquipmentSelect ? (
+                              <Button
+                                size="sm"
+                                className="text-xs h-7"
+                                onClick={() => onEquipmentSelect(
+                                  { id: equipment.id, name: equipment.name, modality: equipment.modality, oem: equipment.oem },
+                                  selectedDate!
+                                )}
+                              >
+                                Select
+                              </Button>
+                            ) : (
+                              <Badge
+                                variant={equipment.isAvailable ? "default" : "secondary"}
+                                className={equipment.isAvailable ? "bg-green-600" : "bg-red-600 text-white"}
+                              >
+                                {equipment.isAvailable ? "Available" : "Rented"}
+                              </Badge>
+                            )}
                           </div>
 
                           {/* Rental Rates */}
@@ -371,9 +388,9 @@ export const RentalAvailabilityCalendar = () => {
                     })}
                   </div>
 
-                  {availableCount > 0 && (
+                  {availableCount > 0 && !onEquipmentSelect && (
                     <Button className="w-full" asChild>
-                      <a href="/rentals">Request Rental</a>
+                      <a href="#rental-form">Request Rental</a>
                     </Button>
                   )}
                 </div>
