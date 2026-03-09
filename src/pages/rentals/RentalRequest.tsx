@@ -227,7 +227,7 @@ ${formData.notes ? `- Additional Notes: ${formData.notes}` : ""}
           </div>
 
           {/* Form Card */}
-          <Card id="rental-form">
+          <Card id="rental-form" ref={formRef}>
             <CardHeader>
               <CardTitle>Request a Rental</CardTitle>
               <CardDescription>
