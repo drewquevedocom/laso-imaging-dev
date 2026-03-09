@@ -15,6 +15,7 @@ import {
   ClipboardCheck,
   ShieldCheck,
   Clock,
+  BookOpen,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
