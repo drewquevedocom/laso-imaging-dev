@@ -54,8 +54,10 @@ const FACILITY_TYPES = [
 
 const RentalRequest = () => {
   const navigate = useNavigate();
+  const formRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [selectedEquipmentName, setSelectedEquipmentName] = useState("");
 
   const [formData, setFormData] = useState({
     equipment_type: "",
