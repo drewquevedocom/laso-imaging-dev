@@ -200,7 +200,30 @@ ${formData.notes ? `- Additional Notes: ${formData.notes}` : ""}
 
           {/* Availability Calendar Section */}
           <div className="mb-12">
-            <RentalAvailabilityCalendar />
+            <RentalAvailabilityCalendar
+              onEquipmentSelect={(equipment, date) => {
+                // Map modality to equipment type
+                const modalityMap: Record<string, string> = {
+                  MRI: "Mobile MRI",
+                  CT: "Mobile CT",
+                  "PET/CT": "Mobile PET/CT",
+                  "X-Ray": "X-Ray System",
+                  Ultrasound: "Ultrasound",
+                };
+                const equipmentType = modalityMap[equipment.modality] || "Other";
+                setSelectedEquipmentName(equipment.name);
+                setFormData((prev) => ({
+                  ...prev,
+                  equipment_type: equipmentType,
+                  specific_model: `${equipment.oem} ${equipment.name}`,
+                  start_date: format(date, "yyyy-MM-dd"),
+                }));
+                // Scroll to form
+                setTimeout(() => {
+                  formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 100);
+              }}
+            />
           </div>
 
           {/* Form Card */}
