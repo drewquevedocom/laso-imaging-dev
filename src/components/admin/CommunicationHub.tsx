@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { formatDistanceToNow, format } from "date-fns";
 import {
-  FileText,
   Mail,
   MessageSquare,
   StickyNote,
