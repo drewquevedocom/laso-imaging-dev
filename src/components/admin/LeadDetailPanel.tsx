@@ -255,7 +255,7 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
                     <Button 
                       variant="outline" 
                       size="sm"
-                      onClick={() => setActiveTab("communication")}
+                      onClick={() => { setCommsDefaultTab("sms"); setActiveTab("communication"); }}
                     >
                       <MessageSquare className="h-4 w-4 mr-2" />
                       Send SMS
