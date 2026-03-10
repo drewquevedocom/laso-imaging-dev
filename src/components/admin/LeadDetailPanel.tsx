@@ -242,11 +242,13 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
                       </a>
                     </Button>
                   )}
-                  <Button variant="outline" size="sm" asChild>
-                    <a href={`mailto:${lead.email}`}>
-                      <Send className="h-4 w-4 mr-2" />
-                      Email
-                    </a>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setActiveTab("communication")}
+                  >
+                    <Send className="h-4 w-4 mr-2" />
+                    Email
                   </Button>
                   {lead.phone && (
                     <Button 
