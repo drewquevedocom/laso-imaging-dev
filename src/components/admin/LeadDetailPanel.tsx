@@ -52,6 +52,7 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
   const { data: activities = [] } = useActivities(lead?.id);
   const { data: journeyEvents = [], isLoading: journeyLoading } = useLeadJourney(lead?.id);
   const [activeTab, setActiveTab] = useState("overview");
+  const [commsDefaultTab, setCommsDefaultTab] = useState<"email" | "sms" | "note">(lead?.phone ? "sms" : "email");
   
   if (!lead) return null;
 
