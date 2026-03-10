@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { useActivities, useCreateActivity } from "@/hooks/useActivities";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { EmailTemplateSelector } from "@/components/admin/EmailTemplateSelector";
 
 interface CommunicationHubProps {
   leadId: string;
@@ -60,6 +61,7 @@ const CommunicationHub = ({
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [showTemplateSelector, setShowTemplateSelector] = useState(false);
 
   // Map activity type to timeline type
   const mapActivityType = (activityType: string): TimelineItem["type"] => {
@@ -336,6 +338,15 @@ const CommunicationHub = ({
               onChange={(e) => setSubject(e.target.value)}
               className="h-8 text-sm"
             />
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-xs gap-1"
+              onClick={() => setShowTemplateSelector(true)}
+            >
+              <FileText className="h-3 w-3" />
+              Use Template
+            </Button>
           </div>
         )}
 
@@ -383,6 +394,12 @@ const CommunicationHub = ({
           </Button>
         </div>
       </div>
+      <EmailTemplateSelector
+        isOpen={showTemplateSelector}
+        onClose={() => setShowTemplateSelector(false)}
+        recipientEmail={leadEmail}
+        recipientName=""
+      />
     </div>
   );
 };
