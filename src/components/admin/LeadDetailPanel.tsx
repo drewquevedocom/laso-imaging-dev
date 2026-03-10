@@ -246,7 +246,7 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
                   <Button 
                     variant="outline" 
                     size="sm"
-                    onClick={() => setActiveTab("communication")}
+                    onClick={() => { setCommsDefaultTab("email"); setActiveTab("communication"); }}
                   >
                     <Send className="h-4 w-4 mr-2" />
                     Email
