@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { useActivities, useCreateActivity } from "@/hooks/useActivities";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { EmailTemplateSelector } from "@/components/admin/EmailTemplateSelector";
 
 interface CommunicationHubProps {
   leadId: string;
