@@ -338,6 +338,15 @@ const CommunicationHub = ({
               onChange={(e) => setSubject(e.target.value)}
               className="h-8 text-sm"
             />
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-xs gap-1"
+              onClick={() => setShowTemplateSelector(true)}
+            >
+              <FileText className="h-3 w-3" />
+              Use Template
+            </Button>
           </div>
         )}
 
