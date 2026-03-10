@@ -52,6 +52,7 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
   const { data: activities = [] } = useActivities(lead?.id);
   const { data: journeyEvents = [], isLoading: journeyLoading } = useLeadJourney(lead?.id);
   const [activeTab, setActiveTab] = useState("overview");
+  const [commsDefaultTab, setCommsDefaultTab] = useState<"email" | "sms" | "note">(lead?.phone ? "sms" : "email");
   
   if (!lead) return null;
 
@@ -242,17 +243,19 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
                       </a>
                     </Button>
                   )}
-                  <Button variant="outline" size="sm" asChild>
-                    <a href={`mailto:${lead.email}`}>
-                      <Send className="h-4 w-4 mr-2" />
-                      Email
-                    </a>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => { setCommsDefaultTab("email"); setActiveTab("communication"); }}
+                  >
+                    <Send className="h-4 w-4 mr-2" />
+                    Email
                   </Button>
                   {lead.phone && (
                     <Button 
                       variant="outline" 
                       size="sm"
-                      onClick={() => setActiveTab("communication")}
+                      onClick={() => { setCommsDefaultTab("sms"); setActiveTab("communication"); }}
                     >
                       <MessageSquare className="h-4 w-4 mr-2" />
                       Send SMS
@@ -285,13 +288,14 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
             {/* Communication Hub Tab */}
             <TabsContent value="communication" className="m-0 p-6 h-[calc(100vh-280px)]">
               <CommunicationHub
+                key={commsDefaultTab}
                 leadId={lead.id}
                 leadEmail={lead.email}
                 leadPhone={lead.phone}
                 leadCreatedAt={lead.created_at}
                 smsOptIn={lead.sms_opt_in}
                 emailOptIn={lead.email_opt_in}
-                defaultTab={lead.phone ? "sms" : "email"}
+                defaultTab={commsDefaultTab}
               />
             </TabsContent>
 
