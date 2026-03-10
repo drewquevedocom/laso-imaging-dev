@@ -394,6 +394,12 @@ const CommunicationHub = ({
           </Button>
         </div>
       </div>
+      <EmailTemplateSelector
+        isOpen={showTemplateSelector}
+        onClose={() => setShowTemplateSelector(false)}
+        recipientEmail={leadEmail}
+        recipientName=""
+      />
     </div>
   );
 };
