@@ -61,6 +61,7 @@ const CommunicationHub = ({
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [showTemplateSelector, setShowTemplateSelector] = useState(false);
 
   // Map activity type to timeline type
   const mapActivityType = (activityType: string): TimelineItem["type"] => {
