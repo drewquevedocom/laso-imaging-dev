@@ -288,13 +288,14 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
             {/* Communication Hub Tab */}
             <TabsContent value="communication" className="m-0 p-6 h-[calc(100vh-280px)]">
               <CommunicationHub
+                key={commsDefaultTab}
                 leadId={lead.id}
                 leadEmail={lead.email}
                 leadPhone={lead.phone}
                 leadCreatedAt={lead.created_at}
                 smsOptIn={lead.sms_opt_in}
                 emailOptIn={lead.email_opt_in}
-                defaultTab={lead.phone ? "sms" : "email"}
+                defaultTab={commsDefaultTab}
               />
             </TabsContent>
 
