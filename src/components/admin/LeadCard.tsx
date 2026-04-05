@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { 
-  Flame, 
-  Phone, 
-  Building2, 
-  MessageSquare, 
+import {
+  Flame,
+  Phone,
+  Building2,
+  MessageSquare,
   MapPin,
   CheckCircle2,
   Clock,
@@ -18,8 +18,11 @@ import {
   FileText,
   StickyNote,
   Archive,
-  Calendar
+  Calendar,
+  DollarSign,
+  Reply
 } from "lucide-react";
+import QuoteResponseModal from "./QuoteResponseModal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -55,6 +58,7 @@ interface LeadCardProps {
   onViewDetails?: (lead: Lead) => void;
   onAddNote?: (lead: Lead) => void;
   variant?: "default" | "compact" | "mobile";
+  onMakeOffer?: (lead: Lead) => void;
 }
 
 const statusColors: Record<string, string> = {
@@ -65,8 +69,9 @@ const statusColors: Record<string, string> = {
   closed: "bg-gray-500/10 text-gray-600 border-gray-200",
 };
 
-const LeadCard = ({ lead, onStatusChange, onViewDetails, onAddNote, variant = "default" }: LeadCardProps) => {
+const LeadCard = ({ lead, onStatusChange, onViewDetails, onAddNote, onMakeOffer, variant = "default" }: LeadCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [quoteResponseOpen, setQuoteResponseOpen] = useState(false);
   const navigate = useNavigate();
   const toggleHot = useToggleLeadHot();
   
@@ -124,11 +129,18 @@ const LeadCard = ({ lead, onStatusChange, onViewDetails, onAddNote, variant = "d
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setQuoteResponseOpen(true); }}>
+                <Reply className="h-4 w-4 mr-2 text-amber-500" />
+                <span className="font-medium text-amber-700 dark:text-amber-400">Respond to Quote</span>
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
               <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onViewDetails?.(lead); }}>
                 <Eye className="h-4 w-4 mr-2" />
                 View Details
               </DropdownMenuItem>
-              
+
               <DropdownMenuSeparator />
               
               {lead.phone && (
@@ -221,6 +233,36 @@ const LeadCard = ({ lead, onStatusChange, onViewDetails, onAddNote, variant = "d
             </span>
           )}
         </div>
+
+        {/* Quote CTA Buttons — only shown for leads in Quoting column */}
+        {lead.status === "qualified" && (
+          <div className="flex gap-1.5 mt-2 pt-2 border-t border-dashed border-amber-300">
+            <Button
+              size="sm"
+              className="flex-1 h-7 text-xs bg-blue-600 hover:bg-blue-700 text-white"
+              onClick={(e) => { e.stopPropagation(); handleCreateQuote(e); }}
+            >
+              <FileText className="h-3 w-3 mr-1" />
+              Send Quote
+            </Button>
+            <Button
+              size="sm"
+              className="flex-1 h-7 text-xs bg-emerald-600 hover:bg-emerald-700 text-white"
+              onClick={(e) => { e.stopPropagation(); onMakeOffer ? onMakeOffer(lead) : setQuoteResponseOpen(true); }}
+            >
+              <DollarSign className="h-3 w-3 mr-1" />
+              Make Offer
+            </Button>
+          </div>
+        )}
+
+        {/* Quote Response Modal */}
+        <QuoteResponseModal
+          open={quoteResponseOpen}
+          onOpenChange={setQuoteResponseOpen}
+          lead={lead}
+          onStatusChange={onStatusChange}
+        />
       </div>
     );
   }

@@ -40,6 +40,7 @@ import { useLeadJourney } from "@/hooks/useLeadJourney";
 import ActivityLogForm from "./ActivityLogForm";
 import CommunicationHub from "./CommunicationHub";
 import JourneyTimeline from "./JourneyTimeline";
+import QuoteResponseModal from "./QuoteResponseModal";
 
 interface LeadDetailPanelProps {
   lead: TriageLead | null;
@@ -53,6 +54,8 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
   const { data: journeyEvents = [], isLoading: journeyLoading } = useLeadJourney(lead?.id);
   const [activeTab, setActiveTab] = useState("overview");
   const [commsDefaultTab, setCommsDefaultTab] = useState<"email" | "sms" | "note">(lead?.phone ? "sms" : "email");
+  const [quoteResponseOpen, setQuoteResponseOpen] = useState(false);
+  const [quoteResponseAction, setQuoteResponseAction] = useState<"accept" | "counter" | "decline">("accept");
   
   if (!lead) return null;
 
@@ -126,6 +129,47 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
           <ScrollArea className="h-[calc(100vh-230px)]">
             {/* Overview Tab */}
             <TabsContent value="overview" className="m-0 p-6 space-y-6">
+
+              {/* Quote Response CTA — only shown when lead is in Quoting stage */}
+              {lead.status === "qualified" && (
+                <div className="space-y-3 p-4 rounded-lg border-2 border-amber-400 bg-amber-50 dark:bg-amber-950/20">
+                  <h3 className="font-semibold text-sm text-amber-800 dark:text-amber-400 flex items-center gap-1.5">
+                    <span className="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                    Quote Requested — Respond Now
+                  </h3>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                      onClick={() => { setQuoteResponseAction("accept"); setQuoteResponseOpen(true); }}
+                    >
+                      ✅ Accept
+                    </Button>
+                    <Button
+                      size="sm"
+                      className="flex-1 bg-amber-500 hover:bg-amber-600 text-white"
+                      onClick={() => { setQuoteResponseAction("counter"); setQuoteResponseOpen(true); }}
+                    >
+                      ↔ Counter
+                    </Button>
+                    <Button
+                      size="sm"
+                      className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                      onClick={() => { setQuoteResponseAction("decline"); setQuoteResponseOpen(true); }}
+                    >
+                      ❌ Decline
+                    </Button>
+                  </div>
+                  <QuoteResponseModal
+                    open={quoteResponseOpen}
+                    onOpenChange={setQuoteResponseOpen}
+                    lead={lead}
+                    onStatusChange={onStatusChange}
+                    defaultAction={quoteResponseAction}
+                  />
+                </div>
+              )}
+
               {/* Status Selector */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Status</label>
