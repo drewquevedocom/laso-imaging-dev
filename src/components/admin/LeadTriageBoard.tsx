@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Users, FileText } from "lucide-react";
 import { useTriageLeads, useUpdateLeadStatus, KANBAN_COLUMNS, TriageLead } from "@/hooks/useLeadTriage";
 import LeadCard from "./LeadCard";
 import LeadDetailPanel from "./LeadDetailPanel";
@@ -8,8 +8,11 @@ import UniversalIntakeForm from "./UniversalIntakeForm";
 import MobileLeadTriageView from "./MobileLeadTriageView";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
+
+// Split columns into two rows: Leads (top) and Quotes (bottom)
+const LEAD_COLUMNS = KANBAN_COLUMNS.filter(c => ["new", "contacted", "closed"].includes(c.id));
+const QUOTE_COLUMNS = KANBAN_COLUMNS.filter(c => ["quoting", "contract_sent"].includes(c.id));
 
 const LeadTriageBoard = () => {
   const isMobile = useIsMobile();
@@ -71,16 +74,89 @@ const LeadTriageBoard = () => {
     );
   }
 
+  const renderColumn = (column: typeof KANBAN_COLUMNS[number]) => {
+    const columnLeads = getLeadsForColumn(column.dbStatus);
+    const isQuotingCol = column.id === "quoting";
+    const hasQuotingLeads = isQuotingCol && columnLeads.length > 0;
+
+    return (
+      <div
+        key={column.id}
+        className="flex-1 min-w-0"
+        onDragOver={handleDragOver}
+        onDrop={(e) => handleDrop(e, column.dbStatus)}
+      >
+        {/* Column Header */}
+        <div className={`flex items-center justify-between mb-3 px-2 py-1 rounded-md transition-colors ${
+          hasQuotingLeads ? "bg-amber-100 dark:bg-amber-950/30" : ""
+        }`}>
+          <h3 className={`font-semibold text-sm flex items-center gap-1.5 ${
+            hasQuotingLeads ? "text-amber-800 dark:text-amber-400" : "text-foreground"
+          }`}>
+            {hasQuotingLeads && (
+              <span className="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse flex-shrink-0" />
+            )}
+            {column.label}
+          </h3>
+          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+            hasQuotingLeads
+              ? "bg-amber-500 text-white"
+              : "bg-muted text-muted-foreground"
+          }`}>
+            {columnLeads.length}
+          </span>
+        </div>
+
+        {/* Column Content */}
+        <div className={`rounded-lg p-2 min-h-[200px] space-y-2 ${
+          hasQuotingLeads ? "bg-amber-100/80 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700" : "bg-muted/30"
+        }`}>
+          {columnLeads.length === 0 ? (
+            <div className="flex items-center justify-center h-20 text-sm text-muted-foreground">
+              No leads
+            </div>
+          ) : (
+            columnLeads.map((lead) => (
+              <div
+                key={lead.id}
+                draggable
+                onDragStart={(e) => handleDragStart(e, lead.id)}
+                onClick={() => handleCardClick(lead)}
+                className="cursor-pointer"
+              >
+                <LeadCard
+                  lead={lead}
+                  onStatusChange={handleStatusChange}
+                  onViewDetails={handleCardClick}
+                  variant="compact"
+                />
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    );
+  };
+
   if (isLoading) {
     return (
-      <div className="grid grid-cols-5 gap-4">
-        {KANBAN_COLUMNS.map((col) => (
-          <div key={col.id} className="space-y-3">
-            <Skeleton className="h-8 w-full" />
-            <Skeleton className="h-32 w-full" />
-            <Skeleton className="h-32 w-full" />
-          </div>
-        ))}
+      <div className="space-y-6">
+        <div className="grid grid-cols-3 gap-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="space-y-3">
+              <Skeleton className="h-8 w-full" />
+              <Skeleton className="h-32 w-full" />
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {[1, 2].map((i) => (
+            <div key={i} className="space-y-3">
+              <Skeleton className="h-8 w-full" />
+              <Skeleton className="h-32 w-full" />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -102,74 +178,27 @@ const LeadTriageBoard = () => {
         </Button>
       </div>
 
-      <ScrollArea className="w-full">
-        <div className="flex gap-4 pb-4 min-w-[1000px]">
-          {KANBAN_COLUMNS.map((column) => {
-            const columnLeads = getLeadsForColumn(column.dbStatus);
-            const isQuotingCol = column.id === "quoting";
-            const hasQuotingLeads = isQuotingCol && columnLeads.length > 0;
-
-            return (
-              <div
-                key={column.id}
-                className="flex-1 min-w-[220px] max-w-[280px]"
-                onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, column.dbStatus)}
-              >
-                {/* Column Header */}
-                <div className={`flex items-center justify-between mb-3 px-2 py-1 rounded-md transition-colors ${
-                  hasQuotingLeads ? "bg-amber-100 dark:bg-amber-950/30" : ""
-                }`}>
-                  <h3 className={`font-semibold text-sm flex items-center gap-1.5 ${
-                    hasQuotingLeads ? "text-amber-800 dark:text-amber-400" : "text-foreground"
-                  }`}>
-                    {hasQuotingLeads && (
-                      <span className="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse flex-shrink-0" />
-                    )}
-                    {column.label}
-                  </h3>
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                    hasQuotingLeads
-                      ? "bg-amber-500 text-white"
-                      : "bg-muted text-muted-foreground"
-                  }`}>
-                    {columnLeads.length}
-                  </span>
-                </div>
-
-                {/* Column Content */}
-                <div className={`rounded-lg p-2 min-h-[400px] space-y-2 ${
-                  hasQuotingLeads ? "bg-amber-100/80 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700" : "bg-muted/30"
-                }`}>
-                  {columnLeads.length === 0 ? (
-                    <div className="flex items-center justify-center h-24 text-sm text-muted-foreground">
-                      No leads
-                    </div>
-                  ) : (
-                    columnLeads.map((lead) => (
-                      <div
-                        key={lead.id}
-                        draggable
-                        onDragStart={(e) => handleDragStart(e, lead.id)}
-                        onClick={() => handleCardClick(lead)}
-                        className="cursor-pointer"
-                      >
-                        <LeadCard
-                          lead={lead}
-                          onStatusChange={handleStatusChange}
-                          onViewDetails={handleCardClick}
-                          variant="compact"
-                        />
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
-            );
-          })}
+      {/* Row 1: Leads — New Inquiry | Contacted | Closed */}
+      <div className="mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Users className="h-4 w-4 text-muted-foreground" />
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Leads</h2>
         </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+        <div className="grid grid-cols-3 gap-4">
+          {LEAD_COLUMNS.map(renderColumn)}
+        </div>
+      </div>
+
+      {/* Row 2: Quotes — Quoting | Contract Sent */}
+      <div>
+        <div className="flex items-center gap-2 mb-3">
+          <FileText className="h-4 w-4 text-muted-foreground" />
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Quotes & Contracts</h2>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {QUOTE_COLUMNS.map(renderColumn)}
+        </div>
+      </div>
 
       {/* Lead Detail Panel */}
       <LeadDetailPanel
