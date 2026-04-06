@@ -139,7 +139,7 @@ const LeadTriageBoard = () => {
 
                 {/* Column Content */}
                 <div className={`rounded-lg p-2 min-h-[400px] space-y-2 ${
-                  hasQuotingLeads ? "bg-amber-50/60 dark:bg-amber-950/10" : "bg-muted/30"
+                  hasQuotingLeads ? "bg-amber-100/80 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700" : "bg-muted/30"
                 }`}>
                   {columnLeads.length === 0 ? (
                     <div className="flex items-center justify-center h-24 text-sm text-muted-foreground">

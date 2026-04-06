@@ -34,9 +34,8 @@ const handler = async (req: Request): Promise<Response> => {
       global: { headers: { Authorization: authHeader } },
     });
 
-    const token = authHeader.replace("Bearer ", "");
-    const { data: claimsData, error: claimsError } = await authClient.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims) {
+    const { data: userData, error: userError } = await authClient.auth.getUser();
+    if (userError || !userData?.user) {
       return new Response(
         JSON.stringify({ error: "Unauthorized" }),
         { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
@@ -44,7 +43,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Verify the user is an admin
-    const userId = claimsData.claims.sub;
+    const userId = userData.user.id;
     const { data: adminCheck } = await authClient.from("admin_users").select("id").eq("user_id", userId).maybeSingle();
     if (!adminCheck) {
       return new Response(

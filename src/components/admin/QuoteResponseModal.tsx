@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { DollarSign, CheckCircle, ArrowLeftRight, XCircle, Send } from "lucide-react";
+import { useState, useEffect } from "react";
+import { DollarSign, CheckCircle, ArrowLeftRight, XCircle, Send, Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +13,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { TriageLead } from "@/hooks/useLeadTriage";
-import { useUpdateLeadStatus } from "@/hooks/useLeadTriage";
+import { useCreateQuote } from "@/hooks/useQuotes";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 type ResponseAction = "accept" | "counter" | "decline";
 
@@ -36,56 +37,106 @@ const QuoteResponseModal = ({
   const [action, setAction] = useState<ResponseAction>(defaultAction ?? "accept");
   const [price, setPrice] = useState("");
   const [notes, setNotes] = useState("");
-  const updateStatus = useUpdateLeadStatus();
+  const [isSending, setIsSending] = useState(false);
+  const createQuote = useCreateQuote();
   const { toast } = useToast();
 
-  const handleSend = () => {
-    const subject = encodeURIComponent(
-      action === "accept"
-        ? `Quote Accepted — LASO Imaging Solutions`
-        : action === "counter"
-        ? `Counter-Offer from LASO Imaging Solutions`
-        : `Regarding Your Quote Request — LASO Imaging Solutions`
-    );
+  // Sync defaultAction when modal opens with a new value
+  useEffect(() => {
+    if (defaultAction) setAction(defaultAction);
+  }, [defaultAction]);
 
-    let body = `Hi ${lead.name},\n\n`;
+  const handleSend = async () => {
+    setIsSending(true);
 
-    if (action === "accept") {
-      body += `We are pleased to accept your quote request`;
-      if (price) body += ` at $${parseFloat(price).toLocaleString()}`;
-      body += `.\n\n`;
-    } else if (action === "counter") {
-      body += `Thank you for your interest. We'd like to offer a counter-proposal`;
-      if (price) body += ` at $${parseFloat(price).toLocaleString()}`;
-      body += `.\n\n`;
-    } else {
-      body += `Thank you for reaching out to LASO Imaging Solutions. After careful review, we are unable to fulfill this quote request at this time.\n\n`;
-    }
-
-    if (notes) body += `${notes}\n\n`;
-    body += `Best regards,\nLASO Imaging Solutions Team\nhttps://lasoimaging.com`;
-
-    const mailtoLink = `mailto:${lead.email}?subject=${subject}&body=${encodeURIComponent(body)}`;
-    window.open(mailtoLink, "_blank");
-
-    const newStatus =
-      action === "accept" ? "converted" : action === "decline" ? "closed" : "qualified";
-    onStatusChange(lead.id, newStatus);
-    updateStatus.mutate({ leadId: lead.id, status: newStatus });
-
-    toast({
-      title:
+    try {
+      // Build email content
+      const subject =
         action === "accept"
-          ? "Quote Accepted"
+          ? "Quote Accepted — LASO Imaging Solutions"
           : action === "counter"
-          ? "Counter-Offer Sent"
-          : "Quote Declined",
-      description: `Email drafted for ${lead.name}. Lead status updated.`,
-    });
+          ? "Counter-Offer from LASO Imaging Solutions"
+          : "Regarding Your Quote Request — LASO Imaging Solutions";
 
-    setPrice("");
-    setNotes("");
-    onOpenChange(false);
+      let body = `Hi ${lead.name},\n\n`;
+
+      if (action === "accept") {
+        body += "We are pleased to accept your quote request";
+        if (price) body += ` at $${parseFloat(price).toLocaleString()}`;
+        body += ".\n\n";
+      } else if (action === "counter") {
+        body += "Thank you for your interest. We'd like to offer a counter-proposal";
+        if (price) body += ` at $${parseFloat(price).toLocaleString()}`;
+        body += ".\n\n";
+      } else {
+        body +=
+          "Thank you for reaching out to LASO Imaging Solutions. After careful review, we are unable to fulfill this quote request at this time.\n\n";
+      }
+
+      if (notes) body += `${notes}\n\n`;
+      body += "Best regards,\nLASO Imaging Solutions Team\nhttps://lasoimaging.com";
+
+      // Send email via edge function (same as CommunicationHub)
+      const { error: emailError } = await supabase.functions.invoke("send-lead-email", {
+        body: {
+          to: lead.email,
+          subject,
+          body,
+          leadId: lead.id,
+        },
+      });
+
+      if (emailError) throw emailError;
+
+      // Create quote record so it appears in /admin/quotes
+      const quoteStatus =
+        action === "accept" ? "Accepted" : action === "counter" ? "Sent" : "Rejected";
+      const amount = parseFloat(price) || 0;
+
+      createQuote.mutate({
+        customer_name: lead.name,
+        customer_email: lead.email,
+        customer_company: lead.company || undefined,
+        customer_phone: lead.phone || undefined,
+        lead_id: lead.id,
+        items: [],
+        subtotal: amount,
+        discount: 0,
+        tax: 0,
+        total_amount: amount,
+        status: quoteStatus as any,
+        notes: notes || undefined,
+        internal_notes: `Auto-created from quote response: ${action}`,
+      });
+
+      // Update lead status (single call — no duplicate)
+      const newStatus =
+        action === "accept" ? "converted" : action === "decline" ? "closed" : "qualified";
+      onStatusChange(lead.id, newStatus);
+
+      toast({
+        title:
+          action === "accept"
+            ? "Quote Accepted & Sent"
+            : action === "counter"
+            ? "Counter-Offer Sent"
+            : "Quote Declined & Sent",
+        description: `Email sent to ${lead.email}. Quote recorded.`,
+      });
+
+      setPrice("");
+      setNotes("");
+      onOpenChange(false);
+    } catch (error: any) {
+      console.error("Quote response error:", error);
+      toast({
+        title: "Failed to send response",
+        description: error.message || "Please try again",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const actionConfig = {
@@ -93,7 +144,7 @@ const QuoteResponseModal = ({
       label: "Accept",
       icon: <CheckCircle className="h-4 w-4" />,
       activeClass: "bg-green-600 hover:bg-green-700 text-white border-green-600",
-      inactiveClass: "border-green-300 text-green-700 hover:bg-green-50",
+      inactiveClass: "border-green-300 text-green-700 hover:bg-green-50 dark:border-green-700 dark:text-green-400 dark:hover:bg-green-950",
       showPrice: true,
       priceLabel: "Agreed Price ($)",
     },
@@ -101,7 +152,7 @@ const QuoteResponseModal = ({
       label: "Counter-Offer",
       icon: <ArrowLeftRight className="h-4 w-4" />,
       activeClass: "bg-amber-500 hover:bg-amber-600 text-white border-amber-500",
-      inactiveClass: "border-amber-300 text-amber-700 hover:bg-amber-50",
+      inactiveClass: "border-amber-300 text-amber-700 hover:bg-amber-50 dark:border-amber-700 dark:text-amber-400 dark:hover:bg-amber-950",
       showPrice: true,
       priceLabel: "Your Counter Price ($)",
     },
@@ -109,7 +160,7 @@ const QuoteResponseModal = ({
       label: "Decline",
       icon: <XCircle className="h-4 w-4" />,
       activeClass: "bg-red-600 hover:bg-red-700 text-white border-red-600",
-      inactiveClass: "border-red-300 text-red-700 hover:bg-red-50",
+      inactiveClass: "border-red-300 text-red-700 hover:bg-red-50 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-950",
       showPrice: false,
       priceLabel: "",
     },
@@ -132,7 +183,9 @@ const QuoteResponseModal = ({
           <div className="font-semibold">{lead.name}</div>
           {lead.company && <div className="text-muted-foreground">{lead.company}</div>}
           <div className="text-muted-foreground">{lead.email}</div>
-          <Badge variant="secondary" className="mt-1">{lead.interest}</Badge>
+          <Badge variant="secondary" className="mt-1">
+            {lead.interest}
+          </Badge>
           {lead.message && (
             <p className="text-muted-foreground mt-2 italic border-l-2 border-muted pl-2">
               "{lead.message}"
@@ -200,15 +253,16 @@ const QuoteResponseModal = ({
         </div>
 
         <DialogFooter className="gap-2">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isSending}>
             Cancel
           </Button>
-          <Button
-            onClick={handleSend}
-            className={current.activeClass}
-          >
-            <Send className="h-4 w-4 mr-2" />
-            Send Response
+          <Button onClick={handleSend} disabled={isSending} className={current.activeClass}>
+            {isSending ? (
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+            ) : (
+              <Send className="h-4 w-4 mr-2" />
+            )}
+            {isSending ? "Sending..." : "Send Response"}
           </Button>
         </DialogFooter>
       </DialogContent>
