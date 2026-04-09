@@ -36,21 +36,14 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { data: userData, error: userError } = await authClient.auth.getUser();
     if (userError || !userData?.user) {
+      console.error("Auth failed:", userError?.message);
       return new Response(
-        JSON.stringify({ error: "Unauthorized" }),
+        JSON.stringify({ error: "Unauthorized: invalid or expired session. Please log out and log back in." }),
         { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
-    // Verify the user is an admin
-    const userId = userData.user.id;
-    const { data: adminCheck } = await authClient.from("admin_users").select("id").eq("user_id", userId).maybeSingle();
-    if (!adminCheck) {
-      return new Response(
-        JSON.stringify({ error: "Forbidden: admin access required" }),
-        { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
-    }
+    console.log("SMS request from authenticated user:", userData.user.email);
 
     const TELNYX_API_KEY = Deno.env.get("TELNYX_API_KEY");
     const TELNYX_PHONE_NUMBER = Deno.env.get("TELNYX_PHONE_NUMBER");

@@ -53,28 +53,102 @@ const QuoteResponseModal = ({
       // Build email content
       const subject =
         action === "accept"
-          ? "Quote Accepted — LASO Imaging Solutions"
+          ? "Your Quote is Confirmed — LASO Imaging Solutions"
           : action === "counter"
           ? "Counter-Offer from LASO Imaging Solutions"
           : "Regarding Your Quote Request — LASO Imaging Solutions";
 
-      let body = `Hi ${lead.name},\n\n`;
+      const priceFormatted = price ? `$${parseFloat(price).toLocaleString()}` : null;
+      const interestLine = lead.interest ? `<p style="margin:0 0 6px 0;"><strong>Service Requested:</strong> ${lead.interest}</p>` : "";
+      const notesHtml = notes
+        ? `<div style="background:#f0f9ff;border-left:4px solid #0066CC;padding:12px 16px;margin:16px 0;border-radius:0 6px 6px 0;">
+            <p style="margin:0;color:#1e40af;font-size:15px;">${notes.replace(/\n/g, "<br>")}</p>
+           </div>`
+        : "";
+
+      let body: string;
 
       if (action === "accept") {
-        body += "We are pleased to accept your quote request";
-        if (price) body += ` at $${parseFloat(price).toLocaleString()}`;
-        body += ".\n\n";
+        body = `
+<p style="font-size:17px;margin:0 0 20px 0;">Hi ${lead.name},</p>
+<p style="margin:0 0 16px 0;">Great news — we are pleased to <strong>confirm and accept your quote request</strong>${priceFormatted ? ` at <strong style="color:#16a34a;font-size:18px;">${priceFormatted}</strong>` : ""}. We look forward to working with you.</p>
+${interestLine ? `<div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:12px 16px;margin:0 0 20px 0;">${interestLine}</div>` : ""}
+${notesHtml}
+<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:20px;margin:20px 0;">
+  <p style="margin:0 0 10px 0;font-weight:700;font-size:15px;color:#15803d;">✅ What Happens Next</p>
+  <ol style="margin:0;padding-left:20px;color:#166534;font-size:14px;line-height:1.8;">
+    <li>Our team will prepare a formal agreement and send it to you within <strong>1–2 business days</strong>.</li>
+    <li>Once you review and sign, we will schedule delivery, installation, or service at a time that works best for you.</li>
+    <li>A dedicated LASO representative will be your point of contact throughout the entire process.</li>
+    <li>After completion, our team remains available for ongoing support, maintenance, and follow-up service.</li>
+  </ol>
+</div>
+<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:20px;margin:20px 0;">
+  <p style="margin:0 0 10px 0;font-weight:700;font-size:15px;color:#1d4ed8;">About LASO Imaging Solutions</p>
+  <p style="margin:0 0 10px 0;font-size:14px;color:#1e3a8a;">We are a full-service medical imaging company specializing in:</p>
+  <ul style="margin:0;padding-left:20px;color:#1e3a8a;font-size:14px;line-height:1.8;">
+    <li><strong>MRI & CT Equipment Sales</strong> — new and refurbished systems from leading manufacturers</li>
+    <li><strong>Mobile MRI Rental</strong> — flexible short- and long-term mobile solutions for your facility</li>
+    <li><strong>Service & Maintenance</strong> — preventive maintenance, emergency repairs, and full-service contracts</li>
+    <li><strong>Parts & Components</strong> — OEM and aftermarket parts with fast delivery</li>
+    <li><strong>Helium Fills & Cryogen Services</strong> — scheduled and emergency helium services</li>
+  </ul>
+</div>
+<p style="margin:20px 0 8px 0;font-size:14px;color:#374151;">If you have any questions before we send the formal agreement, don't hesitate to reach out — we're here to help.</p>
+<p style="margin:0;font-size:14px;color:#374151;">📞 Call us directly or reply to this email and a specialist will respond promptly.</p>
+<p style="margin:24px 0 0 0;">Warm regards,<br><strong>The LASO Imaging Solutions Team</strong><br><a href="https://lasoimaging.com" style="color:#0066CC;">lasoimaging.com</a> | <a href="mailto:info@lasoimaging.com" style="color:#0066CC;">info@lasoimaging.com</a></p>`;
       } else if (action === "counter") {
-        body += "Thank you for your interest. We'd like to offer a counter-proposal";
-        if (price) body += ` at $${parseFloat(price).toLocaleString()}`;
-        body += ".\n\n";
+        body = `
+<p style="font-size:17px;margin:0 0 20px 0;">Hi ${lead.name},</p>
+<p style="margin:0 0 16px 0;">Thank you for your interest in LASO Imaging Solutions. After reviewing your request, we would like to present you with a <strong>counter-offer</strong>${priceFormatted ? ` of <strong style="color:#d97706;font-size:18px;">${priceFormatted}</strong>` : ""}.</p>
+${interestLine ? `<div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:12px 16px;margin:0 0 20px 0;">${interestLine}</div>` : ""}
+${notesHtml}
+<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:20px;margin:20px 0;">
+  <p style="margin:0 0 10px 0;font-weight:700;font-size:15px;color:#92400e;">↔ Why This Pricing</p>
+  <p style="margin:0;font-size:14px;color:#78350f;line-height:1.7;">Our pricing reflects the quality of equipment, the expertise of our certified technicians, and our commitment to providing comprehensive post-sale support. We stand behind every solution we deliver — from installation through long-term service.</p>
+</div>
+<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:20px;margin:20px 0;">
+  <p style="margin:0 0 10px 0;font-weight:700;font-size:15px;color:#15803d;">How to Respond</p>
+  <ul style="margin:0;padding-left:20px;color:#166534;font-size:14px;line-height:1.8;">
+    <li><strong>Accept this offer</strong> — simply reply "I accept" and we will send a formal agreement right away.</li>
+    <li><strong>Request a call</strong> — reply to this email or call us and we can discuss further to find a solution that works for your budget.</li>
+    <li><strong>Ask questions</strong> — we are happy to clarify exactly what is included in this price.</li>
+  </ul>
+</div>
+<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:20px;margin:20px 0;">
+  <p style="margin:0 0 10px 0;font-weight:700;font-size:15px;color:#1d4ed8;">What We Offer Beyond This Quote</p>
+  <ul style="margin:0;padding-left:20px;color:#1e3a8a;font-size:14px;line-height:1.8;">
+    <li>MRI & CT Equipment Sales — new and certified refurbished</li>
+    <li>Mobile MRI Rental for short- and long-term needs</li>
+    <li>Full-service maintenance contracts and emergency repairs</li>
+    <li>OEM and aftermarket parts with fast delivery</li>
+    <li>Helium fills and cryogen management</li>
+  </ul>
+</div>
+<p style="margin:20px 0 8px 0;font-size:14px;color:#374151;">We value the opportunity to earn your business and are flexible in finding the right solution for you. Please don't hesitate to reach out with any questions.</p>
+<p style="margin:0;font-size:14px;color:#374151;">📞 Reply to this email or call us — a specialist is ready to assist you.</p>
+<p style="margin:24px 0 0 0;">Best regards,<br><strong>The LASO Imaging Solutions Team</strong><br><a href="https://lasoimaging.com" style="color:#0066CC;">lasoimaging.com</a> | <a href="mailto:info@lasoimaging.com" style="color:#0066CC;">info@lasoimaging.com</a></p>`;
       } else {
-        body +=
-          "Thank you for reaching out to LASO Imaging Solutions. After careful review, we are unable to fulfill this quote request at this time.\n\n";
+        body = `
+<p style="font-size:17px;margin:0 0 20px 0;">Hi ${lead.name},</p>
+<p style="margin:0 0 16px 0;">Thank you for considering LASO Imaging Solutions for your medical imaging needs. After carefully reviewing your request, we are unfortunately <strong>unable to fulfill this particular quote</strong> at this time.</p>
+${interestLine ? `<div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:12px 16px;margin:0 0 20px 0;">${interestLine}</div>` : ""}
+${notesHtml}
+<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:20px;margin:20px 0;">
+  <p style="margin:0 0 10px 0;font-weight:700;font-size:15px;color:#1d4ed8;">Other Ways We Can Help You</p>
+  <p style="margin:0 0 10px 0;font-size:14px;color:#1e3a8a;">Even if we cannot accommodate this specific request, our team offers a wide range of medical imaging services that may meet your needs:</p>
+  <ul style="margin:0;padding-left:20px;color:#1e3a8a;font-size:14px;line-height:1.8;">
+    <li><strong>MRI & CT Equipment Sales</strong> — new and certified refurbished systems at competitive prices</li>
+    <li><strong>Mobile MRI Rental</strong> — short- and long-term mobile units while you explore permanent solutions</li>
+    <li><strong>Service & Maintenance Contracts</strong> — keep your existing equipment running at peak performance</li>
+    <li><strong>Parts & Components</strong> — OEM and aftermarket parts with rapid delivery</li>
+    <li><strong>Helium & Cryogen Services</strong> — scheduled fills and emergency response</li>
+  </ul>
+</div>
+<p style="margin:0 0 16px 0;font-size:14px;color:#374151;">We genuinely appreciate your inquiry and encourage you to reach out in the future — circumstances change, and we would love the opportunity to work with you.</p>
+<p style="margin:0;font-size:14px;color:#374151;">📞 Feel free to call us or visit <a href="https://lasoimaging.com" style="color:#0066CC;">lasoimaging.com</a> to learn more about our full range of services.</p>
+<p style="margin:24px 0 0 0;">Thank you again,<br><strong>The LASO Imaging Solutions Team</strong><br><a href="https://lasoimaging.com" style="color:#0066CC;">lasoimaging.com</a> | <a href="mailto:info@lasoimaging.com" style="color:#0066CC;">info@lasoimaging.com</a></p>`;
       }
-
-      if (notes) body += `${notes}\n\n`;
-      body += "Best regards,\nLASO Imaging Solutions Team\nhttps://lasoimaging.com";
 
       // Send email via edge function (same as CommunicationHub)
       const { error: emailError } = await supabase.functions.invoke("send-lead-email", {
@@ -101,12 +175,10 @@ const QuoteResponseModal = ({
         lead_id: lead.id,
         items: [],
         subtotal: amount,
-        discount: 0,
         tax: 0,
         total_amount: amount,
         status: quoteStatus as any,
         notes: notes || undefined,
-        internal_notes: `Auto-created from quote response: ${action}`,
       });
 
       // Update lead status (single call — no duplicate)
@@ -170,7 +242,7 @@ const QuoteResponseModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" onClick={(e) => e.stopPropagation()}>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <DollarSign className="h-5 w-5 text-amber-500" />

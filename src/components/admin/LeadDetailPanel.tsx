@@ -78,6 +78,7 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
   };
 
   return (
+    <>
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <SheetContent className="w-full sm:max-w-lg p-0">
         <SheetHeader className="p-6 pb-4 border-b">
@@ -141,32 +142,25 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
                     <Button
                       size="sm"
                       className="flex-1 bg-green-600 hover:bg-green-700 text-white"
-                      onClick={() => { setQuoteResponseAction("accept"); setQuoteResponseOpen(true); }}
+                      onClick={() => { setQuoteResponseAction("accept"); setQuoteResponseOpen(true); onClose(); }}
                     >
                       ✅ Accept
                     </Button>
                     <Button
                       size="sm"
                       className="flex-1 bg-amber-500 hover:bg-amber-600 text-white"
-                      onClick={() => { setQuoteResponseAction("counter"); setQuoteResponseOpen(true); }}
+                      onClick={() => { setQuoteResponseAction("counter"); setQuoteResponseOpen(true); onClose(); }}
                     >
                       ↔ Counter
                     </Button>
                     <Button
                       size="sm"
                       className="flex-1 bg-red-600 hover:bg-red-700 text-white"
-                      onClick={() => { setQuoteResponseAction("decline"); setQuoteResponseOpen(true); }}
+                      onClick={() => { setQuoteResponseAction("decline"); setQuoteResponseOpen(true); onClose(); }}
                     >
                       ❌ Decline
                     </Button>
                   </div>
-                  <QuoteResponseModal
-                    open={quoteResponseOpen}
-                    onOpenChange={setQuoteResponseOpen}
-                    lead={lead}
-                    onStatusChange={onStatusChange}
-                    defaultAction={quoteResponseAction}
-                  />
                 </div>
               )}
 
@@ -389,6 +383,16 @@ const LeadDetailPanel = ({ lead, isOpen, onClose, onStatusChange }: LeadDetailPa
         </Tabs>
       </SheetContent>
     </Sheet>
+
+    {/* Render QuoteResponseModal outside the Sheet to avoid focus-trapping conflicts */}
+    <QuoteResponseModal
+      open={quoteResponseOpen}
+      onOpenChange={setQuoteResponseOpen}
+      lead={lead}
+      onStatusChange={onStatusChange}
+      defaultAction={quoteResponseAction}
+    />
+    </>
   );
 };
 

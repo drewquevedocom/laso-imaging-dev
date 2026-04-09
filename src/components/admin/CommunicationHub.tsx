@@ -127,7 +127,7 @@ const CommunicationHub = ({
         }
 
         // Send real SMS via edge function
-        const { error } = await supabase.functions.invoke("send-sms", {
+        const { data: smsData, error } = await supabase.functions.invoke("send-sms", {
           body: {
             to: leadPhone,
             message: message,
@@ -135,7 +135,10 @@ const CommunicationHub = ({
           },
         });
 
-        if (error) throw error;
+        if (error) {
+          const detail = smsData?.error || error.message;
+          throw new Error(detail);
+        }
 
         toast.success(`SMS sent to ${leadPhone}`);
       } else {

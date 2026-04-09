@@ -63,8 +63,8 @@ const handler = async (req: Request): Promise<Response> => {
                 </tr>
                 <!-- Content -->
                 <tr>
-                  <td style="padding: 40px;">
-                    <div style="color: #1f2937; font-size: 16px; white-space: pre-wrap;">${body.replace(/\n/g, "<br>")}</div>
+                  <td style="padding: 40px; color: #1f2937; font-size: 16px; line-height: 1.7;">
+                    ${body.trimStart().startsWith("<") ? body : `<div style="white-space:pre-wrap;">${body.replace(/\n/g, "<br>")}</div>`}
                   </td>
                 </tr>
                 <!-- Footer -->

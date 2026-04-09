@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Users, FileText } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useTriageLeads, useUpdateLeadStatus, KANBAN_COLUMNS, TriageLead } from "@/hooks/useLeadTriage";
 import LeadCard from "./LeadCard";
 import LeadDetailPanel from "./LeadDetailPanel";
@@ -10,9 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-// Split columns into two rows: Leads (top) and Quotes (bottom)
-const LEAD_COLUMNS = KANBAN_COLUMNS.filter(c => ["new", "contacted", "closed"].includes(c.id));
-const QUOTE_COLUMNS = KANBAN_COLUMNS.filter(c => ["quoting", "contract_sent"].includes(c.id));
 
 const LeadTriageBoard = () => {
   const isMobile = useIsMobile();
@@ -140,23 +137,13 @@ const LeadTriageBoard = () => {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <div className="grid grid-cols-3 gap-4">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="space-y-3">
-              <Skeleton className="h-8 w-full" />
-              <Skeleton className="h-32 w-full" />
-            </div>
-          ))}
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          {[1, 2].map((i) => (
-            <div key={i} className="space-y-3">
-              <Skeleton className="h-8 w-full" />
-              <Skeleton className="h-32 w-full" />
-            </div>
-          ))}
-        </div>
+      <div className="grid grid-cols-5 gap-4">
+        {[1, 2, 3, 4, 5].map((i) => (
+          <div key={i} className="space-y-3">
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-32 w-full" />
+          </div>
+        ))}
       </div>
     );
   }
@@ -178,26 +165,9 @@ const LeadTriageBoard = () => {
         </Button>
       </div>
 
-      {/* Row 1: Leads — New Inquiry | Contacted | Closed */}
-      <div className="mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Users className="h-4 w-4 text-muted-foreground" />
-          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Leads</h2>
-        </div>
-        <div className="grid grid-cols-3 gap-4">
-          {LEAD_COLUMNS.map(renderColumn)}
-        </div>
-      </div>
-
-      {/* Row 2: Quotes — Quoting | Contract Sent */}
-      <div>
-        <div className="flex items-center gap-2 mb-3">
-          <FileText className="h-4 w-4 text-muted-foreground" />
-          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Quotes & Contracts</h2>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          {QUOTE_COLUMNS.map(renderColumn)}
-        </div>
+      {/* Kanban: All steps in one row */}
+      <div className="grid grid-cols-5 gap-4">
+        {KANBAN_COLUMNS.map(renderColumn)}
       </div>
 
       {/* Lead Detail Panel */}

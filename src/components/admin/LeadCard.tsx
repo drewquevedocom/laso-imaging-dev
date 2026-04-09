@@ -20,7 +20,9 @@ import {
   Archive,
   Calendar,
   DollarSign,
-  Reply
+  Reply,
+  ArrowLeftRight,
+  X
 } from "lucide-react";
 import QuoteResponseModal from "./QuoteResponseModal";
 import { Button } from "@/components/ui/button";
@@ -72,6 +74,7 @@ const statusColors: Record<string, string> = {
 const LeadCard = ({ lead, onStatusChange, onViewDetails, onAddNote, onMakeOffer, variant = "default" }: LeadCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [quoteResponseOpen, setQuoteResponseOpen] = useState(false);
+  const [quoteResponseAction, setQuoteResponseAction] = useState<"accept" | "counter" | "decline">("accept");
   const navigate = useNavigate();
   const toggleHot = useToggleLeadHot();
   
@@ -236,22 +239,38 @@ const LeadCard = ({ lead, onStatusChange, onViewDetails, onAddNote, onMakeOffer,
 
         {/* Quote CTA Buttons — only shown for leads in Quoting column */}
         {lead.status === "qualified" && (
-          <div className="flex gap-1.5 mt-2 pt-2 border-t border-dashed border-amber-300">
+          <div className="mt-2 pt-2 border-t border-dashed border-amber-300 space-y-1.5">
+            <div className="grid grid-cols-2 gap-1.5">
+              <Button
+                size="sm"
+                className="h-7 px-2 text-[11px] font-medium justify-center bg-green-600 hover:bg-green-700 text-white"
+                onClick={(e) => { e.stopPropagation(); setQuoteResponseAction("accept"); setQuoteResponseOpen(true); }}
+              >
+                ✅ Accept
+              </Button>
+              <Button
+                size="sm"
+                className="h-7 px-2 text-[11px] font-medium justify-center bg-amber-500 hover:bg-amber-600 text-white"
+                onClick={(e) => { e.stopPropagation(); setQuoteResponseAction("counter"); setQuoteResponseOpen(true); }}
+              >
+                ↔ Counter
+              </Button>
+              <Button
+                size="sm"
+                className="col-span-2 w-full h-7 px-2 text-[11px] font-medium justify-center bg-red-600 hover:bg-red-700 text-white"
+                onClick={(e) => { e.stopPropagation(); setQuoteResponseAction("decline"); setQuoteResponseOpen(true); }}
+              >
+                ❌ Decline
+              </Button>
+            </div>
             <Button
               size="sm"
-              className="flex-1 h-7 text-xs bg-blue-600 hover:bg-blue-700 text-white"
+              variant="outline"
+              className="w-full h-7 px-2 text-[11px] justify-center"
               onClick={(e) => { e.stopPropagation(); handleCreateQuote(e); }}
             >
               <FileText className="h-3 w-3 mr-1" />
-              Send Quote
-            </Button>
-            <Button
-              size="sm"
-              className="flex-1 h-7 text-xs bg-emerald-600 hover:bg-emerald-700 text-white"
-              onClick={(e) => { e.stopPropagation(); onMakeOffer ? onMakeOffer(lead) : setQuoteResponseOpen(true); }}
-            >
-              <DollarSign className="h-3 w-3 mr-1" />
-              Make Offer
+              Build Full Quote
             </Button>
           </div>
         )}
@@ -262,6 +281,7 @@ const LeadCard = ({ lead, onStatusChange, onViewDetails, onAddNote, onMakeOffer,
           onOpenChange={setQuoteResponseOpen}
           lead={lead}
           onStatusChange={onStatusChange}
+          defaultAction={quoteResponseAction}
         />
       </div>
     );
