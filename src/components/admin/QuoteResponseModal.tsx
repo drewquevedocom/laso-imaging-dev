@@ -154,6 +154,7 @@ ${notesHtml}
       const { error: emailError } = await supabase.functions.invoke("send-lead-email", {
         body: {
           to: lead.email,
+          cc: ["info@lasoimaging.com"],
           subject,
           body,
           leadId: lead.id,

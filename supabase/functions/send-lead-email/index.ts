@@ -11,7 +11,37 @@ interface SendLeadEmailRequest {
   subject: string;
   body: string;
   leadId?: string;
+  cc?: string[];
 }
+
+const isHtmlDocument = (value: string) => /<!doctype|<html[\s>]|<body[\s>]/i.test(value);
+
+const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+const htmlToText = (value: string) =>
+  value
+    .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/p>/gi, "\n\n")
+    .replace(/<\/div>/gi, "\n")
+    .replace(/<\/li>/gi, "\n")
+    .replace(/<li>/gi, "- ")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight
@@ -30,7 +60,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    const { to, subject, body, leadId }: SendLeadEmailRequest = await req.json();
+    const { to, subject, body, leadId, cc }: SendLeadEmailRequest = await req.json();
 
     if (!to || !subject || !body) {
       return new Response(
@@ -41,8 +71,15 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Sending email to ${to} with subject: ${subject}`);
 
+    const trimmedBody = body.trim();
+    const contentHtml = trimmedBody.startsWith("<")
+      ? trimmedBody
+      : `<div style="white-space:pre-wrap;">${escapeHtml(body).replace(/\n/g, "<br>")}</div>`;
+
     // Generate HTML email with professional template
-    const htmlBody = `
+    const htmlBody = isHtmlDocument(contentHtml)
+      ? contentHtml
+      : `
       <!DOCTYPE html>
       <html>
       <head>
@@ -64,7 +101,7 @@ const handler = async (req: Request): Promise<Response> => {
                 <!-- Content -->
                 <tr>
                   <td style="padding: 40px; color: #1f2937; font-size: 16px; line-height: 1.7;">
-                    ${body.trimStart().startsWith("<") ? body : `<div style="white-space:pre-wrap;">${body.replace(/\n/g, "<br>")}</div>`}
+                    ${contentHtml}
                   </td>
                 </tr>
                 <!-- Footer -->
@@ -87,6 +124,8 @@ const handler = async (req: Request): Promise<Response> => {
       </html>
     `;
 
+    const textBody = htmlToText(htmlBody);
+
     // Send email via Resend API
     const emailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -97,8 +136,10 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "LASO Imaging <hello@noreply.lasoimaging.com>",
         to: [to],
+        ...(cc && cc.length > 0 ? { cc } : {}),
         subject: subject,
         html: htmlBody,
+        text: textBody,
       }),
     });
 
@@ -130,6 +171,7 @@ const handler = async (req: Request): Promise<Response> => {
           metadata: {
             to: to,
             email_id: emailData?.id,
+            content_type: "multipart",
           },
         });
 
