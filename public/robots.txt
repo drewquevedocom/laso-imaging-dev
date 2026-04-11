@@ -29,5 +29,5 @@ Disallow: /*?*sort=
 Disallow: /*?*filter=
 
 # Sitemaps
-Sitemap: https://aybapkhmgoeogjjgvjlb.supabase.co/functions/v1/sitemap
+Sitemap: https://aiimrpsyafiwpntkfchl.supabase.co/functions/v1/sitemap
 Sitemap: https://lasoimaging.com/sitemap.xml
